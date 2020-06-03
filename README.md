@@ -2,7 +2,7 @@
 ## (nombre del tp)
 
 #### Alumnos: 
-- Tomas Nocetti     - 100853
+- Tomas A Nocetti     - 100853
 - Fernando Fabbiano - 102464
 - Lautaro Fritz     - 102320
 
