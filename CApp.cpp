@@ -41,9 +41,7 @@ void CApp::OnRender() {
   window.render();
 }
 
-void CApp::OnInit() {
-  InitMainIterface();
-}
+void CApp::OnInit() {}
 
 void CApp::OnCleanup() {}
 
