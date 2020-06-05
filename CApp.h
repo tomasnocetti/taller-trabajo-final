@@ -27,7 +27,6 @@ class CApp {
     SdlWindow window;
     Global globalViewport;
     Map mapViewport;
-    void InitMainIterface();
     void OnInit();
     void OnEvent(const SDL_Event& Event);
     void OnLoop();

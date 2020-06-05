@@ -11,7 +11,6 @@ SdlWindow::SdlWindow(int width, int height) :
   baseHeight(height),
   width(width),
   height(height) {
-
     int errCode = SDL_Init(SDL_INIT_VIDEO);
     if (errCode) {
       throw SdlException("Error en la inicialización", SDL_GetError());
@@ -32,8 +31,7 @@ SdlWindow::SdlWindow(int width, int height) :
     renderer = SDL_CreateRenderer(
       window,
       -1,
-      SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC
-    );
+      SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 
     if (renderer == NULL) {
       throw SdlException("Error en la inicialización Renderer", SDL_GetError());
@@ -67,9 +65,9 @@ SdlWindow::~SdlWindow() {
 
 void SdlWindow::handleEvent(const SDL_Event& e) {
 	//Window event occured
-	if( e.type != SDL_WINDOWEVENT ) return;
+	if ( e.type != SDL_WINDOWEVENT ) return;
 
-  switch( e.window.event ) {
+  switch ( e.window.event ) {
     //Get new dimensions and repaint on window size change
     case SDL_WINDOWEVENT_SIZE_CHANGED:
       width = e.window.data1;

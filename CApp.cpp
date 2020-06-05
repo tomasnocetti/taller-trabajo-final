@@ -45,11 +45,6 @@ void CApp::OnInit() {
   InitMainIterface();
 }
 
-void CApp::InitMainIterface() {
+void CApp::OnCleanup() {}
 
-}
-
-void CApp::OnCleanup() {
-}
-
-CApp::~CApp() {};
+CApp::~CApp() {}

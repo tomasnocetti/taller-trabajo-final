@@ -13,7 +13,8 @@ void Global::paint() {
     static_cast<int>(round(static_cast<double>(MAIN_SCREEN_BASE_X) * wScale)),
     static_cast<int>(round(static_cast<double>(MAIN_SCREEN_BASE_Y) * hScale)),
     static_cast<int>(round(static_cast<double>(MAIN_SCREEN_BASE_W) * wScale)),
-    static_cast<int>(round(static_cast<double>(MAIN_SCREEN_BASE_Global_H) * hScale))
+    static_cast<int>(
+      round(static_cast<double>(MAIN_SCREEN_BASE_Global_H) * hScale))
   };
   SDL_RenderSetViewport(window.getRenderer(), &globalViewport);
 

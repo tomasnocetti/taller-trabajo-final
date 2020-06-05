@@ -20,6 +20,7 @@ public:
     double getScaleWidthFactor() const;
     double getScaleHeightFactor() const;
     SDL_Renderer* getRenderer() const;
+
 private:
     int baseWidth;
     int baseHeight;
