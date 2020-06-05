@@ -41,7 +41,7 @@ BEGIN { suppression=0; md5sum = "md5sum" }
     # gawk can't cope with enormous ints like $result would be, so stringify it first by prefixing a definite string
     resultstring = "prefix"result
 
-    if (! (resultstring in chksum_array) )
+    if (! (resultstring in chksum_array))
       { chksum_array[resultstring] = 0;  # This checksum hasn't been seen before, so add it to the array
         OutputSuppression()              # and output the contents of the suppression
       }
