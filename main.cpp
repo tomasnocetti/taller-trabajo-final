@@ -1,5 +1,6 @@
-int main(int argc, char const *argv[])
-{
-  /* code */
-  return 0;
+#include "CApp.h"
+
+int main(int argc, char const *argv[]) {
+  CApp theApp;
+  return theApp.OnExecute();
 }
