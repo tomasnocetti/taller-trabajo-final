@@ -141,6 +141,6 @@ int LTexture::getWidth(){
 	return mWidth;
 }
 
-int LTexture::getHeight(){
+int LTexture::getHeight() {
 	return mHeight;
 }
