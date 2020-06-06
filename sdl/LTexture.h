@@ -9,6 +9,9 @@ class LTexture {
 	public:
 		//Initializes variables
 		explicit LTexture(SDL_Renderer* renderer);
+    LTexture(const LTexture&) = delete;
+    LTexture& operator=(const LTexture&) = delete;
+    LTexture(LTexture&& other);
 
 		//Deallocates memory
 		~LTexture();
@@ -34,7 +37,7 @@ class LTexture {
 		void setAlpha(Uint8 alpha);
 
 		//Renders texture at given point
-		void render(
+		void paint(
       int x,
       int y,
       SDL_Rect* clip = NULL,

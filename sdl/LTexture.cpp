@@ -10,6 +10,13 @@ LTexture::LTexture(SDL_Renderer* renderer) :
 	mHeight = 0;
 }
 
+LTexture::LTexture(LTexture&& other) {
+  this->mTexture = other.mTexture;
+  this->mWidth = other.mWidth;
+  this->mHeight = other.mHeight;
+  other.mTexture = NULL;
+}
+
 LTexture::~LTexture() {
 	//Deallocate
 	free();
@@ -120,7 +127,7 @@ void LTexture::setAlpha(Uint8 alpha) {
 	SDL_SetTextureAlphaMod(mTexture, alpha);
 }
 
-void LTexture::render(
+void LTexture::paint(
   int x,
   int y,
   SDL_Rect* clip,
