@@ -6,6 +6,7 @@
 #include <string>
 #include "../sdl/LTexture.h"
 #include "../sdl/SdlWindow.h"
+#include "../sdl/SdlViewport.h"
 
 #define MAIN_SCREEN_BASE_X 0
 #define MAIN_SCREEN_BASE_Y 0
@@ -14,7 +15,7 @@
 
 #define MAIN_SCREEN_PATH "assets/main-screen.jpg"
 
-class Global {
+class Global : SdlViewport {
 	public:
 		//Initializes variables
 	  explicit Global(SdlWindow& window);
@@ -24,8 +25,6 @@ class Global {
 		//Deallocates memory
 		~Global();
 	private:
-		//The actual hardware texture
-		SdlWindow& window;
     LTexture texture;
 };
 

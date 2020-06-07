@@ -41,7 +41,9 @@ void CApp::OnRender() {
   window.render();
 }
 
-void CApp::OnInit() {}
+void CApp::OnInit() {
+  mapViewport.init();
+}
 
 void CApp::OnCleanup() {}
 
