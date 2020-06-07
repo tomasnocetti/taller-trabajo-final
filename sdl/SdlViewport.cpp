@@ -1,6 +1,12 @@
 #include "SdlViewport.h"
 
-SdlViewport::SdlViewport(SdlWindow& window, int x, int y, int w, int h, int scale) :
+SdlViewport::SdlViewport(
+  SdlWindow& window,
+  int x,
+  int y,
+  int w,
+  int h,
+  int scale) :
   window(window),
   scale(scale),
   srcViewport({x, y, w, h}) {}
@@ -21,4 +27,4 @@ void SdlViewport::fit() {
   SDL_RenderSetViewport(window.getRenderer(), &destViewport);
 }
 
-SdlViewport::~SdlViewport() {};
+SdlViewport::~SdlViewport() {}
