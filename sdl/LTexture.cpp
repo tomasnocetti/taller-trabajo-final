@@ -1,6 +1,6 @@
-
 #include "LTexture.h"
 #include <string>
+#include <stdlib.h>
 
 LTexture::LTexture(SDL_Renderer* renderer) :
   renderer(renderer) {
@@ -14,7 +14,9 @@ LTexture::LTexture(LTexture&& other) {
   this->mTexture = other.mTexture;
   this->mWidth = other.mWidth;
   this->mHeight = other.mHeight;
+  this->renderer = other.renderer;
   other.mTexture = NULL;
+  other.renderer = NULL;
 }
 
 LTexture::~LTexture() {

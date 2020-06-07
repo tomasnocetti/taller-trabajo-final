@@ -29,6 +29,7 @@ void CApp::OnEvent(const SDL_Event& e) {
     Running = false;
   }
   window.handleEvent(e);
+  mapViewport.handleEvent(e);
 }
 
 void CApp::OnLoop() {
