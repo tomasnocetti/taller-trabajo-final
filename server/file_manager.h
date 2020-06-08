@@ -23,7 +23,7 @@ private:
   std::string filename;
   int offset;
 public:
-  FileManager(const char* filePlayers);
+  explicit FileManager(const char* filePlayers);
   void read();
   /* Crea un nuevo jugador en caso de que el nickName este disponible. */
   void create(const char* nickName);
@@ -36,6 +36,5 @@ public:
   int getPlayerOffset(const char* nickName);
   ~FileManager();
 };
-
 
 #endif

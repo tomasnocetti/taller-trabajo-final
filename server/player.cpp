@@ -8,12 +8,9 @@ Player::~Player(){}
 
 void Player::create(){
   setPlayerDataToCreateNewPlayer(this->playerData);
-  
 }
 
-void Player::move(playerData_t playerData, uint32_t direction){
-  
-}
+void Player::move(playerData_t playerData, uint32_t direction){}
 
 void Player::setPlayerDataToCreateNewPlayer(playerData_t playerData){
   playerData.manaPoints = 0;
@@ -32,5 +29,3 @@ void Player::setPlayerCoordinates(playerData_t playerData, uint32_t x,
   playerData.data.x = x;
   playerData.data.y = y; 
 }
-
- 
