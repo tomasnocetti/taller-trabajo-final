@@ -12,7 +12,7 @@ private:
   Player player;
   bool continuePlaying;
 public:
-  ServerProxy(GameServer &game);
+  explicit ServerProxy(GameServer &game);
   void run();
   void stopPlaying();
   ~ServerProxy();

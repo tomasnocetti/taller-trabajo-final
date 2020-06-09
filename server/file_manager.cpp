@@ -10,7 +10,8 @@ FileManager::FileManager() : offset(0){}
 void FileManager::create(const char* nickName){
   bool exist = checkIfNickExists(nickName);
   if (!exist){
-    std::ofstream ofs("playersIndex.txt",std::ofstream::binary | std::ofstream::app);
+    std::ofstream ofs("playersIndex.txt",std::ofstream::binary | 
+    std::ofstream::app);
     Index index;
     strncpy(index.nick, nickName, sizeof(index.nick));
     index.offsetPlayer = offset;

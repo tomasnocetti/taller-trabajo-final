@@ -6,7 +6,7 @@ ServerProxy::ServerProxy(GameServer &game):
   game(game), continuePlaying(true){}
 
 void ServerProxy::run(){
-  while(continuePlaying){
+  while (continuePlaying){
     player.create();
     game.addActivePlayer(player);
     player.getPlayerCoordintates();
