@@ -133,17 +133,18 @@ void LTexture::paint(
   int x,
   int y,
   SDL_Rect* clip,
+  int scale,
   double angle,
   SDL_Point* center,
   SDL_RendererFlip flip
 ) {
 	//Set rendering space and render to screen
-	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
+	SDL_Rect renderQuad = { x * scale, y * scale, mWidth, mHeight };
 
 	//Set clip rendering dimensions
   if (clip != NULL) {
-		renderQuad.w = clip->w;
-		renderQuad.h = clip->h;
+		renderQuad.w = clip->w * scale;
+		renderQuad.h = clip->h * scale;
 	}
 
 	//Render to screen

@@ -6,6 +6,7 @@
 #include "sdl/SdlWindow.h"
 #include "viewports/Map.h"
 #include "viewports/Global.h"
+#include "controllers/MapController.h"
 
 //Screen dimension constants
 #define GAME_TITLE "Argentum"
@@ -27,6 +28,7 @@ class CApp {
     SdlWindow window;
     Global globalViewport;
     Map mapViewport;
+    MapController mapController;
     void OnInit();
     void OnEvent(const SDL_Event& Event);
     void OnLoop();

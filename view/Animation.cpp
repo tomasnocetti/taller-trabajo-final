@@ -66,5 +66,5 @@ void Animation::set(int currentAnim){
 }
 
 void Animation::paint(int x, int y){
-	this->texture.paint(x, y, &this->lastFrame);
+	this->texture.paint(x, y, &this->lastFrame, 1);
 }
