@@ -37,12 +37,13 @@ void CApp::OnLoop() {
 void CApp::OnRender() {
   window.clear();
   globalViewport.paint();
-  mapViewport.paint();
+  mapViewport.paint(mapController.getEntities());
   window.render();
 }
 
 void CApp::OnInit() {
   mapViewport.init();
+  mapController.init(window);
 }
 
 void CApp::OnCleanup() {}
