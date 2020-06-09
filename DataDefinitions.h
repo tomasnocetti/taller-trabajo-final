@@ -3,7 +3,7 @@
 
 #include <string>
 
-struct MainPlayerData {}
+struct MainPlayerData {};
 
 struct TileSetData {
   int columns;
