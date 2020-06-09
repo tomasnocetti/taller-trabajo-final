@@ -8,14 +8,14 @@
 struct Index {
   char nick[32];
   int offsetPlayer;
-  MSGPACK_DEFINE(nick, offsetPlayer);
+  MSGPACK_DEFINE(nick, offsetPlayer)
 };
 
 struct Data{
   uint32_t x;
   int y;
   int oro;
-  MSGPACK_DEFINE(x, y, oro);
+  MSGPACK_DEFINE(x, y, oro)
 };
 
 class FileManager{
@@ -23,7 +23,7 @@ private:
   std::string filename;
   int offset;
 public:
-  explicit FileManager(const char* filePlayers);
+  FileManager();
   void read();
   /* Crea un nuevo jugador en caso de que el nickName este disponible. */
   void create(const char* nickName);

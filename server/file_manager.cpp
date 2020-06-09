@@ -2,15 +2,15 @@
 #include <fstream>
 #include <iostream>
 #include <string>
+#include <sstream>
 #include <algorithm>
 
-FileManager::FileManager(const char* filePlayers) : offset(0),
-  filename(filePlayers){}
+FileManager::FileManager() : offset(0){}
 
 void FileManager::create(const char* nickName){
   bool exist = checkIfNickExists(nickName);
   if (!exist){
-    std::ofstream ofs(filename,std::ofstream::binary | std::ofstream::app);
+    std::ofstream ofs("playersIndex.txt",std::ofstream::binary | std::ofstream::app);
     Index index;
     strncpy(index.nick, nickName, sizeof(index.nick));
     index.offsetPlayer = offset;
@@ -26,7 +26,7 @@ void FileManager::create(const char* nickName){
 }
 
 bool FileManager::checkIfNickExists(const char* nickName){
-  std::ifstream ifs(filename, std::ifstream::in);
+  std::ifstream ifs("playersIndex.txt", std::ifstream::in);
   std::string buffer((std::istreambuf_iterator<char>(ifs)),
                         std::istreambuf_iterator<char>());
   msgpack::unpacker pac;
@@ -36,7 +36,6 @@ bool FileManager::checkIfNickExists(const char* nickName){
   msgpack::object_handle oh;
   Index player; 
   while (pac.next(oh)){
-    msgpack::object msg = oh.get();
     msgpack::object const& obj = oh.get();
     player = obj.as<Index>();
     if (strcmp(nickName, player.nick) == 0)
@@ -59,7 +58,7 @@ void FileManager::loadPlayerData(const char* nickName, struct Data data){
 }
 
 int FileManager::getPlayerOffset(const char* nickName){
-  std::ifstream ifs(filename, std::ifstream::in);
+  std::ifstream ifs("playersIndex.txt", std::ifstream::in);
   std::string buffer((std::istreambuf_iterator<char>(ifs)),
                         std::istreambuf_iterator<char>());
   msgpack::unpacker pac;
@@ -71,6 +70,7 @@ int FileManager::getPlayerOffset(const char* nickName){
   while (pac.next(oh)){
     msgpack::object const& obj = oh.get();
     player = obj.as<Index>();
+    std::cout << player.nick << std::endl;
     if (strcmp(nickName, player.nick) == 0){
       return player.offsetPlayer;
     }

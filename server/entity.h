@@ -16,7 +16,7 @@ private:
 public:
   Entity();
   virtual void create();
-  virtual void atack();
+  virtual void attack();
   virtual void move();
   ~Entity();
 };

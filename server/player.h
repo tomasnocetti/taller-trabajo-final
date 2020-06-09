@@ -9,6 +9,10 @@
 #define UP 2
 #define DOWN 3
 
+typedef struct Inventory{
+  std::string helmet;
+}inventory_t;
+
 typedef struct PlayerData{
   uint32_t manaPoints;
   uint32_t gold;
@@ -19,10 +23,6 @@ typedef struct PlayerData{
   inventory_t inventory;
 }playerData_t;
 
-typedef struct Inventory{
-  std::string helmet;
-}inventory_t;
-
 class Player : public Entity{
 private:
   playerData_t playerData;
@@ -30,9 +30,12 @@ public:
   Player();
   void create();
   void move(playerData_t playerData, uint32_t direction);
-  void setPlayerDataToCreateNewPlayer(playerData_t playerData);
-  void setPlayerCoordinates(playerData_t playerData, uint32_t x, uint32_t y);
-  //void revive();
+  void setPlayerDataToCreateNewPlayer();
+  void setPlayerCoordinates(uint32_t x, uint32_t y);
+  void getPlayerCoordintates();
+  int getXCoordinate();
+  int getYCoordinate();
+  void revive();
   ~Player();
 };
 
