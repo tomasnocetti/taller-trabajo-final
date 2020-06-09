@@ -9,6 +9,7 @@
 class Entity {
   public:
     virtual void paint() = 0;
+    virtual void paint(int cameraX, int cameraY) = 0;
     virtual ~Entity() {}
 };
 
@@ -42,4 +43,8 @@ class TileEntity: public Entity {
 	void paint() override {
     texture->paint(destRect.x, destRect.y, &srcRect, 2);
 	}
+
+  void paint(int cameraX, int cameraY){
+    texture->paint(destRect.x - cameraX, destRect.y - cameraY, &srcRect, 2);
+  }
 };

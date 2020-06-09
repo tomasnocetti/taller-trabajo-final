@@ -41,7 +41,7 @@ SdlWindow::SdlWindow(int width, int height) :
     SDL_SetRenderDrawColor(renderer, 0xFF, 0xFF, 0xFF, 0xFF);
 
     //Initialize JPG loading
-    int imgFlags = IMG_INIT_JPG;
+    int imgFlags = IMG_INIT_JPG | IMG_INIT_PNG;
     if (!(IMG_Init(imgFlags) & imgFlags)) {
       throw SdlException("Error en la inicialización IMG", IMG_GetError());
     }

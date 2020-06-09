@@ -1,6 +1,7 @@
 #include "MapController.h"
 #include "../MapParser.h"
 #include "../DataDefinitions.h"
+#include "../view/PlayerView.h"
 #include <iostream>
 #include <algorithm>
 #include <fstream>
