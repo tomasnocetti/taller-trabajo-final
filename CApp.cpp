@@ -13,8 +13,8 @@ void CApp::OnExecute() {
   SDL_Event Event;
 
   while (Running) {
-    while (SDL_PollEvent(&Event)) {
-        OnEvent(Event);
+    while(SDL_PollEvent(&Event)){
+      OnEvent(Event);
     }
 
     OnLoop();

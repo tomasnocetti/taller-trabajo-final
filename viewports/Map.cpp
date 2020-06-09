@@ -4,35 +4,68 @@ Map::Map(SdlWindow& window, int x, int y, int w, int h) :
   SdlViewport(window, x, y, w, h),
   // mapmanager("terrain", 1, 32)
   playerView((MAIN_SCREEN_BASE_MAP_W - MAIN_SCREEN_BASE_MAP_X) / 2,
-    (MAIN_SCREEN_BASE_MAP_H - MAIN_SCREEN_BASE_MAP_Y) / 2, window)
-  {}
-
-void Map::paint() {
-  fit();
-  // mapmanager.paint();
-  // texture.paint(0, 0, &camera);
-  playerView.paint();
-}
+    (MAIN_SCREEN_BASE_MAP_H - MAIN_SCREEN_BASE_MAP_Y) / 2, 
+    std::move(window.createTexture())),
+  background(window.createTexture()){
+    background.loadFromFile("assets/main-screen.jpg");
+  }
 
 void Map::init() {
   // mapmanager.LoadMap(window, "assets/map/map.map", 25, 20);
+  this->camera = { 0, 0,
+      MAIN_SCREEN_BASE_MAP_W, MAIN_SCREEN_BASE_MAP_H };
+  playerView.paint(camera.x, camera.y);
+}
+
+void Map::paint() {
+  fit();
+  //mapmanager.paint();
+  this->camera.x = (playerView.getX()) - MAIN_SCREEN_BASE_MAP_W / 2;
+  this->camera.y = (playerView.getY()) - MAIN_SCREEN_BASE_MAP_H / 2;
+  if (camera.x < 0)
+    camera.x = 0;
+  if (camera.y < 0)
+    camera.y = 0;
+  if (camera.x > 800 - camera.w)
+    camera.x = 800 - camera.w;
+  if (camera.y > 600 - camera.h)
+    camera.y = 600 - camera.h;
+  background.paint(0, 0, &camera);
+  playerView.paint(this->camera.x, this->camera.y);
 }
 
 void Map::handleEvent(const SDL_Event &e){
-  switch(e.type){
+  switch (e.type){
     case SDL_KEYDOWN:
-      switch(e.key.keysym.sym){
+      switch (e.key.keysym.sym){
         case SDLK_w:
-          playerView.moveY(-10);
+          playerView.walk(0, -1);
         break;
         case SDLK_s:
-          playerView.moveY(10);
+          playerView.walk(0, 1);
         break;
         case SDLK_a:
-          playerView.moveX(-10);
+          playerView.walk(-1, 0);
         break;
         case SDLK_d:
-          playerView.moveX(10);
+          playerView.walk(1, 0);
+        break;
+      }
+    break;
+
+    case SDL_KEYUP:
+      switch (e.key.keysym.sym){
+        case SDLK_w:
+          playerView.stand(0, -1);
+        break;
+        case SDLK_s:
+          playerView.stand(0, 1);
+        break;
+        case SDLK_a:
+          playerView.stand(-1, 0);
+        break;
+        case SDLK_d:
+          playerView.stand(1, 0);
         break;
       }
     break;

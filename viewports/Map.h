@@ -6,6 +6,7 @@
 #include <string>
 #include "../sdl/SdlWindow.h"
 #include "../sdl/SdlViewport.h"
+#include "../sdl/LTexture.h"
 // #include "../MapManager.h"
 #include "../view/PlayerView.h"
 
@@ -37,6 +38,8 @@ class Map : SdlViewport{
 		//The actual hardware texture
     // MapManager mapmanager;
     PlayerView playerView;
+    SDL_Rect camera;
+    LTexture background;
 };
 
 #endif
