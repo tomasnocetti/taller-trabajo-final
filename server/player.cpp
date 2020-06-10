@@ -1,5 +1,6 @@
 #include "player.h"
 #include <iostream>
+#include <vector>
 
 #define MAX_LIFE_LEVEL_1 100
 

@@ -13,7 +13,6 @@ MapController::~MapController() {
 }
 
 void MapController::init(SdlWindow& window){
-
   textures[0] = new LTexture(window.createTexture());
   textures[0]->loadFromFile("assets/map/beach_tileset.png");
   // THIS WILL GO SERVER SIDE
@@ -23,7 +22,8 @@ void MapController::init(SdlWindow& window){
 
   TileLayers& layers = m.getTileLayers();
 
-  std::for_each(layers.begin(), layers.end(), [this](std::unique_ptr<TileLayerData>& layer){
+  std::for_each(layers.begin(), layers.end(), 
+  [this](std::unique_ptr<TileLayerData>& layer){
     int tileSize = 16;
     int tileSetColumns = 36;
     int mapSizeColumns = 58;
@@ -33,13 +33,12 @@ void MapController::init(SdlWindow& window){
         new TileEntity(
           textures[0],
           (tilegid % tileSetColumns) * tileSize,
-          (tilegid / tileSetColumns ) * tileSize,
+          (tilegid / tileSetColumns) * tileSize,
           (y % mapSizeColumns) * tileSize,
           (y /mapSizeColumns) * tileSize,
-          tileSize,
-          mapScale,
-          texID)
-      );
+          tileSize, 
+          mapScale, 
+          texID));
     }
   });
 }

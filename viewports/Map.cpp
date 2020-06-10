@@ -1,4 +1,5 @@
 #include "Map.h"
+#include <vector>
 
 Map::Map(SdlWindow& window, int x, int y, int w, int h) :
   SdlViewport(window, x, y, w, h),

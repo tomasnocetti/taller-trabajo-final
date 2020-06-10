@@ -2,6 +2,7 @@
 #define __DATADEF_H
 
 #include <string>
+#include <vector>
 
 struct MainPlayerData {};
 
