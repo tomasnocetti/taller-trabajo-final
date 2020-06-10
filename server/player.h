@@ -3,6 +3,7 @@
 
 #include "entity.h"
 #include <string>
+#include <vector>
 
 #define LEFT 0
 #define RIGHT 1
@@ -29,13 +30,13 @@ private:
 public:
   Player();
   void create();
-  void move(playerData_t playerData, uint32_t direction);
+  void move(uint32_t direction);
   void setPlayerDataToCreateNewPlayer();
   void setPlayerCoordinates(uint32_t x, uint32_t y);
-  void getPlayerCoordintates();
-  int getXCoordinate();
-  int getYCoordinate();
+  uint32_t getXCoordinate();
+  uint32_t getYCoordinate();
   void revive();
+  std::vector<int> estimateCoordintates(uint32_t direction);
   ~Player();
 };
 

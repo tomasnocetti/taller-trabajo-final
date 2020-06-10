@@ -15,6 +15,7 @@ public:
   explicit ServerProxy(GameServer &game);
   void run();
   void stopPlaying();
+  void movePlayer(uint32_t direction);
   ~ServerProxy();
 };
 

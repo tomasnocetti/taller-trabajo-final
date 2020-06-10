@@ -5,17 +5,20 @@
 #include <string>
 #include "player.h"
 #include "server_proxy.h"
+#include <iostream>
+#include <memory>
 
 class ServerProxy;
 
 class GameServer{
 private:
-  std::vector<Player> activePlayers; 
+  std::vector<std::unique_ptr<Player>> activePlayers; 
 public:
   GameServer();
   ~GameServer();
   void run();
-  void addActivePlayer(Player player);
+  void addActivePlayer(Player &player);
+  bool askForCoordinates(uint32_t x, uint32_t y);
   void acceptPlayer();
 };
 
