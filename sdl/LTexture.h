@@ -41,6 +41,7 @@ class LTexture {
       int x,
       int y,
       SDL_Rect* clip = NULL,
+      int scale = 1,
       double angle = 0.0,
       SDL_Point* center = NULL,
       SDL_RendererFlip flip = SDL_FLIP_NONE);

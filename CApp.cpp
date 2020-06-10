@@ -13,8 +13,8 @@ void CApp::OnExecute() {
   SDL_Event Event;
 
   while (Running) {
-    while (SDL_PollEvent(&Event)) {
-        OnEvent(Event);
+    while(SDL_PollEvent(&Event)){
+      OnEvent(Event);
     }
 
     OnLoop();
@@ -29,6 +29,7 @@ void CApp::OnEvent(const SDL_Event& e) {
     Running = false;
   }
   window.handleEvent(e);
+  mapViewport.handleEvent(e);
 }
 
 void CApp::OnLoop() {
@@ -37,12 +38,13 @@ void CApp::OnLoop() {
 void CApp::OnRender() {
   window.clear();
   globalViewport.paint();
-  mapViewport.paint();
+  mapViewport.paint(mapController.getEntities());
   window.render();
 }
 
 void CApp::OnInit() {
   mapViewport.init();
+  mapController.init(window);
 }
 
 void CApp::OnCleanup() {}
