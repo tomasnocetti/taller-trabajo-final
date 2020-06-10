@@ -1,18 +1,19 @@
-#include "server_proxy.h"
+#include "ServerProxy.h"
 
 #include <iostream>
 #include <vector>
 
-ServerProxy::ServerProxy(GameServer &game): 
-  game(game), continuePlaying(true){
+ServerProxy::ServerProxy(BlockingQueue &updateModel): 
+  updateModel(updateModel), continuePlaying(true){
     player.create();
 }
 
 void ServerProxy::run(){
-  player.create();
-  game.addActivePlayer(player);
   while (continuePlaying){
-    movePlayer(RIGHT);
+    ParamData x = {"100"};
+    ParamData y = {"200"};
+    InstructionData instruction = {0001, MOVE, {x,y}};
+    updateModel.push(instruction);
     stopPlaying();
   }
 }
@@ -23,9 +24,6 @@ void ServerProxy::stopPlaying(){
 
 void ServerProxy::movePlayer(uint32_t direction){
   std::vector<int> coordinates = player.estimateCoordintates(direction);
-  bool canMove = game.askForCoordinates(coordinates[0], coordinates[1]);
-  if (canMove)
-    player.move(direction);
 }
 
 ServerProxy::~ServerProxy(){}

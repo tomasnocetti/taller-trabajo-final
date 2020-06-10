@@ -1,18 +1,19 @@
 #ifndef SERVER_PROXY_H
 #define SERVER_PROXY_H
 
-#include "game_server.h"
-#include "player.h"
+#include "GameServer.h"
+#include "Player.h"
+#include "BlockingQueue.h"
 
 class GameServer;
 
 class ServerProxy{
 private:
-  GameServer &game;
+  BlockingQueue &updateModel;
   Player player;
   bool continuePlaying;
 public:
-  explicit ServerProxy(GameServer &game);
+  explicit ServerProxy(BlockingQueue &updateModel);
   void run();
   void stopPlaying();
   void movePlayer(uint32_t direction);

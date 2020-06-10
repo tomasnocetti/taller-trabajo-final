@@ -1,34 +1,30 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
-#include <msgpack.hpp>
-#include "file_manager.h"
-#include "game_server.h" 
+#include "../DataDefinitions.h"
+#include "GameServer.h" 
 
-int main(){
+int main() {
   GameServer game;
-  game.run();
+  game.start();
+  
   return 0;
 }
 
 /*
-  FileManager fileManager;
-  Data dataPlayerFerfa = {0, 1000, 300};
-  Data dataPlayerTomi = {100, 1000, 30000};
-  Data dataPlayerLauti = {0, 1000, 0};
-  Data dataPlayerWalter = {0, 0, 0};
-  fileManager.create("Ferfa");
-  fileManager.create("Tomi");
-  fileManager.create("Tomi");
-  fileManager.create("Ferfa");
-  fileManager.create("Lauti");
-  fileManager.create("Walter");
-  fileManager.loadPlayerData("Ferfa", dataPlayerFerfa);
-  fileManager.loadPlayerData("Tomi", dataPlayerTomi);
-  fileManager.loadPlayerData("Lauti", dataPlayerLauti);
-  fileManager.loadPlayerData("Walter", dataPlayerWalter);
-  fileManager.downloadPlayerData("Ferfa");
-  fileManager.downloadPlayerData("Lauti");
-  fileManager.downloadPlayerData("Tomi");
-  fileManager.downloadPlayerData("Walter");
-*/
+  ParamData_t param = {"300"};
+  InstructionData data = {100, {param}};
+
+  // packing
+  std::stringstream ss;
+  msgpack::pack(ss, data);
+
+  // unpacking
+  msgpack::object_handle oh = msgpack::unpack(ss.str().data(), ss.str().size());
+  msgpack::object const& obj = oh.get();
+  std::cout << "object: " << obj << std::endl;
+  
+  InstructionData data_out = obj.as<InstructionData>();
+  std::cout << data_out.playerId << std::endl;
+  std::cout << data_out.params.at(0).value << std::endl;
+  */

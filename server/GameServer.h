@@ -3,22 +3,27 @@
 
 #include <vector>
 #include <string>
-#include "player.h"
-#include "server_proxy.h"
-#include <iostream>
 #include <memory>
+
+#include "Player.h"
+#include "../DataDefinitions.h"
+#include "BlockingQueue.h"
 
 class ServerProxy;
 
 class GameServer{
 private:
+  bool isClose;
   std::vector<std::unique_ptr<Player>> activePlayers; 
 public:
+  BlockingQueue updateModel;
   GameServer();
   ~GameServer();
-  void run();
+  void init();
+  void start();
+  void handleInstruction(InstructionData &instruction);
+  void close();
   void addActivePlayer(Player &player);
-  bool askForCoordinates(uint32_t x, uint32_t y);
   void acceptPlayer();
 };
 
