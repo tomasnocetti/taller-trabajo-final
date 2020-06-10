@@ -13,7 +13,7 @@ private:
   std::vector<std::unique_ptr<ServerProxy>> serverProxies;
   BlockingQueue &updateModel;
 public:
-  ClientAcceptor(BlockingQueue &updateModel);
+  explicit ClientAcceptor(BlockingQueue &updateModel);
   ~ClientAcceptor();
   void acceptPlayer();
   void run();

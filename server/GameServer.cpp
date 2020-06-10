@@ -26,7 +26,7 @@ void GameServer::start(){
 }
 
 void GameServer::handleInstruction(InstructionData &instruction){
-  ActionType_t action = instruction.action;
+  ActionTypeT action = instruction.action;
   std::cout << action << std::endl;
   switch (action)
   {

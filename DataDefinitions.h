@@ -36,7 +36,7 @@ typedef enum {
 
 typedef struct InstructionData {
   size_t playerId;
-  ActionType_t action;
+  ActionTypeT action;
   std::vector<ParamData> params;
   //MSGPACK_DEFINE(playerId, params, action)
 } IntructionDataT;
