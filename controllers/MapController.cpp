@@ -13,7 +13,6 @@ MapController::~MapController() {
 }
 
 void MapController::init(SdlWindow& window){
-
   textures[0] = new LTexture(window.createTexture());
   textures[0]->loadFromFile("assets/map/beach_tileset.png");
   // THIS WILL GO SERVER SIDE
@@ -33,9 +32,9 @@ void MapController::init(SdlWindow& window){
         new TileEntity(
           textures[0],
           (tilegid % tileSetColumns) * tileSize,
-          (tilegid / tileSetColumns ) * tileSize,
+          (tilegid / tileSetColumns) * tileSize,
           (y % mapSizeColumns) * tileSize,
-          (y /mapSizeColumns) * tileSize,
+          (y / mapSizeColumns) * tileSize,
           tileSize,
           mapScale,
           texID)

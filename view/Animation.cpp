@@ -2,8 +2,10 @@
 #include "Animation.h"
 #include "AnimationTypes.h"
 
-Animation::Animation(std::string path, LTexture texture) : 
-	texture(std::move(texture)) {
+Animation::Animation() {}
+
+void Animation::init(std::string path, LTexture texture){
+	this->texture = std::move(texture);
 	this->texture.loadFromFile(path);
 	this->index = 0;
 	cropAnimationFrames();
