@@ -3,7 +3,7 @@
 #include <iostream>
 #include <vector>
 
-ServerProxy::ServerProxy(BlockingQueue &updateModel): 
+ServerProxy::ServerProxy(InstructionDataBQ &updateModel): 
   updateModel(updateModel), continuePlaying(true){
     player.create();
 }

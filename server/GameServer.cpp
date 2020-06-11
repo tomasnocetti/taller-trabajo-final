@@ -20,7 +20,8 @@ void GameServer::start(){
   ClientAcceptor acceptor(updateModel);
   acceptor.run();
   while (!isClose){
-    InstructionData instruction = updateModel.pop();
+    InstructionData instruction;
+    updateModel.try_pop(instruction);
     handleInstruction(instruction);
   }
 }

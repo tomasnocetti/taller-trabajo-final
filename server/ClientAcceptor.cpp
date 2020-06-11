@@ -1,7 +1,7 @@
 #include "ClientAcceptor.h"
 #include <utility>
 
-ClientAcceptor::ClientAcceptor(BlockingQueue &updateModel) 
+ClientAcceptor::ClientAcceptor(InstructionDataBQ &updateModel) 
 : updateModel(updateModel){}
 
 ClientAcceptor::~ClientAcceptor(){}

@@ -11,12 +11,14 @@
 
 class ServerProxy;
 
+using InstructionDataBQ = BlockingQueue<InstructionData>;
+
 class GameServer{
 private:
   bool isClose;
   std::vector<std::unique_ptr<Player>> activePlayers; 
 public:
-  BlockingQueue updateModel;
+  InstructionDataBQ updateModel;
   GameServer();
   ~GameServer();
   void init();

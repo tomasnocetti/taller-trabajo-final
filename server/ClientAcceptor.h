@@ -11,9 +11,9 @@ class BlockinQueue;
 class ClientAcceptor{
 private:
   std::vector<std::unique_ptr<ServerProxy>> serverProxies;
-  BlockingQueue &updateModel;
+  InstructionDataBQ &updateModel;
 public:
-  explicit ClientAcceptor(BlockingQueue &updateModel);
+  explicit ClientAcceptor(InstructionDataBQ &updateModel);
   ~ClientAcceptor();
   void acceptPlayer();
   void run();

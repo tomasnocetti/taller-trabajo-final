@@ -9,11 +9,11 @@ class GameServer;
 
 class ServerProxy{
 private:
-  BlockingQueue &updateModel;
+  InstructionDataBQ &updateModel;
   Player player;
   bool continuePlaying;
 public:
-  explicit ServerProxy(BlockingQueue &updateModel);
+  explicit ServerProxy(InstructionDataBQ &updateModel);
   void run();
   void stopPlaying();
   void movePlayer(uint32_t direction);
