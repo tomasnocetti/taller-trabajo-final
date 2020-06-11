@@ -7,10 +7,6 @@
 
 
 class Entity {
-  private:
-    int x;
-    int y;
-    Position position;
   public:
     //virtual void paint() = 0;
     virtual void paint(int cameraX, int cameraY) = 0;
@@ -56,6 +52,6 @@ class TileEntity: public Entity {
   int getY() { return 0; }
 
   void paint(int cameraX, int cameraY){
-    texture->paint(destRect.x - cameraX, destRect.y - cameraY, &srcRect, 2);
+    texture->paint(destRect.x - cameraX, destRect.y - cameraY, &srcRect, 1);
   }
 };

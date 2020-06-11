@@ -16,13 +16,10 @@ class MapParser {
     ~MapParser();
     void loadMap(std::string src);
     TileLayers& getTileLayers();
+    MapData& getMapData();
   private:
     void loadTileLayer(Json::Value& layer);
     void loadTileSet(Json::Value& tileset);
     TileLayers tilelayers;
-    std::vector<std::unique_ptr<TileSetData>> tilesets;
-    int height;
-    int width;
-    int tileheight;
-    int tilewidth;
+    MapData mapData;
 };

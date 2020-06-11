@@ -3,8 +3,8 @@
 MainPlayerController::MainPlayerController() {}
 
 void MainPlayerController::init(LTexture texture, int x, int y){
-	this->data.x = x;
-	this->data.y = y;
+	//this->data.x = x;
+	//this->data.y = y;
 	playerView.init(x, y, std::move(texture));
 }
 
