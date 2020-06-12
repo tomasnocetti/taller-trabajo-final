@@ -6,6 +6,7 @@
 #include "../sdl/SdlWindow.h"
 #include "../sdl/SdlViewport.h"
 #include "../entities/Entity.h"
+#include "../view/Camera.h"
 
 #define MAIN_SCREEN_BASE_MAP_X 11
 #define MAIN_SCREEN_BASE_MAP_Y 154
@@ -30,7 +31,8 @@ class Map : SdlViewport{
 		~Map();
 	private:
 		//The actual hardware texture
-    SDL_Rect camera;
+    //SDL_Rect camera;
+    Camera camera;
 };
 
 #endif

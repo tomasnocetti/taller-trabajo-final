@@ -19,15 +19,26 @@ struct TileLayerData {
   std::vector<size_t> data;
 };
 
+struct ObjectLayerData {
+  int id;
+  std::string name;
+  std::vector<struct ObjectData> objects;
+};
+
+struct ObjectData {
+  int x;
+  int y;
+  int width;
+  int height;
+};
+
 struct MapData {
   int height;
   int width;
   int tileheight;
   int tilewidth;
-  std::vector<int> tilesetColumns;
-  std::vector<int> tilesetFirstgid;
-  std::vector<int> tilesetTileCount;
-  std::vector<std::string> tilesetImage;
+  std::vector<struct TileLayerData> layers;
+  std::vector<struct TileSetData> tileSets;
 };
 
 #endif
