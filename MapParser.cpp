@@ -13,10 +13,10 @@ void MapParser::loadMap(std::string src) {
 
   std::ifstream file(src, std::ifstream::binary);
   file >> root;
-  height = root["height"].asInt();
-  width = root["width"].asInt();
-  tileheight = root["tileheight"].asInt();
-  tilewidth = root["tilewidth"].asInt();
+  mapData.height = root["height"].asInt();
+  mapData.width = root["width"].asInt();
+  mapData.tileheight = root["tileheight"].asInt();
+  mapData.tilewidth = root["tilewidth"].asInt();
 
   const Json::Value layers = root["layers"];
   std::for_each (
@@ -55,15 +55,16 @@ void MapParser::loadTileLayer(Json::Value& layer) {
 }
 
 void MapParser::loadTileSet(Json::Value& tileset) {
-  std::unique_ptr<TileSetData> s(new TileSetData);
-
-  s->columns = tileset["columns"].asUInt();
-  s->firstgid = tileset["firstgid"].asUInt();
-  s->tilecount = tileset["tilecount"].asUInt();
-  s->image = tileset["image"].asString();
-  tilesets.push_back(std::move(s));
+  mapData.tilesetColumns.push_back(tileset["columns"].asUInt());
+  mapData.tilesetFirstgid.push_back(tileset["firstgid"].asUInt());
+  mapData.tilesetTileCount.push_back(tileset["tilecount"].asUInt());
+  mapData.tilesetImage.push_back(tileset["image"].asString());
 }
 
 TileLayers& MapParser::getTileLayers() {
   return tilelayers;
+}
+
+MapData& MapParser::getMapData() {
+  return mapData;
 }

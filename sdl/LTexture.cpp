@@ -10,6 +10,8 @@ LTexture::LTexture(SDL_Renderer* renderer) :
 	mHeight = 0;
 }
 
+LTexture::LTexture() {}
+
 LTexture::LTexture(LTexture&& other) {
   this->mTexture = other.mTexture;
   this->mWidth = other.mWidth;
@@ -17,6 +19,16 @@ LTexture::LTexture(LTexture&& other) {
   this->renderer = other.renderer;
   other.mTexture = NULL;
   other.renderer = NULL;
+}
+
+LTexture& LTexture::operator=(LTexture&& other) {
+  this->mTexture = other.mTexture;
+  this->mWidth = other.mWidth;
+  this->mHeight = other.mHeight;
+  this->renderer = other.renderer;
+  other.mTexture = NULL;
+  other.renderer = NULL;
+  return *this;
 }
 
 LTexture::~LTexture() {
