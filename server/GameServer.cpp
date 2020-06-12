@@ -21,7 +21,7 @@ void GameServer::start(){
   acceptor.run();
   while (!isClose){
     InstructionData instruction;
-    updateModel.try_pop(instruction);
+    updateModel.try_front_pop(instruction);
     handleInstruction(instruction);
   }
 }
