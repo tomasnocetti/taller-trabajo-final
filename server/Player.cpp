@@ -12,11 +12,7 @@ void Player::create(){
   setPlayerDataToCreateNewPlayer();
 }
 
-void Player::move(uint32_t direction){
-  playerData.data.x += 5;
-  std::cout << playerData.data.x << std::endl;
-  std::cout << playerData.data.y << std::endl;
-}
+void Player::move(uint32_t direction){}
 
 void Player::setPlayerDataToCreateNewPlayer(){
   playerData.manaPoints = 0;
@@ -32,8 +28,8 @@ void Player::setPlayerDataToCreateNewPlayer(){
 }
 
 void Player::setPlayerCoordinates(uint32_t x, uint32_t y){
-  playerData.data.x += x;
-  playerData.data.y += y; 
+  playerData.data.x = x;
+  playerData.data.y = y; 
 }
 
 uint32_t Player::getXCoordinate(){

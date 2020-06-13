@@ -41,4 +41,26 @@ typedef struct InstructionData {
   //MSGPACK_DEFINE(playerId, params, action)
 } IntructionDataT;
 
+typedef struct Inventory{
+  std::string helmet;
+} InventoryT;
+
+typedef struct EntityData{
+  uint32_t x;
+  uint32_t y;
+  bool isDead;
+  uint32_t lifePoints;
+} EntityDataT;
+
+typedef struct PlayerData{
+  uint32_t manaPoints;
+  uint32_t gold;
+  std::string type;
+  uint32_t accountNumber;
+  uint32_t level;
+  EntityDataT data; 
+  InventoryT inventory;
+} PlayerDataT;
+
+
 #endif

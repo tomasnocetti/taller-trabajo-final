@@ -2,23 +2,19 @@
 #define ENTITY_H
 
 #include <stdint.h>
-
-typedef struct EntityData{
-  uint32_t x;
-  uint32_t y;
-  bool isDead;
-  uint32_t lifePoints;
-}entityData_t;
+#include "../DataDefinitions.h"
 
 class Entity{
-private:
-  entityData_t entityData;
-public:
-  Entity();
-  virtual void create();
-  virtual void attack();
-  virtual void move();
-  ~Entity();
+  private:
+    EntityDataT entityData;
+  public:
+    Entity();
+    ~Entity();
+    Entity(const Entity&) = delete;
+    Entity& operator=(const Entity&) = delete;
+    virtual void create();
+    virtual void attack();
+    virtual void move();
 };
 
 #endif

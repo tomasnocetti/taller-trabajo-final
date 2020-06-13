@@ -4,20 +4,26 @@
 #include "GameServer.h"
 #include "Player.h"
 #include "BlockingQueue.h"
+#include "Thread.h"
 
 class GameServer;
+using UpDateClientsBQ = FixedBlockingQueue<InstructionData>;
+using InstructionDataBQ = BlockingQueue<InstructionData>;
 
-class ServerProxy{
-private:
-  InstructionDataBQ &updateModel;
-  Player player;
-  bool continuePlaying;
-public:
-  explicit ServerProxy(InstructionDataBQ &updateModel);
-  void run();
-  void stopPlaying();
-  void movePlayer(uint32_t direction);
-  ~ServerProxy();
+class ServerProxy : public Thread{
+  private:
+    InstructionDataBQ &instructionQueue;
+    bool continuePlaying;
+    ActivePlayers &activePlayers;
+    UpDateClientsBQ clientBQ;
+  public:
+    explicit ServerProxy(InstructionDataBQ &instructionQueue, 
+      ActivePlayers &activePlayers);
+    ~ServerProxy();
+    ServerProxy(const ServerProxy&) = delete;
+    ServerProxy& operator=(const ServerProxy&) = delete;
+    void run();
+    void stopPlaying();
 };
 
 #endif
