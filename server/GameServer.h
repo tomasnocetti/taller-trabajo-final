@@ -14,13 +14,14 @@
 class ServerProxy;
 
 using InstructionDataBQ = BlockingQueue<InstructionData>;
-using UpDateClientsBQ = FixedBlockingQueue<InstructionData>;
+using UpDateClientsBQ = FixedBlockingQueue<GameModelT>;
 
 class GameServer{
   private: 
     bool isClose;
     InstructionDataBQ instructionQueue;
     ActivePlayers activePlayers;
+    GameModelT gameModel;
   public:
     GameServer();
     ~GameServer();
