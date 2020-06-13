@@ -68,7 +68,6 @@ Temporary Items
 # Project specifics
 private
 .vscode
-Makefile
 filter_options
 cpplint.py
 
@@ -76,5 +75,5 @@ cpplint.py
 *.cfg
 execute.sh
 tp
-server
-client
+rserver.
+rclient.

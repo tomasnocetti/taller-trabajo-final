@@ -6,7 +6,7 @@ void PlayerView::init(int x, int y, LTexture texture){
 	this->x = x;
 	this->y = y;
 	this->speed = 10;
-	animation.init("assets/playerView.png", std::move(texture));
+	animation.init("client/assets/playerView.png", std::move(texture));
 	animation.set(FORWARD_STAND);
 }
 

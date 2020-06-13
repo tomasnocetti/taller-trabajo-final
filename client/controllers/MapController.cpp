@@ -1,6 +1,6 @@
 #include "MapController.h"
 #include "../MapParser.h"
-#include "../DataDefinitions.h"
+#include "../../DataDefinitions.h"
 #include <iostream>
 #include <algorithm>
 #include <fstream>
@@ -12,6 +12,7 @@ MapController::~MapController() {
 }
 
 void MapController::init(SdlWindow& window){
+
   // THIS WILL GO SERVER SIDE
   // ------
   /*MapParser m;
@@ -61,18 +62,18 @@ void MapController::init(SdlWindow& window){
   });*/
 
   MapParser m;
-  m.loadMap("assets/map/pindonga2.json");
+  m.loadMap("client/assets/map/pindonga2.json");
   MapData& map = m.getMapData();
   for(unsigned int i = 0; i < map.tileSets.size(); i++){
     textures[i] = new LTexture(window.createTexture());
-    textures[i]->loadFromFile("assets/map/" + map.tileSets[i].image);
+    textures[i]->loadFromFile("client/assets/map/" + map.tileSets[i].image);
   }
 
   std::vector<struct TileLayerData>& layers = m.getTileLayers();
   std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
 
-  for(int i = 0; i < objectl.size(); i++){
-    for(int j = 0; j < objectl[i].objects.size(); j++){
+  for(size_t i = 0; i < objectl.size(); i++){
+    for(size_t j = 0; j < objectl[i].objects.size(); j++){
       std::cout << objectl[i].objects[j].x << std::endl;
       std::cout << objectl[i].objects[j].y << std::endl;
       std::cout << objectl[i].objects[j].width << std::endl;
@@ -85,8 +86,8 @@ void MapController::init(SdlWindow& window){
     int mapSizeColumns = map.width;
     for (unsigned int y = 0; y < layer.data.size(); y++) {
       int tilegid = layer.data[y];
-      unsigned int firstgid, tileSetColumns, j;
-      if(tilegid > 0){ 
+      unsigned int firstgid = 0, tileSetColumns = 0, j;
+      if(tilegid > 0){
         for(j = 0; j < map.tileSets.size(); j++){
           if(map.tileSets[j].firstgid > tilegid){
             firstgid = map.tileSets[j - 1].firstgid;

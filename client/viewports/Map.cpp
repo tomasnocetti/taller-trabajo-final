@@ -1,4 +1,5 @@
 #include "Map.h"
+
 #include <iostream>
 
 Map::Map(SdlWindow& window, int x, int y, int w, int h) :

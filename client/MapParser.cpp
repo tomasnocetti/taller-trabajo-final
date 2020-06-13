@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <algorithm>
+#include <string>
 
 MapParser::MapParser() {}
 MapParser::~MapParser() {
@@ -20,18 +21,19 @@ void MapParser::loadMap(std::string src) {
   mapData.tilewidth = root["tilewidth"].asInt();
 
   const Json::Value layers = root["layers"];
-  std::for_each (
+  std::for_each(
     layers.begin(),
     layers.end(),
     [this](Json::Value layer){
       std::string t(layer["type"].asString());
+
       if(t == "tilelayer") loadTileLayer(layer);
       if(t == "objectgroup") loadObjectLayer(layer);
     });
 
   const Json::Value tilesets = root["tilesets"];
 
-  std::for_each (
+  std::for_each(
     tilesets.begin(),
     tilesets.end(),
     [this](Json::Value tileset){
@@ -46,7 +48,7 @@ void MapParser::loadTileLayer(Json::Value& layer) {
   layerData.name = layer["name"].asString();
   layerData.data.reserve(layer["data"].size());
 
-  std::for_each (
+  std::for_each(
     layer["data"].begin(),
     layer["data"].end(),
     [&layerData](Json::Value gid) {
