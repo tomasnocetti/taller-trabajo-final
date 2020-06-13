@@ -1,10 +1,14 @@
 #include "CApp.h"
-#include <cmath>
 
-CApp::CApp() :
+#include <string>
+
+CApp::CApp(std::string& host, std::string& port) :
+  model(host, port),
   window(SCREEN_WIDTH, SCREEN_HEIGHT),
   globalViewport(window),
-  mapViewport(window) {
+  mapViewport(window),
+  mapController(model),
+  playerController(model) {
   Running = true;
 }
 

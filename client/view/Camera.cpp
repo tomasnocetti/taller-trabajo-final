@@ -35,16 +35,16 @@ bool Camera::isInCameraRange(const SDL_Rect &destrect) const {
 
 void Camera::setX(int newX){
 	this->renderRect.x = newX;
-	if (renderRect.x < 0)
-    renderRect.x = 0;
-  if (renderRect.x > 58 * 16 - renderRect.w)
-    renderRect.x = 58 * 16 - renderRect.w;
+	if (renderRect.x < 0) {
+    renderRect.x = 0; }
+  if (renderRect.x > 58 * 16 - renderRect.w) {
+    renderRect.x = 58 * 16 - renderRect.w; }
 }
 
 void Camera::setY(int newY){
 	this->renderRect.y = newY;
-	if (renderRect.y < 0)
-    renderRect.y = 0;
+	if (renderRect.y < 0) {
+    renderRect.y = 0; }
   if (renderRect.y > 47 * 16 - renderRect.h)
     renderRect.y = 47 * 16 - renderRect.h;
 }

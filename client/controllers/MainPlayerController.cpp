@@ -1,6 +1,7 @@
 #include "MainPlayerController.h"
 
-MainPlayerController::MainPlayerController() {}
+MainPlayerController::MainPlayerController(
+  ClientProxy& model) : model(model) {}
 
 void MainPlayerController::init(LTexture texture, int x, int y){
 	//this->data.x = x;

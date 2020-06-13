@@ -1,10 +1,11 @@
 #include "MapController.h"
-#include "../MapParser.h"
-#include "../../DataDefinitions.h"
+
 #include <iostream>
 #include <algorithm>
 #include <fstream>
 #include <vector>
+
+MapController::MapController(ClientProxy& model) : model(model) {}
 
 MapController::~MapController() {
   for (auto &i : tiles) {
@@ -13,6 +14,7 @@ MapController::~MapController() {
 }
 
 void MapController::init(SdlWindow& window){
+  MapData map = model.getMapData();
   // THIS WILL GO SERVER SIDE
   // ------
   /*MapParser m;
@@ -61,25 +63,12 @@ void MapController::init(SdlWindow& window){
     }
   });*/
 
-  MapParser m;
-  m.loadMap("client/assets/map/pindonga2.json");
-  MapData& map = m.getMapData();
   for (unsigned int i = 0; i < map.tileSets.size(); i++){
     textures[i] = new LTexture(window.createTexture());
     textures[i]->loadFromFile("client/assets/map/" + map.tileSets[i].image);
   }
 
-  std::vector<struct TileLayerData>& layers = m.getTileLayers();
-  std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
-
-  for (size_t i = 0; i < objectl.size(); i++){
-    for (size_t j = 0; j < objectl[i].objects.size(); j++){
-      std::cout << objectl[i].objects[j].x << std::endl;
-      std::cout << objectl[i].objects[j].y << std::endl;
-      std::cout << objectl[i].objects[j].width << std::endl;
-      std::cout << objectl[i].objects[j].height << std::endl;
-    }
-  }
+  std::vector<struct TileLayerData>& layers = map.layers;
 
   std::for_each(layers.begin(), layers.end(), [this, &map]
     (struct TileLayerData& layer){

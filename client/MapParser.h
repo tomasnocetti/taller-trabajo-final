@@ -1,6 +1,6 @@
 #pragma once
 
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 #include <memory>
 #include <vector>
 #include "../DataDefinitions.h"
