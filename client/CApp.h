@@ -2,13 +2,11 @@
 #define _CAPP_H_
 
 #include <string>
-#include <iostream>
+//#include <iostream>
 #include "sdl/SdlWindow.h"
-#include "viewports/Map.h"
-#include "viewports/Global.h"
-#include "controllers/MapController.h"
-#include "controllers/MainPlayerController.h"
-#include "controllers/EnemyController.h"
+#include "model/ClientProxy.h"
+#include "viewports/Viewports.h"
+#include "controllers/Controllers.h"
 
 //Screen dimension constants
 #define GAME_TITLE "Argentum"
@@ -21,12 +19,13 @@ class CApp {
     bool Running;
     // SDL_Surface* surface = NULL;
   public:
-    CApp();
+    CApp(std::string& host, std::string& port);
     CApp(const CApp&) = delete;
     CApp& operator=(const CApp&) = delete;
     ~CApp();
     void OnExecute();
   private:
+    ClientProxy model;
     SdlWindow window;
     Global globalViewport;
     Map mapViewport;

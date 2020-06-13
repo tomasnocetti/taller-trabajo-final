@@ -1,6 +1,7 @@
 #include "MainPlayerController.h"
 
-MainPlayerController::MainPlayerController() {}
+MainPlayerController::MainPlayerController(
+  ClientProxy& model) : model(model) {}
 
 void MainPlayerController::init(SdlWindow &window, int x, int y){
   playerView.init(x, y, window);
