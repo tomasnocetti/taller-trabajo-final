@@ -23,21 +23,6 @@ void Player::setPlayerDataToCreateNewPlayer(){
   playerData.inventory.helmet = "inicializar con casco?";
   playerData.data.isDead = false;
   playerData.data.lifePoints = MAX_LIFE_LEVEL_1;
-  playerData.data.x = 0;
-  playerData.data.y = 0;
-}
-
-void Player::setPlayerCoordinates(uint32_t x, uint32_t y){
-  playerData.data.x = x;
-  playerData.data.y = y; 
-}
-
-uint32_t Player::getXCoordinate(){
-  return playerData.data.x;
-}
-
-uint32_t Player::getYCoordinate(){
-  return playerData.data.y;
 }
 
 void Player::revive(){}
@@ -46,8 +31,8 @@ std::vector<int> Player::estimateCoordintates(uint32_t direction){
   std::vector<int> coordinates = {0,0};
   switch (direction)
   {
-  case RIGHT: coordinates[0] = getXCoordinate() + 5;
-  break;
+  // case RIGHT: coordinates[0] = getXCoordinate() + 5;
+  // break;
   default:
     break;
   }

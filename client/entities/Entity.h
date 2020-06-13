@@ -4,12 +4,16 @@
 #include <vector>
 #include <memory>
 #include "../sdl/LTexture.h"
-
+#include "../view/Camera.h"
 
 class Entity {
   public:
-    virtual void paint() = 0;
-    virtual void paint(int cameraX, int cameraY) = 0;
+    //virtual void paint() = 0;
+    //virtual void paint(int cameraX, int cameraY) = 0;
+    virtual void paint(const Camera &camera) = 0;
+    //esto tiene que irse:
+    virtual int getX() = 0;
+    virtual int getY() = 0;
     virtual ~Entity() {}
 };
 
@@ -40,11 +44,22 @@ class TileEntity: public Entity {
 		destRect.w = destRect.h = tsize * tscale;
 	}
   virtual ~TileEntity() {}
-	void paint() override {
+	/*void paint() override {
     texture->paint(destRect.x, destRect.y, &srcRect, 2);
-	}
+	}*/
 
-  void paint(int cameraX, int cameraY){
-    texture->paint(destRect.x - cameraX, destRect.y - cameraY, &srcRect, 2);
+  //esto es muy cabeza
+  int getX() { return 0; }
+  int getY() { return 0; }
+
+  /*void paint(int cameraX, int cameraY){
+    texture->paint(destRect.x - cameraX, destRect.y - cameraY, &srcRect, 1);
+  }*/
+
+  void paint(const Camera &camera){
+    if(camera.isInCameraRange(destRect)){
+      texture->paint(destRect.x - camera.getX(), 
+        destRect.y - camera.getY(), &srcRect, 1);
+    }
   }
 };

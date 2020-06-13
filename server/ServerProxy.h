@@ -3,8 +3,8 @@
 
 #include "GameServer.h"
 #include "Player.h"
-#include "BlockingQueue.h"
-#include "Thread.h"
+#include "../common/BlockingQueue.h"
+#include "../common/Thread.h"
 
 class GameServer;
 using InstructionDataBQ = BlockingQueue<InstructionData>;

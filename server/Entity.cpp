@@ -1,11 +1,10 @@
 #include "Entity.h"
 
-Entity::Entity(){}
+bool Entity::checkCollision(Entity& otherEntity) const{
+  PositionData& otherp = otherEntity.position;
 
-Entity::~Entity(){}
-
-void Entity::create(){}
-
-void Entity::move(){}
-
-void Entity::attack(){}
+  return position.x + position.w >= otherp.x &&
+		otherp.x + otherp.w >= position.x &&
+		position.y + position.h >= otherp.y &&
+		otherp.y + otherp.h >= position.y;
+}

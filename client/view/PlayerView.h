@@ -3,13 +3,17 @@
 
 #include "Animation.h"
 #include "AnimationTypes.h"
+#include "../entities/Entity.h"
+#include "Camera.h"
 
-class PlayerView {
+class PlayerView : public Entity {
 	public:
-		PlayerView(int x, int y, LTexture texture);
+		PlayerView();
+		void init(int x, int y, LTexture texture);
 		void stand(int xOffset, int yOffset);
 		void walk(int xOffset, int yOffset);
-		void paint(int cameraX, int cameraY);
+		//void paint(int cameraX, int cameraY);
+		void paint(const Camera &camera);
 		int getX();
 		int getY();
 		PlayerView(const PlayerView&) = delete;

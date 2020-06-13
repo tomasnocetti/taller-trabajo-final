@@ -17,4 +17,6 @@ class SdlViewport {
     int scale;
     SDL_Rect srcViewport;
     SDL_Rect destViewport;
+    double getScaleWidthFactor();
+    double getScaleHeightFactor();
 };

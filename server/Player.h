@@ -21,9 +21,6 @@ class Player : public Entity{
     void create();
     void move(uint32_t direction);
     void setPlayerDataToCreateNewPlayer();
-    void setPlayerCoordinates(uint32_t x, uint32_t y);
-    uint32_t getXCoordinate();
-    uint32_t getYCoordinate();
     void revive();
     std::vector<int> estimateCoordintates(uint32_t direction);
 };

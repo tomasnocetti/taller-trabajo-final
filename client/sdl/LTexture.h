@@ -9,9 +9,11 @@ class LTexture {
 	public:
 		//Initializes variables
 		explicit LTexture(SDL_Renderer* renderer);
+		LTexture();
     LTexture(const LTexture&) = delete;
     LTexture& operator=(const LTexture&) = delete;
     LTexture(LTexture&& other);
+    LTexture& operator=(LTexture&& other);
 
 		//Deallocates memory
 		~LTexture();

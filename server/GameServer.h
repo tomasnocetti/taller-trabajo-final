@@ -8,7 +8,7 @@
 
 #include "Player.h"
 #include "../DataDefinitions.h"
-#include "BlockingQueue.h"
+#include "../common/BlockingQueue.h"
 #include "ActivePlayers.h"
 
 class ServerProxy;

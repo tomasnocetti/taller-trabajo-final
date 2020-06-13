@@ -5,7 +5,23 @@
 #include <vector>
 #include <msgpack.hpp>
 
-struct MainPlayerData {};
+struct PositionData {
+  int x;
+  int y;
+  int w;
+  int h;
+};
+
+struct HealthData {
+  int totalPoints;
+  int currentPoints;
+};
+
+typedef struct EntityData {
+  PositionData position;
+  bool isDead;
+  uint32_t lifePoints;
+} EntityDataT;
 
 struct TileSetData {
   int columns;
@@ -45,13 +61,6 @@ typedef struct Inventory{
   std::string helmet;
 } InventoryT;
 
-typedef struct EntityData{
-  uint32_t x;
-  uint32_t y;
-  bool isDead;
-  uint32_t lifePoints;
-} EntityDataT;
-
 typedef struct PlayerData{
   uint32_t manaPoints;
   uint32_t gold;
@@ -66,5 +75,26 @@ typedef struct GameModel{
   std::string action;
 } GameModelT;
 
+struct ObjectLayerData {
+  int id;
+  std::string name;
+  std::vector<struct ObjectData> objects;
+};
+
+struct ObjectData {
+  int x;
+  int y;
+  int width;
+  int height;
+};
+
+struct MapData {
+  int height;
+  int width;
+  int tileheight;
+  int tilewidth;
+  std::vector<struct TileLayerData> layers;
+  std::vector<struct TileSetData> tileSets;
+};
 
 #endif

@@ -3,15 +3,10 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
-#include <string>
-#include <vector>
-#include <vector>
 #include "../sdl/SdlWindow.h"
 #include "../sdl/SdlViewport.h"
-#include "../sdl/LTexture.h"
-// #include "../MapManager.h"
-#include "../view/PlayerView.h"
 #include "../entities/Entity.h"
+#include "../view/Camera.h"
 
 #define MAIN_SCREEN_BASE_MAP_X 11
 #define MAIN_SCREEN_BASE_MAP_Y 154
@@ -29,17 +24,15 @@ class Map : SdlViewport{
       int h = MAIN_SCREEN_BASE_MAP_H);
     Map(const Map&) = delete;
     Map& operator=(const Map&) = delete;
-    void paint();
-    void paint(EntityList& entities);
+    void paint(EntityList& entities, Entity &player);
     void init();
     void handleEvent(const SDL_Event &e);
 		//Deallocates memory
 		~Map();
 	private:
 		//The actual hardware texture
-    // MapManager mapmanager;
-    PlayerView playerView;
-    SDL_Rect camera;
+    //SDL_Rect camera;
+    Camera camera;
 };
 
 #endif
