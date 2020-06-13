@@ -1,10 +1,12 @@
 #include "PlayerView.h"
 
-PlayerView::PlayerView(int x, int y, LTexture texture) : 
-	animation("assets/playerView.png", std::move(texture)) {
+PlayerView::PlayerView() {}
+
+void PlayerView::init(int x, int y, LTexture texture){
 	this->x = x;
 	this->y = y;
 	this->speed = 10;
+	animation.init("assets/playerView.png", std::move(texture));
 	animation.set(FORWARD_STAND);
 }
 
@@ -45,8 +47,12 @@ void PlayerView::walk(int xOffset, int yOffset){
 		this->y = 47 * 16 - 48;
 }
 
-void PlayerView::paint(int cameraX, int cameraY){
+/*void PlayerView::paint(int cameraX, int cameraY){
 	animation.paint(this->x - cameraX, this->y - cameraY);
+}*/
+
+void PlayerView::paint(const Camera &camera){
+	animation.paint(this->x - camera.getX(), this->y - camera.getY());
 }
 
 int PlayerView::getX(){

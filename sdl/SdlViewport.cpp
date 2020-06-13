@@ -27,4 +27,12 @@ void SdlViewport::fit() {
   SDL_RenderSetViewport(window.getRenderer(), &destViewport);
 }
 
+double SdlViewport::getScaleWidthFactor(){
+  return window.getScaleWidthFactor();
+}
+
+double SdlViewport::getScaleHeightFactor(){
+  return window.getScaleHeightFactor();
+}
+
 SdlViewport::~SdlViewport() {}

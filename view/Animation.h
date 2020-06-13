@@ -11,7 +11,8 @@
 
 class Animation {
 public:
-	Animation(std::string path, LTexture texture);
+	Animation();
+	void init(std::string path, LTexture texture);
 	void set(int currentAnim);
 	void paint(int x, int y);
 	Animation(const Animation&) = delete;

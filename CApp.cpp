@@ -29,7 +29,8 @@ void CApp::OnEvent(const SDL_Event& e) {
     Running = false;
   }
   window.handleEvent(e);
-  mapViewport.handleEvent(e);
+  //mapViewport.handleEvent(e);
+  playerController.handleEvent(e);
 }
 
 void CApp::OnLoop() {
@@ -38,13 +39,16 @@ void CApp::OnLoop() {
 void CApp::OnRender() {
   window.clear();
   globalViewport.paint();
-  mapViewport.paint(mapController.getEntities());
+  mapViewport.paint(mapController.getEntities(), 
+    playerController.getEntity());
   window.render();
 }
 
 void CApp::OnInit() {
   mapViewport.init();
   mapController.init(window);
+  //playerController.init((542 - 11) / 2, (413 - 154) / 2);
+  playerController.init(window.createTexture(), (542 - 11) / 2, (413 - 154) / 2);
 }
 
 void CApp::OnCleanup() {}

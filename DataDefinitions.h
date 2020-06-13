@@ -73,5 +73,26 @@ typedef struct PlayerData{
   InventoryT inventory;
 } PlayerDataT;
 
+struct ObjectLayerData {
+  int id;
+  std::string name;
+  std::vector<struct ObjectData> objects;
+};
+
+struct ObjectData {
+  int x;
+  int y;
+  int width;
+  int height;
+};
+
+struct MapData {
+  int height;
+  int width;
+  int tileheight;
+  int tilewidth;
+  std::vector<struct TileLayerData> layers;
+  std::vector<struct TileSetData> tileSets;
+};
 
 #endif
