@@ -12,6 +12,11 @@ struct PositionData {
   int h;
 };
 
+struct HealthData {
+  int totalPoints;
+  int currentPoints;
+};
+
 typedef struct EntityData {
   PositionData position;
   bool isDead;
@@ -55,13 +60,6 @@ typedef struct InstructionData {
 typedef struct Inventory{
   std::string helmet;
 } InventoryT;
-
-typedef struct EntityData{
-  uint32_t x;
-  uint32_t y;
-  bool isDead;
-  uint32_t lifePoints;
-} EntityDataT;
 
 typedef struct PlayerData{
   uint32_t manaPoints;

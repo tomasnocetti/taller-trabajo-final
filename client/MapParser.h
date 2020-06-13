@@ -1,9 +1,9 @@
 #pragma once
 
-#include <jsoncpp/json/json.h>
+#include <json/json.h>
 #include <memory>
 #include <vector>
-#include "DataDefinitions.h"
+#include "../DataDefinitions.h"
 #include <string>
 
 //using TileLayers = std::vector<std::unique_ptr<TileLayerData>>;

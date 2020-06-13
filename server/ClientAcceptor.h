@@ -1,11 +1,11 @@
 #ifndef CLIENT_ACCEPTOR_H
 #define CLIENT_ACCEPTOR_H
 
-#include "BlockingQueue.h"
+#include "../common/BlockingQueue.h"
+#include "../common/Thread.h"
 #include "ServerProxy.h"
 #include <vector>
 #include <memory>
-#include "Thread.h"
 #include "ActivePlayers.h"
 
 class BlockinQueue;

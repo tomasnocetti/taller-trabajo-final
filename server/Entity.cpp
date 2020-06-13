@@ -1,6 +1,6 @@
 #include "Entity.h"
 
-void Entity::checkCollision(Entity& otherEntity) const{
+bool Entity::checkCollision(Entity& otherEntity) const{
   PositionData& otherp = otherEntity.position;
 
   return position.x + position.w >= otherp.x &&

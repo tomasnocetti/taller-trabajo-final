@@ -3,7 +3,7 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
 #include "../view/PlayerView.h"
-#include "../DataDefinitions.h"
+#include "../../DataDefinitions.h"
 
 class MainPlayerController {
   public:
@@ -20,6 +20,5 @@ class MainPlayerController {
   private:
     //void move(int xOffset, int yOffset);
     //void attack();
-    MainPlayerData data;
     PlayerView playerView;
 };

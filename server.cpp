@@ -1,8 +1,7 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
-#include "../DataDefinitions.h"
-#include "GameServer.h" 
+#include "server/GameServer.h" 
 
 int main() {
   GameServer game;
