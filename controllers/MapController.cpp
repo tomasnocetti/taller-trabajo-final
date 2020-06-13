@@ -16,44 +16,10 @@ void MapController::init(SdlWindow& window){
   // ------
   /*MapParser m;
   m.loadMap("assets/map/island2.json");
-  TileSets& tilesets = m.getTileSets();
-  for(unsigned int i = 0; i < tilesets.size(); i++){
-    textures[i] = new LTexture(window.createTexture());
-    textures[i]->loadFromFile("assets/map/" + tilesets[i]->image);
-  }
-  //textures[0] = new LTexture(window.createTexture());
-  //textures[0]->loadFromFile("assets/map/beach_tileset.png");
-
-  TileLayers& layers = m.getTileLayers();
   MapData& map = m.getMapData();
-
-  std::for_each(layers.begin(), layers.end(), [this, &map](std::unique_ptr<TileLayerData>& layer){
-    int tileSize = map.tilewidth;
-    int tileSetColumns = 36;
-    int mapSizeColumns = map.width;
-    for (unsigned int y = 0; y < layer->data.size(); y++) {
-      int tilegid = layer->data[y] - 1;
-      //std::cout << tilegid << std::endl;
-      tiles.emplace_back(
-        new TileEntity(
-          textures[0],
-          (tilegid % tileSetColumns) * tileSize,
-          (tilegid / tileSetColumns) * tileSize,
-          (y % mapSizeColumns) * tileSize,
-          (y / mapSizeColumns) * tileSize,
-          tileSize,
-          mapScale,
-          texID)
-      );
-    }
-  });*/
-
-  MapParser m;
-  m.loadMap("assets/map/island2.json");
-  MapData& map = m.getMapData();
-  for(unsigned int i = 0; i < map.tilesetImage.size(); i++){
+  for(unsigned int i = 0; i < map.tileSets.size(); i++){
     textures[i] = new LTexture(window.createTexture());
-    textures[i]->loadFromFile("assets/map/" + map.tilesetImage[i]);
+    textures[i]->loadFromFile("assets/map/" + map.tileSets[i].image);
   }
 
   TileLayers& layers = m.getTileLayers();
@@ -75,6 +41,62 @@ void MapController::init(SdlWindow& window){
           if(j == map.tilesetFirstgid.size() - 1){
             firstgid = map.tilesetFirstgid[j];
             tileSetColumns = map.tilesetColumns[j];
+            break;
+          }
+        }
+        tilegid -= firstgid;
+        tiles.emplace_back(
+        new TileEntity(
+          textures[j],
+          (tilegid % tileSetColumns) * tileSize,
+          (tilegid / tileSetColumns) * tileSize,
+          (y % mapSizeColumns) * tileSize,
+          (y / mapSizeColumns) * tileSize,
+          tileSize,
+          mapScale,
+          texID)
+        );
+      }
+    }
+  });*/
+
+  MapParser m;
+  m.loadMap("assets/map/pindonga2.json");
+  MapData& map = m.getMapData();
+  for(unsigned int i = 0; i < map.tileSets.size(); i++){
+    textures[i] = new LTexture(window.createTexture());
+    textures[i]->loadFromFile("assets/map/" + map.tileSets[i].image);
+  }
+
+  std::vector<struct TileLayerData>& layers = m.getTileLayers();
+  std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
+
+  for(int i = 0; i < objectl.size(); i++){
+    for(int j = 0; j < objectl[i].objects.size(); j++){
+      std::cout << objectl[i].objects[j].x << std::endl;
+      std::cout << objectl[i].objects[j].y << std::endl;
+      std::cout << objectl[i].objects[j].width << std::endl;
+      std::cout << objectl[i].objects[j].height << std::endl;
+    }
+  }
+
+  std::for_each(layers.begin(), layers.end(), [this, &map](struct TileLayerData& layer){
+    int tileSize = map.tilewidth;
+    int mapSizeColumns = map.width;
+    for (unsigned int y = 0; y < layer.data.size(); y++) {
+      int tilegid = layer.data[y];
+      unsigned int firstgid, tileSetColumns, j;
+      if(tilegid > 0){ 
+        for(j = 0; j < map.tileSets.size(); j++){
+          if(map.tileSets[j].firstgid > tilegid){
+            firstgid = map.tileSets[j - 1].firstgid;
+            tileSetColumns = map.tileSets[j - 1].columns;
+            j--;
+            break;
+          }
+          if(j == map.tileSets.size() - 1){
+            firstgid = map.tileSets[j].firstgid;
+            tileSetColumns = map.tileSets[j].columns;
             break;
           }
         }

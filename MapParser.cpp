@@ -13,6 +13,7 @@ void MapParser::loadMap(std::string src) {
 
   std::ifstream file(src, std::ifstream::binary);
   file >> root;
+
   mapData.height = root["height"].asInt();
   mapData.width = root["width"].asInt();
   mapData.tileheight = root["tileheight"].asInt();
@@ -25,6 +26,7 @@ void MapParser::loadMap(std::string src) {
     [this](Json::Value layer){
       std::string t(layer["type"].asString());
       if(t == "tilelayer") loadTileLayer(layer);
+      if(t == "objectgroup") loadObjectLayer(layer);
     });
 
   const Json::Value tilesets = root["tilesets"];
@@ -38,31 +40,61 @@ void MapParser::loadMap(std::string src) {
 }
 
 void MapParser::loadTileLayer(Json::Value& layer) {
-  std::unique_ptr<TileLayerData> l(new TileLayerData);
+  TileLayerData layerData;
 
-  l->id = layer["id"].asInt();
-  l->name = layer["name"].asString();
-  l->data.reserve(layer["data"].size());
+  layerData.id = layer["id"].asInt();
+  layerData.name = layer["name"].asString();
+  layerData.data.reserve(layer["data"].size());
 
   std::for_each (
     layer["data"].begin(),
     layer["data"].end(),
-    [&l](Json::Value gid) {
-      l->data.emplace_back(gid.asUInt());
+    [&layerData](Json::Value gid) {
+      layerData.data.emplace_back(gid.asUInt());
     });
 
-  tilelayers.push_back(std::move(l));
+  mapData.layers.push_back(layerData);
+}
+
+void MapParser::loadObjectLayer(Json::Value& layer) {
+  ObjectLayerData layerData;
+
+  layerData.id = layer["id"].asInt();
+  layerData.name = layer["name"].asString();
+
+  std::for_each (
+    layer["objects"].begin(),
+    layer["objects"].end(),
+    [&layerData](Json::Value object) {
+      ObjectData objectData;
+      objectData.x = object["x"].asInt();
+      objectData.y = object["y"].asInt();
+      objectData.width = object["width"].asInt();
+      objectData.height = object["height"].asInt();
+
+      layerData.objects.push_back(objectData);
+    });
+
+  objectLayers.push_back(layerData);
 }
 
 void MapParser::loadTileSet(Json::Value& tileset) {
-  mapData.tilesetColumns.push_back(tileset["columns"].asUInt());
-  mapData.tilesetFirstgid.push_back(tileset["firstgid"].asUInt());
-  mapData.tilesetTileCount.push_back(tileset["tilecount"].asUInt());
-  mapData.tilesetImage.push_back(tileset["image"].asString());
+  TileSetData tileSetData;
+
+  tileSetData.columns = tileset["columns"].asUInt();
+  tileSetData.firstgid = tileset["firstgid"].asUInt();
+  tileSetData.tilecount = tileset["tilecount"].asUInt();
+  tileSetData.image = tileset["image"].asString();
+
+  mapData.tileSets.push_back(tileSetData);
 }
 
-TileLayers& MapParser::getTileLayers() {
-  return tilelayers;
+std::vector<struct TileLayerData>& MapParser::getTileLayers() {
+  return mapData.layers;
+}
+
+std::vector<struct ObjectLayerData>& MapParser::getObjectLayers() {
+  return objectLayers;
 }
 
 MapData& MapParser::getMapData() {

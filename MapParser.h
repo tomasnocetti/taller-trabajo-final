@@ -5,7 +5,7 @@
 #include <vector>
 #include "DataDefinitions.h"
 
-using TileLayers = std::vector<std::unique_ptr<TileLayerData>>;
+//using TileLayers = std::vector<std::unique_ptr<TileLayerData>>;
 
 class MapParser {
   public:
@@ -15,11 +15,14 @@ class MapParser {
     MapParser&& operator=(MapParser&& other);
     ~MapParser();
     void loadMap(std::string src);
-    TileLayers& getTileLayers();
+    std::vector<struct TileLayerData>& getTileLayers();
+    std::vector<struct ObjectLayerData>& getObjectLayers();
     MapData& getMapData();
   private:
     void loadTileLayer(Json::Value& layer);
     void loadTileSet(Json::Value& tileset);
-    TileLayers tilelayers;
+    void loadObjectLayer(Json::Value& layer);
+    //TileLayers tilelayers;
+    std::vector<struct ObjectLayerData> objectLayers;
     MapData mapData;
 };
