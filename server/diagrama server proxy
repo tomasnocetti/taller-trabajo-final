@@ -1,0 +1,60 @@
+
+
+Position  
+
+Main{
+
+  GameServer {
+    -Se conecte un nuevo cliente.
+    - Despachar una clase ServerProxy
+    NPC npcs[];
+    Jugadores jugadoresActivos[];
+    ClasesServerProxy[];
+    ObjetosMapa[{
+      x, y, h, w
+    }, {
+
+    }, {
+
+    }]
+    run() {
+      despacha un nuevo serverproxy(
+        ->this
+      );
+      ClasesServerProxy newInsance();
+      ClasesServerProxy newInsance();
+      ClasesServerProxy newInsance();
+
+
+    }
+
+    addActivePlayer(&Player) {
+      mutex;
+      jugadoresActivos.add(&Player)
+    }
+  }
+}
+
+-> Clase Server Proxy.
+  &GameServer game;
+  - Jugador.
+  
+  autentificarJugador() => {
+    validar que exista)(); X
+
+    game.addActivePlayer() {
+
+    }
+    si existe lo agrega a la lista.
+  };
+
+
+
+  run() {
+    Jugador = autentificarJugador();
+    
+    if(!AABB.collision(jugador)) {
+      jugador.mover(); 
+    }
+
+  }

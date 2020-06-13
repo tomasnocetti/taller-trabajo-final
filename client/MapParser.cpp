@@ -1,6 +1,8 @@
 #include "MapParser.h"
 #include <fstream>
 #include <algorithm>
+#include <string>
+#include <vector>
 
 MapParser::MapParser() {}
 MapParser::~MapParser() {

@@ -13,7 +13,7 @@
 #define MAIN_SCREEN_BASE_W 800
 #define MAIN_SCREEN_BASE_Global_H 600
 
-#define MAIN_SCREEN_PATH "assets/main-screen.jpg"
+#define MAIN_SCREEN_PATH "client/assets/main-screen.jpg"
 
 class Global : SdlViewport {
 	public:

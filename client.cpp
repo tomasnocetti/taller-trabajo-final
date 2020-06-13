@@ -1,4 +1,4 @@
-#include "CApp.h"
+#include "client/CApp.h"
 
 int main(int argc, char const *argv[]) {
   CApp theApp;

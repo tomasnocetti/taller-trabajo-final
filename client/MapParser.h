@@ -3,7 +3,8 @@
 
 #include <jsoncpp/json/json.h>
 #include <vector>
-#include "DataDefinitions.h"
+#include "../DataDefinitions.h"
+#include <string>
 
 class MapParser {
   public:
