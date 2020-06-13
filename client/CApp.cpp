@@ -48,7 +48,8 @@ void CApp::OnInit() {
   mapViewport.init();
   mapController.init(window);
   //playerController.init((542 - 11) / 2, (413 - 154) / 2);
-  playerController.init(window.createTexture(), (542 - 11) / 2, (413 - 154) / 2);
+  playerController.init(window.createTexture()
+    , (542 - 11) / 2, (413 - 154) / 2);
 }
 
 void CApp::OnCleanup() {}

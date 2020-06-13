@@ -4,7 +4,9 @@
 #include <utility>
 #include <iostream>
 
-GameServer::GameServer() : isClose(false), activePlayers(0) {}
+GameServer::GameServer() : isClose(false), activePlayers(0) {
+  gameModel.action = "Default";
+}
 
 GameServer::~GameServer(){}
 
@@ -31,6 +33,8 @@ void GameServer::handleInstruction(InstructionData &instruction){
   switch (action)
   {
     case MOVE:
+      gameModel.action = "MOVE";
+      activePlayers.updateModel(instruction.playerId, gameModel);
       std::cout << "Mover jugador a x:" << instruction.params.at(0).value 
       << " y:" << instruction.params.at(1).value << std::endl;
       break;
