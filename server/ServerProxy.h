@@ -8,16 +8,16 @@
 class GameServer;
 
 class ServerProxy{
-private:
-  InstructionDataBQ &updateModel;
-  Player player;
-  bool continuePlaying;
-public:
-  explicit ServerProxy(InstructionDataBQ &updateModel);
-  void run();
-  void stopPlaying();
-  void movePlayer(uint32_t direction);
-  ~ServerProxy();
+  private:
+    InstructionDataBQ &updateModel;
+    Player player;
+    bool continuePlaying;
+  public:
+    explicit ServerProxy(InstructionDataBQ &updateModel);
+    void run();
+    void stopPlaying();
+    void movePlayer(uint32_t direction);
+    ~ServerProxy();
 };
 
 #endif

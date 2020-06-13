@@ -5,7 +5,18 @@
 #include <vector>
 #include <msgpack.hpp>
 
-struct MainPlayerData {};
+struct PositionData {
+  int x;
+  int y;
+  int w;
+  int h;
+};
+
+typedef struct EntityData {
+  PositionData position;
+  bool isDead;
+  uint32_t lifePoints;
+} EntityDataT;
 
 struct TileSetData {
   int columns;

@@ -2,23 +2,29 @@
 #define ENTITY_H
 
 #include <stdint.h>
+#include <../DataDefinitions.h>
 
-typedef struct EntityData{
-  uint32_t x;
-  uint32_t y;
-  bool isDead;
-  uint32_t lifePoints;
-}entityData_t;
 
-class Entity{
-private:
-  entityData_t entityData;
-public:
-  Entity();
-  virtual void create();
-  virtual void attack();
-  virtual void move();
-  ~Entity();
+/**
+ * @brief Se define entidad como un objeto que participa en el juego 
+ * de alguna manera, no necesariamente un NPC o un jugador.
+ */
+class Entity {
+  private:
+    PositionData position;
+  public:
+    bool checkCollision(Entity& otherEntity) const;
 };
+
+/**
+ * @brief Se define a una entidad viva como un objeto que participa en el juego
+ * y que tiene un estado de salud.
+ */
+class LiveEntity: public Entity {
+  private:
+    HealthData health;
+  public:
+    void move();
+}
 
 #endif
