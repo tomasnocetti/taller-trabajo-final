@@ -75,5 +75,5 @@ cpplint.py
 *.cfg
 execute.sh
 tp
-rserver.
-rclient.
+tpclient
+tpserver
