@@ -57,7 +57,7 @@ class TileEntity: public Entity {
   }*/
 
   void paint(const Camera &camera){
-    if(camera.isInCameraRange(destRect)){
+    if (camera.isInCameraRange(destRect)){
       texture->paint(destRect.x - camera.getX(), 
         destRect.y - camera.getY(), &srcRect, 1);
     }
