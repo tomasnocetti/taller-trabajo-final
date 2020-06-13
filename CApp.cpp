@@ -13,7 +13,7 @@ void CApp::OnExecute() {
   SDL_Event Event;
 
   while (Running) {
-    while(SDL_PollEvent(&Event)){
+    while (SDL_PollEvent(&Event)){
       OnEvent(Event);
     }
 
@@ -40,7 +40,8 @@ void CApp::OnRender() {
   window.clear();
   globalViewport.paint();
   mapViewport.paint(mapController.getEntities(), 
-    playerController.getEntity());
+    playerController.getEntity(), 
+    enemyController.getEntity());
   window.render();
 }
 
@@ -48,7 +49,14 @@ void CApp::OnInit() {
   mapViewport.init();
   mapController.init(window);
   //playerController.init((542 - 11) / 2, (413 - 154) / 2);
-  playerController.init(window.createTexture(), (542 - 11) / 2, (413 - 154) / 2);
+  playerController.init(window, (542 - 11) / 2, (413 - 154) / 2);
+  std::vector<struct EnemyData> v;
+  struct EnemyData data;
+  data.x = 100;
+  data.y = 100;
+  data.type = 's';
+  v.push_back(data);
+  enemyController.init(window, v);
 }
 
 void CApp::OnCleanup() {}

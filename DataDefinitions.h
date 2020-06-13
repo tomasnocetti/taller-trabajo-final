@@ -6,6 +6,12 @@
 
 struct MainPlayerData {};
 
+struct EnemyData {
+  int x;
+  int y;
+  char type;
+};
+
 struct TileSetData {
   int columns;
   int firstgid;
@@ -17,6 +23,15 @@ struct TileLayerData {
   int id;
   std::string name;
   std::vector<size_t> data;
+};
+
+struct MapData {
+  int height;
+  int width;
+  int tileheight;
+  int tilewidth;
+  std::vector<struct TileLayerData> layers;
+  std::vector<struct TileSetData> tileSets;
 };
 
 struct ObjectLayerData {
@@ -32,13 +47,5 @@ struct ObjectData {
   int height;
 };
 
-struct MapData {
-  int height;
-  int width;
-  int tileheight;
-  int tilewidth;
-  std::vector<struct TileLayerData> layers;
-  std::vector<struct TileSetData> tileSets;
-};
 
 #endif

@@ -1,23 +1,23 @@
-#pragma once
-#include <string>
-#include <array>
-#include <vector>
-#include <memory>
+#ifndef _MAP_CONTROLLER_H_
+#define _MAP_CONTROLLER_H_
 
+#include <string>
+#include <vector>
 #include "../sdl/SdlWindow.h"
 #include "../sdl/LTexture.h"
-
 #include "../entities/Entity.h"
-//#include <sstream>
 
 class MapController {
   public:
     ~MapController();
     void init(SdlWindow& window);
     EntityList& getEntities();
+
   private:
     EntityList tiles;
-    std::array<LTexture*, 10> textures;
+    std::vector<LTexture*> textures;
     std::string texID;
     int mapScale;
 };
+
+#endif

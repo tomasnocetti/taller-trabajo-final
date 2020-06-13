@@ -8,6 +8,7 @@
 #include "viewports/Global.h"
 #include "controllers/MapController.h"
 #include "controllers/MainPlayerController.h"
+#include "controllers/EnemyController.h"
 
 //Screen dimension constants
 #define GAME_TITLE "Argentum"
@@ -31,6 +32,7 @@ class CApp {
     Map mapViewport;
     MapController mapController;
     MainPlayerController playerController;
+    EnemyController enemyController;
     void OnInit();
     void OnEvent(const SDL_Event& Event);
     void OnLoop();

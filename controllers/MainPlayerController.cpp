@@ -2,10 +2,16 @@
 
 MainPlayerController::MainPlayerController() {}
 
-void MainPlayerController::init(LTexture texture, int x, int y){
+/*void MainPlayerController::init(LTexture texture, int x, int y){
 	//this->data.x = x;
 	//this->data.y = y;
 	playerView.init(x, y, std::move(texture));
+}*/
+
+void MainPlayerController::init(SdlWindow &window, int x, int y){
+  //this->data.x = x;
+  //this->data.y = y;
+  playerView.init(x, y, window);
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e){

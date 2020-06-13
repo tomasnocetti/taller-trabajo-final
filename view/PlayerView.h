@@ -1,28 +1,22 @@
 #ifndef _PLAYER_VIEW_H_
 #define _PLAYER_VIEW_H_
 
-#include "Animation.h"
-#include "AnimationTypes.h"
+#include "PlayerAnimation.h"
 #include "../entities/Entity.h"
-#include "Camera.h"
 
 class PlayerView : public Entity {
 	public:
 		PlayerView();
-		void init(int x, int y, LTexture texture);
+		void init(int x, int y, SdlWindow &window);
 		void stand(int xOffset, int yOffset);
 		void walk(int xOffset, int yOffset);
-		//void paint(int cameraX, int cameraY);
 		void paint(const Camera &camera);
-		int getX();
-		int getY();
 		PlayerView(const PlayerView&) = delete;
     PlayerView& operator=(const PlayerView&) = delete;
+
 	private:
-		int x;
-		int y;
 		int speed;
-	  Animation animation;
+	  PlayerAnimation animation;
 };
 
 #endif

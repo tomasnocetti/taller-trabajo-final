@@ -2,32 +2,34 @@
 #define _ANIMATION_H_
 
 #include <string>
+#include <vector>
 #include "../sdl/LTexture.h"
-
-#define FORWARD_ANIM_FRAMES 6
-#define BACKWARD_ANIM_FRAMES 6
-#define LEFT_ANIM_FRAMES 5
-#define RIGHT_ANIM_FRAMES 5
+#include "../sdl/SdlWindow.h"
 
 class Animation {
-public:
-	Animation();
-	void init(std::string path, LTexture texture);
-	void set(int currentAnim);
-	void paint(int x, int y);
-	Animation(const Animation&) = delete;
-  Animation& operator=(const Animation&) = delete;
+	public:
+		Animation();
+		Animation(const Animation&) = delete;
+	  Animation& operator=(const Animation&) = delete;
+	  Animation(Animation&& other);
+    Animation& operator=(Animation&& other);
+		void init(SdlWindow &window);
+		void set(int currentAnim);
+		void paint(int x, int y);
+		virtual ~Animation();
 
-private:
-	int index;
-	LTexture texture;
-	SDL_Rect forwardAnim[FORWARD_ANIM_FRAMES];
-	SDL_Rect backwardAnim[BACKWARD_ANIM_FRAMES];
-	SDL_Rect leftAnim[LEFT_ANIM_FRAMES];
-	SDL_Rect rightAnim[RIGHT_ANIM_FRAMES];
-	SDL_Rect lastFrame;
+	protected:
+		int index;
+		LTexture texture;
+		std::vector<SDL_Rect> forwardAnim;
+		std::vector<SDL_Rect> backwardAnim;
+		std::vector<SDL_Rect> leftAnim;
+		std::vector<SDL_Rect> rightAnim;
+		int forwardFrames, backwardFrames, leftFrames, rightFrames;
+		SDL_Rect lastFrame;
+		std::string path;
 
-	void cropAnimationFrames();
+		virtual void cropAnimationFrames();
 };
 
 #endif

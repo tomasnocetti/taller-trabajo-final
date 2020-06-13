@@ -9,8 +9,11 @@ class Camera {
 
 	public:
 		Camera();
+		Camera(const Camera&) = delete;
+    Camera& operator=(const Camera&) = delete;
 		void init(int x, int y, int w, int h);
 		bool isInCameraRange(const SDL_Rect &destrect) const;
+		bool isInCameraRange(int x, int y) const;
 		void setX(int newX);
 		void setY(int newY);
 		int getX() const;
