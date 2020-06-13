@@ -34,18 +34,6 @@ bool Camera::isInCameraRange(const SDL_Rect &destrect) const {
 }
 
 bool Camera::isInCameraRange(int x, int y) const {
-	/*if((destrect.x >= renderRect.x && 
-		destrect.y >= renderRect.y && 
-		destrect.x <= renderRect.x + renderRect.w &&
-		destrect.y <= renderRect.y + renderRect.h) ||
-		(destrect.x + destrect.w >= renderRect.x &&
-		destrect.y + destrect.h >= renderRect.y &&
-		destrect.x + destrect.w <= renderRect.x + renderRect.w &&
-		destrect.y + destrect.h <= renderRect.y + renderRect.h)){
-			return true;
-	}*/
-
-	//quizas se puede hacer mejor, pero no se me ocurre como
 	if(x >= renderRect.x - TILE_SIZE && 
 		y >= renderRect.y - TILE_SIZE && 
 		x <= renderRect.x + renderRect.w + TILE_SIZE &&

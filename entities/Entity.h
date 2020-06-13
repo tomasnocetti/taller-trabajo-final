@@ -14,9 +14,6 @@ class Entity {
 
   public:
     virtual void paint(const Camera &camera) = 0;
-    //esto tiene que irse:
-    //virtual int getX() = 0;
-    //virtual int getY() = 0;
     virtual ~Entity() {}
 };
 

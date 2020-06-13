@@ -29,7 +29,6 @@ void CApp::OnEvent(const SDL_Event& e) {
     Running = false;
   }
   window.handleEvent(e);
-  //mapViewport.handleEvent(e);
   playerController.handleEvent(e);
 }
 
@@ -48,7 +47,6 @@ void CApp::OnRender() {
 void CApp::OnInit() {
   mapViewport.init();
   mapController.init(window);
-  //playerController.init((542 - 11) / 2, (413 - 154) / 2);
   playerController.init(window, (542 - 11) / 2, (413 - 154) / 2);
   std::vector<struct EnemyData> v;
   struct EnemyData data;
