@@ -1,5 +1,7 @@
 #include "ActivePlayers.h"
 #include <iostream>
+#include <utility>
+#include <vector>
 
 ActivePlayers::ActivePlayers(size_t id) : id(id){}
 
@@ -26,6 +28,4 @@ std::vector<size_t> ActivePlayers::getActivePlayers(){
   return playersId;
 }
 
-void ActivePlayers::updateModel(){
-
-}
+void ActivePlayers::updateModel(){}

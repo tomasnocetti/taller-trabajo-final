@@ -3,9 +3,12 @@
 
 #include <map>
 #include <stdio.h>
+#include <mutex>
+#include <vector>
+
 #include "BlockingQueue.h"
 #include "../DataDefinitions.h"
-#include <mutex>
+
 
 using UpDateClientsBQ = FixedBlockingQueue<InstructionData>;
 
@@ -15,7 +18,7 @@ class ActivePlayers{
     size_t id;
     std::mutex m;
   public:
-    ActivePlayers(size_t id);
+    explicit ActivePlayers(size_t id);
     ~ActivePlayers();
     ActivePlayers(const ActivePlayers&) = delete;
     ActivePlayers& operator=(const ActivePlayers&) = delete;
