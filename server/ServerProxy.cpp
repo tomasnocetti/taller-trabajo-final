@@ -16,7 +16,7 @@ void ServerProxy::run(){
   while (continuePlaying){
     ParamData x = {"100"};
     ParamData y = {"200"};
-    InstructionData instruction = {0001, MOVE, {x,y}};
+    InstructionData instruction = {id, MOVE, {x,y}};
     instructionQueue.push(instruction);
     stopPlaying();
   }

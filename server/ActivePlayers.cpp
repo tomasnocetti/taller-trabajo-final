@@ -28,4 +28,6 @@ std::vector<size_t> ActivePlayers::getActivePlayers(){
   return playersId;
 }
 
-void ActivePlayers::updateModel(){}
+void ActivePlayers::updateModel(size_t id, GameModel gameModel){
+  models.at(id).push(gameModel);
+}

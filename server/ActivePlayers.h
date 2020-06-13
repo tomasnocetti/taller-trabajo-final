@@ -10,7 +10,7 @@
 #include "../DataDefinitions.h"
 
 
-using UpDateClientsBQ = FixedBlockingQueue<InstructionData>;
+using UpDateClientsBQ = FixedBlockingQueue<GameModelT>;
 
 class ActivePlayers{
   private:
@@ -30,7 +30,7 @@ class ActivePlayers{
     /* Actualiza las colas de los clientes que quiera.
     Va a recibir por parámetro una lista con los jugadores a los que
     quiere pushearles el modelo, y el modelo actualizado. */
-    void updateModel();
+    void updateModel(size_t id, GameModel gameModel);
     /* Devuelve una lista de los ids jugadores activos. */
     std::vector<size_t> getActivePlayers();
 };

@@ -62,5 +62,9 @@ typedef struct PlayerData{
   InventoryT inventory;
 } PlayerDataT;
 
+typedef struct GameModel{
+  std::string action;
+} GameModelT;
+
 
 #endif

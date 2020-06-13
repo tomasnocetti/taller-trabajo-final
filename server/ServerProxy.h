@@ -7,8 +7,8 @@
 #include "Thread.h"
 
 class GameServer;
-using UpDateClientsBQ = FixedBlockingQueue<InstructionData>;
 using InstructionDataBQ = BlockingQueue<InstructionData>;
+using UpDateClientsBQ = FixedBlockingQueue<GameModelT>;
 
 class ServerProxy : public Thread{
   private:
