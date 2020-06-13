@@ -164,7 +164,7 @@ client: $(o_common_files) $(o_client_files)
 		if [ -n "$(directorios)" ]; then echo "Directorios encontrados: $(directorios)"; fi; \
 		false; \
 	fi >&2
-	$(LD) $(o_common_files) $(o_client_files) -o client-e $(LDFLAGS)
+	$(LD) $(o_common_files) $(o_client_files) -o tpclient $(LDFLAGS)
 
 server: $(o_common_files) $(o_server_files)
 	@if [ -z "$(o_server_files)" ]; \
@@ -173,15 +173,14 @@ server: $(o_common_files) $(o_server_files)
 		if [ -n "$(directorios)" ]; then echo "Directorios encontrados: $(directorios)"; fi; \
 		false; \
 	fi >&2
-	$(LD) $(o_common_files) $(o_server_files) -o server-e $(LDFLAGS)
+	$(LD) $(o_common_files) $(o_server_files) -o tpserver $(LDFLAGS)
 
+clean: clean-client clean-server clean-common
 
 clean-client:
-	$(RM) -f $(o_client_files) rclient
+	$(RM) -f $(o_client_files) tpclient
 clean-server:
-	$(RM) -f $(o_server_files) rserver
+	$(RM) -f $(o_server_files) tpserver
 clean-common:
 	$(RM) -f $(o_common_files)
 
-clean:
-	clean-client clean-server clean-common
