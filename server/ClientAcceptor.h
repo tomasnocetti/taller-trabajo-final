@@ -5,18 +5,24 @@
 #include "ServerProxy.h"
 #include <vector>
 #include <memory>
+#include "Thread.h"
+#include "ActivePlayers.h"
 
 class BlockinQueue;
 
-class ClientAcceptor{
-private:
-  std::vector<std::unique_ptr<ServerProxy>> serverProxies;
-  InstructionDataBQ &updateModel;
-public:
-  explicit ClientAcceptor(InstructionDataBQ &updateModel);
-  ~ClientAcceptor();
-  void acceptPlayer();
-  void run();
+class ClientAcceptor : public Thread{
+  private:
+    std::vector<std::unique_ptr<ServerProxy>> serverProxies;
+    InstructionDataBQ &instructionQueue;
+    ActivePlayers &activePlayers;
+  public:
+    ClientAcceptor(InstructionDataBQ &instructionQueue, 
+      ActivePlayers &activePlayers);
+    ~ClientAcceptor();
+    ClientAcceptor(const ClientAcceptor&) = delete;
+    ClientAcceptor& operator=(const ClientAcceptor&) = delete;
+    void acceptPlayer();
+    void run();
 };
 
 #endif

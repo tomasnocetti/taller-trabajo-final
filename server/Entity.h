@@ -2,7 +2,8 @@
 #define ENTITY_H
 
 #include <stdint.h>
-#include <../DataDefinitions.h>
+
+#include "../DataDefinitions.h"
 
 
 /**
@@ -25,6 +26,6 @@ class LiveEntity: public Entity {
     HealthData health;
   public:
     void move();
-}
+};
 
 #endif
