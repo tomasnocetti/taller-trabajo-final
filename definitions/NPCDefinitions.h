@@ -5,7 +5,7 @@
 
 typedef enum {
   GOBLIN,
-  SKELETTON,
+  SKELETON,
   ZOMBIE,
   SPIDER
 } NPCClass;

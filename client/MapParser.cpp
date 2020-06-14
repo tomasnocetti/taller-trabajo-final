@@ -5,8 +5,8 @@
 #include <vector>
 
 MapParser::MapParser() {}
-MapParser::~MapParser() {
-}
+
+MapParser::~MapParser() {}
 
 void MapParser::loadMap(std::string src) {
   Json::Value root;

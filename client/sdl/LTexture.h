@@ -48,6 +48,8 @@ class LTexture {
       SDL_Point* center = NULL,
       SDL_RendererFlip flip = SDL_FLIP_NONE);
 
+		void paint(SDL_Rect* clip, SDL_Rect dest);
+
 		//Gets image dimensions
 		int getWidth();
 		int getHeight();

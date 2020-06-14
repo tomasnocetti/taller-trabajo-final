@@ -6,8 +6,10 @@ CApp::CApp(std::string& host, std::string& port) :
   window(SCREEN_WIDTH, SCREEN_HEIGHT),
   globalViewport(window),
   mapViewport(window),
+  lifeViewport(window),
   mapController(model),
-  playerController(model) {
+  playerController(model),
+  enemyController(model) {
   Running = true;
 }
 
@@ -44,20 +46,17 @@ void CApp::OnRender() {
   mapViewport.paint(mapController.getEntities(), 
     playerController.getEntity(), 
     enemyController.getEntity());
+  lifeViewport.paint();
   window.render();
 }
 
 void CApp::OnInit() {
+  model.init();
   mapViewport.init();
+  lifeViewport.init(window);
   mapController.init(window);
-  playerController.init(window, (542 - 11) / 2, (413 - 154) / 2);
-  std::vector<struct EnemyData> v;
-  struct EnemyData data;
-  data.x = 100;
-  data.y = 100;
-  data.type = 's';
-  v.push_back(data);
-  enemyController.init(window, v);
+  playerController.init(window);
+  enemyController.init(window);
 }
 
 void CApp::OnCleanup() {}

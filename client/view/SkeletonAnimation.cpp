@@ -1,12 +1,11 @@
 #include "SkeletonAnimation.h"
-#include <iostream>
 
 SkeletonAnimation::SkeletonAnimation() {
 	forwardFrames = 5;
 	backwardFrames = 5;
 	leftFrames = 5;
 	rightFrames = 5;
-	this->path = "assets/skeletonView.png";
+	this->path = "client/assets/skeletonView.png";
 }
 
 void SkeletonAnimation::cropAnimationFrames() {

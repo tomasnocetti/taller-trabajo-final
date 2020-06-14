@@ -4,10 +4,9 @@
 #include "definitions/MapDefinitions.h"
 #include "definitions/NPCDefinitions.h"
 #include "definitions/PlayerDefinitions.h"
-
 #include <string>
 #include <vector>
-#include <msgpack.hpp>
+//#include <msgpack.hpp>
 
 typedef enum {
   MOVE,
@@ -18,15 +17,15 @@ typedef enum {
   CLOSE_SERVER
 } ActionTypeT;
 
-typedef struct ParamData {
+/*typedef struct ParamData {
   std::string value;
   MSGPACK_DEFINE(value)
-} ParamDataT;
+} ParamDataT;*/
 
 typedef struct InstructionData {
   size_t playerId;
   ActionTypeT action;
-  std::vector<ParamData> params;
+  //std::vector<ParamData> params;
   //MSGPACK_DEFINE(playerId, params, action)
 } IntructionDataT;
 

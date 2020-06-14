@@ -6,8 +6,9 @@
 #include "../view/Camera.h"
 
 class Entity {
-  private:
-    friend class Map;
+	private:
+		friend class Map;
+		
   protected:
     int x;
     int y;

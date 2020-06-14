@@ -5,7 +5,7 @@ PlayerAnimation::PlayerAnimation() {
 	backwardFrames = 6;
 	leftFrames = 5;
 	rightFrames = 5;
-	this->path = "assets/playerView.png";
+	this->path = "client/assets/playerView.png";
 }
 
 void PlayerAnimation::cropAnimationFrames() {

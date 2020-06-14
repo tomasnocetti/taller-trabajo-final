@@ -1,6 +1,7 @@
 #include "ClientProxy.h"
 #include <string>
 #include <vector>
+#include <iostream>
 
 ClientProxy::ClientProxy(std::string& host, std::string& port) {
   std::cout << "Connected to: " << host << ":" << port << std::endl;

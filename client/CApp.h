@@ -2,7 +2,6 @@
 #define _CAPP_H_
 
 #include <string>
-//#include <iostream>
 #include "sdl/SdlWindow.h"
 #include "model/ClientProxy.h"
 #include "viewports/Viewports.h"
@@ -29,6 +28,7 @@ class CApp {
     SdlWindow window;
     Global globalViewport;
     Map mapViewport;
+    LifeViewport lifeViewport;
     MapController mapController;
     MainPlayerController playerController;
     EnemyController enemyController;

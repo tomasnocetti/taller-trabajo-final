@@ -19,13 +19,13 @@ void MapController::init(SdlWindow& window){
   MapData map = model.getMapData();
   // THIS WILL GO SERVER SIDE
   // ------
-  MapParser m;
-  m.loadMap("assets/map/island2.json");
+ // MapParser m;
+  //m.loadMap("client/assets/map/pindonga2.json");
   //MapData& map = m.getMapData();
 
   for (unsigned int i = 0; i < map.tileSets.size(); i++){
     textures.push_back(new LTexture(window.createTexture()));
-    textures[i]->loadFromFile("assets/map/" + map.tileSets[i].image);
+    textures[i]->loadFromFile("client/assets/map/" + map.tileSets[i].image);
   }
 
   std::vector<struct TileLayerData>& layers = map.layers;
