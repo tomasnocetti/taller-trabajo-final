@@ -7,7 +7,7 @@
 class PlayerView : public Entity {
 	public:
 		PlayerView();
-		void init(int x, int y, SdlWindow &window);
+		void init(SdlWindow &window, int x, int y);
 		void stand(int xOffset, int yOffset);
 		void walk(int xOffset, int yOffset);
 		void paint(const Camera &camera);

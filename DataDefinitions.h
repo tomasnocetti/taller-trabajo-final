@@ -3,7 +3,7 @@
 
 #include <string>
 #include <vector>
-#include <msgpack.hpp>
+//#include <msgpack.hpp>
 
 struct PositionData {
   int x;
@@ -51,10 +51,10 @@ struct MapData {
   std::vector<struct TileSetData> tileSets;
 };
 
-typedef struct ParamData {
+/*typedef struct ParamData {
   std::string value;
   MSGPACK_DEFINE(value)
-} ParamDataT;
+} ParamDataT;*/
 
 typedef enum {
   MOVE,
@@ -68,7 +68,7 @@ typedef enum {
 typedef struct InstructionData {
   size_t playerId;
   ActionTypeT action;
-  std::vector<ParamData> params;
+  //std::vector<ParamData> params;
   //MSGPACK_DEFINE(playerId, params, action)
 } IntructionDataT;
 

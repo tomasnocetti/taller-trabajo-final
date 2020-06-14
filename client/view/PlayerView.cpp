@@ -3,7 +3,7 @@
 
 PlayerView::PlayerView() {}
 
-void PlayerView::init(int x, int y, SdlWindow &window){
+void PlayerView::init(SdlWindow &window, int x, int y){
 	this->x = x;
 	this->y = y;
 	this->speed = 10;

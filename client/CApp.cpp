@@ -7,7 +7,8 @@ CApp::CApp(std::string& host, std::string& port) :
   globalViewport(window),
   mapViewport(window),
   mapController(model),
-  playerController(model) {
+  playerController(model),
+  enemyController(model) {
   Running = true;
 }
 
@@ -48,16 +49,11 @@ void CApp::OnRender() {
 }
 
 void CApp::OnInit() {
+  model.init();
   mapViewport.init();
   mapController.init(window);
-  playerController.init(window, (542 - 11) / 2, (413 - 154) / 2);
-  std::vector<struct EnemyData> v;
-  struct EnemyData data;
-  data.x = 100;
-  data.y = 100;
-  data.type = 's';
-  v.push_back(data);
-  enemyController.init(window, v);
+  playerController.init(window);
+  enemyController.init(window);
 }
 
 void CApp::OnCleanup() {}

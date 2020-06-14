@@ -2,13 +2,18 @@
 #include "../view/SkeletonAnimation.h"
 #include <iostream>
 
-EnemyController::EnemyController() {}
+EnemyController::EnemyController(ClientProxy& model) : model(model) {}
 
-void EnemyController::init(SdlWindow &window, 
-	std::vector<struct EnemyData>& data){
-  for (unsigned int i = 0; i < data.size(); i++){
-  	Animation* animation = checkType(data[i].type);
-  	enemies.emplace_back(new EnemyView(data[i].x, data[i].y, 
+void EnemyController::init(SdlWindow &window){
+	std::vector<struct EnemyData> v;
+  struct EnemyData data;
+  data.x = 100;
+  data.y = 100;
+  data.type = 's';
+  v.push_back(data);
+  for (unsigned int i = 0; i < v.size(); i++){
+  	Animation* animation = checkType(v[i].type);
+  	enemies.emplace_back(new EnemyView(v[i].x, v[i].y, 
   		std::move(animation), window));
   }
 }
@@ -26,6 +31,7 @@ Animation* EnemyController::checkType(char type){
 			//enemyView.setAnimation(ZombieAnimation());
 		//break;
 	}
+	return NULL;
 }
 
 EnemyController::~EnemyController() {}

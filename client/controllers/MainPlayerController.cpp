@@ -3,8 +3,8 @@
 MainPlayerController::MainPlayerController(
   ClientProxy& model) : model(model) {}
 
-void MainPlayerController::init(SdlWindow &window, int x, int y){
-  playerView.init(x, y, window);
+void MainPlayerController::init(SdlWindow &window){
+  playerView.init(window, (542 - 11) / 2, (413 - 154) / 2);
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e){
