@@ -5,7 +5,7 @@
 
 class SkeletonAnimation : public Animation {
 	public:
-		SkeletonAnimation();
+		explicit SkeletonAnimation(LTexture* texture);
 		SkeletonAnimation(const SkeletonAnimation&) = delete;
 	  SkeletonAnimation& operator=(const SkeletonAnimation&) = delete;
 

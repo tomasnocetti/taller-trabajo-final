@@ -2,6 +2,7 @@
 #define __PLAYERDEF_H
 
 #include "EntityDefinitions.h"
+#include <string>
 
 typedef enum {
   HUMAN,

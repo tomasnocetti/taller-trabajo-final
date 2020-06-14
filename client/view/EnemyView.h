@@ -8,10 +8,11 @@
 
 class EnemyView : public Entity {
 	public:
-		EnemyView(int x, int y, Animation* animation, SdlWindow &window);
+		EnemyView(int x, int y, Animation* animation);
 		//void stand(int xOffset, int yOffset);
 		//void walk(int xOffset, int yOffset);
-		void paint(const Camera &camera);
+		void paint() override {};
+    void paint(const Camera &camera) override;
 		EnemyView(const EnemyView&) = delete;
     EnemyView& operator=(const EnemyView&) = delete;
     ~EnemyView();

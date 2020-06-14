@@ -1,24 +1,27 @@
 #include "EnemyController.h"
 #include "../view/SkeletonAnimation.h"
 #include "../view/GoblinAnimation.h"
+#include <vector>
 
-EnemyController::EnemyController(ClientProxy& model) : model(model) {}
+EnemyController::EnemyController(
+  ClientProxy& model,
+  SdlAssetsManager& manager) : 
+  model(model), manager(manager) {}
 
-void EnemyController::init(SdlWindow &window){
-	std::vector<struct EnemyData> v;
-  struct EnemyData data;
-  data.position.x = 100;
-  data.position.y = 100;
-  data.type = SKELETON;
-  v.push_back(data);
-  data.position.x = 600;
-  data.position.y = 600;
-  data.type = GOBLIN;
-  v.push_back(data);
+void EnemyController::init(){
+  /** LOAD ASSETS ON INIT **/
+  manager.addTexture("skeleton-view", "client/assets/skeletonView.png");
+  manager.addTexture("goblin-view", "client/assets/goblinView.png");
+
+  std::vector<EnemyData> v = model.getNPCData();
+
   for (unsigned int i = 0; i < v.size(); i++){
   	Animation* animation = checkType(v[i].type);
-  	enemies.emplace_back(new EnemyView(v[i].position.x, v[i].position.y, 
-  		std::move(animation), window));
+  	enemies.emplace_back(
+      new EnemyView(
+        v[i].position.x,
+        v[i].position.y,
+  		  animation));
   }
 }
 
@@ -29,13 +32,15 @@ EntityList& EnemyController::getEntity(){
 Animation* EnemyController::checkType(NPCClass type){
 	switch(type){
 		case SKELETON:
-			return std::move(new SkeletonAnimation());
+			return new SkeletonAnimation(
+        manager.getTexture("skeleton-view"));
 		break;
 		/*case ZOMBIE:
 			return std::move(new ZombieAnimation());
 		break;*/
 		case GOBLIN:
-			return std::move(new GoblinAnimation());
+			return new GoblinAnimation(
+        manager.getTexture("goblin-view"));
 		break;
 		/*case SPIDER:
 			return std::move(new SpiderAnimation());

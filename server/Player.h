@@ -12,7 +12,6 @@
 
 class Player : public Entity{
   private:
-    PlayerDataT playerData;
   public:
     Player();
     ~Player();

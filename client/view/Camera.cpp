@@ -45,6 +45,7 @@ bool Camera::isInCameraRange(int x, int y) const {
 
 void Camera::setX(int newX){
 	this->renderRect.x = newX;
+
 	if (renderRect.x < 0){
     renderRect.x = 0;
 	}
@@ -55,6 +56,7 @@ void Camera::setX(int newX){
 
 void Camera::setY(int newY){
 	this->renderRect.y = newY;
+
 	if (renderRect.y < 0){
     renderRect.y = 0;
 	}

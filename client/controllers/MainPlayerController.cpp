@@ -1,10 +1,17 @@
 #include "MainPlayerController.h"
 
 MainPlayerController::MainPlayerController(
-  ClientProxy& model) : model(model) {}
+  ClientProxy& model,
+  SdlAssetsManager& manager) :
+  model(model),
+  manager(manager) {}
 
-void MainPlayerController::init(SdlWindow &window){
-  playerView.init(window, (542 - 11) / 2, (413 - 154) / 2);
+void MainPlayerController::init(){
+  manager.addTexture("player-view", "client/assets/playerView.png");
+
+  playerView.init(
+    manager.getTexture("player-view"),
+    (542 - 11) / 2, (413 - 154) / 2);
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e){

@@ -16,7 +16,7 @@ public:
     void fill(int r, int g, int b, int alpha);
     void render();
     void clear();
-    LTexture createTexture() const;
+    LTexture* createTexture() const;
     double getScaleWidthFactor() const;
     double getScaleHeightFactor() const;
     SDL_Renderer* getRenderer() const;

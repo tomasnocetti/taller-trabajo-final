@@ -3,7 +3,7 @@
 
 #include "../sdl/SdlWindow.h"
 #include "../sdl/SdlViewport.h"
-#include "../view/Bar.h"
+#include "../entities/Bar.h"
 
 #define X 573
 #define Y 433
@@ -30,7 +30,7 @@ class LifeViewport : SdlViewport{
     LifeViewport(const LifeViewport&) = delete;
     LifeViewport& operator=(const LifeViewport&) = delete;
     void paint();
-    void init(SdlWindow& window);
+    void init();
 		//Deallocates memory
 		~LifeViewport();
 	private:

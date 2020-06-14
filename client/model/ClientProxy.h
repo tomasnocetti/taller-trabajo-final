@@ -4,7 +4,7 @@
 #include "../../DataDefinitions.h"
 #include "../MapParser.h"
 #include <string>
-//#include <iostream>
+#include <vector>
 
 class ClientProxy {
   public:
@@ -14,11 +14,13 @@ class ClientProxy {
     ClientProxy&& operator=(ClientProxy&& other);
     void authentificate(std::string& alias);
     void init();
-    MapData getMapData() const {
-      return map;
-    }
+    MapData getMapData() const;
+    MainPlayerData getMainPlayerData() const;
+    std::vector<EnemyData> getNPCData() const;
   private:
     MapData map;
+    MainPlayerData mainPlayer;
+    std::vector<EnemyData> npcs;
 };
 
 #endif

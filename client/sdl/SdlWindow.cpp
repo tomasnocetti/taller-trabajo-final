@@ -112,6 +112,6 @@ SDL_Renderer* SdlWindow::getRenderer() const {
   return this->renderer;
 }
 
-LTexture SdlWindow::createTexture() const {
-  return LTexture(renderer);
+LTexture* SdlWindow::createTexture() const {
+  return new LTexture(renderer);
 }

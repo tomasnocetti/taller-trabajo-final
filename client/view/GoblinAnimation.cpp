@@ -1,11 +1,12 @@
 #include "GoblinAnimation.h"
 
-GoblinAnimation::GoblinAnimation() {
+GoblinAnimation::GoblinAnimation(LTexture* texture) :
+  Animation(texture) {
 	forwardFrames = 8;
 	backwardFrames = 8;
 	leftFrames = 8;
 	rightFrames = 8;
-	this->path = "client/assets/goblinView.png";
+  cropAnimationFrames();
 }
 
 void GoblinAnimation::cropAnimationFrames() {
