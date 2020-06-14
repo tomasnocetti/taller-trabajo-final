@@ -24,11 +24,9 @@ class Map : SdlViewport{
     Map& operator=(const Map&) = delete;
     void paint(EntityList& entities, Entity &player, EntityList& enemies);
     void init();
-    void handleEvent(const SDL_Event &e);
 		//Deallocates memory
 		~Map();
 	private:
-		//The actual hardware texture
     Camera camera;
 };
 

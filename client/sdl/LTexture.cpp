@@ -163,6 +163,11 @@ void LTexture::paint(
 	SDL_RenderCopyEx(renderer, mTexture, clip, &renderQuad, angle, center, flip);
 }
 
+void LTexture::paint(SDL_Rect* clip, SDL_Rect dest) {
+	//Render to screen
+	SDL_RenderCopy(renderer, mTexture, clip, &dest);
+}
+
 int LTexture::getWidth(){
 	return mWidth;
 }

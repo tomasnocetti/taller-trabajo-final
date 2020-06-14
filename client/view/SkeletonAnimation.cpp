@@ -1,5 +1,4 @@
 #include "SkeletonAnimation.h"
-#include <iostream>
 
 SkeletonAnimation::SkeletonAnimation() {
 	forwardFrames = 5;

@@ -26,7 +26,7 @@ class EnemyController {
     EntityList enemies;
     ClientProxy& model;
 
-    Animation* checkType(char type);
+    Animation* checkType(NPCClass type);
 };
 
 #endif
