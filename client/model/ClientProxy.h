@@ -4,8 +4,7 @@
 #include "../../DataDefinitions.h"
 #include "../MapParser.h"
 #include <string>
-#include <iostream>
-
+//#include <iostream>
 
 class ClientProxy {
   public:

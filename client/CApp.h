@@ -2,7 +2,7 @@
 #define _CAPP_H_
 
 #include <string>
-#include <iostream>
+//#include <iostream>
 #include "sdl/SdlWindow.h"
 #include "model/ClientProxy.h"
 #include "viewports/Viewports.h"
@@ -31,6 +31,7 @@ class CApp {
     Map mapViewport;
     MapController mapController;
     MainPlayerController playerController;
+    EnemyController enemyController;
     void OnInit();
     void OnEvent(const SDL_Event& Event);
     void OnLoop();

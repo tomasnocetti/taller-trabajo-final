@@ -1,6 +1,4 @@
 #include "MapParser.h"
-
-#include <iostream>
 #include <fstream>
 #include <algorithm>
 #include <string>
@@ -27,7 +25,6 @@ void MapParser::loadMap(std::string src) {
     layers.end(),
     [this](Json::Value layer){
       std::string t(layer["type"].asString());
-
       if (t == "tilelayer") loadTileLayer(layer);
       if (t == "objectgroup") loadObjectLayer(layer);
     });

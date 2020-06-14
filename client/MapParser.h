@@ -1,12 +1,11 @@
-#pragma once
+#ifndef _MAP_PARSER_H_
+#define _MAP_PARSER_H_
 
-#include <json/json.h>
-#include <memory>
+#include <jsoncpp/json/json.h>
+//#include <memory>
 #include <vector>
-#include "../DataDefinitions.h"
 #include <string>
-
-//using TileLayers = std::vector<std::unique_ptr<TileLayerData>>;
+#include "../DataDefinitions.h"
 
 class MapParser {
   public:
@@ -21,9 +20,10 @@ class MapParser {
     MapData& getMapData();
   private:
     void loadTileLayer(Json::Value& layer);
-    void loadTileSet(Json::Value& tileset);
     void loadObjectLayer(Json::Value& layer);
-    //TileLayers tilelayers;
+    void loadTileSet(Json::Value& tileset);
     std::vector<struct ObjectLayerData> objectLayers;
     MapData mapData;
 };
+
+#endif

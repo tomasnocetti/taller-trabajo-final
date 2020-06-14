@@ -1,65 +1,22 @@
-#pragma once
+#ifndef _ENTITY_H_
+#define _ENTITY_H_
 
-#include <string>
 #include <vector>
 #include <memory>
-#include "../sdl/LTexture.h"
 #include "../view/Camera.h"
 
 class Entity {
+  private:
+    friend class Map;
+  protected:
+    int x;
+    int y;
+
   public:
-    //virtual void paint() = 0;
-    //virtual void paint(int cameraX, int cameraY) = 0;
     virtual void paint(const Camera &camera) = 0;
-    //esto tiene que irse:
-    virtual int getX() = 0;
-    virtual int getY() = 0;
     virtual ~Entity() {}
 };
 
 using EntityList = std::vector<std::unique_ptr<Entity>>;
 
-class TileEntity: public Entity {
-  public:
-    LTexture* texture;
-    SDL_Rect srcRect, destRect;
-    // Vector2D position;
-
-	TileEntity(
-    LTexture* stexture,
-    int srcX,
-    int srcY,
-    int xpos,
-    int ypos,
-    int tsize,
-    int tscale,
-    std::string id
-  ){
-    texture = stexture;
-		srcRect.x = srcX;
-		srcRect.y = srcY;
-		srcRect.w = srcRect.h = tsize;
-		destRect.x = static_cast<float>(xpos);
-		destRect.y = static_cast<float>(ypos);
-		destRect.w = destRect.h = tsize * tscale;
-	}
-  virtual ~TileEntity() {}
-	/*void paint() override {
-    texture->paint(destRect.x, destRect.y, &srcRect, 2);
-	}*/
-
-  //esto es muy cabeza
-  int getX() { return 0; }
-  int getY() { return 0; }
-
-  /*void paint(int cameraX, int cameraY){
-    texture->paint(destRect.x - cameraX, destRect.y - cameraY, &srcRect, 1);
-  }*/
-
-  void paint(const Camera &camera){
-    if (camera.isInCameraRange(destRect)){
-      texture->paint(destRect.x - camera.getX(), 
-        destRect.y - camera.getY(), &srcRect, 1);
-    }
-  }
-};
+#endif

@@ -1,9 +1,11 @@
 #include "MapController.h"
-
+#include "../MapParser.h"
+#include "../entities/TileEntity.h"
+#include "../../DataDefinitions.h"
 #include <iostream>
 #include <algorithm>
-#include <fstream>
-#include <vector>
+//#include <fstream>
+//#include <vector>
 
 MapController::MapController(ClientProxy& model) : model(model) {}
 
@@ -17,55 +19,13 @@ void MapController::init(SdlWindow& window){
   MapData map = model.getMapData();
   // THIS WILL GO SERVER SIDE
   // ------
-  /*MapParser m;
+  MapParser m;
   m.loadMap("assets/map/island2.json");
-  MapData& map = m.getMapData();
-  for(unsigned int i = 0; i < map.tileSets.size(); i++){
-    textures[i] = new LTexture(window.createTexture());
-    textures[i]->loadFromFile("assets/map/" + map.tileSets[i].image);
-  }
-
-  TileLayers& layers = m.getTileLayers();
-
-  std::for_each(layers.begin(), layers.end(), [this, &map](std::unique_ptr<TileLayerData>& layer){
-    int tileSize = map.tilewidth;
-    int mapSizeColumns = map.width;
-    for (unsigned int y = 0; y < layer->data.size(); y++) {
-      int tilegid = layer->data[y];
-      unsigned int firstgid, tileSetColumns, j;
-      if(tilegid > 0){    //preguntar
-        for(j = 0; j < map.tilesetFirstgid.size(); j++){
-          if(map.tilesetFirstgid[j] > tilegid){
-            firstgid = map.tilesetFirstgid[j - 1];
-            tileSetColumns = map.tilesetColumns[j - 1];
-            j--;
-            break;
-          }
-          if(j == map.tilesetFirstgid.size() - 1){
-            firstgid = map.tilesetFirstgid[j];
-            tileSetColumns = map.tilesetColumns[j];
-            break;
-          }
-        }
-        tilegid -= firstgid;
-        tiles.emplace_back(
-        new TileEntity(
-          textures[j],
-          (tilegid % tileSetColumns) * tileSize,
-          (tilegid / tileSetColumns) * tileSize,
-          (y % mapSizeColumns) * tileSize,
-          (y / mapSizeColumns) * tileSize,
-          tileSize,
-          mapScale,
-          texID)
-        );
-      }
-    }
-  });*/
+  //MapData& map = m.getMapData();
 
   for (unsigned int i = 0; i < map.tileSets.size(); i++){
-    textures[i] = new LTexture(window.createTexture());
-    textures[i]->loadFromFile("client/assets/map/" + map.tileSets[i].image);
+    textures.push_back(new LTexture(window.createTexture()));
+    textures[i]->loadFromFile("assets/map/" + map.tileSets[i].image);
   }
 
   std::vector<struct TileLayerData>& layers = map.layers;
