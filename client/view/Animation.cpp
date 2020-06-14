@@ -1,7 +1,8 @@
 #include "Animation.h"
 #include "AnimationTypes.h"
 
-Animation::Animation() {}
+Animation::Animation(LTexture* texture) :
+  texture(texture) {}
 
 Animation::Animation(Animation&& other) {
   /*this->mTexture = other.mTexture;
@@ -22,9 +23,8 @@ Animation& Animation::operator=(Animation&& other) {
   return *this;
 }
 
-void Animation::init(SdlWindow &window){
-	this->texture = window.createTexture();
-	this->texture.loadFromFile(this->path);
+void Animation::init(){
+	/** Fill needed animation from SdlAssetsManager **/
 	this->index = 0;
 	cropAnimationFrames();
 }
@@ -70,7 +70,7 @@ void Animation::set(int currentAnim){
 }
 
 void Animation::paint(int x, int y){
-	this->texture.paint(x, y, &this->lastFrame);
+	this->texture->paint(x, y, &this->lastFrame);
 }
 
 Animation::~Animation() {}

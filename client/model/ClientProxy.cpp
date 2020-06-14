@@ -1,4 +1,6 @@
 #include "ClientProxy.h"
+
+#include <iostream>
 #include <string>
 #include <vector>
 #include <iostream>
@@ -16,7 +18,7 @@ void ClientProxy::init() {
   m.loadMap("client/assets/map/pindonga2.json");
   map = m.getMapData();
 
-  // ------ TEST CODE FOR PARSE OBJ LAYER 
+  // ------ TEST CODE FOR PARSE OBJ LAYER
   std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
 
   for (size_t i = 0; i < objectl.size(); i++){
@@ -27,4 +29,29 @@ void ClientProxy::init() {
       std::cout << objectl[i].objects[j].height << std::endl;
     }
   }
+
+  struct EnemyData data;
+  data.position.x = 100;
+  data.position.y = 100;
+  data.type = SKELETON;
+  npcs.emplace_back(data);
+
+  data.position.x = 600;
+  data.position.y = 600;
+  data.type = GOBLIN;
+  npcs.emplace_back(data);
+
+  // ------ TEST CODE FOR ENEMIES
+}
+
+MainPlayerData ClientProxy::getMainPlayerData() const {
+  return mainPlayer;
+}
+
+MapData ClientProxy::getMapData() const {
+  return map;
+}
+
+std::vector<EnemyData> ClientProxy::getNPCData() const {
+  return npcs;
 }

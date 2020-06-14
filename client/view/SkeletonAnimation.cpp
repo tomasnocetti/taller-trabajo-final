@@ -1,11 +1,12 @@
 #include "SkeletonAnimation.h"
 
-SkeletonAnimation::SkeletonAnimation() {
+SkeletonAnimation::SkeletonAnimation(LTexture* texture) :
+  Animation(texture) {
 	forwardFrames = 5;
 	backwardFrames = 5;
 	leftFrames = 5;
 	rightFrames = 5;
-	this->path = "client/assets/skeletonView.png";
+  cropAnimationFrames();
 }
 
 void SkeletonAnimation::cropAnimationFrames() {

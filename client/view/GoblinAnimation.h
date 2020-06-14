@@ -5,7 +5,7 @@
 
 class GoblinAnimation : public Animation {
 	public:
-		GoblinAnimation();
+		explicit GoblinAnimation(LTexture* texture);
 		GoblinAnimation(const GoblinAnimation&) = delete;
 	  GoblinAnimation& operator=(const GoblinAnimation&) = delete;
 

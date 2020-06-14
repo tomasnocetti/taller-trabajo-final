@@ -3,39 +3,40 @@
 
 PlayerView::PlayerView() {}
 
-void PlayerView::init(SdlWindow &window, int x, int y){
+void PlayerView::init(LTexture* texture, int x, int y){
 	this->x = x;
 	this->y = y;
 	this->speed = 10;
-	animation.init(window);
-	animation.set(FORWARD_STAND);
+	animation = new PlayerAnimation(texture);
+  animation->init();
+	animation->set(FORWARD_STAND);
 }
 
 void PlayerView::stand(int xOffset, int yOffset){
 	if(xOffset == 0 && yOffset < 0){
-		animation.set(BACK_STAND);
+		animation->set(BACK_STAND);
 	} else if (xOffset == 0 && yOffset > 0){
-		animation.set(FORWARD_STAND);
+		animation->set(FORWARD_STAND);
 	} else if (xOffset < 0 && yOffset == 0){
-		animation.set(LEFT_STAND);
+		animation->set(LEFT_STAND);
 	} else if (xOffset > 0 && yOffset == 0){
-		animation.set(RIGHT_STAND);
+		animation->set(RIGHT_STAND);
 	}
 }
 
 void PlayerView::walk(int xOffset, int yOffset){
 	if(xOffset == 0 && yOffset < 0){
 		this->y += yOffset * speed;
-		animation.set(BACK_WALK);
+		animation->set(BACK_WALK);
 	} else if (xOffset == 0 && yOffset > 0){
 		this->y += yOffset * speed;
-		animation.set(FORWARD_WALK);
+		animation->set(FORWARD_WALK);
 	} else if (xOffset < 0 && yOffset == 0){
 		this->x += xOffset * speed;
-		animation.set(LEFT_WALK);
+		animation->set(LEFT_WALK);
 	} else if (xOffset > 0 && yOffset == 0){
 		this->x += xOffset * speed;
-		animation.set(RIGHT_WALK);
+		animation->set(RIGHT_WALK);
 	}
 
 	if(this->x < 0)
@@ -49,5 +50,9 @@ void PlayerView::walk(int xOffset, int yOffset){
 }
 
 void PlayerView::paint(const Camera &camera){
-	animation.paint(this->x - camera.getX(), this->y - camera.getY());
+	animation->paint(this->x - camera.getX(), this->y - camera.getY());
+}
+
+PlayerView::~PlayerView() {
+  delete this->animation;
 }

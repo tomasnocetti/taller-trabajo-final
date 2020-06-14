@@ -6,14 +6,10 @@
 #include "../view/Camera.h"
 
 class Entity {
-	private:
-		friend class Map;
-		
-  protected:
+  public:
     int x;
     int y;
-
-  public:
+    virtual void paint() = 0;
     virtual void paint(const Camera &camera) = 0;
     virtual ~Entity() {}
 };

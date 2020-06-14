@@ -2,8 +2,8 @@
 #define CLIENT_ACCEPTOR_H
 
 #include "../common/BlockingQueue.h"
-#include "../common/Thread.h"
 #include "ServerProxy.h"
+#include "../common/Thread.h"
 #include <vector>
 #include <memory>
 #include "ActivePlayers.h"

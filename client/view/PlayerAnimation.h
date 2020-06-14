@@ -6,7 +6,7 @@
 
 class PlayerAnimation : public Animation {
 	public:
-		PlayerAnimation();
+		explicit PlayerAnimation(LTexture* texture);
 		PlayerAnimation(const PlayerAnimation&) = delete;
 	  PlayerAnimation& operator=(const PlayerAnimation&) = delete;
 

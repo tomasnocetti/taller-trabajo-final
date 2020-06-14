@@ -3,12 +3,13 @@
 
 #include <string>
 #include "sdl/SdlWindow.h"
+#include "sdl/SdlAssetsManager.h"
 #include "model/ClientProxy.h"
 #include "viewports/Viewports.h"
 #include "controllers/Controllers.h"
 
 //Screen dimension constants
-#define GAME_TITLE "Argentum"
+#define GAME_TITLE "Argentum" 
 
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
@@ -23,12 +24,15 @@ class CApp {
     CApp& operator=(const CApp&) = delete;
     ~CApp();
     void OnExecute();
+    
   private:
     ClientProxy model;
     SdlWindow window;
+    SdlAssetsManager manager;
     Global globalViewport;
     Map mapViewport;
     LifeViewport lifeViewport;
+    GlobalController globalController;
     MapController mapController;
     MainPlayerController playerController;
     EnemyController enemyController;

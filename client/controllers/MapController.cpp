@@ -1,13 +1,16 @@
 #include "MapController.h"
-#include "../MapParser.h"
 #include "../entities/TileEntity.h"
 #include "../../DataDefinitions.h"
 #include <iostream>
 #include <algorithm>
-//#include <fstream>
-//#include <vector>
+#include <string>
+#include <vector>
 
-MapController::MapController(ClientProxy& model) : model(model) {}
+MapController::MapController(
+  ClientProxy& model,
+  SdlAssetsManager& manager) :
+  model(model),
+  manager(manager) {}
 
 MapController::~MapController() {
   for (auto &i : tiles) {
@@ -15,17 +18,12 @@ MapController::~MapController() {
   }
 }
 
-void MapController::init(SdlWindow& window){
+void MapController::init(){
   MapData map = model.getMapData();
-  // THIS WILL GO SERVER SIDE
-  // ------
- // MapParser m;
-  //m.loadMap("client/assets/map/pindonga2.json");
-  //MapData& map = m.getMapData();
 
   for (unsigned int i = 0; i < map.tileSets.size(); i++){
-    textures.push_back(new LTexture(window.createTexture()));
-    textures[i]->loadFromFile("client/assets/map/" + map.tileSets[i].image);
+    std::string src = "client/assets/map/" + map.tileSets[i].image;
+    manager.addTexture(map.tileSets[i].image, src.data());
   }
 
   std::vector<struct TileLayerData>& layers = map.layers;
@@ -37,24 +35,28 @@ void MapController::init(SdlWindow& window){
     for (unsigned int y = 0; y < layer.data.size(); y++) {
       int tilegid = layer.data[y];
       unsigned int firstgid = 0, tileSetColumns = 0, j;
-      if (tilegid > 0){
-        for (j = 0; j < map.tileSets.size(); j++){
-          if (map.tileSets[j].firstgid > tilegid){
-            firstgid = map.tileSets[j - 1].firstgid;
-            tileSetColumns = map.tileSets[j - 1].columns;
-            j--;
-            break;
-          }
-          if (j == map.tileSets.size() - 1){
-            firstgid = map.tileSets[j].firstgid;
-            tileSetColumns = map.tileSets[j].columns;
-            break;
-          }
+      std::string image;
+      if (tilegid <= 0) continue;
+
+      for (j = 0; j < map.tileSets.size(); j++){
+        if (map.tileSets[j].firstgid > tilegid){
+          firstgid = map.tileSets[j - 1].firstgid;
+          tileSetColumns = map.tileSets[j - 1].columns;
+          image = map.tileSets[j - 1].image;
+          j--;
+          break;
         }
-        tilegid -= firstgid;
-        tiles.emplace_back(
+        if (j == map.tileSets.size() - 1){
+          firstgid = map.tileSets[j].firstgid;
+          tileSetColumns = map.tileSets[j].columns;
+          image = map.tileSets[j].image;
+          break;
+        }
+      }
+      tilegid -= firstgid;
+      tiles.emplace_back(
         new TileEntity(
-          textures[j],
+          manager.getTexture(image),
           (tilegid % tileSetColumns) * tileSize,
           (tilegid / tileSetColumns) * tileSize,
           (y % mapSizeColumns) * tileSize,
@@ -62,7 +64,6 @@ void MapController::init(SdlWindow& window){
           tileSize,
           mapScale,
           texID));
-      }
     }
   });
 }

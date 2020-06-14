@@ -1,12 +1,11 @@
 #include "EnemyView.h"
 #include <iostream>
 
-EnemyView::EnemyView(int x, int y, Animation *animation, SdlWindow &window) {
+EnemyView::EnemyView(int x, int y, Animation *animation) {
 	this->x = x;
 	this->y = y;
 	this->speed = 10;
-	this->animation = std::move(animation);
-	animation->init(window);
+	this->animation = animation;
 	animation->set(FORWARD_STAND);
 }
 
@@ -57,9 +56,9 @@ void PlayerView::walk(int xOffset, int yOffset){
 }*/
 
 void EnemyView::paint(const Camera &camera){
-	if(camera.isInCameraRange(this->x, this->y)){
-		animation->paint(this->x - camera.getX(), this->y - camera.getY());
-	}
+	if (!camera.isInCameraRange(this->x, this->y)) return;
+
+  animation->paint(this->x - camera.getX(), this->y - camera.getY());
 }
 
 EnemyView::~EnemyView(){

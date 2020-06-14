@@ -6,6 +6,8 @@
 #include "../sdl/LTexture.h"
 #include "../sdl/SdlWindow.h"
 
+
+/** HACER HEREDAR DE ENTITY ! **/
 class Bar {
 	private:
 		SDL_Rect destRect;

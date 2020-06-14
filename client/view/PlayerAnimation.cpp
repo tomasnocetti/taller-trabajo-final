@@ -1,11 +1,11 @@
 #include "PlayerAnimation.h"
 
-PlayerAnimation::PlayerAnimation() {
+PlayerAnimation::PlayerAnimation(LTexture* texture) :
+  Animation(texture) {
 	forwardFrames = 6;
 	backwardFrames = 6;
 	leftFrames = 5;
 	rightFrames = 5;
-	this->path = "client/assets/playerView.png";
 }
 
 void PlayerAnimation::cropAnimationFrames() {
