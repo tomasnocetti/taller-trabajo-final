@@ -21,7 +21,7 @@ TileEntity::TileEntity(
 }
 
 void TileEntity::paint(const Camera &camera){
-  if (camera.isInCameraRange(destRect)){
+  if (camera.isInCameraRange(destRect.x, destRect.y)){
     texture->paint(destRect.x - camera.getX(), 
       destRect.y - camera.getY(), &srcRect, 1);
   }

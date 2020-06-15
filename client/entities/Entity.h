@@ -11,6 +11,8 @@ class Entity {
     int y;
     virtual void paint() = 0;
     virtual void paint(const Camera &camera) = 0;
+    //esto habria que sacarlo
+    virtual void move(int x, int y) {} 
     virtual ~Entity() {}
 };
 

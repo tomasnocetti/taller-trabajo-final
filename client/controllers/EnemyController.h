@@ -3,10 +3,10 @@
 
 #include <vector>
 #include "../model/ClientProxy.h"
-#include "../view/EnemyView.h"
 #include "../sdl/SdlAssetsManager.h"
 #include "../../DataDefinitions.h"
 #include "../view/Animation.h"
+#include "../entities/Entity.h"
 
 class EnemyController {
   public:
@@ -16,7 +16,7 @@ class EnemyController {
     EnemyController&& operator=(EnemyController&& other);
   	void init();
     ~EnemyController();
-    void handleEvent(const SDL_Event &e);
+    void update();
     EntityList& getEntity();
 
   private:

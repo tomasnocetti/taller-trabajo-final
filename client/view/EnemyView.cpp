@@ -55,6 +55,24 @@ void PlayerView::walk(int xOffset, int yOffset){
 		this->y = 47 * 16 - 48;
 }*/
 
+void EnemyView::move(int newX, int newY){
+	int xOffset = this->x - newX;
+	int yOffset = this->y - newY;
+	if(xOffset == 0 && yOffset > 0){
+		this->y = newY;
+		animation->set(BACK_WALK);
+	} else if (xOffset == 0 && yOffset < 0){
+		this->y = newY;
+		animation->set(FORWARD_WALK);
+	} else if (xOffset > 0 && yOffset == 0){
+		this->x = newX;
+		animation->set(LEFT_WALK);
+	} else if (xOffset < 0 && yOffset == 0){
+		this->x = newX;
+		animation->set(RIGHT_WALK);
+	}
+}
+
 void EnemyView::paint(const Camera &camera){
 	if (!camera.isInCameraRange(this->x, this->y)) return;
 

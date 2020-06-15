@@ -3,7 +3,6 @@
 
 #include <string>
 #include <vector>
-//#include <memory>
 #include "../model/ClientProxy.h"
 #include "../sdl/LTexture.h"
 #include "../sdl/SdlAssetsManager.h"

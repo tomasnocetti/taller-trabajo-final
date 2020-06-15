@@ -11,26 +11,9 @@ void Camera::init(int x, int y, int w, int h){
 	this->renderRect.h = h;
 }
 
-bool Camera::isInCameraRange(const SDL_Rect &destrect) const {
-	/*if((destrect.x >= renderRect.x && 
-		destrect.y >= renderRect.y && 
-		destrect.x <= renderRect.x + renderRect.w &&
-		destrect.y <= renderRect.y + renderRect.h) ||
-		(destrect.x + destrect.w >= renderRect.x &&
-		destrect.y + destrect.h >= renderRect.y &&
-		destrect.x + destrect.w <= renderRect.x + renderRect.w &&
-		destrect.y + destrect.h <= renderRect.y + renderRect.h)){
-			return true;
-	}*/
-
-	//quizas se puede hacer mejor, pero no se me ocurre como
-	if(destrect.x >= renderRect.x - TILE_SIZE && 
-		destrect.y >= renderRect.y - TILE_SIZE && 
-		destrect.x <= renderRect.x + renderRect.w + TILE_SIZE &&
-		destrect.y <= renderRect.y + renderRect.h + TILE_SIZE){
-			return true;
-	}
-	return false;
+void Camera::setMaxDimensions(int width, int height){
+	this->maxWidth = width;
+	this->maxHeight = height;
 }
 
 bool Camera::isInCameraRange(int x, int y) const {
@@ -49,8 +32,8 @@ void Camera::setX(int newX){
 	if (renderRect.x < 0){
     renderRect.x = 0;
 	}
-  if (renderRect.x > 58 * 16 - renderRect.w){
-    renderRect.x = 58 * 16 - renderRect.w;
+  if (renderRect.x > maxWidth - renderRect.w){
+    renderRect.x = maxWidth - renderRect.w;
   }
 }
 
@@ -60,8 +43,8 @@ void Camera::setY(int newY){
 	if (renderRect.y < 0){
     renderRect.y = 0;
 	}
-  if (renderRect.y > 47 * 16 - renderRect.h){
-  	renderRect.y = 47 * 16 - renderRect.h;
+  if (renderRect.y > maxHeight - renderRect.h){
+  	renderRect.y = maxHeight - renderRect.h;
   }
 }
 

@@ -124,6 +124,7 @@ LDFLAGS += -lz
 LDFLAGS += -lSDL2_image
 # LDFLAGS += -ltmx
 LDFLAGS += -lSDL2
+LDFLAGS += -lSDL2_ttf
 endif
 
 # Si no especifica archivos, tomo todos.

@@ -1,6 +1,8 @@
 #include "EnemyController.h"
+#include "../view/EnemyView.h"
 #include "../view/SkeletonAnimation.h"
 #include "../view/GoblinAnimation.h"
+#include "../view/SpiderAnimation.h"
 #include <vector>
 
 EnemyController::EnemyController(
@@ -12,6 +14,7 @@ void EnemyController::init(){
   /** LOAD ASSETS ON INIT **/
   manager.addTexture("skeleton-view", "client/assets/skeletonView.png");
   manager.addTexture("goblin-view", "client/assets/goblinView.png");
+  manager.addTexture("spider-view", "client/assets/spiderView.png");
 
   std::vector<EnemyData> v = model.getNPCData();
 
@@ -23,6 +26,14 @@ void EnemyController::init(){
         v[i].position.y,
   		  animation));
   }
+}
+
+void EnemyController::update() {
+	model.walkNPC(0, -1);
+	std::vector<EnemyData> v = model.getNPCData();
+	for(unsigned int i = 0; i < v.size(); i++){
+		enemies[i]->move(v[i].position.x, v[i].position.y);
+	}
 }
 
 EntityList& EnemyController::getEntity(){
@@ -42,9 +53,10 @@ Animation* EnemyController::checkType(NPCClass type){
 			return new GoblinAnimation(
         manager.getTexture("goblin-view"));
 		break;
-		/*case SPIDER:
-			return std::move(new SpiderAnimation());
-		break;*/
+		case SPIDER:
+			return new SpiderAnimation(
+        manager.getTexture("spider-view"));
+		break;
 		default:
 			return NULL;
 		break;

@@ -1,27 +1,9 @@
 #include "Animation.h"
 #include "AnimationTypes.h"
+#include <SDL2/SDL.h>
 
 Animation::Animation(LTexture* texture) :
   texture(texture) {}
-
-Animation::Animation(Animation&& other) {
-  /*this->mTexture = other.mTexture;
-  this->mWidth = other.mWidth;
-  this->mHeight = other.mHeight;
-  this->renderer = other.renderer;
-  other.mTexture = NULL;
-  other.renderer = NULL;*/
-}
-
-Animation& Animation::operator=(Animation&& other) {
-  /*this->mTexture = other.mTexture;
-  this->mWidth = other.mWidth;
-  this->mHeight = other.mHeight;
-  this->renderer = other.renderer;
-  other.mTexture = NULL;
-  other.renderer = NULL;*/
-  return *this;
-}
 
 void Animation::init(){
 	/** Fill needed animation from SdlAssetsManager **/
@@ -34,23 +16,19 @@ void Animation::cropAnimationFrames() {}
 void Animation::set(int currentAnim){
 	switch(currentAnim){
 		case BACK_WALK:
-			if(index >= backwardFrames)
-				index = 0;
+			index = (SDL_GetTicks() / 125) % backwardFrames;
 			this->lastFrame = backwardAnim[index];
 		break;
 		case FORWARD_WALK:
-			if(index >= forwardFrames)
-				index = 0;
+			index = (SDL_GetTicks() / 125) % forwardFrames;
 			this->lastFrame = forwardAnim[index];
 		break;
 		case LEFT_WALK:
-			if(index >= leftFrames)
-				index = 0;
+			index = (SDL_GetTicks() / 125) % leftFrames;
 			this->lastFrame = leftAnim[index];
 		break;
 		case RIGHT_WALK:
-			if(index >= rightFrames)
-				index = 0;
+			index = (SDL_GetTicks() / 125) % rightFrames;
 			this->lastFrame = rightAnim[index];
 		break;
 		case BACK_STAND:
@@ -66,7 +44,6 @@ void Animation::set(int currentAnim){
 			this->lastFrame = rightAnim[0];
 		break;
 	}
-	index++;
 }
 
 void Animation::paint(int x, int y){

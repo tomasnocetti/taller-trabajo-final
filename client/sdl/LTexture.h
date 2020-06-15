@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 
 class LTexture {
@@ -38,6 +39,8 @@ class LTexture {
 		//Set alpha modulation
 		void setAlpha(Uint8 alpha);
 
+		void queryTexture(int &w, int &h);
+
 		//Renders texture at given point
 		void paint(
       int x,
@@ -48,7 +51,7 @@ class LTexture {
       SDL_Point* center = NULL,
       SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-		void paint(SDL_Rect* clip, SDL_Rect dest);
+		void paint(SDL_Rect* dest);
 
 		//Gets image dimensions
 		int getWidth();

@@ -27,15 +27,18 @@ struct Inventory{
   std::string helmet;
 };
 
-struct HealthData {
-  int totalPoints;
-  int currentPoints;
+struct HealthAndManaData {
+  int totalHP;
+  int currentHP;
+  int totalMP;
+  int currentMP;
 };
 
 struct MainPlayerData {
   PlayerRootData rootd;
   PositionData position;
-  uint32_t manaPoints;
+  HealthAndManaData points;
+  int speed; 
   uint32_t gold;
   uint32_t level;
 };

@@ -1,6 +1,7 @@
 #include "LTexture.h"
 #include <string>
 #include <stdlib.h>
+#include "SdlException.h"
 
 LTexture::LTexture(SDL_Renderer* renderer) :
   renderer(renderer) {
@@ -78,22 +79,26 @@ bool LTexture::loadFromFile(std::string path) {
 	return mTexture != NULL;
 }
 
-#if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
 bool LTexture::loadFromRenderedText(
   std::string textureText,
   SDL_Color textColor) {
 	//Get rid of preexisting texture
 	free();
-
+	//no me abre si no le pongo el path absoluto, no se que onda
+	TTF_Font* gFont = TTF_OpenFont("/home/lautaro/Escritorio/taller-trabajo-final/client/assets/a.ttf", 18);
+	if(!gFont){
+		throw SdlException("Error en la inicialización TTF", TTF_GetError());
+	}
 	//Render text surface
-	SDL_Surface* textSurface = TTF_RenderText_Solid(
+	SDL_Surface* textSurface = TTF_RenderText_Blended(
     gFont,
     textureText.c_str(),
     textColor);
+
 	if (textSurface != NULL)
 	{
 		//Create texture from surface pixels
-    mTexture = SDL_CreateTextureFromSurface(gRenderer, textSurface);
+    mTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 		if (mTexture == NULL) {
 			printf(
         "Unable to create texture from rendered text! SDL Error: %s\n",
@@ -110,11 +115,10 @@ bool LTexture::loadFromRenderedText(
 		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
 	}
 
-
+	TTF_CloseFont(gFont);
 	//Return success
 	return mTexture != NULL;
 }
-#endif
 
 void LTexture::free() {
 	//Free texture if it exists
@@ -141,6 +145,10 @@ void LTexture::setAlpha(Uint8 alpha) {
 	SDL_SetTextureAlphaMod(mTexture, alpha);
 }
 
+void LTexture::queryTexture(int &w, int &h) {
+	SDL_QueryTexture(this->mTexture, NULL, NULL, &w, &h);
+}
+
 void LTexture::paint(
   int x,
   int y,
@@ -163,9 +171,9 @@ void LTexture::paint(
 	SDL_RenderCopyEx(renderer, mTexture, clip, &renderQuad, angle, center, flip);
 }
 
-void LTexture::paint(SDL_Rect* clip, SDL_Rect dest) {
+void LTexture::paint(SDL_Rect* dest) {
 	//Render to screen
-	SDL_RenderCopy(renderer, mTexture, clip, &dest);
+	SDL_RenderCopy(renderer, mTexture, NULL, dest);
 }
 
 int LTexture::getWidth(){

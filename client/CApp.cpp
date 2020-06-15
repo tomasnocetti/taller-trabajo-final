@@ -40,6 +40,8 @@ void CApp::OnEvent(const SDL_Event& e) {
 }
 
 void CApp::OnLoop() {
+  playerController.update();
+  enemyController.update();
 }
 
 void CApp::OnRender() {
@@ -48,18 +50,20 @@ void CApp::OnRender() {
   mapViewport.paint(mapController.getEntities(),
     playerController.getEntity(),
     enemyController.getEntity());
-  lifeViewport.paint();
+  lifeViewport.paint(playerController.getBars());
   window.render();
 }
 
 void CApp::OnInit() {
   model.init();
-  mapViewport.init();
-  lifeViewport.init();
   globalController.init();
   mapController.init();
   playerController.init();
   enemyController.init();
+  mapViewport.init();
+  MapData data = model.getMapData();
+  mapViewport.setMaxCameraDimensions(data);
+  lifeViewport.init();
 }
 
 void CApp::OnCleanup() {}

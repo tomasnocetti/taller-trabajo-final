@@ -5,6 +5,8 @@
 #include "../sdl/SdlAssetsManager.h"
 #include "../view/PlayerView.h"
 #include "../../DataDefinitions.h"
+#include "../entities/Bar.h"
+#include "../entities/TextEntity.h"
 
 class MainPlayerController {
   public:
@@ -13,9 +15,11 @@ class MainPlayerController {
     MainPlayerController& operator=(const MainPlayerController&) = delete;
     MainPlayerController&& operator=(MainPlayerController&& other);
     void init();
+    void update();
     ~MainPlayerController();
     void handleEvent(const SDL_Event &e);
     Entity &getEntity();
+    std::vector<Entity*> getBars();
 
   private:
     ClientProxy& model;
@@ -23,6 +27,9 @@ class MainPlayerController {
     //void move(int xOffset, int yOffset);
     //void attack();
     PlayerView playerView;
+    Bar healthBar;
+    Bar manaBar;
+    TextEntity gold;
 };
 
 #endif

@@ -15,6 +15,7 @@ public:
   ~SdlAssetsManager();
 
   void addTexture(std::string id, const char* path);
+  LTexture* createTexture();
   LTexture* getTexture(std::string id);
 
 private:
