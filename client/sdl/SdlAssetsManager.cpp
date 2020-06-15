@@ -27,6 +27,6 @@ SdlAssetsManager::~SdlAssetsManager() {
     delete i.second;
   }
   for (auto &i : fonts) {
-    TTF_CloseFont( i );
+    TTF_CloseFont(i.second);
   }
 }

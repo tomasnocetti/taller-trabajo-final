@@ -7,7 +7,6 @@ GlobalController::GlobalController(
   manager(manager) {}
 
 void GlobalController::init() {
-  manager.addTexture("main-screen-path", MAIN_SCREEN_PATH);
   LTexture* baseScreen = manager.getTexture("main-screen-path");
   screens.emplace_back(new BackgroundEntity(baseScreen));
 }

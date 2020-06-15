@@ -6,8 +6,6 @@
 #include "../../DataDefinitions.h"
 #include "../entities/BackgroundEntity.h"
 
-#define MAIN_SCREEN_PATH "client/assets/main-screen.jpg"
-
 class GlobalController {
   public:
   	explicit GlobalController(ClientProxy& model, SdlAssetsManager& manager);

@@ -39,6 +39,7 @@ void CApp::OnEvent(const SDL_Event& e) {
   window.handleEvent(e);
   switch (mode) {
     case GameMode::LOGIN:
+      // loginController.handleEvent(e);
       break;
     case GameMode::CREATE:
       break;
@@ -72,6 +73,8 @@ void CApp::OnRender() {
 }
 
 void CApp::OnInit() {
+  LoadAssets();
+
   model.init();
   mapViewport.init();
   lifeViewport.init();
@@ -83,5 +86,11 @@ void CApp::OnInit() {
 }
 
 void CApp::OnCleanup() {}
+
+void CApp::LoadAssets() {
+  manager.addTexture("main-screen-path", MAIN_SCREEN_PATH);
+  manager.addTexture("login-screen-path", LOGIN_SCREEN_PATH);
+  manager.addFont("main", FONT_PATH, 12);
+}
 
 CApp::~CApp() {}

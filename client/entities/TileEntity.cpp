@@ -20,9 +20,9 @@ TileEntity::TileEntity(
   destRect.w = destRect.h = tsize * tscale;
 }
 
-void TileEntity::paint(const Camera &camera){
-  if (camera.isInCameraRange(destRect)){
-    texture->paint(destRect.x - camera.getX(), 
-      destRect.y - camera.getY(), &srcRect, 1);
-  }
+void TileEntity::paint(const Camera &camera, double scaleW, double scaleH){
+  if (!camera.isInCameraRange(destRect)) return;
+
+  texture->paint(destRect.x - camera.getX(),
+    destRect.y - camera.getY(), scaleW, scaleH, &srcRect, 1);
 }

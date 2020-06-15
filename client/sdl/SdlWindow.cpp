@@ -1,5 +1,6 @@
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_video.h>
+#include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
 #include "SdlException.h"
@@ -45,6 +46,9 @@ SdlWindow::SdlWindow(int width, int height) :
     if (!(IMG_Init(imgFlags) & imgFlags)) {
       throw SdlException("Error en la inicialización IMG", IMG_GetError());
     }
+    if (TTF_Init() == -1) {
+      throw SdlException("Error en la inicialización SDL_TTF", TTF_GetError());
+    }
 }
 
 SdlWindow::~SdlWindow() {
@@ -59,6 +63,7 @@ SdlWindow::~SdlWindow() {
     SDL_DestroyWindow(this->window);
     this->window = nullptr;
   }
+  TTF_Quit();
   IMG_Quit();
   SDL_Quit();
 }
