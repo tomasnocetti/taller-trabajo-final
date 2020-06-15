@@ -10,18 +10,19 @@
 #include "../DataDefinitions.h"
 #include "../common/BlockingQueue.h"
 #include "ActivePlayers.h"
+#include "GameModel.h"
 
 class ServerProxy;
 
 using InstructionDataBQ = BlockingQueue<InstructionData>;
-using UpDateClientsBQ = FixedBlockingQueue<GameModelT>;
+using UpDateClientsBQ = FixedBlockingQueue<PlayerGameModelData>;
 
 class GameServer{
   private: 
     bool isClose;
     InstructionDataBQ instructionQueue;
     ActivePlayers activePlayers;
-    GameModelT gameModel;
+    GameModel game;
   public:
     GameServer();
     ~GameServer();
@@ -29,7 +30,6 @@ class GameServer{
     GameServer& operator=(const GameServer&) = delete;
     void init();
     void start();
-    void handleInstruction(InstructionData &instruction);
     void close();
 };
 

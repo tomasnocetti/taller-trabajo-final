@@ -10,7 +10,7 @@
 #include "../DataDefinitions.h"
 
 
-using UpDateClientsBQ = FixedBlockingQueue<GameModelT>;
+using UpDateClientsBQ = FixedBlockingQueue<PlayerGameModelData>;
 
 class ActivePlayers{
   private:
@@ -23,14 +23,16 @@ class ActivePlayers{
     ActivePlayers(const ActivePlayers&) = delete;
     ActivePlayers& operator=(const ActivePlayers&) = delete;
     /* Agrega un jugador al mapa con su respectiva BQ, luego de contrastar
-    con los datos de los archivos. */
+    con los datos de los archivos. Si el jugdor ya existe, devuelve su id
+    asociado, caso contrario devuelve accede a los archios para dar de alta
+    un nuevo jugador, y devuelve el id generado. */
     size_t authenticate(UpDateClientsBQ &clientBQ);
     /* Elimina al jugador del mapa de jugadores activos. */
     void deAuthenticate(size_t id);
     /* Actualiza las colas de los clientes que quiera.
     Va a recibir por parámetro una lista con los jugadores a los que
     quiere pushearles el modelo, y el modelo actualizado. */
-    void updateModel(size_t id, GameModel gameModel);
+    void updateModel(size_t id, PlayerGameModelData playerModel);
     /* Devuelve una lista de los ids jugadores activos. */
     std::vector<size_t> getActivePlayers();
 };

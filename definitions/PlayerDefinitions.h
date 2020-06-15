@@ -2,6 +2,7 @@
 #define __PLAYERDEF_H
 
 #include "EntityDefinitions.h"
+#include "MapDefinitions.h"
 
 typedef enum {
   HUMAN,
@@ -22,7 +23,7 @@ struct PlayerRootData {
   PlayerRace prace;
 };
 
-struct Inventory{
+struct Inventory {
   std::string helmet;
 };
 
@@ -32,11 +33,26 @@ struct HealthData {
 };
 
 struct MainPlayerData {
-  PlayerRootData rootd;
+  PlayerRootData root;
+  Inventory inventory;
+  HealthData health;
   PositionData position;
-  uint32_t manaPoints;
-  uint32_t gold;
-  uint32_t level;
+  size_t manaPoints;
+  size_t gold;
+  size_t level;
+};
+
+struct OtherPlayersData {
+  size_t id;
+  PositionData otherPlayerPosition;
+  PlayerRootData otherPlayerRoot;
+};
+
+struct PlayerGameModelData {
+  MainPlayerData playerData;
+  std::vector<EnemyData> npcs;
+  MapData map;
+  std::vector<OtherPlayersData> otherPlayers;
 };
 
 #endif

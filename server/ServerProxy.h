@@ -8,7 +8,7 @@
 
 class GameServer;
 using InstructionDataBQ = BlockingQueue<InstructionData>;
-using UpDateClientsBQ = FixedBlockingQueue<GameModelT>;
+using UpDateClientsBQ = FixedBlockingQueue<PlayerGameModelData>;
 
 class ServerProxy : public Thread{
   private:

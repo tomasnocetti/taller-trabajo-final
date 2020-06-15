@@ -2,27 +2,26 @@
 #define PLAYER_H
 
 #include "Entity.h"
-#include <string>
-#include <vector>
-
-#define LEFT 0
-#define RIGHT 1
-#define UP 2
-#define DOWN 3
+#include "../DataDefinitions.h"
+#include "GameModel.h"
 
 class Player : public Entity{
   private:
-    PlayerDataT playerData;
+    size_t id;
+    PlayerRootData root;
+    Inventory inventory;
+    HealthData health;
+    PositionData position;
+    size_t manaPoints;
+    size_t gold;
+    size_t level;
+    friend class GameModel;
   public:
-    Player();
+    Player(MainPlayerData playerData, size_t id);
     ~Player();
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
-    void create();
-    void move(uint32_t direction);
-    void setPlayerDataToCreateNewPlayer();
-    void revive();
-    std::vector<int> estimateCoordintates(uint32_t direction);
+    void move(std::string x, std::string y);
 };
 
 #endif

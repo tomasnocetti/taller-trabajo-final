@@ -28,6 +28,7 @@ std::vector<size_t> ActivePlayers::getActivePlayers(){
   return playersId;
 }
 
-void ActivePlayers::updateModel(size_t id, GameModel gameModel){
-  models.at(id).push(gameModel);
+void ActivePlayers::updateModel(size_t id, PlayerGameModelData playerModel){
+  std::unique_lock<std::mutex> lk(this->m);
+  models.at(id).push(playerModel);
 }
