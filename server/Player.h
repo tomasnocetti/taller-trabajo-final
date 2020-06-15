@@ -4,6 +4,7 @@
 #include "Entity.h"
 #include "../DataDefinitions.h"
 #include "GameModel.h"
+#include <string>
 
 class Player : public Entity{
   private:

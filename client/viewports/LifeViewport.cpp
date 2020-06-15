@@ -17,7 +17,7 @@ void LifeViewport::paint() {
   this->manaBar.paint(i, maxMana);
   this->healthBar.paint(i, maxHealth);
   i--;
-  if(i == 0)
+  if (i == 0)
   	i = 300;
 }
 

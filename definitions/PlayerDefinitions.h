@@ -3,6 +3,8 @@
 
 #include "EntityDefinitions.h"
 #include "MapDefinitions.h"
+#include <string>
+#include <vector>
 
 typedef enum {
   HUMAN,

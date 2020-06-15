@@ -3,6 +3,7 @@
 
 #include <utility>
 #include <iostream>
+#include <vector>
 
 GameServer::GameServer() : isClose(false), activePlayers(0) {}
 

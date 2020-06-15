@@ -1,4 +1,5 @@
 #include "TileEntity.h"
+#include <string>
 
 TileEntity::TileEntity(
   LTexture* stexture,

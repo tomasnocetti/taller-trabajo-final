@@ -43,10 +43,11 @@ bool GameModel::loadPlayer(InstructionData &instruction){
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {0, 0}, 
   {0, 0, 0, 0}, 0, 0, 0};
   
-  std::unique_ptr<Player> player (new Player(playerData, instruction.playerId));
+  std::unique_ptr<Player> player(new Player(playerData, instruction.playerId));
   players.push_back(std::move(player));
   
-  std::cout << "Id " << instruction.playerId << " cargado exitosamente." << std::endl;
+  std::cout << "Id " << instruction.playerId << " cargado exitosamente." 
+    << std::endl;
 
   return true;
 }
@@ -63,7 +64,8 @@ bool GameModel::move(InstructionData &instruction){
         j++;
       }
     if (canMove)
-      players.at(i)->move(instruction.params.at(0).value, instruction.params.at(1).value);
+      players.at(i)->move(instruction.params.at(0).value, 
+        instruction.params.at(1).value);
     }
     i++;
   }

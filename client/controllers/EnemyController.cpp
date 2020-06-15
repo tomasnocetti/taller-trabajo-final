@@ -1,6 +1,7 @@
 #include "EnemyController.h"
 #include "../view/SkeletonAnimation.h"
 #include "../view/GoblinAnimation.h"
+#include <vector>
 
 EnemyController::EnemyController(ClientProxy& model) : model(model) {}
 

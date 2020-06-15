@@ -5,7 +5,7 @@
 #include <iostream>
 #include <algorithm>
 //#include <fstream>
-//#include <vector>
+#include <vector>
 
 MapController::MapController(ClientProxy& model) : model(model) {}
 
