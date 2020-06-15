@@ -42,8 +42,17 @@ class LTexture {
 		void paint(
       int x,
       int y,
+      double scaleW = 1,
+      double scaleH = 1,
       SDL_Rect* clip = NULL,
-      int scale = 1,
+      double angle = 0.0,
+      SDL_Point* center = NULL,
+      SDL_RendererFlip flip = SDL_FLIP_NONE);
+
+    void paint(
+      int x,
+      int y,
+      SDL_Rect* clip = NULL,
       double angle = 0.0,
       SDL_Point* center = NULL,
       SDL_RendererFlip flip = SDL_FLIP_NONE);

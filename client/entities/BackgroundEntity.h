@@ -12,7 +12,7 @@ class BackgroundEntity: public Entity {
 
     BackgroundEntity(
       LTexture* background);
-    void paint() override;
+    void paint(double scaleW, double scaleH) override;
     void paint(const Camera &camera) override {};
 };
 

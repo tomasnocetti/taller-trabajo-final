@@ -14,6 +14,12 @@
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
+typedef enum {
+  LOGIN,
+  CREATE,
+  RUN
+} GameMode;
+
 class CApp {
   private:
     bool Running;
@@ -24,14 +30,15 @@ class CApp {
     CApp& operator=(const CApp&) = delete;
     ~CApp();
     void OnExecute();
-    
   private:
+    GameMode mode = GameMode::LOGIN;
     ClientProxy model;
     SdlWindow window;
     SdlAssetsManager manager;
     Global globalViewport;
     Map mapViewport;
     LifeViewport lifeViewport;
+    LoginController loginController;
     GlobalController globalController;
     MapController mapController;
     MainPlayerController playerController;

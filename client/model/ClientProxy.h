@@ -14,10 +14,12 @@ class ClientProxy {
     ClientProxy&& operator=(ClientProxy&& other);
     void authentificate(std::string& alias);
     void init();
+    bool isAuthenticated() const;
     MapData getMapData() const;
     MainPlayerData getMainPlayerData() const;
     std::vector<EnemyData> getNPCData() const;
   private:
+    bool authentificated;
     MapData map;
     MainPlayerData mainPlayer;
     std::vector<EnemyData> npcs;

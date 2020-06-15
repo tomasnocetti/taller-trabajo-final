@@ -1,4 +1,5 @@
 #include "LTexture.h"
+#include "SdlUtils.h"
 #include <string>
 #include <stdlib.h>
 
@@ -144,23 +145,35 @@ void LTexture::setAlpha(Uint8 alpha) {
 void LTexture::paint(
   int x,
   int y,
+  double scaleW,
+  double scaleH,
   SDL_Rect* clip,
-  int scale,
   double angle,
   SDL_Point* center,
   SDL_RendererFlip flip
 ) {
 	//Set rendering space and render to screen
-	SDL_Rect renderQuad = { x * scale, y * scale, mWidth, mHeight };
+	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
 	//Set clip rendering dimensions
   if (clip != NULL) {
-		renderQuad.w = clip->w * scale;
-		renderQuad.h = clip->h * scale;
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
 	}
+  renderQuad = sdlScaleRect(renderQuad, scaleW, scaleH);
 
 	//Render to screen
 	SDL_RenderCopyEx(renderer, mTexture, clip, &renderQuad, angle, center, flip);
+}
+
+void LTexture::paint(
+  int x,
+  int y,
+  SDL_Rect* clip,
+  double angle,
+  SDL_Point* center,
+  SDL_RendererFlip flip) {
+  paint(x, y, (double)1, (double) 1, clip, angle, center, flip);
 }
 
 void LTexture::paint(SDL_Rect* clip, SDL_Rect dest) {
