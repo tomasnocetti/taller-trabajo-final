@@ -1,5 +1,6 @@
 #include "GameModel.h"
 #include <iostream>
+#include <utility>
 
 GameModel::GameModel(){}
 
@@ -47,10 +48,11 @@ bool GameModel::loadPlayer(InstructionData &instruction){
   players.insert(std::pair<size_t, 
     std::unique_ptr<Player>>(instruction.playerId,std::move(player)));
   
-  std::cout << "Id " << players.at(instruction.playerId)->id << " cargado exitosamente." 
-    << std::endl;
+  std::cout << "Id " << players.at(instruction.playerId)->id <<
+   " cargado exitosamente." << std::endl;
 
-  std::cout << "El tamaño del mapa de jugadores es " << players.size() << std::endl;
+  std::cout << "El tamaño del mapa de jugadores es " <<
+    players.size() << std::endl;
 
   return true;
 }
@@ -80,7 +82,6 @@ bool GameModel::move(InstructionData &instruction){
 }
 
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
-
   //modelData.npcs = npcs;
   //modelData.map = map;
   if (players.count(id) > 0){
@@ -94,7 +95,6 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   }
     
   modelData.otherPlayers = otherPlayers;
-  
 }
 
 void GameModel::generateOtherPlayersGameData(){
