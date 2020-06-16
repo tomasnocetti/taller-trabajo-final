@@ -8,6 +8,7 @@ CApp::CApp(std::string& host, std::string& port) :
   globalViewport(window),
   mapViewport(window),
   lifeViewport(window),
+  loginController(model, manager),
   globalController(model, manager),
   mapController(model, manager),
   playerController(model, manager),
@@ -36,7 +37,16 @@ void CApp::OnEvent(const SDL_Event& e) {
     Running = false;
   }
   window.handleEvent(e);
-  playerController.handleEvent(e);
+  switch (mode) {
+    case GameMode::LOGIN:
+      // loginController.handleEvent(e);
+      break;
+    case GameMode::CREATE:
+      break;
+    case GameMode::RUN:
+      playerController.handleEvent(e);
+      break;
+  }
 }
 
 void CApp::OnLoop() {
@@ -44,18 +54,31 @@ void CApp::OnLoop() {
 
 void CApp::OnRender() {
   window.clear();
-  globalViewport.paint(globalController.getEntities());
-  mapViewport.paint(mapController.getEntities(),
-    playerController.getEntity(),
-    enemyController.getEntity());
-  lifeViewport.paint();
+
+  switch (mode) {
+    case GameMode::LOGIN:
+      globalViewport.paint(loginController.getEntities());
+      break;
+    case GameMode::CREATE:
+      break;
+    case GameMode::RUN:
+      globalViewport.paint(globalController.getEntities());
+      mapViewport.paint(mapController.getEntities(),
+        playerController.getEntity(),
+        enemyController.getEntity());
+      lifeViewport.paint();
+      break;
+  }
   window.render();
 }
 
 void CApp::OnInit() {
+  LoadAssets();
+
   model.init();
   mapViewport.init();
   lifeViewport.init();
+  loginController.init();
   globalController.init();
   mapController.init();
   playerController.init();
@@ -63,5 +86,11 @@ void CApp::OnInit() {
 }
 
 void CApp::OnCleanup() {}
+
+void CApp::LoadAssets() {
+  manager.addTexture("main-screen-path", MAIN_SCREEN_PATH);
+  manager.addTexture("login-screen-path", LOGIN_SCREEN_PATH);
+  manager.addFont("main", FONT_PATH, 12);
+}
 
 CApp::~CApp() {}

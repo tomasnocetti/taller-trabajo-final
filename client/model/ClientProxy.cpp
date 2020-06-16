@@ -55,3 +55,7 @@ MapData ClientProxy::getMapData() const {
 std::vector<EnemyData> ClientProxy::getNPCData() const {
   return npcs;
 }
+
+bool ClientProxy::isAuthenticated() const {
+  return authentificated;
+}

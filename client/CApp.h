@@ -14,29 +14,40 @@
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
+typedef enum {
+  LOGIN,
+  CREATE,
+  RUN
+} GameMode;
+
+#define MAIN_SCREEN_PATH "client/assets/main-screen.jpg"
+#define LOGIN_SCREEN_PATH "client/assets/main-screens/login-screen.jpg"
+#define FONT_PATH "client/assets/fonts/ringm.ttf"
+
 class CApp {
-  private:
-    bool Running;
-    // SDL_Surface* surface = NULL;
   public:
     CApp(std::string& host, std::string& port);
     CApp(const CApp&) = delete;
     CApp& operator=(const CApp&) = delete;
     ~CApp();
     void OnExecute();
-    
+
   private:
+    bool Running;
+    GameMode mode = GameMode::RUN;
     ClientProxy model;
     SdlWindow window;
     SdlAssetsManager manager;
     Global globalViewport;
     Map mapViewport;
     LifeViewport lifeViewport;
+    LoginController loginController;
     GlobalController globalController;
     MapController mapController;
     MainPlayerController playerController;
     EnemyController enemyController;
     void OnInit();
+    void LoadAssets();
     void OnEvent(const SDL_Event& Event);
     void OnLoop();
     void OnRender();

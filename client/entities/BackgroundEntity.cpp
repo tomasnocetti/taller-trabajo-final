@@ -6,6 +6,6 @@ BackgroundEntity::BackgroundEntity(
   texture = background;
 }
 
-void BackgroundEntity::paint(){
-  texture->paint(0, 0);
+void BackgroundEntity::paint(double scaleW, double scaleH){
+  texture->paint(0, 0, scaleW, scaleH);
 }
