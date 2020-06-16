@@ -6,14 +6,15 @@
 #include <stdio.h>
 #include "../DataDefinitions.h"
 #include "Player.h"
+#include <map>
 
 class Player;
 
 class GameModel{
   private:
     std::vector<EnemyData> npcs;
-    std::vector<std::unique_ptr<Player>> players;
-    std::vector<std::unique_ptr<OtherPlayersData>> otherPlayers;
+    std::map<size_t, std::unique_ptr<Player>> players;
+    std::vector<OtherPlayersData> otherPlayers;
     MapData map;
     // vector de entidades como son margenes del mapa
   public:
@@ -35,6 +36,7 @@ class GameModel{
     /* Devuelve verdadero si la instrucción modifico el modelo, falso
     caso contrario. */
     bool handleInstruction(InstructionData &instruction);
+    void generateOtherPlayersGameData();
 };
 
 #endif

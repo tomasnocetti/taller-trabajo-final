@@ -44,61 +44,66 @@ bool GameModel::loadPlayer(InstructionData &instruction){
   {0, 0, 0, 0}, 0, 0, 0};
   
   std::unique_ptr<Player> player(new Player(playerData, instruction.playerId));
-  players.push_back(std::move(player));
+  players.insert(std::pair<size_t, 
+    std::unique_ptr<Player>>(instruction.playerId,std::move(player)));
   
-  std::cout << "Id " << instruction.playerId << " cargado exitosamente." 
+  std::cout << "Id " << players.at(instruction.playerId)->id << " cargado exitosamente." 
     << std::endl;
+
+  std::cout << "El tamaño del mapa de jugadores es " << players.size() << std::endl;
 
   return true;
 }
 
 bool GameModel::move(InstructionData &instruction){
-  size_t id = instruction.playerId;
-  size_t i = 0, j = 0;
   bool canMove = true;
 
-  while (i < players.size()){
-    if (players.at(i)->id == id){
-      while (j < players.size() && canMove){
-        canMove = players.at(i)->checkCollision(*players.at(j));
-        j++;
-      }
-    if (canMove)
-      players.at(i)->move(instruction.params.at(0).value, 
-        instruction.params.at(1).value);
-    }
-    i++;
+  MainPlayerData playerProxyData;
+  Player playerproxy(playerProxyData, -1);
+
+  playerproxy.move(instruction.params.at(0).value,
+    instruction.params.at(1).value);
+
+  for (auto&it : players){
+    if (it.first == instruction.playerId) continue;
+    canMove = playerproxy.checkCollision(*it.second);
   }
 
-  std::cout << "Mover jugador a x:" << instruction.params.at(0).value 
-  << " y:" << instruction.params.at(1).value << std::endl;
+  std::cout << canMove << std::endl;
+
+  if (!canMove) return canMove;
+
+  players.at(instruction.playerId)->move(instruction.params.at(0).value,
+    instruction.params.at(1).value);
+
   return canMove;
 }
 
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
-  size_t i = 0;
 
   //modelData.npcs = npcs;
   //modelData.map = map;
+  if (players.count(id) > 0){
+    modelData.playerData.gold = players.at(id)->gold;
+    modelData.playerData.health = players.at(id)->health;
+    modelData.playerData.inventory = players.at(id)->inventory;
+    modelData.playerData.level = players.at(id)->level;
+    modelData.playerData.manaPoints = players.at(id)->manaPoints;
+    modelData.playerData.position = players.at(id)->position;
+    modelData.playerData.root = players.at(id)->root;
+  }
+    
+  modelData.otherPlayers = otherPlayers;
   
-  while (i < players.size()){
-    if (players.at(i)->id == id){
-      modelData.playerData.gold = players.at(i)->gold;
-      modelData.playerData.health = players.at(i)->health;
-      modelData.playerData.inventory = players.at(i)->inventory;
-      modelData.playerData.level = players.at(i)->level;
-      modelData.playerData.manaPoints = players.at(i)->manaPoints;
-      modelData.playerData.position = players.at(i)->position;
-      modelData.playerData.root = players.at(i)->root;
-    }else{
-      OtherPlayersData otherPlayer;
-      
-      otherPlayer.id = players.at(i)->id;
-      otherPlayer.otherPlayerPosition = players.at(i)->position;
-      otherPlayer.otherPlayerRoot = players.at(i)->root;
-      
-      modelData.otherPlayers.push_back(std::move(otherPlayer));
-    }
-    i++;
+}
+
+void GameModel::generateOtherPlayersGameData(){
+  OtherPlayersData otherPlayer;
+  otherPlayers.clear();
+  for (auto&it : players){
+    otherPlayer.id = players.at(it.first)->id;
+    otherPlayer.otherPlayerPosition = players.at(it.first)->position;
+    otherPlayer.otherPlayerRoot = players.at(it.first)->root;
+    otherPlayers.push_back(std::move(otherPlayer));
   }
 }

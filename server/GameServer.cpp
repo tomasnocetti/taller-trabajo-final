@@ -20,20 +20,24 @@ void GameServer::init(){
 void GameServer::start(){
   ClientAcceptor acceptor(instructionQueue, activePlayers);
   acceptor.start();
-  
-  while (!isClose){
+  int i = 0;
+
+  while (!isClose && i<4){
     InstructionData instruction;
     instructionQueue.try_front_pop(instruction);
     
-    if (game.handleInstruction(instruction)){
-      std::vector<size_t> playersId = activePlayers.getActivePlayers();
-      
-      for (auto& it :playersId){  
-        PlayerGameModelData modelData = {};
+    i++;
 
-        game.generatePlayerModel(it, modelData);
-        activePlayers.updateModel(it, modelData);
-      }
+    if (!game.handleInstruction(instruction)) continue;    
+    
+    game.generateOtherPlayersGameData();
+    std::vector<size_t> playersId = activePlayers.getActivePlayers();
+      
+    for (auto& it :playersId){  
+      PlayerGameModelData modelData = {};
+
+      game.generatePlayerModel(it, modelData);
+      activePlayers.updateModel(it, modelData);
     }
   }
 }
