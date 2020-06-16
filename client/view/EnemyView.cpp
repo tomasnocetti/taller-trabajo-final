@@ -4,7 +4,6 @@
 EnemyView::EnemyView(int x, int y, Animation *animation) {
 	this->x = x;
 	this->y = y;
-	this->speed = 10;
 	this->animation = animation;
 	animation->set(FORWARD_STAND);
 }
@@ -56,29 +55,30 @@ void PlayerView::walk(int xOffset, int yOffset){
 }*/
 
 void EnemyView::move(int newX, int newY){
-	int xOffset = this->x - newX;
-	int yOffset = this->y - newY;
+	int xOffset = x - newX;
+	int yOffset = y - newY;
 	if(xOffset == 0 && yOffset > 0){
-		this->y = newY;
+		y = newY;
 		animation->set(BACK_WALK);
 	} else if (xOffset == 0 && yOffset < 0){
-		this->y = newY;
+		y = newY;
 		animation->set(FORWARD_WALK);
 	} else if (xOffset > 0 && yOffset == 0){
-		this->x = newX;
+		x = newX;
 		animation->set(LEFT_WALK);
 	} else if (xOffset < 0 && yOffset == 0){
-		this->x = newX;
+		x = newX;
 		animation->set(RIGHT_WALK);
 	}
 }
 
-void EnemyView::paint(const Camera &camera){
-	if (!camera.isInCameraRange(this->x, this->y)) return;
+void EnemyView::paint(const Camera &camera, double scaleW, double scaleH){
+	if (!camera.isInCameraRange(x, y)) return;
 
-  animation->paint(this->x - camera.getX(), this->y - camera.getY());
+  animation->paint(x - camera.getX(), y - camera.getY(), 
+  	scaleW, scaleH);
 }
 
 EnemyView::~EnemyView(){
-	delete this->animation;
+	delete animation;
 }

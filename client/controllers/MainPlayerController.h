@@ -24,8 +24,6 @@ class MainPlayerController {
   private:
     ClientProxy& model;
     SdlAssetsManager& manager;
-    //void move(int xOffset, int yOffset);
-    //void attack();
     PlayerView playerView;
     Bar healthBar;
     Bar manaBar;

@@ -11,12 +11,6 @@
 #define W 217
 #define H 137
 
-//#define BAR_X 628
-//#define BAR_W 106
-//#define BAR_H 11
-//#define MANA_BAR_Y 491
-//#define HEALTH_BAR_Y 542
-
 class LifeViewport : SdlViewport{
 	public:
 		//Initializes variables

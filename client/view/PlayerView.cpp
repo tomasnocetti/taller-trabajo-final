@@ -24,19 +24,19 @@ void PlayerView::stand(int xOffset, int yOffset){
 }
 
 void PlayerView::walk(int newX, int newY){
-	int xOffset = this->x - newX;
-	int yOffset = this->y - newY;
+	int xOffset = x - newX;
+	int yOffset = y - newY;
 	if(xOffset == 0 && yOffset > 0){
-		this->y = newY;
+		y = newY;
 		animation->set(BACK_WALK);
 	} else if (xOffset == 0 && yOffset < 0){
-		this->y = newY;
+		y = newY;
 		animation->set(FORWARD_WALK);
 	} else if (xOffset > 0 && yOffset == 0){
-		this->x = newX;
+		x = newX;
 		animation->set(LEFT_WALK);
 	} else if (xOffset < 0 && yOffset == 0){
-		this->x = newX;
+		x = newX;
 		animation->set(RIGHT_WALK);
 	}
 
@@ -50,10 +50,11 @@ void PlayerView::walk(int newX, int newY){
 		this->y = 47 * 16 - 48;*/
 }
 
-void PlayerView::paint(const Camera &camera){
-	animation->paint(this->x - camera.getX(), this->y - camera.getY());
+void PlayerView::paint(const Camera &camera, double scaleW, double scaleH){
+	animation->paint(x - camera.getX(), y - camera.getY(), 
+		scaleW, scaleH);
 }
 
 PlayerView::~PlayerView() {
-  delete this->animation;
+  delete animation;
 }

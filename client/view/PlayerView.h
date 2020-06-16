@@ -11,12 +11,13 @@ class PlayerView : public Entity {
 		void init(LTexture* texture, int x, int y);
 		void stand(int xOffset, int yOffset);
 		void walk(int newX, int newY);
-		void paint() override {}
-    void paint(const Camera &camera) override;
+		void paint(double scaleW, double scaleH) override {}
+    void paint(const Camera &camera, 
+    	double scaleW, double scaleH) override;
 		PlayerView(const PlayerView&) = delete;
     PlayerView& operator=(const PlayerView&) = delete;
 	private:
-	  PlayerAnimation* animation;
+	  Animation* animation;
 };
 
 #endif

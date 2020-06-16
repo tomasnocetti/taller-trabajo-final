@@ -51,7 +51,7 @@ void ClientProxy::init() {
   mainPlayer.points.totalMP = 100;
   mainPlayer.points.currentHP = 100;
   mainPlayer.points.currentMP = 100;
-  mainPlayer.speed = 5;
+  mainPlayer.speed = 2;
   mainPlayer.gold = 0;
 }
 
@@ -79,6 +79,6 @@ std::vector<EnemyData> ClientProxy::getNPCData() const {
   return npcs;
 }
 
-void ClientProxy::a(int a) {
-  mainPlayer.gold += a;
+bool ClientProxy::isAuthenticated() const {
+  return authentificated;
 }

@@ -1,4 +1,5 @@
 #include "LTexture.h"
+#include "SdlUtils.h"
 #include <string>
 #include <stdlib.h>
 #include "SdlException.h"
@@ -80,28 +81,22 @@ bool LTexture::loadFromFile(std::string path) {
 }
 
 bool LTexture::loadFromRenderedText(
+  TTF_Font *gFont,
   std::string textureText,
   SDL_Color textColor) {
 	//Get rid of preexisting texture
 	free();
-	//no me abre si no le pongo el path absoluto, no se que onda
-	TTF_Font* gFont = TTF_OpenFont("/home/lautaro/Escritorio/taller-trabajo-final/client/assets/a.ttf", 18);
-	if(!gFont){
-		throw SdlException("Error en la inicialización TTF", TTF_GetError());
-	}
 	//Render text surface
 	SDL_Surface* textSurface = TTF_RenderText_Blended(
     gFont,
     textureText.c_str(),
     textColor);
 
-	if (textSurface != NULL)
-	{
+  if (textSurface != NULL) {
 		//Create texture from surface pixels
     mTexture = SDL_CreateTextureFromSurface(renderer, textSurface);
 		if (mTexture == NULL) {
-			printf(
-        "Unable to create texture from rendered text! SDL Error: %s\n",
+			printf("Unable to create texture from rendered text! SDL Error: %s\n",
         SDL_GetError());
 		} else {
 			//Get image dimensions
@@ -115,7 +110,6 @@ bool LTexture::loadFromRenderedText(
 		printf("Unable to render text surface! SDL_ttf Error: %s\n", TTF_GetError());
 	}
 
-	TTF_CloseFont(gFont);
 	//Return success
 	return mTexture != NULL;
 }
@@ -146,34 +140,48 @@ void LTexture::setAlpha(Uint8 alpha) {
 }
 
 void LTexture::queryTexture(int &w, int &h) {
-	SDL_QueryTexture(this->mTexture, NULL, NULL, &w, &h);
+	SDL_QueryTexture(mTexture, NULL, NULL, &w, &h);
 }
 
 void LTexture::paint(
   int x,
   int y,
+  double scaleW,
+  double scaleH,
   SDL_Rect* clip,
-  int scale,
   double angle,
   SDL_Point* center,
   SDL_RendererFlip flip
 ) {
 	//Set rendering space and render to screen
-	SDL_Rect renderQuad = { x * scale, y * scale, mWidth, mHeight };
+	SDL_Rect renderQuad = { x, y, mWidth, mHeight };
 
 	//Set clip rendering dimensions
   if (clip != NULL) {
-		renderQuad.w = clip->w * scale;
-		renderQuad.h = clip->h * scale;
+		renderQuad.w = clip->w;
+		renderQuad.h = clip->h;
 	}
+  renderQuad = sdlScaleRect(renderQuad, scaleW, scaleH);
 
 	//Render to screen
 	SDL_RenderCopyEx(renderer, mTexture, clip, &renderQuad, angle, center, flip);
 }
 
-void LTexture::paint(SDL_Rect* dest) {
+//por que estaba este paint?
+/*void LTexture::paint(
+  int x,
+  int y,
+  SDL_Rect* clip,
+  double angle,
+  SDL_Point* center,
+  SDL_RendererFlip flip) {
+  paint(x, y, (double)1, (double) 1, clip, angle, center, flip);
+}*/
+
+void LTexture::paint(SDL_Rect dest, double scaleW, double scaleH) {
 	//Render to screen
-	SDL_RenderCopy(renderer, mTexture, NULL, dest);
+	SDL_Rect renderQuad = sdlScaleRect(dest, scaleW, scaleH);
+	SDL_RenderCopy(renderer, mTexture, NULL, &renderQuad);
 }
 
 int LTexture::getWidth(){

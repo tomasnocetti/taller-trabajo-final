@@ -10,15 +10,20 @@
 class TextEntity : public Entity {
 	private:
 		LTexture* texture;
-
+		TTF_Font* font;
+		std::string previousText;
+		int x;
+		int y;
+		
 	public:
 		TextEntity();
 		TextEntity(const TextEntity&) = delete;
     TextEntity& operator=(const TextEntity&) = delete;
-		void init(LTexture* texture, std::string initialText);
+		void init(int x, int y, LTexture* texture, TTF_Font* font);
 		void update(std::string text);
-		void paint(const Camera &camera) override {};
-		void paint() override;
+		void paint(const Camera &camera, 
+			double scaleW, double scaleH) override {};
+		void paint(double scaleW, double scaleH) override;
 };
 
 #endif

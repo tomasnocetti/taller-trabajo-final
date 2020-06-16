@@ -16,9 +16,16 @@ void Map::paint(EntityList& entities, Entity &player, EntityList& enemies) {
   fit();
   this->camera.setX(player.x - MAIN_SCREEN_BASE_MAP_W / 2);
   this->camera.setY(player.y - MAIN_SCREEN_BASE_MAP_H / 2);
-  for (auto& e : entities) e->paint(camera);
-  for (auto& e : enemies) e->paint(camera);
-  player.paint(camera);
+  for (auto& e : entities) {
+    e->paint(
+      camera,
+      getScaleWidthFactor(),
+      getScaleHeightFactor());
+  }
+  for (auto& e : enemies) e->paint(camera, getScaleWidthFactor(),
+      getScaleHeightFactor());
+  player.paint(camera, getScaleWidthFactor(),
+      getScaleHeightFactor());
 }
 
 Map::~Map() {}

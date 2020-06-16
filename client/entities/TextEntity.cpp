@@ -2,20 +2,25 @@
 
 TextEntity::TextEntity() {}
 
-void TextEntity::init(LTexture* texture, std::string initialText) {
+void TextEntity::init(int x, int y, LTexture* texture, TTF_Font* font) {
 	this->texture = texture;
-	SDL_Color white = {255, 255, 255, 255};
-	this->texture->loadFromRenderedText(initialText, white);
+	this->font = font;
+	this->x = x;
+	this->y = y;
+	previousText = "";
 }
 
 void TextEntity::update(std::string text) {
+	if(text == previousText) return;
+
 	SDL_Color white = {255, 255, 255, 255};
-	this->texture->loadFromRenderedText(text, white);
+	texture->loadFromRenderedText(font, text, white);
+	previousText = text;
 }
 
-void TextEntity::paint(){
+void TextEntity::paint(double scaleW, double scaleH){
 	int w, h;
-	this->texture->queryTexture(w, h);
-	SDL_Rect destRect = {115, 8, w, h};
-	this->texture->paint(&destRect);
+	texture->queryTexture(w, h);
+	SDL_Rect destRect = {x, y, w, h};
+	texture->paint(destRect, scaleW, scaleH);
 }

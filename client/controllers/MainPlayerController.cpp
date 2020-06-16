@@ -2,6 +2,8 @@
 
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
+#define GOLD_Y 10
+#define GOLD_X 105
 
 MainPlayerController::MainPlayerController(
   ClientProxy& model,
@@ -17,12 +19,13 @@ void MainPlayerController::init(){
   MainPlayerData data = model.getMainPlayerData();
   int x = data.position.x;
   int y = data.position.y;
+  TTF_Font* font = manager.getFont("main");
 
   playerView.init(
     manager.getTexture("player-view"), x, y);
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y);
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y);
-  gold.init(manager.createTexture(), std::to_string(data.gold));
+  gold.init(GOLD_X, GOLD_Y, manager.createTexture(), font);
 }
 
 void MainPlayerController::update() {
@@ -34,43 +37,17 @@ void MainPlayerController::update() {
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e){
-  switch (e.type){
-    case SDL_KEYDOWN:
-      switch (e.key.keysym.sym){
-        case SDLK_w:
-          model.walk(0, -1);
-        break;
-        case SDLK_s:
-          model.walk(0, 1);
-        break;
-        case SDLK_a:
-          model.walk(-1, 0);
-        break;
-        case SDLK_d:
-          model.walk(1, 0);
-        break;
-        case SDLK_f:
-          model.a(100);
-        break;
-      }
-    break;
+  if(e.type == SDL_MOUSEMOTION) return;
 
-    /*case SDL_KEYUP:
-      switch (e.key.keysym.sym){
-        case SDLK_w:
-          model.stand(0, -1);
-        break;
-        case SDLK_s:
-          model.stand(0, 1);
-        break;
-        case SDLK_a:
-          model.stand(-1, 0);
-        break;
-        case SDLK_d:
-          model.stand(1, 0);
-        break;
-      }
-    break;*/
+  const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+  if(currentKeyStates[SDL_SCANCODE_W]) {
+    model.walk(0, -1);
+  } else if(currentKeyStates[SDL_SCANCODE_S]) {
+    model.walk(0, 1);
+  } else if(currentKeyStates[SDL_SCANCODE_A]) {
+    model.walk(-1, 0);
+  } else if(currentKeyStates[SDL_SCANCODE_D]) {
+    model.walk(1, 0);
   }
 }
 
@@ -80,9 +57,9 @@ Entity &MainPlayerController::getEntity(){
 
 std::vector<Entity*> MainPlayerController::getBars() {
   std::vector<Entity*> v;
-  v.push_back(&this->healthBar);
-  v.push_back(&this->manaBar);
-  v.push_back(&this->gold);
+  v.push_back(&healthBar);
+  v.push_back(&manaBar);
+  v.push_back(&gold);
   return v;
 }
 
