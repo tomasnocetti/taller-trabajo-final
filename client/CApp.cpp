@@ -50,11 +50,13 @@ void CApp::OnEvent(const SDL_Event& e) {
 }
 
 void CApp::OnLoop() {
+  //SDL_Delay(1000/60);
+  playerController.update();
+  enemyController.update();
 }
 
 void CApp::OnRender() {
   window.clear();
-
   switch (mode) {
     case GameMode::LOGIN:
       globalViewport.paint(loginController.getEntities());
@@ -66,7 +68,7 @@ void CApp::OnRender() {
       mapViewport.paint(mapController.getEntities(),
         playerController.getEntity(),
         enemyController.getEntity());
-      lifeViewport.paint();
+      lifeViewport.paint(playerController.getBars());
       break;
   }
   window.render();
@@ -76,13 +78,17 @@ void CApp::OnInit() {
   LoadAssets();
 
   model.init();
-  mapViewport.init();
-  lifeViewport.init();
+
   loginController.init();
   globalController.init();
   mapController.init();
   playerController.init();
   enemyController.init();
+
+  mapViewport.init();
+  MapData data = model.getMapData();
+  mapViewport.setMaxCameraDimensions(data);
+  lifeViewport.init();
 }
 
 void CApp::OnCleanup() {}

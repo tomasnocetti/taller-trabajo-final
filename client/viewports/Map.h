@@ -5,6 +5,7 @@
 #include "../sdl/SdlViewport.h"
 #include "../view/Camera.h"
 #include "../entities/Entity.h"
+#include "../../definitions/MapDefinitions.h"
 
 #define MAIN_SCREEN_BASE_MAP_X 11
 #define MAIN_SCREEN_BASE_MAP_Y 154
@@ -24,6 +25,7 @@ class Map : SdlViewport{
     Map& operator=(const Map&) = delete;
     void paint(EntityList& entities, Entity &player, EntityList& enemies);
     void init();
+    void setMaxCameraDimensions(MapData data);
 		//Deallocates memory
 		~Map();
 	private:

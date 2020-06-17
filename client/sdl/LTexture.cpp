@@ -2,6 +2,7 @@
 #include "SdlUtils.h"
 #include <string>
 #include <stdlib.h>
+#include "SdlException.h"
 
 LTexture::LTexture(SDL_Renderer* renderer) :
   renderer(renderer) {
@@ -85,7 +86,6 @@ bool LTexture::loadFromRenderedText(
   SDL_Color textColor) {
 	//Get rid of preexisting texture
 	free();
-
 	//Render text surface
 	SDL_Surface* textSurface = TTF_RenderText_Blended(
     gFont,
@@ -139,6 +139,10 @@ void LTexture::setAlpha(Uint8 alpha) {
 	SDL_SetTextureAlphaMod(mTexture, alpha);
 }
 
+void LTexture::queryTexture(int &w, int &h) {
+	SDL_QueryTexture(mTexture, NULL, NULL, &w, &h);
+}
+
 void LTexture::paint(
   int x,
   int y,
@@ -163,7 +167,8 @@ void LTexture::paint(
 	SDL_RenderCopyEx(renderer, mTexture, clip, &renderQuad, angle, center, flip);
 }
 
-void LTexture::paint(
+//por que estaba este paint?
+/*void LTexture::paint(
   int x,
   int y,
   SDL_Rect* clip,
@@ -171,11 +176,12 @@ void LTexture::paint(
   SDL_Point* center,
   SDL_RendererFlip flip) {
   paint(x, y, (double)1, (double) 1, clip, angle, center, flip);
-}
+}*/
 
-void LTexture::paint(SDL_Rect* clip, SDL_Rect dest) {
+void LTexture::paint(SDL_Rect dest, double scaleW, double scaleH) {
 	//Render to screen
-	SDL_RenderCopy(renderer, mTexture, clip, &dest);
+	SDL_Rect renderQuad = sdlScaleRect(dest, scaleW, scaleH);
+	SDL_RenderCopy(renderer, mTexture, NULL, &renderQuad);
 }
 
 int LTexture::getWidth(){

@@ -38,6 +38,8 @@ class LTexture {
 		//Set alpha modulation
 		void setAlpha(Uint8 alpha);
 
+		void queryTexture(int &w, int &h);
+
 		//Renders texture at given point
 		void paint(
       int x,
@@ -49,15 +51,15 @@ class LTexture {
       SDL_Point* center = NULL,
       SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-    void paint(
+    /*void paint(
       int x,
       int y,
       SDL_Rect* clip = NULL,
       double angle = 0.0,
       SDL_Point* center = NULL,
-      SDL_RendererFlip flip = SDL_FLIP_NONE);
+      SDL_RendererFlip flip = SDL_FLIP_NONE);*/
 
-		void paint(SDL_Rect* clip, SDL_Rect dest);
+		void paint(SDL_Rect dest, double scaleW, double scaleH);
 
 		//Gets image dimensions
 		int getWidth();

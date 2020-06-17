@@ -1,31 +1,13 @@
 #include "Animation.h"
 #include "AnimationTypes.h"
+#include <SDL2/SDL.h>
 
 Animation::Animation(LTexture* texture) :
   texture(texture) {}
 
-Animation::Animation(Animation&& other) {
-  /*this->mTexture = other.mTexture;
-  this->mWidth = other.mWidth;
-  this->mHeight = other.mHeight;
-  this->renderer = other.renderer;
-  other.mTexture = NULL;
-  other.renderer = NULL;*/
-}
-
-Animation& Animation::operator=(Animation&& other) {
-  /*this->mTexture = other.mTexture;
-  this->mWidth = other.mWidth;
-  this->mHeight = other.mHeight;
-  this->renderer = other.renderer;
-  other.mTexture = NULL;
-  other.renderer = NULL;*/
-  return *this;
-}
-
 void Animation::init(){
 	/** Fill needed animation from SdlAssetsManager **/
-	this->index = 0;
+	index = 0;
 	cropAnimationFrames();
 }
 
@@ -34,43 +16,38 @@ void Animation::cropAnimationFrames() {}
 void Animation::set(int currentAnim){
 	switch(currentAnim){
 		case BACK_WALK:
-			if(index >= backwardFrames)
-				index = 0;
-			this->lastFrame = backwardAnim[index];
+			index = (SDL_GetTicks() / 125) % backwardFrames;
+			lastFrame = backwardAnim[index];
 		break;
 		case FORWARD_WALK:
-			if(index >= forwardFrames)
-				index = 0;
-			this->lastFrame = forwardAnim[index];
+			index = (SDL_GetTicks() / 125) % forwardFrames;
+			lastFrame = forwardAnim[index];
 		break;
 		case LEFT_WALK:
-			if(index >= leftFrames)
-				index = 0;
-			this->lastFrame = leftAnim[index];
+			index = (SDL_GetTicks() / 125) % leftFrames;
+			lastFrame = leftAnim[index];
 		break;
 		case RIGHT_WALK:
-			if(index >= rightFrames)
-				index = 0;
-			this->lastFrame = rightAnim[index];
+			index = (SDL_GetTicks() / 125) % rightFrames;
+			lastFrame = rightAnim[index];
 		break;
 		case BACK_STAND:
-			this->lastFrame = backwardAnim[0];
+			lastFrame = backwardAnim[0];
 		break;
 		case FORWARD_STAND:
-			this->lastFrame = forwardAnim[0];
+			lastFrame = forwardAnim[0];
 		break;
 		case LEFT_STAND:
-			this->lastFrame = leftAnim[0];
+			lastFrame = leftAnim[0];
 	  break;
 		case RIGHT_STAND:
-			this->lastFrame = rightAnim[0];
+			lastFrame = rightAnim[0];
 		break;
 	}
-	index++;
 }
 
-void Animation::paint(int x, int y){
-	this->texture->paint(x, y, &this->lastFrame);
+void Animation::paint(int x, int y, double scaleW, double scaleH){
+	texture->paint(x, y, scaleW, scaleH, &lastFrame);
 }
 
 Animation::~Animation() {}

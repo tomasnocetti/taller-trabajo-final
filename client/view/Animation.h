@@ -15,7 +15,7 @@ class Animation {
     Animation& operator=(Animation&& other);
 		void init();
 		void set(int currentAnim);
-		void paint(int x, int y);
+		void paint(int x, int y, double scaleW, double scaleH);
 		virtual ~Animation();
 
 	protected:

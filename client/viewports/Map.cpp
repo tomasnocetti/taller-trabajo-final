@@ -7,6 +7,11 @@ void Map::init() {
   this->camera.init(0, 0, MAIN_SCREEN_BASE_MAP_W, MAIN_SCREEN_BASE_MAP_H);
 }
 
+void Map::setMaxCameraDimensions(MapData data){
+	this->camera.setMaxDimensions(data.width * data.tilewidth, 
+		data.height * data.tileheight);
+}
+
 void Map::paint(EntityList& entities, Entity &player, EntityList& enemies) {
   fit();
   this->camera.setX(player.x - MAIN_SCREEN_BASE_MAP_W / 2);
@@ -17,8 +22,10 @@ void Map::paint(EntityList& entities, Entity &player, EntityList& enemies) {
       getScaleWidthFactor(),
       getScaleHeightFactor());
   }
-  for (auto& e : enemies) e->paint(camera);
-  player.paint(camera);
+  for (auto& e : enemies) e->paint(camera, getScaleWidthFactor(),
+      getScaleHeightFactor());
+  player.paint(camera, getScaleWidthFactor(),
+      getScaleHeightFactor());
 }
 
 Map::~Map() {}

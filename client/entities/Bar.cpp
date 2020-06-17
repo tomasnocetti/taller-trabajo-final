@@ -1,22 +1,19 @@
 #include "Bar.h"
-#include <iostream>
-#include <string>
 
 Bar::Bar() {}
 
-void Bar::init(SdlWindow& window, std::string path, 
-	int x, int y, int w, int h) {
-	// this->texture = window.createTexture();
-	// this->texture.loadFromFile(path);
-	this->destRect = {x, y, w, h};
-	this->maxValueWidth = w;
+void Bar::init(LTexture* texture, int y) {
+	this->texture = texture;
+	destRect = {BAR_X, y, BAR_W, BAR_H};
 }
 
-void Bar::paint(int value, int maxValue) {
+void Bar::update(int value, int maxValue) {
 	int aux = value;
 	if(aux < 0)
 		aux = 0;
-	destRect.w = (aux * maxValueWidth) / maxValue;
-	// SDL_Rect clip = {0, 0, 40, 40};
-	// this->texture.paint(&clip, destRect);
+	destRect.w = (aux * BAR_W) / maxValue;
+}
+
+void Bar::paint(double scaleW, double scaleH) {
+	texture->paint(destRect, scaleW, scaleH);
 }

@@ -17,7 +17,8 @@ class TextInputEntity: public Entity {
     TextInputEntity& operator=(const TextInputEntity&) = delete;
     TextInputEntity&& operator=(TextInputEntity&& other);
     void paint(double scaleW, double scaleH) override;
-    void paint(const Camera &camera) override {};
+    void paint(const Camera &camera, 
+      double scaleW, double scaleH) override {};
 
   private:
     LTexture* texture;

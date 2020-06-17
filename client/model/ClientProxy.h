@@ -14,10 +14,13 @@ class ClientProxy {
     ClientProxy&& operator=(ClientProxy&& other);
     void authentificate(std::string& alias);
     void init();
+    void walk(int x, int y);
+    void walkNPC(int x, int y);
     bool isAuthenticated() const;
     MapData getMapData() const;
     MainPlayerData getMainPlayerData() const;
     std::vector<EnemyData> getNPCData() const;
+    
   private:
     bool authentificated;
     MapData map;
