@@ -1,12 +1,12 @@
-#ifndef SERVER_PROXY_H
-#define SERVER_PROXY_H
+#ifndef CLIENT_PROXY_H
+#define CLIENT_PROXY_H
 
-#include "GameServer.h"
+#include "ClientProxy.h"
 #include "Player.h"
 #include "../common/BlockingQueue.h"
 #include "../common/Thread.h"
 
-class GameServer;
+class ClientProxy;
 using InstructionDataBQ = BlockingQueue<InstructionData>;
 using UpDateClientsBQ = FixedBlockingQueue<PlayerGameModelData>;
 

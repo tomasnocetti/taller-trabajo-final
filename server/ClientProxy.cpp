@@ -1,15 +1,15 @@
-#include "ServerProxy.h"
+#include "ClientProxy.h"
 
 #include <iostream>
 #include <vector>
 #include <unistd.h>
 
-ServerProxy::ServerProxy(InstructionDataBQ &instructionQueue, 
+ClientProxy::ClientProxy(InstructionDataBQ &instructionQueue, 
   ActivePlayers &activePlayers): instructionQueue(instructionQueue), 
   continuePlaying(true), activePlayers(activePlayers), clientBQ(1){
 }
 
-void ServerProxy::run(){
+void ClientProxy::run(){
   /* Con este id, genero una nueva instrucción loadPlayer, y la pusheo
   a la instructionQueue para que el jugador sea dado de alta con sus
   respectivos datos de MainPlayerData almacenado en la base de datos. */
@@ -31,8 +31,8 @@ void ServerProxy::run(){
   }
 }
 
-void ServerProxy::stopPlaying(){
+void ClientProxy::stopPlaying(){
   continuePlaying = false;
 }
 
-ServerProxy::~ServerProxy(){}
+ClientProxy::~ClientProxy(){}
