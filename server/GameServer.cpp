@@ -5,44 +5,35 @@
 #include <iostream>
 #include <vector>
 
-GameServer::GameServer() : isClose(false), activePlayers(0) {}
+GameServer::GameServer() : running(true) {}
 
 GameServer::~GameServer(){}
 
 void GameServer::init(){
-/* Cargar todo lo que el servidor necesite 
-     Cargar Mapa en memoria.
-     Cargar Archivo con datos indexables del jugador.
-     Cargar Definiciones.
-*/
+  /* Cargar todo lo que el servidor necesite
+    Cargar Mapa en memoria.
+    Cargar Archivo con datos indexables del jugador.
+    Cargar Definiciones.
+  */
 }
 
 void GameServer::start(){
-  ClientAcceptor acceptor(instructionQueue, activePlayers);
+  ClientAcceptor acceptor(instructionQueue);
   acceptor.start();
   int i = 0;
 
-  while (!isClose && i<4){
-    InstructionData instruction;
-    instructionQueue.try_front_pop(instruction);
-    
+  while (running && i<1000){
     i++;
 
-    if (!game.handleInstruction(instruction)) continue;    
-    
-    game.generateOtherPlayersGameData();
-    std::vector<size_t> playersId = activePlayers.getActivePlayers();
-      
-    for (auto& it :playersId){  
-      PlayerGameModelData modelData = {};
+    std::unique_ptr<Instruction> instruction;
+    instructionQueue.try_front_pop(instruction);
 
-      game.generatePlayerModel(it, modelData);
-      activePlayers.updateModel(it, modelData);
-    }
+
+    instruction->run(game);
+    game.propagate();
   }
 }
 
 void GameServer::close(){
-  isClose = true;
-  // cerrar socket
+  running = false;
 }

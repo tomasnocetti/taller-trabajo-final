@@ -6,79 +6,70 @@ GameModel::GameModel(){}
 
 GameModel::~GameModel(){}
 
-bool GameModel::handleInstruction(InstructionData &instruction){
-ActionTypeT action = instruction.action;
-  switch (action)
-  {
-    case LOAD_PLAYER:
-      return loadPlayer(instruction);
-      break;
-    case MOVE:
-      return move(instruction);
-      break;
-    case BUY:
-      return true;
-      break;
-    case DEPOSIT_GOLD:
-      return true;
-      break;
-    case DEPOSIT_ITEM: 
-      return true;
-      break;
-    case ATTACK:
-      return true;
-      break;
-    case CLOSE_SERVER:
-      std::cout << "Se cerrará el server." << std::endl;
-      return true;
-      break;
-    default:
-      std::cout << "El jugador quiere realizar otra accion. " << std::endl;
-      return true;
-      break;
-  }
-}
+bool GameModel::authenticate(
+  std::string& nick, 
+  UpdateClientBQ& clientBQ, 
+  size_t& playerId) {
 
-bool GameModel::loadPlayer(InstructionData &instruction){
-  /* Este main player data lo obtengo de los archivos. */
-  MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {0, 0}, 
-  {0, 0, 0, 0}, 0, 0, 0};
-  
-  std::unique_ptr<Player> player(new Player(playerData, instruction.playerId));
-  players.insert(std::pair<size_t, 
-    std::unique_ptr<Player>>(instruction.playerId,std::move(player)));
-  
-  std::cout << "Id " << players.at(instruction.playerId)->id <<
-   " cargado exitosamente." << std::endl;
-
-  std::cout << "El tamaño del mapa de jugadores es " <<
-    players.size() << std::endl;
+  playerId = 4;
+  //VALIDATE CLIENT EXISTS//
+  clientsBQ.insert(std::pair<size_t, UpdateClientBQ&>(playerId, clientBQ));
 
   return true;
 }
 
-bool GameModel::move(InstructionData &instruction){
-  bool canMove = true;
+// void GameModel::loadPlayer(){
+  /* Este main player data lo obtengo de los archivos. */
+  // MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {0, 0}, 
+  // {0, 0, 0, 0}, 0, 0, 0};
+  
+  // std::unique_ptr<Player> player(new Player(playerData, instruction.playerId));
+  // players.insert(std::pair<size_t, 
+  //   std::unique_ptr<Player>>(instruction.playerId,std::move(player)));
+  
+  // std::cout << "Id " << players.at(instruction.playerId)->id <<
+  //  " cargado exitosamente." << std::endl;
 
-  MainPlayerData playerProxyData;
-  Player playerproxy(playerProxyData, -1);
+  // std::cout << "El tamaño del mapa de jugadores es " <<
+  //   players.size() << std::endl;
 
-  playerproxy.move(instruction.params.at(0).value,
-    instruction.params.at(1).value);
+//   return true;
+// }
 
-  for (auto&it : players){
-    if (it.first == instruction.playerId) continue;
-    canMove = playerproxy.checkCollision(*it.second);
-  }
+void GameModel::move(){
+  // bool canMove = true;
 
-  std::cout << canMove << std::endl;
+  // MainPlayerData playerProxyData;
+  // Player playerproxy(playerProxyData, -1);
 
-  if (!canMove) return canMove;
+  // playerproxy.move(instruction.params.at(0).value,
+  //   instruction.params.at(1).value);
 
-  players.at(instruction.playerId)->move(instruction.params.at(0).value,
-    instruction.params.at(1).value);
+  // for (auto&it : players){
+  //   if (it.first == instruction.playerId) continue;
+  //   canMove = playerproxy.checkCollision(*it.second);
+  // }
 
-  return canMove;
+  // std::cout << canMove << std::endl;
+
+  // if (!canMove) return canMove;
+
+  // players.at(instruction.playerId)->move(instruction.params.at(0).value,
+  //   instruction.params.at(1).value);
+
+  // return canMove;
+}
+
+void GameModel::propagate() {
+  // generateOtherPlayersGameData();
+  // std::vector<size_t> playersId = activePlayers.getActivePlayers();
+
+  // for (auto& it :playersId){
+  //   PlayerGameModelData modelData = {};
+
+  //   game.generatePlayerModel(it, modelData);
+  //   activePlayers.updateModel(it, modelData);
+  // }
 }
 
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){

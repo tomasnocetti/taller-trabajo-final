@@ -1,9 +1,8 @@
 #include "ClientAcceptor.h"
 #include <utility>
 
-ClientAcceptor::ClientAcceptor(InstructionDataBQ &instructionQueue, 
-  ActivePlayers &activePlayers) : instructionQueue(instructionQueue),
-  activePlayers(activePlayers){}
+ClientAcceptor::ClientAcceptor(InstructionDataBQ &instructionQueue) :
+  instructionQueue(instructionQueue) {}
 
 ClientAcceptor::~ClientAcceptor(){}
 
@@ -17,8 +16,8 @@ void ClientAcceptor::run(){
 }
 
 void ClientAcceptor::acceptPlayer(){
-  std::unique_ptr<ServerProxy> p
-    (new ServerProxy(instructionQueue, activePlayers));
+  std::unique_ptr<ClientProxy> p(
+    new ClientProxy(instructionQueue));
   p->start();
   serverProxies.push_back(std::move(p));
 }

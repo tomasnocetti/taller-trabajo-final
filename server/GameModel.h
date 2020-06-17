@@ -4,14 +4,17 @@
 #include <vector>
 #include <string>
 #include <stdio.h>
+#include "../common/BlockingQueue.h"
 #include "../DataDefinitions.h"
 #include "Player.h"
 #include <map>
 
 class Player;
+using UpdateClientBQ = FixedBlockingQueue<PlayerGameModelData>;
 
 class GameModel{
   private:
+    std::map<size_t, UpdateClientBQ&> clientsBQ;
     std::vector<EnemyData> npcs;
     std::map<size_t, std::unique_ptr<Player>> players;
     std::vector<OtherPlayersData> otherPlayers;
@@ -22,20 +25,19 @@ class GameModel{
     ~GameModel();
     GameModel(const GameModel&) = delete;
     GameModel& operator=(const GameModel&) = delete;
-    /* Handle loadPlayer instruction. 
-    Crea una instancia de Player, y le asigna
-    los datos correspondientes a ese id. */
-    bool loadPlayer(InstructionData &instruction);
-    /* En base al id del jugador, va a armar una estructura con los datos 
-    necesarios para que dicho cliente updatee su modelo. */
-    void generatePlayerModel(size_t id, PlayerGameModelData &modelData);
     /* Handle move instruction.
     Chequea colisiones. Si lo puede mover, lo mueve, caso contrario el modelo
     permanece intalterado. */
-    bool move(InstructionData &instruction);
-    /* Devuelve verdadero si la instrucción modifico el modelo, falso
-    caso contrario. */
-    bool handleInstruction(InstructionData &instruction);
+    void move();
+    /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
+      Devuelve true si pudo o es valido, false de lo contrario. */
+    bool authenticate(std::string& nick, UpdateClientBQ& clientBQ, size_t& playerId);
+    /* Elimina al jugador del juego activo. */
+    void deAuthenticate(size_t playerId);
+    /* En base al id del jugador, va a armar una estructura con los datos 
+    necesarios para que dicho cliente updatee su modelo. */
+    void generatePlayerModel(size_t id, PlayerGameModelData &modelData);
+    void propagate();
     void generateOtherPlayersGameData();
 };
 

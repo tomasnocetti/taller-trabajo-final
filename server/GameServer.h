@@ -9,19 +9,18 @@
 #include "Player.h"
 #include "../DataDefinitions.h"
 #include "../common/BlockingQueue.h"
-#include "ActivePlayers.h"
+#include "instructions/Instruction.h"
 #include "GameModel.h"
 
-class ServerProxy;
+class ClientProxy;
 
-using InstructionDataBQ = BlockingQueue<InstructionData>;
-using UpDateClientsBQ = FixedBlockingQueue<PlayerGameModelData>;
+using InstructionBQ = BlockingQueue<std::unique_ptr<Instruction>>;
+using UpdateClientsBQ = FixedBlockingQueue<PlayerGameModelData>;
 
 class GameServer{
-  private: 
-    bool isClose;
-    InstructionDataBQ instructionQueue;
-    ActivePlayers activePlayers;
+  private:
+    bool running;
+    InstructionBQ instructionQueue;
     GameModel game;
   public:
     GameServer();

@@ -3,21 +3,18 @@
 
 #include "../common/BlockingQueue.h"
 #include "../common/Thread.h"
-#include "ServerProxy.h"
+#include "ClientProxy.h"
 #include <vector>
 #include <memory>
-#include "ActivePlayers.h"
 
 class BlockinQueue;
 
 class ClientAcceptor : public Thread{
   private:
-    std::vector<std::unique_ptr<ServerProxy>> serverProxies;
+    std::vector<std::unique_ptr<ClientProxy>> serverProxies;
     InstructionDataBQ &instructionQueue;
-    ActivePlayers &activePlayers;
   public:
-    ClientAcceptor(InstructionDataBQ &instructionQueue, 
-      ActivePlayers &activePlayers);
+    explicit ClientAcceptor(InstructionDataBQ &instructionQueue);
     ~ClientAcceptor();
     ClientAcceptor(const ClientAcceptor&) = delete;
     ClientAcceptor& operator=(const ClientAcceptor&) = delete;

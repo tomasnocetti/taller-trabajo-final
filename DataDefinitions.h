@@ -16,6 +16,7 @@ typedef enum {
   ATTACK,
   CLOSE_SERVER,
   LOAD_PLAYER,
+  AUTHENTICATE
 } ActionTypeT;
 
 struct ParamData {
@@ -24,7 +25,6 @@ struct ParamData {
 };
 
 struct InstructionData {
-  size_t playerId;
   ActionTypeT action;
   std::vector<ParamData> params;
   //MSGPACK_DEFINE(playerId, params, action)
