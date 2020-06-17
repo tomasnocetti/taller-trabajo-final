@@ -33,6 +33,7 @@ struct HealthData {
 };
 
 struct MainPlayerData {
+  MovementData movement;
   PlayerRootData rootd;
   PositionData position;
   uint32_t manaPoints;
