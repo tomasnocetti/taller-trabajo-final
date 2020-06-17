@@ -23,23 +23,26 @@ void PlayerView::stand(int xOffset, int yOffset){
 	}
 }
 
-void PlayerView::walk(int newX, int newY){
-	int xOffset = x - newX;
-	int yOffset = y - newY;
-	if(xOffset == 0 && yOffset > 0){
-		y = newY;
+void PlayerView::move(int xDir, int yDir, int speed){
+	if(xDir == 0 && yDir < 0){
+		y += yDir * speed;
 		animation->set(BACK_WALK);
-	} else if (xOffset == 0 && yOffset < 0){
-		y = newY;
+		headFrame = {48, 0, 16, 16};
+	} else if (xDir == 0 && yDir > 0){
+		y += yDir * speed;
 		animation->set(FORWARD_WALK);
-	} else if (xOffset > 0 && yOffset == 0){
-		x = newX;
+		headFrame = {0, 0, 16, 16};
+	} else if (xDir < 0 && yDir == 0){
+		x += xDir * speed;
 		animation->set(LEFT_WALK);
-	} else if (xOffset < 0 && yOffset == 0){
-		x = newX;
+		headFrame = {32, 0, 16, 16};
+	} else if (xDir > 0 && yDir == 0){
+		x += xDir * speed;
 		animation->set(RIGHT_WALK);
+		headFrame = {16, 0, 16, 16};
+	} else if (xDir == 0 && yDir == 0){
+		headFrame = {0, 0, 16, 16};
 	}
-
 	/*if(this->x < 0)
 		this->x = 0;
 	if(this->y < 0)
@@ -53,6 +56,11 @@ void PlayerView::walk(int newX, int newY){
 void PlayerView::paint(const Camera &camera, double scaleW, double scaleH){
 	animation->paint(x - camera.getX(), y - camera.getY(), 
 		scaleW, scaleH);
+	head->paint(x - camera.getX() + 4, y - camera.getY() - 7, scaleW, scaleH, &headFrame);
+}
+
+void PlayerView::setHead(LTexture* head) {
+	this->head = head;
 }
 
 PlayerView::~PlayerView() {

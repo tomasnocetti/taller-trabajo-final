@@ -9,8 +9,9 @@ struct PositionData {
 };
 
 struct MovementData {
-  int xDi;
-  int yDi;
+  int xDir;
+  int yDir;
+  int speed;
   bool isMoving;
 };
 
