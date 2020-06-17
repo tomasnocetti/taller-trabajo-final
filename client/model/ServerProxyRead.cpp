@@ -7,7 +7,6 @@ ServerProxyRead::ServerProxyRead(BlockingQueueRead &readBQ) :
 ServerProxyRead::~ServerProxyRead(){}
 
 void ServerProxyRead::run(){
-
   while (continueReading){
     continueReading = false;
     // keep reading

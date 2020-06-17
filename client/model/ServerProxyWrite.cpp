@@ -24,7 +24,6 @@ void ServerProxyWrite::run(){
         msgpack::unpack(str.data(), str.size());
       msgpack::object deserialized = oh.get();
       std::cout << deserialized << std::endl;
-
     }
   } catch(const std::system_error& e) {
     /** This error codes gey by-passed. In Linux when a blocking socket.accept
@@ -42,7 +41,6 @@ void ServerProxyWrite::run(){
   } catch(...) {
     syslog(LOG_CRIT, "[Crit] Unknown Error!");
   }  
-
 }
 
 void ServerProxyWrite::close(){
@@ -53,7 +51,8 @@ void ServerProxyWrite::getInstruction(InstructionData &instruction){
   writeBQ.try_front_pop(instruction);
 }
 
-std::stringstream ServerProxyWrite::packInstruction(InstructionData &instruction){
+std::stringstream ServerProxyWrite::packInstruction(InstructionData 
+  &instruction){
   std::stringstream buffer;
   msgpack::pack(buffer, instruction);
   return std::move(buffer);

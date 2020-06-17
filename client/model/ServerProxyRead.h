@@ -9,7 +9,7 @@ using BlockingQueueRead = BlockingQueue<InstructionData>;
 
 class ServerProxyRead : public Thread {
   public:
-    ServerProxyRead(BlockingQueueRead &readBQ);
+    explicit ServerProxyRead(BlockingQueueRead &readBQ);
     ~ServerProxyRead();
     ServerProxyRead(const ServerProxyRead&) = delete;
     ServerProxyRead& operator=(const ServerProxyRead&) = delete;

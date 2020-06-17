@@ -10,7 +10,7 @@ using BlockingQueueWrite = BlockingQueue<InstructionData>;
 
 class ServerProxyWrite : public Thread {
   public:
-    ServerProxyWrite(BlockingQueueWrite &readBQ);
+    explicit ServerProxyWrite(BlockingQueueWrite &readBQ);
     ~ServerProxyWrite();
     ServerProxyWrite(const ServerProxyWrite&) = delete;
     ServerProxyWrite& operator=(const ServerProxyWrite&) = delete;

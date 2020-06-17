@@ -80,11 +80,10 @@ void ServerProxy::move(int xDir, int yDir){
   ParamData y = {std::to_string(yDir)};
   InstructionData instruction = {1, MOVE, {x, y}};
   writeBQ.push(instruction);
-
 }
 
 void ServerProxy::moveNPC(int xDir, int yDir){
-  for(unsigned int i = 0; i < npcs.size(); i++){
+  for (unsigned int i = 0; i < npcs.size(); i++){
     npcs[i].movement.xDir = xDir;
     npcs[i].movement.yDir = yDir;
     npcs[i].position.x += xDir * npcs[i].movement.speed;
