@@ -4,7 +4,7 @@
 #include <string>
 #include "sdl/SdlWindow.h"
 #include "sdl/SdlAssetsManager.h"
-#include "model/ClientProxy.h"
+#include "model/ServerProxy.h"
 #include "viewports/Viewports.h"
 #include "controllers/Controllers.h"
 
@@ -35,7 +35,7 @@ class CApp {
   private:
     bool Running;
     GameMode mode = GameMode::RUN;
-    ClientProxy model;
+    ServerProxy model;
     SdlWindow window;
     SdlAssetsManager manager;
     Global globalViewport;

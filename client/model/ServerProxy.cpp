@@ -1,17 +1,17 @@
-#include "ClientProxy.h"
+#include "ServerProxy.h"
 #include <iostream>
 #include <string>
 #include <vector>
 
-ClientProxy::ClientProxy(std::string& host, std::string& port) {
+ServerProxy::ServerProxy(std::string& host, std::string& port) {
   std::cout << "Connected to: " << host << ":" << port << std::endl;
 }
 
-void ClientProxy::authentificate(std::string& alias) {
+void ServerProxy::authentificate(std::string& alias) {
   std::cout << "Player " << alias << " authentificated" << std::endl;
 }
 
-void ClientProxy::init() {
+void ServerProxy::init() {
   MapParser m;
   m.loadMap("client/assets/map/island2.json");
   map = m.getMapData();
@@ -55,30 +55,30 @@ void ClientProxy::init() {
   mainPlayer.gold = 0;
 }
 
-void ClientProxy::walk(int x, int y){
+void ServerProxy::walk(int x, int y){
   mainPlayer.position.x += x * mainPlayer.speed;
   mainPlayer.position.y += y * mainPlayer.speed;
 }
 
-void ClientProxy::walkNPC(int x, int y){
+void ServerProxy::walkNPC(int x, int y){
   for(unsigned int i = 0; i < npcs.size(); i++){
     npcs[i].position.x += x;
     npcs[i].position.y += y;
   }
 }
 
-MainPlayerData ClientProxy::getMainPlayerData() const {
+MainPlayerData ServerProxy::getMainPlayerData() const {
   return mainPlayer;
 }
 
-MapData ClientProxy::getMapData() const {
+MapData ServerProxy::getMapData() const {
   return map;
 }
 
-std::vector<EnemyData> ClientProxy::getNPCData() const {
+std::vector<EnemyData> ServerProxy::getNPCData() const {
   return npcs;
 }
 
-bool ClientProxy::isAuthenticated() const {
+bool ServerProxy::isAuthenticated() const {
   return authentificated;
 }

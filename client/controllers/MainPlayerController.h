@@ -1,7 +1,7 @@
 #ifndef _MAIN_PLAYER_CONTROLLER_H_
 #define _MAIN_PLAYER_CONTROLLER_H_
 
-#include "../model/ClientProxy.h"
+#include "../model/ServerProxy.h"
 #include "../sdl/SdlAssetsManager.h"
 #include "../view/PlayerView.h"
 #include "../../DataDefinitions.h"
@@ -10,7 +10,7 @@
 
 class MainPlayerController {
   public:
-  	MainPlayerController(ClientProxy& model, SdlAssetsManager& manager);
+  	MainPlayerController(ServerProxy& model, SdlAssetsManager& manager);
     MainPlayerController(const MainPlayerController&) = delete;
     MainPlayerController& operator=(const MainPlayerController&) = delete;
     MainPlayerController&& operator=(MainPlayerController&& other);
@@ -22,7 +22,7 @@ class MainPlayerController {
     std::vector<Entity*> getBars();
 
   private:
-    ClientProxy& model;
+    ServerProxy& model;
     SdlAssetsManager& manager;
     PlayerView playerView;
     Bar healthBar;

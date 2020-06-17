@@ -6,7 +6,7 @@
 #define GOLD_X 105
 
 MainPlayerController::MainPlayerController(
-  ClientProxy& model,
+  ServerProxy& model,
   SdlAssetsManager& manager) :
   model(model),
   manager(manager) {}

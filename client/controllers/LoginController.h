@@ -3,14 +3,14 @@
 
 #include <SDL2/SDL_ttf.h>
 #include "../sdl/SdlAssetsManager.h"
-#include "../model/ClientProxy.h"
+#include "../model/ServerProxy.h"
 #include "../../DataDefinitions.h"
 #include "../entities/BackgroundEntity.h"
 #include "../entities/TextInputEntity.h"
 
 class LoginController {
   public:
-  	explicit LoginController(ClientProxy& model, SdlAssetsManager& manager);
+  	explicit LoginController(ServerProxy& model, SdlAssetsManager& manager);
     LoginController(const LoginController&) = delete;
     LoginController& operator=(const LoginController&) = delete;
     void init();
@@ -18,7 +18,7 @@ class LoginController {
     EntityList &getEntities();
 
   private:
-    ClientProxy& model;
+    ServerProxy& model;
     SdlAssetsManager& manager;
     EntityList screens;
 };

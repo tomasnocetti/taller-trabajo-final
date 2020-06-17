@@ -6,7 +6,7 @@
 #include <vector>
 
 EnemyController::EnemyController(
-  ClientProxy& model,
+  ServerProxy& model,
   SdlAssetsManager& manager) : 
   model(model), manager(manager) {}
 
