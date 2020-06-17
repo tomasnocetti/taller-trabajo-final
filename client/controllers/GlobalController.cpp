@@ -1,7 +1,7 @@
 #include "GlobalController.h"
 
 GlobalController::GlobalController(
-  ClientProxy& model,
+  ServerProxy& model,
   SdlAssetsManager& manager) :
   model(model),
   manager(manager) {}

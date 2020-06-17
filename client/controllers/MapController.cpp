@@ -7,7 +7,7 @@
 #include <vector>
 
 MapController::MapController(
-  ClientProxy& model,
+  ServerProxy& model,
   SdlAssetsManager& manager) :
   model(model),
   manager(manager) {}

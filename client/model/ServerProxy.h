@@ -6,12 +6,12 @@
 #include <string>
 #include <vector>
 
-class ClientProxy {
+class ServerProxy {
   public:
-    ClientProxy(std::string& host, std::string& port);
-    ClientProxy(const ClientProxy&) = delete;
-    ClientProxy& operator=(const ClientProxy&) = delete;
-    ClientProxy&& operator=(ClientProxy&& other);
+    ServerProxy(std::string& host, std::string& port);
+    ServerProxy(const ServerProxy&) = delete;
+    ServerProxy& operator=(const ServerProxy&) = delete;
+    ServerProxy&& operator=(ServerProxy&& other);
     void authentificate(std::string& alias);
     void init();
     void walk(int x, int y);
