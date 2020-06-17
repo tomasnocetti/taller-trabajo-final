@@ -22,7 +22,7 @@ typedef enum {
 
 #define MAIN_SCREEN_PATH "client/assets/main-screen.jpg"
 #define LOGIN_SCREEN_PATH "client/assets/main-screens/login-screen.jpg"
-#define FONT_PATH "client/assets/fonts/ringm.ttf"
+#define FONT_PATH "client/assets/fonts/arial.ttf"
 
 class CApp {
   public:
@@ -34,7 +34,7 @@ class CApp {
 
   private:
     bool Running;
-    GameMode mode = GameMode::RUN;
+    GameMode mode = GameMode::LOGIN;
     ClientProxy model;
     SdlWindow window;
     SdlAssetsManager manager;

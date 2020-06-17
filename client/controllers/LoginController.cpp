@@ -1,5 +1,7 @@
 #include "LoginController.h"
 
+#define LOGIN_SCREEN_PATH "client/assets/main-screens/login-screen.jpg"
+
 LoginController::LoginController(
   ClientProxy& model,
   SdlAssetsManager& manager) :
@@ -14,9 +16,14 @@ void LoginController::init() {
 
   screens.emplace_back(new BackgroundEntity(baseScreen));
 
-  screens.emplace_back(new TextInputEntity(userInput, font, 1 , 345, 262));
+  userInputField = new TextInputEntity(userInput, font, 1 , 345, 262);
+  screens.emplace_back(userInputField);
 }
 
+void LoginController::handleEvent(const SDL_Event &e) {
+  userInputField->handleEvent(e);
+  model.isAuthenticated();
+}
 
 EntityList& LoginController::getEntities() {
   return screens;

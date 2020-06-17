@@ -39,7 +39,7 @@ void CApp::OnEvent(const SDL_Event& e) {
   window.handleEvent(e);
   switch (mode) {
     case GameMode::LOGIN:
-      // loginController.handleEvent(e);
+      loginController.handleEvent(e);
       break;
     case GameMode::CREATE:
       break;
