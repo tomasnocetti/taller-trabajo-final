@@ -35,6 +35,7 @@ struct HealthAndManaData {
 };
 
 struct MainPlayerData {
+  MovementData movement;
   PlayerRootData rootd;
   PositionData position;
   HealthAndManaData points;
