@@ -87,7 +87,7 @@ bool LTexture::loadFromRenderedText(
 	free();
 
 	//Render text surface
-	SDL_Surface* textSurface = TTF_RenderText_Solid(
+	SDL_Surface* textSurface = TTF_RenderText_Blended(
     gFont,
     textureText.c_str(),
     textColor);
