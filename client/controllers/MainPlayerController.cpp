@@ -1,5 +1,6 @@
 #include "MainPlayerController.h"
 #include <iostream>
+#include <vector>
 
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
@@ -45,9 +46,9 @@ void MainPlayerController::update() {
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e){
-  if(e.type == SDL_MOUSEMOTION) return;
+  if (e.type == SDL_MOUSEMOTION) return;
 
-  if(e.type == SDL_MOUSEBUTTONDOWN) std::cout << "click" << std::endl;
+  if (e.type == SDL_MOUSEBUTTONDOWN) std::cout << "click" << std::endl;
 
   const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
   if (currentKeyStates[SDL_SCANCODE_W]) {
@@ -83,7 +84,7 @@ std::vector<Entity*> MainPlayerController::getBars() {
 }
 
 void MainPlayerController::checkRace(PlayerRace race) {
-  switch(race){
+  switch (race){
     case DWARF:
       manager.addTexture("dwarf-head", "client/assets/dwarf.png");
       playerView.setHead(manager.getTexture("dwarf-head"));

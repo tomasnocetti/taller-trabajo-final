@@ -19,7 +19,7 @@ class Bar : public Entity {
 		void init(LTexture* texture, int y);
 		void update(int value, int maxValue);
 		void paint(const Camera &camera, 
-			double scaleW, double scaleH) override {};
+			double scaleW, double scaleH) override {}
 		void paint(double scaleW, double scaleH) override;
 };
 
