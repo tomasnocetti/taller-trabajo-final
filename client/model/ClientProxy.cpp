@@ -13,7 +13,7 @@ void ClientProxy::authentificate(std::string& alias) {
 
 void ClientProxy::init() {
   MapParser m;
-  m.loadMap("client/assets/map/pindonga2.json");
+  m.loadMap("client/assets/map/island2.json");
   map = m.getMapData();
 
   // ------ TEST CODE FOR PARSE OBJ LAYER
