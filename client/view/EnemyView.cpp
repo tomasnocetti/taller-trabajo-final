@@ -54,20 +54,18 @@ void PlayerView::walk(int xOffset, int yOffset){
 		this->y = 47 * 16 - 48;
 }*/
 
-void EnemyView::move(int newX, int newY){
-	int xOffset = x - newX;
-	int yOffset = y - newY;
-	if(xOffset == 0 && yOffset > 0){
-		y = newY;
+void EnemyView::move(int xDir, int yDir, int speed){
+	if(xDir == 0 && yDir < 0){
+		y += yDir * speed;
 		animation->set(BACK_WALK);
-	} else if (xOffset == 0 && yOffset < 0){
-		y = newY;
+	} else if (xDir == 0 && yDir > 0){
+		y += yDir * speed;
 		animation->set(FORWARD_WALK);
-	} else if (xOffset > 0 && yOffset == 0){
-		x = newX;
+	} else if (xDir < 0 && yDir == 0){
+		x += xDir * speed;
 		animation->set(LEFT_WALK);
-	} else if (xOffset < 0 && yOffset == 0){
-		x = newX;
+	} else if (xDir > 0 && yDir == 0){
+		x += xDir * speed;
 		animation->set(RIGHT_WALK);
 	}
 }

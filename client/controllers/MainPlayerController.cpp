@@ -1,4 +1,5 @@
 #include "MainPlayerController.h"
+#include <iostream>
 
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
@@ -19,10 +20,15 @@ void MainPlayerController::init(){
   MainPlayerData data = model.getMainPlayerData();
   int x = data.position.x;
   int y = data.position.y;
+  myMoveData.xDir = data.movement.xDir;
+  myMoveData.yDir = data.movement.yDir;
+
   TTF_Font* font = manager.getFont("main");
+
 
   playerView.init(
     manager.getTexture("player-view"), x, y);
+  checkRace(data.rootd.prace);
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y);
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y);
   gold.init(GOLD_X, GOLD_Y, manager.createTexture(), font);
@@ -30,24 +36,37 @@ void MainPlayerController::init(){
 
 void MainPlayerController::update() {
   MainPlayerData data = model.getMainPlayerData();
+  myMoveData.xDir = data.movement.xDir;
+  myMoveData.yDir = data.movement.yDir;
+  playerView.move(data.movement.xDir, data.movement.yDir, data.movement.speed);
   healthBar.update(data.points.currentHP, data.points.totalHP);
   manaBar.update(data.points.currentMP, data.points.totalMP);
-  playerView.walk(data.position.x, data.position.y);
   gold.update(std::to_string(data.gold));
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e){
   if(e.type == SDL_MOUSEMOTION) return;
 
+  if(e.type == SDL_MOUSEBUTTONDOWN) std::cout << "click" << std::endl;
+
   const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
   if(currentKeyStates[SDL_SCANCODE_W]) {
-    model.walk(0, -1);
+    if(myMoveData.xDir == 0 && myMoveData.yDir == -1) return;
+    model.move(0, -1);
   } else if(currentKeyStates[SDL_SCANCODE_S]) {
-    model.walk(0, 1);
+    if(myMoveData.xDir == 0 && myMoveData.yDir == 1) return;
+    model.move(0, 1);
   } else if(currentKeyStates[SDL_SCANCODE_A]) {
-    model.walk(-1, 0);
+    if(myMoveData.xDir == -1 && myMoveData.yDir == 0) return;
+    model.move(-1, 0);
   } else if(currentKeyStates[SDL_SCANCODE_D]) {
-    model.walk(1, 0);
+    if(myMoveData.xDir == 1 && myMoveData.yDir == 0) return;
+    model.move(1, 0);
+  } else if(!currentKeyStates[SDL_SCANCODE_W] &&
+    !currentKeyStates[SDL_SCANCODE_S] && 
+    !currentKeyStates[SDL_SCANCODE_D] && 
+    !currentKeyStates[SDL_SCANCODE_A]) {
+    model.move(0, 0);
   }
 }
 
@@ -61,6 +80,25 @@ std::vector<Entity*> MainPlayerController::getBars() {
   v.push_back(&manaBar);
   v.push_back(&gold);
   return v;
+}
+
+void MainPlayerController::checkRace(PlayerRace race) {
+  switch(race){
+    case DWARF:
+      manager.addTexture("dwarf-head", "client/assets/dwarf.png");
+      playerView.setHead(manager.getTexture("dwarf-head"));
+    break;
+    case ELF:
+      manager.addTexture("elf-head", "client/assets/elf.png");
+      playerView.setHead(manager.getTexture("elf-head"));
+    break;
+    case HUMAN:
+      manager.addTexture("human-head", "client/assets/human.png");
+      playerView.setHead(manager.getTexture("human-head"));
+    break;
+    default:
+    break;
+  }
 }
 
 MainPlayerController::~MainPlayerController() {}

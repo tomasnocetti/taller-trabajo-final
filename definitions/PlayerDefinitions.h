@@ -39,7 +39,6 @@ struct MainPlayerData {
   PlayerRootData rootd;
   PositionData position;
   HealthAndManaData points;
-  int speed; 
   uint32_t gold;
   uint32_t level;
 };

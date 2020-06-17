@@ -4,6 +4,7 @@
 #include "../view/GoblinAnimation.h"
 #include "../view/SpiderAnimation.h"
 #include <vector>
+#include <iostream>
 
 EnemyController::EnemyController(
   ServerProxy& model,
@@ -29,10 +30,11 @@ void EnemyController::init(){
 }
 
 void EnemyController::update() {
-	model.walkNPC(0, 1);
+	model.moveNPC(0, 1);
 	std::vector<EnemyData> v = model.getNPCData();
 	for(unsigned int i = 0; i < v.size(); i++){
-		enemies[i]->move(v[i].position.x, v[i].position.y);
+		enemies[i]->move(v[i].movement.xDir, v[i].movement.yDir, 
+			v[i].movement.speed);
 	}
 }
 

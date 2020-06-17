@@ -25,9 +25,12 @@ class MainPlayerController {
     ServerProxy& model;
     SdlAssetsManager& manager;
     PlayerView playerView;
+    MovementData myMoveData;
     Bar healthBar;
     Bar manaBar;
     TextEntity gold;
+
+    void checkRace(PlayerRace race);
 };
 
 #endif
