@@ -2,8 +2,10 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unistd.h>
 
-ServerProxy::ServerProxy(std::string& host, std::string& port) {
+ServerProxy::ServerProxy(std::string& host, std::string& port) : 
+  serverProxyWrite(writeBQ), serverProxyRead(readBQ){
   std::cout << "Connected to: " << host << ":" << port << std::endl;
 }
 
@@ -15,6 +17,9 @@ void ServerProxy::init() {
   MapParser m;
   m.loadMap("client/assets/map/pindonga3.json");
   map = m.getMapData();
+
+  serverProxyWrite.start();
+  serverProxyRead.start();
 
   // ------ TEST CODE FOR PARSE OBJ LAYER
   std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
@@ -63,10 +68,19 @@ void ServerProxy::init() {
 }
 
 void ServerProxy::move(int xDir, int yDir){
+  /* Código para mockear */
   mainPlayer.movement.xDir = xDir;
   mainPlayer.movement.yDir = yDir;
   mainPlayer.position.x += xDir * mainPlayer.movement.speed;
   mainPlayer.position.y += yDir * mainPlayer.movement.speed;
+
+  if (xDir == 0 && yDir == 0) return;
+  
+  ParamData x = {std::to_string(xDir)};
+  ParamData y = {std::to_string(yDir)};
+  InstructionData instruction = {1, MOVE, {x, y}};
+  writeBQ.push(instruction);
+
 }
 
 void ServerProxy::moveNPC(int xDir, int yDir){
@@ -92,4 +106,12 @@ std::vector<EnemyData> ServerProxy::getNPCData() const {
 
 bool ServerProxy::isAuthenticated() const {
   return authentificated;
+}
+
+void ServerProxy::close(){
+  serverProxyWrite.close();
+  ParamData x = {"0"};
+  ParamData y = {"0"};
+  InstructionData instruction = {1, CLOSE_SERVER, {x, y}};
+  writeBQ.push(instruction);
 }
