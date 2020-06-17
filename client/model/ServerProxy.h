@@ -37,7 +37,6 @@ class ServerProxy{
     BlockingQueueRead readBQ;
     ServerProxyWrite serverProxyWrite;
     ServerProxyRead serverProxyRead;
-
 };
 
 #endif

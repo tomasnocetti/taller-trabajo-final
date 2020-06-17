@@ -4,7 +4,7 @@
 #include "../../common/Thread.h"
 #include "../../common/BlockingQueue.h"
 #include "../../DataDefinitions.h"
-#include "../common/common_utils.h"
+#include "../../common/common_utils.h"
 
 using BlockingQueueWrite = BlockingQueue<InstructionData>;
 
