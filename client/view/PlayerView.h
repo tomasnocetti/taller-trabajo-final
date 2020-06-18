@@ -18,7 +18,7 @@ class PlayerView : public Entity {
 		PlayerView(const PlayerView&) = delete;
     PlayerView& operator=(const PlayerView&) = delete;
 	private:
-	  Animation* animation;
+	  Animation* animation = nullptr;
 	  LTexture* head;
 	  SDL_Rect headFrame;
 };

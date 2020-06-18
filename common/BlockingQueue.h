@@ -74,6 +74,9 @@ public:
       closed = true;
       cv.notify_all();
     }
+    int size(){
+      return queue.size();
+    }
     ~BlockingQueue() {}
 };
 

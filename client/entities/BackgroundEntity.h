@@ -14,7 +14,7 @@ class BackgroundEntity: public Entity {
       LTexture* background);
     void paint(double scaleW, double scaleH) override;
     void paint(const Camera &camera, 
-    	double scaleW, double scaleH) override {};
+    	double scaleW, double scaleH) override {}
 };
 
 #endif
