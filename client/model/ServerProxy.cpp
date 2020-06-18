@@ -5,8 +5,10 @@
 #include <unistd.h>
 
 ServerProxy::ServerProxy(std::string& host, std::string& port) : 
-  serverProxyWrite(writeBQ), serverProxyRead(readBQ){
-  std::cout << "Connected to: " << host << ":" << port << std::endl;
+  serverProxyWrite(*this, writeBQ),
+  serverProxyRead(readBQ){
+    std::cout << "Connected to: " << host << ":" << port << std::endl;
+    socket.connect(host.c_str(), port.c_str());
 }
 
 void ServerProxy::authentificate(std::string& alias) {

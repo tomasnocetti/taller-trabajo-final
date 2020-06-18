@@ -23,7 +23,7 @@ class Entity {
  */
 class LiveEntity: public Entity {
   private:
-    HealthData health;
+    HealthAndManaData health;
   public:
     void move();
 };

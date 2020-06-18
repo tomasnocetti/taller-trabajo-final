@@ -2,15 +2,16 @@
 #define SERVER_PROXY_WRITE_H
 
 #include "../../common/Thread.h"
-#include "../../common/BlockingQueue.h"
-#include "../../DataDefinitions.h"
 #include "../../common/common_utils.h"
+#include "ServerProxy.h"
 
 using BlockingQueueWrite = BlockingQueue<InstructionData>;
 
+class ServerProxy;
+
 class ServerProxyWrite : public Thread {
   public:
-    explicit ServerProxyWrite(BlockingQueueWrite &readBQ);
+    ServerProxyWrite(ServerProxy &server, BlockingQueueWrite &readBQ);
     ~ServerProxyWrite();
     ServerProxyWrite(const ServerProxyWrite&) = delete;
     ServerProxyWrite& operator=(const ServerProxyWrite&) = delete;
@@ -21,8 +22,9 @@ class ServerProxyWrite : public Thread {
     void sendInstruction(std::stringstream &buffer);
 
   private:
-    BlockingQueueWrite &writeBQ;
     bool continuePlaying;
+    ServerProxy &server;
+    BlockingQueueWrite &writeBQ;
 };
 
 #endif

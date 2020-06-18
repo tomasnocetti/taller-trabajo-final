@@ -4,14 +4,17 @@
 #include <sstream>
 #include <syslog.h>
 
-ServerProxyWrite::ServerProxyWrite(BlockingQueueWrite &writeBQ) : 
-  writeBQ(writeBQ), continuePlaying(true){}
+ServerProxyWrite::ServerProxyWrite(ServerProxy& server, 
+BlockingQueueWrite &writeBQ): 
+  continuePlaying(true),
+  server(server),
+  writeBQ(writeBQ) {}
 
 ServerProxyWrite::~ServerProxyWrite(){}
 
 void ServerProxyWrite::run(){  
   try{
-    while (continuePlaying) {
+    while (continuePlaying){
       InstructionData instructionToSend;
 
       getInstruction(instructionToSend);
@@ -64,5 +67,6 @@ void ServerProxyWrite::sendInstruction(std::stringstream &buffer){
   uint32_t length = to_big_end<uint32_t>(str.length());
 
   str.insert(0, (char *) &length, 4);
-  //socket.send(res.c_str(), res.length());
+
+  server.socket.send(str.c_str(), str.length());
 }

@@ -65,5 +65,6 @@ void PlayerView::setHead(LTexture* head) {
 }
 
 PlayerView::~PlayerView() {
-  delete animation;
+  if (animation == nullptr) return;
+	delete animation;
 }
