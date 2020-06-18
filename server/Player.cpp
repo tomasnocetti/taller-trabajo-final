@@ -15,6 +15,7 @@ void Player::create(){
 void Player::move(uint32_t direction){}
 
 void Player::setPlayerDataToCreateNewPlayer(){
+  /*
   playerData.manaPoints = 0;
   playerData.gold = 0;
   playerData.type = "Default"; // aca va a ir un  tipo de raza
@@ -23,6 +24,7 @@ void Player::setPlayerDataToCreateNewPlayer(){
   playerData.inventory.helmet = "inicializar con casco?";
   playerData.data.isDead = false;
   playerData.data.lifePoints = MAX_LIFE_LEVEL_1;
+  */
 }
 
 void Player::revive(){}

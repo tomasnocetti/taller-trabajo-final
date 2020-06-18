@@ -56,7 +56,8 @@ void PlayerView::move(int xDir, int yDir, int speed){
 void PlayerView::paint(const Camera &camera, double scaleW, double scaleH){
 	animation->paint(x - camera.getX(), y - camera.getY(), 
 		scaleW, scaleH);
-	head->paint(x - camera.getX() + 4, y - camera.getY() - 7, scaleW, scaleH, &headFrame);
+	head->paint(x - camera.getX() + 4, y - camera.getY() - 7, 
+		scaleW, scaleH, &headFrame);
 }
 
 void PlayerView::setHead(LTexture* head) {
@@ -64,5 +65,6 @@ void PlayerView::setHead(LTexture* head) {
 }
 
 PlayerView::~PlayerView() {
-  delete animation;
+  if (animation == nullptr) return;
+	delete animation;
 }

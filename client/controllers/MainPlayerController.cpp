@@ -1,5 +1,6 @@
 #include "MainPlayerController.h"
 #include <iostream>
+#include <vector>
 
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
@@ -45,24 +46,24 @@ void MainPlayerController::update() {
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e){
-  if(e.type == SDL_MOUSEMOTION) return;
+  if (e.type == SDL_MOUSEMOTION) return;
 
-  if(e.type == SDL_MOUSEBUTTONDOWN) std::cout << "click" << std::endl;
+  if (e.type == SDL_MOUSEBUTTONDOWN) std::cout << "click" << std::endl;
 
   const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-  if(currentKeyStates[SDL_SCANCODE_W]) {
-    if(myMoveData.xDir == 0 && myMoveData.yDir == -1) return;
+  if (currentKeyStates[SDL_SCANCODE_W]) {
+    if (myMoveData.xDir == 0 && myMoveData.yDir == -1) return;
     model.move(0, -1);
-  } else if(currentKeyStates[SDL_SCANCODE_S]) {
-    if(myMoveData.xDir == 0 && myMoveData.yDir == 1) return;
+  } else if (currentKeyStates[SDL_SCANCODE_S]) {
+    if (myMoveData.xDir == 0 && myMoveData.yDir == 1) return;
     model.move(0, 1);
-  } else if(currentKeyStates[SDL_SCANCODE_A]) {
-    if(myMoveData.xDir == -1 && myMoveData.yDir == 0) return;
+  } else if (currentKeyStates[SDL_SCANCODE_A]) {
+    if (myMoveData.xDir == -1 && myMoveData.yDir == 0) return;
     model.move(-1, 0);
-  } else if(currentKeyStates[SDL_SCANCODE_D]) {
-    if(myMoveData.xDir == 1 && myMoveData.yDir == 0) return;
+  } else if (currentKeyStates[SDL_SCANCODE_D]) {
+    if (myMoveData.xDir == 1 && myMoveData.yDir == 0) return;
     model.move(1, 0);
-  } else if(!currentKeyStates[SDL_SCANCODE_W] &&
+  } else if (!currentKeyStates[SDL_SCANCODE_W] &&
     !currentKeyStates[SDL_SCANCODE_S] && 
     !currentKeyStates[SDL_SCANCODE_D] && 
     !currentKeyStates[SDL_SCANCODE_A]) {
@@ -83,7 +84,7 @@ std::vector<Entity*> MainPlayerController::getBars() {
 }
 
 void MainPlayerController::checkRace(PlayerRace race) {
-  switch(race){
+  switch (race){
     case DWARF:
       manager.addTexture("dwarf-head", "client/assets/dwarf.png");
       playerView.setHead(manager.getTexture("dwarf-head"));

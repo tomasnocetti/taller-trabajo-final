@@ -33,9 +33,11 @@ void CApp::OnExecute() {
 }
 
 void CApp::OnEvent(const SDL_Event& e) {
-  if (e.type == SDL_QUIT) {
+  if (e.type == SDL_QUIT) {  
+    model.close();
     Running = false;
   }
+
   window.handleEvent(e);
   switch (mode) {
     case GameMode::LOGIN:
