@@ -4,7 +4,7 @@
 #include <vector>
 #include <unistd.h>
 
-ServerProxy::ServerProxy(std::string& host, std::string& port) : 
+ServerProxy::ServerProxy(std::string& host, std::string& port) :
   serverProxyWrite(*this, writeBQ),
   serverProxyRead(readBQ){
     std::cout << "Connected to: " << host << ":" << port << std::endl;
@@ -77,7 +77,7 @@ void ServerProxy::move(int xDir, int yDir){
   mainPlayer.position.y += yDir * mainPlayer.movement.speed;
 
   if (xDir == 0 && yDir == 0) return;
-  
+
   ParamData x = {std::to_string(xDir)};
   ParamData y = {std::to_string(yDir)};
   InstructionData instruction = {1, MOVE, {x, y}};
