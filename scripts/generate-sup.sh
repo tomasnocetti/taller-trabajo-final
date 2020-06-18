@@ -1,10 +1,9 @@
-#!/usr/bash
 valgrind \
---leak-check=full \
+--leak-check=full  \
 --show-reachable=yes \
 --error-limit=no \
+--gen-suppressions=all \
 --suppressions=./scripts/supp/minimal-sdl2.supp \
 --suppressions=./scripts/supp/sdl2-texture.supp \
 --suppressions=./scripts/supp/minimal-sdl2-ttf-window.supp \
-./tpclient
-
+--log-file=minimalraw.log ./tpclient
