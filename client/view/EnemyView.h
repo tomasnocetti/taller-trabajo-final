@@ -9,7 +9,7 @@ class EnemyView : public Entity {
 	public:
 		EnemyView(int x, int y, Animation* animation);
 		//void stand(int xOffset, int yOffset);
-		void move(int xDir, int yDir, int speed);
+		void move(int xDir, int yDir, int speed) override;
 		void paint(double scaleW, double scaleH) override {}
     void paint(const Camera &camera, 
     	double scaleW, double scaleH) override;

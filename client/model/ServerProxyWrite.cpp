@@ -1,8 +1,9 @@
-#include "ServerProxyWrite.h"
+#include "ServerProxy.h"
 #include <iostream>
 #include <string>
 #include <sstream>
 #include <syslog.h>
+#include "../../common/common_utils.h"
 
 ServerProxyWrite::ServerProxyWrite(ServerProxy& server, 
 BlockingQueueWrite &writeBQ): 
@@ -58,7 +59,7 @@ std::stringstream ServerProxyWrite::packInstruction(InstructionData
   &instruction){
   std::stringstream buffer;
   msgpack::pack(buffer, instruction);
-  return std::move(buffer);
+  return buffer;
 }
 
 void ServerProxyWrite::sendInstruction(std::stringstream &buffer){  

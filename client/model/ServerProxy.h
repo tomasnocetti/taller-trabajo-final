@@ -1,26 +1,50 @@
 #ifndef CLIENT_PROXY_H
 #define CLIENT_PROXY_H
 
-
 #include "../../DataDefinitions.h"
 #include "../MapParser.h"
 #include <string>
 #include <vector>
 #include "../../common/BlockingQueue.h"
-#include "ServerProxyRead.h"
-#include "ServerProxyWrite.h"
+#include "../../common/Thread.h"
 #include "../../common/common_socket.h"
 
 using BlockingQueueWrite = BlockingQueue<InstructionData>;
 using BlockingQueueRead = BlockingQueue<InstructionData>;
 
-class ServerProxyWrite;
-class ServerProxyRead;
 class Socket;
+class ServerProxy;
 
+class ServerProxyRead : public Thread {
+  public:
+    explicit ServerProxyRead(BlockingQueueRead &readBQ);
+    ~ServerProxyRead();
+    ServerProxyRead(const ServerProxyRead&) = delete;
+    ServerProxyRead& operator=(const ServerProxyRead&) = delete;
+    void run();
+  private:
+    // BlockingQueueRead &readBQ;
+    bool continueReading;
+};
+
+class ServerProxyWrite : public Thread {
+  public:
+    ServerProxyWrite(ServerProxy &server, BlockingQueueWrite &readBQ);
+    ~ServerProxyWrite();
+    ServerProxyWrite(const ServerProxyWrite&) = delete;
+    ServerProxyWrite& operator=(const ServerProxyWrite&) = delete;
+    void run();
+    void close();
+    void getInstruction(InstructionData &instruction);
+    std::stringstream packInstruction(InstructionData &instruction);
+    void sendInstruction(std::stringstream &buffer);
+
+  private:
+    bool continuePlaying;
+    ServerProxy &server;
+    BlockingQueueWrite &writeBQ;
+};
 class ServerProxy{
-  friend ServerProxyWrite;
-  
   public:
     ServerProxy(std::string& host, std::string& port);
     ServerProxy(const ServerProxy&) = delete;
@@ -37,6 +61,7 @@ class ServerProxy{
     void close();
     
   private:
+    friend class ServerProxyWrite;
     bool authentificated;
     MapData map;
     MainPlayerData mainPlayer;
