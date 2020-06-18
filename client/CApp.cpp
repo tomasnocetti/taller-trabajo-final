@@ -4,12 +4,15 @@
 CApp::CApp(std::string& host, std::string& port) :
   model(host, port),
   window(SCREEN_WIDTH, SCREEN_HEIGHT),
+  manager(window),
   globalViewport(window),
   mapViewport(window),
   lifeViewport(window),
-  mapController(model),
-  playerController(model),
-  enemyController(model) {
+  loginController(model, manager),
+  globalController(model, manager),
+  mapController(model, manager),
+  playerController(model, manager),
+  enemyController(model, manager) {
   Running = true;
 }
 
@@ -34,31 +37,66 @@ void CApp::OnEvent(const SDL_Event& e) {
     Running = false;
   }
   window.handleEvent(e);
-  playerController.handleEvent(e);
+  switch (mode) {
+    case GameMode::LOGIN:
+      // loginController.handleEvent(e);
+      break;
+    case GameMode::CREATE:
+      break;
+    case GameMode::RUN:
+      playerController.handleEvent(e);
+      break;
+  }
 }
 
 void CApp::OnLoop() {
+  //SDL_Delay(1000/60);
+  playerController.update();
+  enemyController.update();
 }
 
 void CApp::OnRender() {
   window.clear();
-  globalViewport.paint();
-  mapViewport.paint(mapController.getEntities(), 
-    playerController.getEntity(), 
-    enemyController.getEntity());
-  lifeViewport.paint();
+  switch (mode) {
+    case GameMode::LOGIN:
+      globalViewport.paint(loginController.getEntities());
+      break;
+    case GameMode::CREATE:
+      break;
+    case GameMode::RUN:
+      globalViewport.paint(globalController.getEntities());
+      mapViewport.paint(mapController.getEntities(),
+        playerController.getEntity(),
+        enemyController.getEntity());
+      lifeViewport.paint(playerController.getBars());
+      break;
+  }
   window.render();
 }
 
 void CApp::OnInit() {
+  LoadAssets();
+
   model.init();
+
+  loginController.init();
+  globalController.init();
+  mapController.init();
+  playerController.init();
+  enemyController.init();
+
   mapViewport.init();
-  lifeViewport.init(window);
-  mapController.init(window);
-  playerController.init(window);
-  enemyController.init(window);
+  MapData data = model.getMapData();
+  mapViewport.setMaxCameraDimensions(data);
+  lifeViewport.init();
 }
 
 void CApp::OnCleanup() {}
+
+void CApp::LoadAssets() {
+  manager.addTexture("main-screen-path", MAIN_SCREEN_PATH);
+  manager.addTexture("login-screen-path", LOGIN_SCREEN_PATH);
+  manager.addFont("main", FONT_PATH, 12);
+}
 
 CApp::~CApp() {}

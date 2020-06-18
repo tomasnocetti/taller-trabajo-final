@@ -8,7 +8,6 @@ SdlViewport::SdlViewport(
   int h,
   int scale) :
   window(window),
-  scale(scale),
   srcViewport({x, y, w, h}) {}
 
 void SdlViewport::fit() {

@@ -1,12 +1,10 @@
 #include "EnemyView.h"
 #include <iostream>
 
-EnemyView::EnemyView(int x, int y, Animation *animation, SdlWindow &window) {
+EnemyView::EnemyView(int x, int y, Animation *animation) {
 	this->x = x;
 	this->y = y;
-	this->speed = 10;
-	this->animation = std::move(animation);
-	animation->init(window);
+	this->animation = animation;
 	animation->set(FORWARD_STAND);
 }
 
@@ -56,12 +54,29 @@ void PlayerView::walk(int xOffset, int yOffset){
 		this->y = 47 * 16 - 48;
 }*/
 
-void EnemyView::paint(const Camera &camera){
-	if(camera.isInCameraRange(this->x, this->y)){
-		animation->paint(this->x - camera.getX(), this->y - camera.getY());
+void EnemyView::move(int xDir, int yDir, int speed){
+	if(xDir == 0 && yDir < 0){
+		y += yDir * speed;
+		animation->set(BACK_WALK);
+	} else if (xDir == 0 && yDir > 0){
+		y += yDir * speed;
+		animation->set(FORWARD_WALK);
+	} else if (xDir < 0 && yDir == 0){
+		x += xDir * speed;
+		animation->set(LEFT_WALK);
+	} else if (xDir > 0 && yDir == 0){
+		x += xDir * speed;
+		animation->set(RIGHT_WALK);
 	}
 }
 
+void EnemyView::paint(const Camera &camera, double scaleW, double scaleH){
+	if (!camera.isInCameraRange(x, y)) return;
+
+  animation->paint(x - camera.getX(), y - camera.getY(), 
+  	scaleW, scaleH);
+}
+
 EnemyView::~EnemyView(){
-	delete this->animation;
+	delete animation;
 }

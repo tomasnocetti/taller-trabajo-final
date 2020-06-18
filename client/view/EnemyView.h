@@ -4,19 +4,19 @@
 #include "Animation.h"
 #include "AnimationTypes.h"
 #include "../entities/Entity.h"
-#include "SkeletonAnimation.h"
 
 class EnemyView : public Entity {
 	public:
-		EnemyView(int x, int y, Animation* animation, SdlWindow &window);
+		EnemyView(int x, int y, Animation* animation);
 		//void stand(int xOffset, int yOffset);
-		//void walk(int xOffset, int yOffset);
-		void paint(const Camera &camera);
+		void move(int xDir, int yDir, int speed);
+		void paint(double scaleW, double scaleH) override {};
+    void paint(const Camera &camera, 
+    	double scaleW, double scaleH) override;
 		EnemyView(const EnemyView&) = delete;
     EnemyView& operator=(const EnemyView&) = delete;
     ~EnemyView();
 	private:
-		int speed;
 	  Animation* animation;
 };
 

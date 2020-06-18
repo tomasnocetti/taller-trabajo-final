@@ -2,6 +2,7 @@
 #define __PLAYERDEF_H
 
 #include "EntityDefinitions.h"
+
 #include "MapDefinitions.h"
 #include <string>
 #include <vector>
@@ -29,17 +30,19 @@ struct Inventory {
   std::string helmet;
 };
 
-struct HealthData {
-  int totalPoints;
-  int currentPoints;
+struct HealthAndManaData {
+  int totalHP;
+  int currentHP;
+  int totalMP;
+  int currentMP;
 };
 
 struct MainPlayerData {
   PlayerRootData root;
   Inventory inventory;
-  HealthData health;
+  HealthAndManaData health;
   PositionData position;
-  size_t manaPoints;
+  MovementData movement;
   size_t gold;
   size_t level;
 };
@@ -52,8 +55,8 @@ struct OtherPlayersData {
 
 struct PlayerGameModelData {
   MainPlayerData playerData;
-  std::vector<EnemyData> npcs;
   MapData map;
+  std::vector<EnemyData> npcs;
   std::vector<OtherPlayersData> otherPlayers;
 };
 

@@ -6,15 +6,15 @@
 #include "../view/Camera.h"
 
 class Entity {
-	private:
-		friend class Map;
-		
-  protected:
+  public:
     int x;
     int y;
-
-  public:
-    virtual void paint(const Camera &camera) = 0;
+    //virtual void paint() {}
+    virtual void paint(double scaleW, double scaleH) {}
+    //virtual void paint(const Camera &camera) = 0;
+    //esto habria que sacarlo
+    virtual void move(int xDir, int yDir, int speed) {} 
+    virtual void paint(const Camera &camera, double scaleW, double scaleH) {}
     virtual ~Entity() {}
 };
 

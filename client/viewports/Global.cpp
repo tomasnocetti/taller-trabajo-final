@@ -6,14 +6,15 @@ Global::Global(SdlWindow& window) :
     MAIN_SCREEN_BASE_X,
     MAIN_SCREEN_BASE_Y,
     MAIN_SCREEN_BASE_W,
-    MAIN_SCREEN_BASE_Global_H),
-  texture(window.createTexture()) {
-  texture.loadFromFile(MAIN_SCREEN_PATH);
+    MAIN_SCREEN_BASE_Global_H) {
 }
 
-void Global::paint() {
+void Global::paint(EntityList& entities) {
   fit();
-  texture.paint(0, 0, &destViewport);
+  for (auto& e : entities) e->paint(
+    getScaleWidthFactor(),
+    getScaleHeightFactor());
+  // texture.paint(0, 0, &destViewport);
 }
 
 

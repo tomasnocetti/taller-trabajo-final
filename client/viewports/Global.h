@@ -1,10 +1,8 @@
 #ifndef _GLOBALV_H_
 #define _GLOBALV_H_
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
 #include <string>
-#include "../sdl/LTexture.h"
+#include "../entities/Entity.h"
 #include "../sdl/SdlWindow.h"
 #include "../sdl/SdlViewport.h"
 
@@ -13,19 +11,17 @@
 #define MAIN_SCREEN_BASE_W 800
 #define MAIN_SCREEN_BASE_Global_H 600
 
-#define MAIN_SCREEN_PATH "client/assets/main-screen.jpg"
-
 class Global : SdlViewport {
 	public:
 		//Initializes variables
 	  explicit Global(SdlWindow& window);
     Global(const Global&) = delete;
     Global& operator=(const Global&) = delete;
-    void paint();
+    void paint(EntityList& entities);
 		//Deallocates memory
 		~Global();
 	private:
-    LTexture texture;
+    // LTexture texture;
 };
 
 #endif

@@ -8,4 +8,11 @@ struct PositionData {
   int h;
 };
 
+struct MovementData {
+  int xDir;
+  int yDir;
+  int speed;
+  bool isMoving;
+};
+
 #endif

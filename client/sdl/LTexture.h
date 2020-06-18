@@ -3,6 +3,7 @@
 
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include <string>
 
 class LTexture {
@@ -20,11 +21,10 @@ class LTexture {
 
 		//Loads image at specified path
 		bool loadFromFile(std::string path);
-
-		#if defined(_SDL_TTF_H) || defined(SDL_TTF_H)
-		//Creates image from font string
-		bool loadFromRenderedText(std::string textureText, SDL_Color textColor);
-		#endif
+    bool loadFromRenderedText(
+      TTF_Font *gFont,
+      std::string textureText,
+      SDL_Color textColor);
 
 		//Deallocates texture
 		void free();
@@ -38,17 +38,28 @@ class LTexture {
 		//Set alpha modulation
 		void setAlpha(Uint8 alpha);
 
+		void queryTexture(int &w, int &h);
+
 		//Renders texture at given point
 		void paint(
       int x,
       int y,
+      double scaleW = 1,
+      double scaleH = 1,
       SDL_Rect* clip = NULL,
-      int scale = 1,
       double angle = 0.0,
       SDL_Point* center = NULL,
       SDL_RendererFlip flip = SDL_FLIP_NONE);
 
-		void paint(SDL_Rect* clip, SDL_Rect dest);
+    /*void paint(
+      int x,
+      int y,
+      SDL_Rect* clip = NULL,
+      double angle = 0.0,
+      SDL_Point* center = NULL,
+      SDL_RendererFlip flip = SDL_FLIP_NONE);*/
+
+		void paint(SDL_Rect dest, double scaleW, double scaleH);
 
 		//Gets image dimensions
 		int getWidth();

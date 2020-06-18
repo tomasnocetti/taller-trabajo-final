@@ -6,13 +6,15 @@
 class Camera {
 	private:
 		SDL_Rect renderRect;
+		int maxWidth;
+		int maxHeight;
 
 	public:
 		Camera();
 		Camera(const Camera&) = delete;
     Camera& operator=(const Camera&) = delete;
 		void init(int x, int y, int w, int h);
-		bool isInCameraRange(const SDL_Rect &destrect) const;
+		void setMaxDimensions(int width, int height);
 		bool isInCameraRange(int x, int y) const;
 		void setX(int newX);
 		void setY(int newY);

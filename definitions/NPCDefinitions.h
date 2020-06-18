@@ -11,6 +11,7 @@ typedef enum {
 } NPCClass;
 
 struct EnemyData {
+  MovementData movement;
   PositionData position;
   NPCClass type;
 };

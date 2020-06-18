@@ -7,16 +7,20 @@
 class PlayerView : public Entity {
 	public:
 		PlayerView();
-		void init(SdlWindow &window, int x, int y);
+    ~PlayerView();
+		void init(LTexture* texture, int x, int y);
 		void stand(int xOffset, int yOffset);
-		void walk(int xOffset, int yOffset);
-		void paint(const Camera &camera);
+		void move(int xDir, int yDir, int speed);
+		void paint(double scaleW, double scaleH) override {}
+    void paint(const Camera &camera, 
+    	double scaleW, double scaleH) override;
+    void setHead(LTexture* head);
 		PlayerView(const PlayerView&) = delete;
     PlayerView& operator=(const PlayerView&) = delete;
-
 	private:
-		int speed;
-	  PlayerAnimation animation;
+	  Animation* animation;
+	  LTexture* head;
+	  SDL_Rect headFrame;
 };
 
 #endif

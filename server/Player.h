@@ -11,12 +11,12 @@ class Player : public Entity{
     size_t id;
     PlayerRootData root;
     Inventory inventory;
-    HealthData health;
+    HealthAndManaData health;
     PositionData position;
-    size_t manaPoints;
     size_t gold;
     size_t level;
     friend class GameModel;
+
   public:
     Player(MainPlayerData playerData, size_t id);
     ~Player();
