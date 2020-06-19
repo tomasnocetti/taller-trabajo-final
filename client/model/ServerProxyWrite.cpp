@@ -5,14 +5,14 @@
 #include <syslog.h>
 #include "../../common/common_utils.h"
 
-ServerProxyWrite::ServerProxyWrite(ServerProxy& server, 
-BlockingQueueWrite &writeBQ): 
+ServerProxyWrite::ServerProxyWrite(ServerProxy& server,
+BlockingQueueWrite &writeBQ):
   server(server),
   writeBQ(writeBQ) {}
 
 ServerProxyWrite::~ServerProxyWrite(){}
 
-void ServerProxyWrite::run(){  
+void ServerProxyWrite::run(){
   try{
     while (server.running){
       InstructionData instructionToSend;
@@ -36,29 +36,29 @@ void ServerProxyWrite::run(){
     syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());
   } catch(...) {
     syslog(LOG_CRIT, "[Crit] Unknown Error!");
-  }  
+  }
 }
 
 void ServerProxyWrite::getInstruction(InstructionData &instruction){
   writeBQ.try_front_pop(instruction);
 }
 
-std::stringstream ServerProxyWrite::packInstruction(InstructionData 
+std::stringstream ServerProxyWrite::packInstruction(InstructionData
   &instruction){
   std::stringstream buffer;
   msgpack::pack(buffer, instruction);
   return buffer;
 }
 
-void ServerProxyWrite::sendInstruction(std::stringstream &buffer){  
+void ServerProxyWrite::sendInstruction(std::stringstream &buffer){
   std::string str(buffer.str());
-  
+
   /* Código para mockear */
   msgpack::object_handle oh =
         msgpack::unpack(str.data(), str.size());
   msgpack::object deserialized = oh.get();
   std::cout << deserialized << std::endl;
-  
+
   size_t length = to_big_end<uint32_t>(str.length());
   str.insert(0, (char *) &length, 4);
   server.socket.send(str.c_str(), str.length());

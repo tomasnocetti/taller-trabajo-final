@@ -1,5 +1,6 @@
 #include "GameModel.h"
 #include <iostream>
+#include <string> // TODO - Lo pide el parser
 #include <utility>
 
 GameModel::GameModel(){}
@@ -10,9 +11,7 @@ bool GameModel::authenticate(
   std::string& nick,
   ResponseBQ& responseBQ,
   size_t& playerId) {
-
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  playerId = 4;
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {0, 0},
   {0, 0, 0, 0}, {0, 0, 0}};
 
@@ -29,7 +28,7 @@ bool GameModel::authenticate(
   return true;
 }
 
-void GameModel::move(size_t platerId, int x, int y) {
+void GameModel::move(size_t playerId, int x, int y) {
   // bool canMove = true;
 
   /** SEARCH PLAYER */
@@ -56,6 +55,7 @@ void GameModel::move(size_t platerId, int x, int y) {
 }
 
 void GameModel::propagate() {
+  Response
   // generateOtherPlayersGameData();
   // std::vector<size_t> playersId = activePlayers.getActivePlayers();
   // for (auto& it :playersId){

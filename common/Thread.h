@@ -4,11 +4,11 @@
 #include <thread>
 
 class Thread{
-  public: 
+  public:
     Thread();
     virtual void start();
     void join();
-    virtual void run() {};
+    virtual void run() = 0;
     virtual ~Thread() = 0;
     Thread(const Thread&) = delete;
     Thread& operator=(const Thread&) = delete;

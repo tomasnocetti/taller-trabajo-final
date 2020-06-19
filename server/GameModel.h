@@ -30,10 +30,13 @@ class GameModel{
     void move(size_t platerId, int x, int y);
     /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
       Devuelve true si pudo o es valido, false de lo contrario. */
-    bool authenticate(std::string& nick, ResponseBQ& responseBQ, size_t& playerId);
+    bool authenticate(
+      std::string& nick,
+      ResponseBQ& responseBQ,
+      size_t& playerId);
     /* Elimina al jugador del juego activo. */
     void deAuthenticate(size_t playerId);
-    /* En base al id del jugador, va a armar una estructura con los datos 
+    /* En base al id del jugador, va a armar una estructura con los datos
     necesarios para que dicho cliente updatee su modelo. */
     void generatePlayerModel(size_t id, PlayerGameModelData &modelData);
     void propagate();
