@@ -3,7 +3,9 @@
 #include <syslog.h>
 
 ClientAcceptor::ClientAcceptor(InstructionBQ &instructionQueue) :
-  instructionQueue(instructionQueue) {}
+  instructionQueue(instructionQueue) {
+    bindedSocket.bind_and_listen("7777");
+}
 
 ClientAcceptor::~ClientAcceptor(){}
 
@@ -35,8 +37,7 @@ void ClientAcceptor::run(){
 
 void ClientAcceptor::acceptClient(){
   std::unique_ptr<ClientProxy> p(
-    new ClientProxy(instructionQueue));
-
+    new ClientProxy(instructionQueue, bindedSocket.accept()));
   p->start();
   serverProxies.push_back(std::move(p));
 }

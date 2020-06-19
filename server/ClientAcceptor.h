@@ -4,6 +4,7 @@
 #include "../common/Thread.h"
 #include "instructions/Instruction.h"
 #include "ClientProxy.h"
+#include "../common/common_socket.h"
 #include <vector>
 #include <memory>
 
@@ -13,6 +14,7 @@ class ClientAcceptor : public Thread{
   private:
     std::vector<std::unique_ptr<ClientProxy>> serverProxies;
     InstructionBQ &instructionQueue;
+    Socket bindedSocket;
   public:
     explicit ClientAcceptor(InstructionBQ &instructionQueue);
     ~ClientAcceptor();

@@ -116,8 +116,6 @@ bool ServerProxy::isAuthenticated() const {
 
 void ServerProxy::close(){
   running = false;
-  ParamData x = {"0"};
-  ParamData y = {"0"};
-  InstructionData instruction = {CLOSE_SERVER, {x, y}};
+  InstructionData instruction = {CLOSE_SERVER, {}};
   writeBQ.push(instruction);
 }

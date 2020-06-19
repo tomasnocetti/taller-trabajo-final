@@ -11,14 +11,17 @@
 #include "instructions/Instruction.h"
 #include "responses/Response.h"
 #include "GameModel.h"
+#include "ClientAcceptor.h"
 
 class ClientProxy;
+class ClientAcceptor;
 
 class GameServer{
   private:
     bool running;
     InstructionBQ instructionQueue;
     GameModel game;
+    ClientAcceptor clientAcceptor;
   public:
     GameServer();
     ~GameServer();

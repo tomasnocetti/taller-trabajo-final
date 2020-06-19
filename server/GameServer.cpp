@@ -1,11 +1,12 @@
 #include "GameServer.h"
-#include "ClientAcceptor.h"
 
 #include <utility>
 #include <iostream>
 #include <vector>
 
-GameServer::GameServer() : running(true) {}
+GameServer::GameServer() : 
+  running(true),
+  clientAcceptor(instructionQueue) {}
 
 GameServer::~GameServer(){}
 
@@ -18,8 +19,7 @@ void GameServer::init(){
 }
 
 void GameServer::start(){
-  ClientAcceptor acceptor(instructionQueue);
-  acceptor.start();
+  clientAcceptor.start();
   int i = 0;
 
   while (running && i<1000){

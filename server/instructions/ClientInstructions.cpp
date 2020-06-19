@@ -26,3 +26,11 @@ void AuthInstruction::run(GameModel& game) {
     return;
   }
 }
+
+CloseInstruction::CloseInstruction(size_t id) :
+  playerId(id) {}
+
+void CloseInstruction::run(GameModel& game) {
+  std::cout << "Despidiendo al jugador de id " << playerId << std::endl;
+  // game.eraseClient(playerId)
+}
