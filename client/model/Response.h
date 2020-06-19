@@ -1,13 +1,16 @@
-#ifndef RESPONSE_H
-#define RESPONSE_H
+#ifndef SERVER_RESPONSE_H
+#define SERVER_RESPONSE_H
 
 #include <string>
 #include <memory>
-#include "../../common/BlockingQueue.h"
+#include "../../common/Queue.h"
 #include "../../DataDefinitions.h"
 
+class ServerProxy;
 class Response;
-using ResponseBQ = BlockingQueue<std::unique_ptr<Response>>;
+using ResponseQ = Queue<std::unique_ptr<Response>>;
+
+#include "ServerProxy.h"
 
 class Response {
   public:
@@ -15,7 +18,7 @@ class Response {
     Response(const Response&) = delete;
     Response& operator=(const Response&) = delete;
     Response&& operator=(Response&& other) = delete;
-    virtual std::string pack() = 0;
+    virtual void run(ServerProxy& server) = 0;
     virtual ~Response() = default;
   protected:
     ResponseTypeT type;
@@ -23,11 +26,11 @@ class Response {
 
 class PlayerGameResponse: public Response {
   public:
-    PlayerGameResponse() = default;
+    PlayerGameResponse(std::string buffer);
     PlayerGameResponse(const PlayerGameResponse&) = delete;
     PlayerGameResponse& operator=(const PlayerGameResponse&) = delete;
     PlayerGameResponse&& operator=(PlayerGameResponse&& other) = delete;
-    std::string pack() override;
+    void run(ServerProxy& server) override;
   private:
     PlayerGameModelData model;
 };

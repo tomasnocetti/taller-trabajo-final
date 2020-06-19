@@ -3,7 +3,8 @@
 
 #include <string>
 #include <vector>
-#include <atomic>  
+#include <atomic>
+#include "Response.h"
 #include "../../DataDefinitions.h"
 #include "../MapParser.h"
 #include "../../common/BlockingQueue.h"
@@ -11,21 +12,19 @@
 #include "../../common/common_socket.h"
 
 using BlockingQueueWrite = BlockingQueue<InstructionData>;
-using BlockingQueueRead = BlockingQueue<InstructionData>;
 
 class Socket;
 class ServerProxy;
 
 class ServerProxyRead : public Thread {
   public:
-    explicit ServerProxyRead(BlockingQueueRead &readBQ);
-    ~ServerProxyRead();
+    explicit ServerProxyRead(ServerProxy &server);
     ServerProxyRead(const ServerProxyRead&) = delete;
     ServerProxyRead& operator=(const ServerProxyRead&) = delete;
     void run();
+    void handleResponse();
   private:
-    // BlockingQueueRead &readBQ;
-    bool continueReading;
+    ServerProxy &server;
 };
 
 class ServerProxyWrite : public Thread {
@@ -50,28 +49,35 @@ class ServerProxy{
     ServerProxy(const ServerProxy&) = delete;
     ServerProxy& operator=(const ServerProxy&) = delete;
     ServerProxy&& operator=(ServerProxy&& other);
-    void authentificate(std::string& alias);
     void init();
+    void update();
+    bool isAuthenticated() const;
+    /** Client ACTIONS */
+    void authentificate(std::string& alias);
     void move(int xDir, int yDir);
     void moveNPC(int xDir, int yDir);
-    bool isAuthenticated() const;
+    /** Client GETERS */
     MapData getMapData() const;
     MainPlayerData getMainPlayerData() const;
     std::vector<EnemyData> getNPCData() const;
+    void setMainPlayerData();
+    void setMapData();
     void close();
-    
+
   private:
     friend class ServerProxyWrite;
+    friend class ServerProxyRead;
     bool authentificated;
     std::atomic<bool> running;
     MapData map;
     MainPlayerData mainPlayer;
     std::vector<EnemyData> npcs;
     BlockingQueueWrite writeBQ;
-    BlockingQueueRead readBQ;
+    ResponseQ readBQ;
     Socket socket;
     ServerProxyWrite serverProxyWrite;
     ServerProxyRead serverProxyRead;
+    ResponseQ responseQ;
 };
 
 #endif

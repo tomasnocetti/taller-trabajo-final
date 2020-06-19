@@ -3,7 +3,9 @@
 #include <string>
 
 PlayerGameResponse::PlayerGameResponse(
-  PlayerGameModelData model) : model(model) {}
+  PlayerGameModelData model) :
+  Response(ResponseTypeT::PLAYER_GAME_MODEL),
+  model(model) {}
 
 
 std::string PlayerGameResponse::pack() {
