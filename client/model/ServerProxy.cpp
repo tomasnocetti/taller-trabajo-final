@@ -16,24 +16,11 @@ void ServerProxy::init() {
   m.loadMap("client/assets/map/pindonga3.json");
   map = m.getMapData();
 
-  // ------ TEST CODE FOR PARSE OBJ LAYER
-  //std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
-
-  /*for (size_t i = 0; i < objectl.size(); i++){
-    std::cout << "layer: " << i + 1 << std::endl;
-    for (size_t j = 0; j < objectl[i].objects.size(); j++){
-      std::cout << objectl[i].objects[j].x << std::endl;
-      std::cout << objectl[i].objects[j].y << std::endl;
-      std::cout << objectl[i].objects[j].width << std::endl;
-      std::cout << objectl[i].objects[j].height << std::endl;
-    }
-  }*/
-
   struct EnemyData data;
   data.position.x = 100;
   data.position.y = 100;
-  data.movement.xDir = -1;
-  data.movement.yDir = 0;
+  data.movement.xDir = 0;
+  data.movement.yDir = 1;
   data.movement.isMoving = false;
   data.type = GOBLIN;
   data.movement.speed = 1;
@@ -78,18 +65,24 @@ void ServerProxy::move(int xDir, int yDir){
   }
 }
 
-void ServerProxy::moveNPC(int xDir, int yDir){
-  for(unsigned int i = 0; i < npcs.size(); i++){
-    if(xDir == 0 && yDir == 0){
-      npcs[i].movement.isMoving = false;
-    } else {
-      npcs[i].movement.isMoving = true;
-      npcs[i].movement.xDir = xDir;
-      npcs[i].movement.yDir = yDir;
-      npcs[i].position.x += xDir * npcs[i].movement.speed;
-      npcs[i].position.y += yDir * npcs[i].movement.speed;
-    }
-  }
+void ServerProxy::moveNPC(int index, int xDir, int yDir){
+  // for(unsigned int i = 0; i < npcs.size(); i++){
+  //   if(xDir == 0 && yDir == 0){
+  //     npcs[i].movement.isMoving = false;
+  //   } else {
+  //     npcs[i].movement.isMoving = true;
+  //     npcs[i].movement.xDir = xDir;
+  //     npcs[i].movement.yDir = yDir;
+  //     npcs[i].position.x += xDir * npcs[i].movement.speed;
+  //     npcs[i].position.y += yDir * npcs[i].movement.speed;
+  //   }
+  // }
+
+  npcs[index].movement.isMoving = true;
+  npcs[index].movement.xDir = xDir;
+  npcs[index].movement.yDir = yDir;
+  npcs[index].position.x += xDir * npcs[index].movement.speed;
+  npcs[index].position.y += yDir * npcs[index].movement.speed;
 }
 
 void ServerProxy::attack(int xPos, int yPos) {

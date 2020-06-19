@@ -15,7 +15,7 @@ class ServerProxy {
     void authentificate(std::string& alias);
     void init();
     void move(int xDir, int yDir);
-    void moveNPC(int xDir, int yDir);
+    void moveNPC(int index, int xDir, int yDir);
     void attack(int xPos, int yPos);
     bool isAuthenticated() const;
     MapData getMapData() const;
