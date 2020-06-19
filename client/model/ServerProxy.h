@@ -1,10 +1,11 @@
 #ifndef CLIENT_PROXY_H
 #define CLIENT_PROXY_H
 
-#include "../../DataDefinitions.h"
-#include "../MapParser.h"
 #include <string>
 #include <vector>
+#include <atomic>  
+#include "../../DataDefinitions.h"
+#include "../MapParser.h"
 #include "../../common/BlockingQueue.h"
 #include "../../common/Thread.h"
 #include "../../common/common_socket.h"
@@ -34,19 +35,18 @@ class ServerProxyWrite : public Thread {
     ServerProxyWrite(const ServerProxyWrite&) = delete;
     ServerProxyWrite& operator=(const ServerProxyWrite&) = delete;
     void run();
-    void close();
     void getInstruction(InstructionData &instruction);
     std::stringstream packInstruction(InstructionData &instruction);
     void sendInstruction(std::stringstream &buffer);
 
   private:
-    bool continuePlaying;
     ServerProxy &server;
     BlockingQueueWrite &writeBQ;
 };
 class ServerProxy{
   public:
     ServerProxy(std::string& host, std::string& port);
+    ~ServerProxy();
     ServerProxy(const ServerProxy&) = delete;
     ServerProxy& operator=(const ServerProxy&) = delete;
     ServerProxy&& operator=(ServerProxy&& other);
@@ -63,6 +63,7 @@ class ServerProxy{
   private:
     friend class ServerProxyWrite;
     bool authentificated;
+    std::atomic<bool> running;
     MapData map;
     MainPlayerData mainPlayer;
     std::vector<EnemyData> npcs;

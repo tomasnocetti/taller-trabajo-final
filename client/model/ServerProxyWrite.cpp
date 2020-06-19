@@ -7,7 +7,6 @@
 
 ServerProxyWrite::ServerProxyWrite(ServerProxy& server, 
 BlockingQueueWrite &writeBQ): 
-  continuePlaying(true),
   server(server),
   writeBQ(writeBQ) {}
 
@@ -15,19 +14,12 @@ ServerProxyWrite::~ServerProxyWrite(){}
 
 void ServerProxyWrite::run(){  
   try{
-    while (continuePlaying){
+    while (server.running){
       InstructionData instructionToSend;
 
       getInstruction(instructionToSend);
       std::stringstream buffer = packInstruction(instructionToSend);
       sendInstruction(buffer);
-
-      /* Código para mockear */
-      std::string str(buffer.str());
-      msgpack::object_handle oh =
-        msgpack::unpack(str.data(), str.size());
-      msgpack::object deserialized = oh.get();
-      std::cout << deserialized << std::endl;
     }
   } catch(const std::system_error& e) {
     /** This error codes gey by-passed. In Linux when a blocking socket.accept
@@ -47,10 +39,6 @@ void ServerProxyWrite::run(){
   }  
 }
 
-void ServerProxyWrite::close(){
-  continuePlaying = false;
-}
-
 void ServerProxyWrite::getInstruction(InstructionData &instruction){
   writeBQ.try_front_pop(instruction);
 }
@@ -65,9 +53,13 @@ std::stringstream ServerProxyWrite::packInstruction(InstructionData
 void ServerProxyWrite::sendInstruction(std::stringstream &buffer){  
   std::string str(buffer.str());
   
-  uint32_t length = to_big_end<uint32_t>(str.length());
-
+  /* Código para mockear */
+  msgpack::object_handle oh =
+        msgpack::unpack(str.data(), str.size());
+  msgpack::object deserialized = oh.get();
+  std::cout << deserialized << std::endl;
+  
+  size_t length = to_big_end<uint32_t>(str.length());
   str.insert(0, (char *) &length, 4);
-
   server.socket.send(str.c_str(), str.length());
 }
