@@ -38,9 +38,9 @@ struct HealthAndManaData {
 };
 
 struct MainPlayerData {
-  PlayerRootData root;
+  PlayerRootData rootd;
   Inventory inventory;
-  HealthAndManaData health;
+  HealthAndManaData points;
   PositionData position;
   MovementData movement;
   size_t gold;

@@ -24,15 +24,17 @@ typedef enum {
   MAP_MODEL
 } ResponseTypeT;
 
-struct ParamData {
+MSGPACK_ADD_ENUM(ActionTypeT)
+
+typedef struct ParamData {
   std::string value;
-  //MSGPACK_DEFINE(value)
-};
+  MSGPACK_DEFINE(value)
+} ParamDataT;
 
 struct InstructionData {
   ActionTypeT action;
   std::vector<ParamData> params;
-  //MSGPACK_DEFINE(playerId, params, action)
+  MSGPACK_DEFINE(action, params)
 };
 
 #endif

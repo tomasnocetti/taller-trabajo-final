@@ -1,4 +1,5 @@
 #include "TextEntity.h"
+#include <string>
 
 TextEntity::TextEntity() {}
 
