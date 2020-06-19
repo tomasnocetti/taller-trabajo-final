@@ -19,6 +19,11 @@ typedef enum {
   AUTHENTICATE
 } ActionTypeT;
 
+typedef enum {
+  PLAYER_GAME_MODEL,
+  MAP_MODEL
+} ResponseTypeT;
+
 struct ParamData {
   std::string value;
   //MSGPACK_DEFINE(value)

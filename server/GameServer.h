@@ -8,14 +8,11 @@
 
 #include "Player.h"
 #include "../DataDefinitions.h"
-#include "../common/BlockingQueue.h"
 #include "instructions/Instruction.h"
+#include "responses/Response.h"
 #include "GameModel.h"
 
 class ClientProxy;
-
-using InstructionBQ = BlockingQueue<std::unique_ptr<Instruction>>;
-using UpdateClientsBQ = FixedBlockingQueue<PlayerGameModelData>;
 
 class GameServer{
   private:

@@ -5,17 +5,24 @@
 #include <memory>
 #include <atomic>
 #include "../DataDefinitions.h"
-#include "../common/BlockingQueue.h"
 #include "../common/Thread.h"
 #include "instructions/Instruction.h"
+#include "responses/Response.h"
 
 class Instruction;
 class ClientProxyRead;
 class ClientProxy;
 
-using InstructionDataBQ = BlockingQueue<std::unique_ptr<Instruction>>;
-using UpdateClientsBQ = FixedBlockingQueue<PlayerGameModelData>;
+class ClientProxyWrite: public Thread {
+  public:
+    explicit ClientProxyWrite(ClientProxy& client);
+    void run() override;
 
+  private:
+    ClientProxy& client;
+    void handleInstruction(InstructionData& instruction);
+    void sendResponse(std::unique_ptr<Response>);
+};
 
 /**
    * @brief Maneja las instrucciones que vienen del Cliente.
@@ -29,18 +36,22 @@ class ClientProxyRead: public Thread {
   private:
     ClientProxy& client;
     void handleInstruction(InstructionData& instruction);
+    InstructionData getInstruction();
 };
 
 class ClientProxy {
   private:
     std::atomic<bool> running;
+    std::atomic<bool> authenticated;
     std::atomic<size_t> playerId;
     ClientProxyRead readProxy;
-    InstructionDataBQ &instructionQueue;
-    UpdateClientsBQ clientBQ;
+    ClientProxyRead writeProxy;
+    InstructionBQ &instructionQueue;
+    ResponseBQ responseBQ;
     friend ClientProxyRead;
+    friend ClientProxyWrite;
   public:
-    explicit ClientProxy(InstructionDataBQ &instructionQueue);
+    explicit ClientProxy(InstructionBQ &instructionQueue);
     ~ClientProxy();
     ClientProxy(const ClientProxy&) = delete;
     ClientProxy& operator=(const ClientProxy&) = delete;
@@ -50,8 +61,8 @@ class ClientProxy {
      * Socket.write
      */
     void setPlayerId(size_t id);
-    UpdateClientsBQ& getUpdateBQ();
-    void stopPlaying();
+    ResponseBQ& getUpdateBQ();
+    void stop();
 };
 
 #endif

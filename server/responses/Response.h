@@ -7,7 +7,7 @@
 #include "../../DataDefinitions.h"
 
 class Response;
-using UpdateClientBQ = BlockingQueue<std::unique_ptr<Response>>;
+using ResponseBQ = BlockingQueue<std::unique_ptr<Response>>;
 
 class Response {
   public:
@@ -27,6 +27,7 @@ class PlayerGameResponse: public Response {
     PlayerGameResponse(const PlayerGameResponse&) = delete;
     PlayerGameResponse& operator=(const PlayerGameResponse&) = delete;
     PlayerGameResponse&& operator=(PlayerGameResponse&& other) = delete;
+    std::string pack() override;
   private:
     PlayerGameModelData model;
 };

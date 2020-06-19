@@ -4,12 +4,13 @@
 #include <vector>
 #include <unistd.h>
 
-ClientProxy::ClientProxy(InstructionDataBQ &instructionQueue):
+ClientProxy::ClientProxy(InstructionBQ &instructionQueue):
   running(true),
+  authenticated(false),
   playerId(0),
   readProxy(*this),
-  instructionQueue(instructionQueue),
-  clientBQ(1) {}
+  writeProxy(*this),
+  instructionQueue(instructionQueue) {}
 
 void ClientProxy::start(){
   readProxy.run();
@@ -17,44 +18,44 @@ void ClientProxy::start(){
 
 void ClientProxy::setPlayerId(size_t id) {
   playerId = id;
+  authenticated = true;
 }
 
-UpdateClientsBQ& ClientProxy::getUpdateBQ() {
-  return clientBQ;
+ResponseBQ& ClientProxy::getUpdateBQ() {
+  return responseBQ;
 }
 
-void ClientProxy::stopPlaying(){
+void ClientProxy::stop(){
   running = false;
 }
 
 ClientProxy::~ClientProxy(){}
 
-ClientProxyRead::ClientProxyRead(ClientProxy& client) : 
+ClientProxyRead::ClientProxyRead(ClientProxy& client) :
   client(client) {}
 
 void ClientProxyRead::run(){
-  /* Con este id, genero una nueva instrucción loadPlayer, y la pusheo
-  a la instructionQueue para que el jugador sea dado de alta con sus
-  respectivos datos de MainPlayerData almacenado en la base de datos. */
-  size_t id = 4;
-  sleep(2*id);
-  std::cout << "Hola! Soy el cliento con id " << id << std::endl;
+  try{
+    while (client.running){
 
-  client.setPlayerId(22);
-  ParamData z = {"tomi123"};
-  InstructionData auth = {AUTHENTICATE, {z}};
-  handleInstruction(auth);
-  
-  std::cout << "Hola! Soy el cliento con id " << client.playerId << std::endl;
-  while (client.running){
-    /** READ FROM SOCKET BLOCKING **/
-    ParamData x = {"100"};
-    ParamData y = {"200"};
-    InstructionData instruction = {MOVE, {x,y}};
-
-    /** HANDLE **/
-    handleInstruction(instruction);
+      InstructionData i = getInstruction();
+      /** HANDLE **/
+      handleInstruction(i);
+    }
+  } catch(const std::exception& e) {
+    std::cout << "ERROR CLIENT PROXY: " << e.what() << std::endl;
+  } catch(...) {
+    std::cout << "UNKOWN ERROR CLIENT PROXY" << std::endl;
   }
+}
+
+InstructionData ClientProxyRead::getInstruction() {
+  /** READ FROM SOCKET BLOCKING **/
+  ParamData x = {"100"};
+  ParamData y = {"200"};
+  InstructionData instruction = {MOVE, {x,y}};
+
+  return instruction;
 }
 
 void ClientProxyRead::handleInstruction(InstructionData& instruction) {
@@ -86,4 +87,29 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
       std::cout << "El jugador quiere realizar otra accion. " << std::endl;
       break;
   }
+}
+
+ClientProxyWrite::ClientProxyWrite(ClientProxy& client) :
+  client(client) {}
+
+void ClientProxyWrite::run(){
+  try{
+    while (true){
+
+      std::unique_ptr<Response> r;
+      bool success = client.responseBQ.try_front_pop(r);
+      if (!success) return;
+
+      /** HANDLE RESPONSE **/
+      sendResponse(std::move(r));
+    }
+  } catch(const std::exception& e) {
+    std::cout << "ERROR CLIENT PROXY: " << e.what() << std::endl;
+  } catch(...) {
+    std::cout << "UNKOWN ERROR CLIENT PROXY" << std::endl;
+  }
+}
+
+void ClientProxyWrite::sendResponse(std::unique_ptr<Response>) {
+  // HANDLE SENDING
 }

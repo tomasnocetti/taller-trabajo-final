@@ -8,6 +8,7 @@ MoveInstruction::MoveInstruction(size_t id) :
 
 void MoveInstruction::run(GameModel& game) {
   std::cout << "MOVIENDO " << playerId << std::endl;
+  // game.move(playerId, x, y);
 }
 
 AuthInstruction::AuthInstruction(ClientProxy& client, std::string nick) :

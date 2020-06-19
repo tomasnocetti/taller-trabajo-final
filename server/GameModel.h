@@ -4,18 +4,17 @@
 #include <vector>
 #include <string>
 #include <stdio.h>
-#include "../common/BlockingQueue.h"
+#include "responses/Response.h"
 #include "../DataDefinitions.h"
 #include "Player.h"
 #include <map>
 
 class Player;
-using UpdateClientBQ = FixedBlockingQueue<PlayerGameModelData>;
 
 class GameModel{
   private:
-    std::map<size_t, UpdateClientBQ&> clientsBQ;
     std::vector<EnemyData> npcs;
+    std::map<size_t, ResponseBQ&> clientsBQ;
     std::map<size_t, std::unique_ptr<Player>> players;
     std::vector<OtherPlayersData> otherPlayers;
     MapData map;
@@ -28,10 +27,10 @@ class GameModel{
     /* Handle move instruction.
     Chequea colisiones. Si lo puede mover, lo mueve, caso contrario el modelo
     permanece intalterado. */
-    void move();
+    void move(size_t platerId, int x, int y);
     /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
       Devuelve true si pudo o es valido, false de lo contrario. */
-    bool authenticate(std::string& nick, UpdateClientBQ& clientBQ, size_t& playerId);
+    bool authenticate(std::string& nick, ResponseBQ& responseBQ, size_t& playerId);
     /* Elimina al jugador del juego activo. */
     void deAuthenticate(size_t playerId);
     /* En base al id del jugador, va a armar una estructura con los datos 

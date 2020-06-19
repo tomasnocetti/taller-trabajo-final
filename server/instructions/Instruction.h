@@ -2,10 +2,15 @@
 #define INSTRUCTION_H
 
 #include <string>
-#include "../ClientProxy.h"
-#include "../GameModel.h"
+#include <memory>
+#include "../../common/BlockingQueue.h"
 
 class ClientProxy;
+class Instruction;
+using InstructionBQ = BlockingQueue<std::unique_ptr<Instruction>>;
+
+#include "../GameModel.h"
+#include "../ClientProxy.h"
 
 class Instruction {
   public:
