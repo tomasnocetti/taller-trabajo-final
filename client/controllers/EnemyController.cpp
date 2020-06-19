@@ -4,7 +4,6 @@
 #include "../view/GoblinAnimation.h"
 #include "../view/SpiderAnimation.h"
 #include <vector>
-#include <iostream>
 
 EnemyController::EnemyController(
   ServerProxy& model,
@@ -13,10 +12,6 @@ EnemyController::EnemyController(
 
 void EnemyController::init(){
   /** LOAD ASSETS ON INIT **/
-  manager.addTexture("skeleton-view", "client/assets/skeletonView.png");
-  manager.addTexture("goblin-view", "client/assets/goblinView.png");
-  manager.addTexture("spider-view", "client/assets/spiderView.png");
-
   std::vector<EnemyData> v = model.getNPCData();
 
   for (unsigned int i = 0; i < v.size(); i++){
@@ -30,11 +25,11 @@ void EnemyController::init(){
 }
 
 void EnemyController::update() {
-	model.moveNPC(0, 1);
+	model.moveNPC(0, 0);
 	std::vector<EnemyData> v = model.getNPCData();
 	for(unsigned int i = 0; i < v.size(); i++){
 		enemies[i]->move(v[i].movement.xDir, v[i].movement.yDir, 
-			v[i].movement.speed);
+			v[i].movement.speed, v[i].movement.isMoving);
 	}
 }
 

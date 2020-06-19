@@ -26,6 +26,8 @@ class Map : SdlViewport{
     void paint(EntityList& entities, Entity &player, EntityList& enemies);
     void init();
     void setMaxCameraDimensions(MapData data);
+    int getCameraX();
+    int getCameraY();
 		//Deallocates memory
 		~Map();
 	private:

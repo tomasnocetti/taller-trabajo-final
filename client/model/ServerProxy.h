@@ -16,6 +16,7 @@ class ServerProxy {
     void init();
     void move(int xDir, int yDir);
     void moveNPC(int xDir, int yDir);
+    void attack(int xPos, int yPos);
     bool isAuthenticated() const;
     MapData getMapData() const;
     MainPlayerData getMainPlayerData() const;

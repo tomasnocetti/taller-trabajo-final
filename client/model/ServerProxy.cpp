@@ -17,9 +17,9 @@ void ServerProxy::init() {
   map = m.getMapData();
 
   // ------ TEST CODE FOR PARSE OBJ LAYER
-  std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
+  //std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
 
-  for (size_t i = 0; i < objectl.size(); i++){
+  /*for (size_t i = 0; i < objectl.size(); i++){
     std::cout << "layer: " << i + 1 << std::endl;
     for (size_t j = 0; j < objectl[i].objects.size(); j++){
       std::cout << objectl[i].objects[j].x << std::endl;
@@ -27,11 +27,14 @@ void ServerProxy::init() {
       std::cout << objectl[i].objects[j].width << std::endl;
       std::cout << objectl[i].objects[j].height << std::endl;
     }
-  }
+  }*/
 
   struct EnemyData data;
   data.position.x = 100;
   data.position.y = 100;
+  data.movement.xDir = -1;
+  data.movement.yDir = 0;
+  data.movement.isMoving = false;
   data.type = GOBLIN;
   data.movement.speed = 1;
   npcs.emplace_back(data);
@@ -49,33 +52,50 @@ void ServerProxy::init() {
   npcs.emplace_back(data);
   // ------ TEST CODE FOR ENEMIES
 
-  mainPlayer.rootd.prace = HUMAN;
+  mainPlayer.rootd.prace = DWARF;
   mainPlayer.position.x = (542 - 11) / 2;
   mainPlayer.position.y = (413 - 154) / 2;
   mainPlayer.movement.xDir = 0;
-  mainPlayer.movement.yDir = 0;
+  mainPlayer.movement.yDir = 1;
+  mainPlayer.movement.isMoving = false;
   mainPlayer.points.totalHP = 100;
   mainPlayer.points.totalMP = 100;
   mainPlayer.points.currentHP = 100;
   mainPlayer.points.currentMP = 100;
-  mainPlayer.movement.speed = 2;
+  mainPlayer.movement.speed = 5;
   mainPlayer.gold = 0;
 }
 
 void ServerProxy::move(int xDir, int yDir){
-  mainPlayer.movement.xDir = xDir;
-  mainPlayer.movement.yDir = yDir;
-  mainPlayer.position.x += xDir * mainPlayer.movement.speed;
-  mainPlayer.position.y += yDir * mainPlayer.movement.speed;
+  if(xDir == 0 && yDir == 0){
+    mainPlayer.movement.isMoving = false;
+  } else {
+    mainPlayer.movement.isMoving = true;
+    mainPlayer.movement.xDir = xDir;
+    mainPlayer.movement.yDir = yDir;
+    mainPlayer.position.x += xDir * mainPlayer.movement.speed;
+    mainPlayer.position.y += yDir * mainPlayer.movement.speed;
+  }
 }
 
 void ServerProxy::moveNPC(int xDir, int yDir){
   for(unsigned int i = 0; i < npcs.size(); i++){
-    npcs[i].movement.xDir = xDir;
-    npcs[i].movement.yDir = yDir;
-    npcs[i].position.x += xDir * npcs[i].movement.speed;
-    npcs[i].position.y += yDir * npcs[i].movement.speed;
+    if(xDir == 0 && yDir == 0){
+      npcs[i].movement.isMoving = false;
+    } else {
+      npcs[i].movement.isMoving = true;
+      npcs[i].movement.xDir = xDir;
+      npcs[i].movement.yDir = yDir;
+      npcs[i].position.x += xDir * npcs[i].movement.speed;
+      npcs[i].position.y += yDir * npcs[i].movement.speed;
+    }
   }
+}
+
+void ServerProxy::attack(int xPos, int yPos) {
+  std::cout << xPos << std::endl;
+  std::cout << yPos << std::endl;
+  std::cout << std::endl;
 }
 
 MainPlayerData ServerProxy::getMainPlayerData() const {
