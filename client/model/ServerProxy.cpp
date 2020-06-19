@@ -5,10 +5,15 @@
 #include <unistd.h>
 
 ServerProxy::ServerProxy(std::string& host, std::string& port) :
+  running(true),
   serverProxyWrite(*this, writeBQ),
   serverProxyRead(readBQ){
     std::cout << "Connected to: " << host << ":" << port << std::endl;
     socket.connect(host.c_str(), port.c_str());
+}
+
+ServerProxy::~ServerProxy(){
+  socket.close();
 }
 
 void ServerProxy::authentificate(std::string& alias) {
@@ -21,7 +26,7 @@ void ServerProxy::init() {
   map = m.getMapData();
 
   serverProxyWrite.start();
-  serverProxyRead.start();
+  //serverProxyRead.start();
 
   // ------ TEST CODE FOR PARSE OBJ LAYER
   std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
@@ -110,7 +115,7 @@ bool ServerProxy::isAuthenticated() const {
 }
 
 void ServerProxy::close(){
-  serverProxyWrite.close();
+  running = false;
   ParamData x = {"0"};
   ParamData y = {"0"};
   InstructionData instruction = {1, CLOSE_SERVER, {x, y}};
