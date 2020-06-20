@@ -17,5 +17,5 @@ PlayerGameResponse::PlayerGameResponse(std::string &buffer) :
 }
 
 void PlayerGameResponse::run(ServerProxy& server) {
-  
+  server.setGameModelData(model);
 }
