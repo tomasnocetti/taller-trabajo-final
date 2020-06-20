@@ -63,6 +63,7 @@ InstructionData ClientProxyRead::getInstruction() {
   client.acceptedSocket.receive(res_message.data(), sizeInstruction);
   std::string instruction(res_message.begin(), res_message.end());
 
+  /* Código para mockear */
   msgpack::object_handle oh =
         msgpack::unpack(instruction.data(), instruction.size());
   msgpack::object deserialized = oh.get();
@@ -125,6 +126,8 @@ void ClientProxyWrite::run(){
   }
 }
 
-void ClientProxyWrite::sendResponse(std::unique_ptr<Response>) {
-  // HANDLE SENDING
+void ClientProxyWrite::sendResponse(std::unique_ptr<Response> r) {
+  std::string response = r.get()->getModelPacked();
+
+  client.acceptedSocket.send(response.c_str(), response.length());
 }

@@ -67,7 +67,7 @@ void GameModel::propagate() {
     std::unique_ptr<PlayerGameResponse> response(new 
       PlayerGameResponse(modelData));
 
-    //clientsBQ.at(it.first).push(response);
+    clientsBQ.at(it.first).push(std::move(response));
   }
 }
 

@@ -6,7 +6,6 @@
 #include "definitions/PlayerDefinitions.h"
 #include <string>
 #include <vector>
-#include <msgpack.hpp>
 
 typedef enum {
   MOVE,

@@ -16,6 +16,7 @@ class Response {
     Response& operator=(const Response&) = delete;
     Response&& operator=(Response&& other) = delete;
     virtual void pack(PlayerGameModelData &model) = 0;
+    virtual std::string getModelPacked() = 0;
     virtual ~Response() = default;
   protected:
     ResponseTypeT type;
@@ -28,6 +29,7 @@ class PlayerGameResponse: public Response {
     PlayerGameResponse& operator=(const PlayerGameResponse&) = delete;
     PlayerGameResponse&& operator=(PlayerGameResponse&& other) = delete;
     void pack(PlayerGameModelData &model) override;
+    std::string getModelPacked() override;
   private:
     std::string modelPacked;
 };

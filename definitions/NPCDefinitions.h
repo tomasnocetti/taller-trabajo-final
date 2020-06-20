@@ -10,10 +10,13 @@ typedef enum {
   SPIDER
 } NPCClass;
 
+MSGPACK_ADD_ENUM(NPCClass)
+
 struct EnemyData {
   MovementData movement;
   PositionData position;
   NPCClass type;
+  MSGPACK_DEFINE(movement, position, type)
 };
 
 #endif

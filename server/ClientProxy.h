@@ -23,7 +23,7 @@ class ClientProxyWrite: public Thread {
   private:
     ClientProxy& client;
     void handleInstruction(InstructionData& instruction);
-    void sendResponse(std::unique_ptr<Response>);
+    void sendResponse(std::unique_ptr<Response> r);
 };
 
 /**
