@@ -3,13 +3,13 @@
 SDL_Rect sdlScaleRect(SDL_Rect& r, double scaleW, double scaleH){
   return SDL_Rect({
     static_cast<int>(
-      floor(static_cast<double>(r.x) * scaleW)),
+      ceil(static_cast<double>(r.x) * scaleW)),
     static_cast<int>(
-      floor(static_cast<double>(r.y) * scaleH)),
+      ceil(static_cast<double>(r.y) * scaleH)),
     static_cast<int>(
-      floor(static_cast<double>(r.w) * scaleW)),
+      ceil(static_cast<double>(r.w) * scaleW)),
     static_cast<int>(
-      floor(static_cast<double>(r.h) * scaleH))
+      ceil(static_cast<double>(r.h) * scaleH))
   });
 }
 
