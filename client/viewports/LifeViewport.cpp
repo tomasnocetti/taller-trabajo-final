@@ -8,7 +8,9 @@ void LifeViewport::init() {}
 
 void LifeViewport::paint(std::vector<Entity*> values) {
   fit();
+
   for (unsigned int i = 0; i < values.size(); i++)
+
     values[i]->paint(getScaleWidthFactor(), getScaleHeightFactor());
 }
 

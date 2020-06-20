@@ -1,27 +1,27 @@
 #ifndef CLIENT_ACCEPTOR_H
 #define CLIENT_ACCEPTOR_H
 
-#include "../common/BlockingQueue.h"
-#include "ServerProxy.h"
 #include "../common/Thread.h"
+#include "instructions/Instruction.h"
+#include "ClientProxy.h"
+#include "../common/common_socket.h"
 #include <vector>
 #include <memory>
-#include "ActivePlayers.h"
 
 class BlockinQueue;
 
 class ClientAcceptor : public Thread{
   private:
-    std::vector<std::unique_ptr<ServerProxy>> serverProxies;
-    InstructionDataBQ &instructionQueue;
-    ActivePlayers &activePlayers;
+    std::vector<std::unique_ptr<ClientProxy>> serverProxies;
+    InstructionBQ &instructionQueue;
+    Socket bindedSocket;
   public:
-    ClientAcceptor(InstructionDataBQ &instructionQueue, 
-      ActivePlayers &activePlayers);
+    std::atomic<bool> running;
+    explicit ClientAcceptor(InstructionBQ &instructionQueue);
     ~ClientAcceptor();
     ClientAcceptor(const ClientAcceptor&) = delete;
     ClientAcceptor& operator=(const ClientAcceptor&) = delete;
-    void acceptPlayer();
+    void acceptClient();
     void run();
 };
 

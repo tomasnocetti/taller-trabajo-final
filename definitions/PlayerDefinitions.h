@@ -2,7 +2,10 @@
 #define __PLAYERDEF_H
 
 #include "EntityDefinitions.h"
+
+#include "MapDefinitions.h"
 #include <string>
+#include <vector>
 
 typedef enum {
   HUMAN,
@@ -11,6 +14,8 @@ typedef enum {
   DWARF
 } PlayerRace;
 
+MSGPACK_ADD_ENUM(PlayerRace)
+
 typedef enum {
   MAGE,
   CLERIC,
@@ -18,13 +23,17 @@ typedef enum {
   WARRIOR
 } PlayerClass;
 
+MSGPACK_ADD_ENUM(PlayerClass)
+
 struct PlayerRootData {
   PlayerClass pclass;
   PlayerRace prace;
+  MSGPACK_DEFINE(pclass, prace)
 };
 
-struct Inventory{
+struct Inventory {
   std::string helmet;
+  MSGPACK_DEFINE(helmet)
 };
 
 struct HealthAndManaData {
@@ -32,15 +41,33 @@ struct HealthAndManaData {
   int currentHP;
   int totalMP;
   int currentMP;
+  MSGPACK_DEFINE(totalHP, currentHP, totalMP, currentMP)
 };
 
 struct MainPlayerData {
-  MovementData movement;
   PlayerRootData rootd;
-  PositionData position;
+  Inventory inventory;
   HealthAndManaData points;
-  uint32_t gold;
-  uint32_t level;
+  PositionData position;
+  MovementData movement;
+  size_t gold;
+  size_t level;
+  MSGPACK_DEFINE(rootd, inventory, points, position, movement, gold, level)
+};
+
+struct OtherPlayersData {
+  size_t id;
+  PositionData otherPlayerPosition;
+  PlayerRootData otherPlayerRoot;
+  MSGPACK_DEFINE(id, otherPlayerPosition, otherPlayerRoot)
+};
+
+struct PlayerGameModelData {
+  MainPlayerData playerData;
+  MapData map;
+  std::vector<EnemyData> npcs;
+  std::vector<OtherPlayersData> otherPlayers;
+  MSGPACK_DEFINE(playerData, map, npcs, otherPlayers)
 };
 
 #endif

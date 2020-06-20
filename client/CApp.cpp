@@ -33,7 +33,7 @@ void CApp::OnExecute() {
 }
 
 void CApp::OnEvent(const SDL_Event& e) {
-  if (e.type == SDL_QUIT) {  
+  if (e.type == SDL_QUIT) {
     model.close();
     Running = false;
   }
@@ -52,6 +52,7 @@ void CApp::OnEvent(const SDL_Event& e) {
 }
 
 void CApp::OnLoop() {
+  model.update();
   //SDL_Delay(1000/60);
   playerController.update();
   enemyController.update();
