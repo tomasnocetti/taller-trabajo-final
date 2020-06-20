@@ -16,7 +16,7 @@ void LoginController::init() {
 
   screens.emplace_back(new BackgroundEntity(baseScreen));
 
-  screens.emplace_back(new TextInputEntity(userInput, font, 1 , 345, 262));
+  screens.emplace_back(new TextInputEntity(userInput, font, 345, 262));
 }
 
 

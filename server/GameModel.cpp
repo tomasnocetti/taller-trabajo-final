@@ -1,7 +1,9 @@
 #include "GameModel.h"
+
 #include <iostream>
 #include <string> // TODO - Lo pide el parser
 #include <utility>
+#include <vector>
 
 GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
   cronBQ(cronBQ) {
@@ -83,10 +85,10 @@ void GameModel::propagate() {
   generateOtherPlayersGameData();
   for (auto& it : players){
     PlayerGameModelData modelData = {};
-    
+
     generatePlayerModel(it.first, modelData);
-    
-    std::unique_ptr<Response> response(new 
+
+    std::unique_ptr<Response> response(new
       PlayerGameResponse(modelData));
 
     clientsBQ.at(it.first).push(std::move(response));
@@ -96,7 +98,7 @@ void GameModel::propagate() {
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   //modelData.npcs = npcs;
   //modelData.map = map;
-   
+
   modelData.playerData.gold = players.at(id)->gold;
   modelData.playerData.points = players.at(id)->health;
   modelData.playerData.inventory = players.at(id)->inventory;
@@ -112,8 +114,8 @@ void GameModel::generateOtherPlayersGameData(){
   for (auto& it : players){
     OtherPlayersData otherPlayer;
     otherPlayer.id = players.at(it.first)->id;
-    otherPlayer.otherPlayerPosition = players.at(it.first)->position;
-    otherPlayer.otherPlayerRoot = players.at(it.first)->root;
+    otherPlayer.position = players.at(it.first)->position;
+    otherPlayer.rootd = players.at(it.first)->root;
     otherPlayers.push_back(std::move(otherPlayer));
   }
 }

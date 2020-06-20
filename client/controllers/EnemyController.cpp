@@ -1,5 +1,6 @@
 #include "EnemyController.h"
 #include "../view/EnemyView.h"
+#include "../view/PlayerView.h"
 #include "../view/SkeletonAnimation.h"
 #include "../view/GoblinAnimation.h"
 #include "../view/SpiderAnimation.h"
@@ -13,33 +14,77 @@ EnemyController::EnemyController(
 
 void EnemyController::init(){
   /** LOAD ASSETS ON INIT **/
-  manager.addTexture("skeleton-view", "client/assets/skeletonView.png");
-  manager.addTexture("goblin-view", "client/assets/goblinView.png");
-  manager.addTexture("spider-view", "client/assets/spiderView.png");
-
   std::vector<EnemyData> v = model.getNPCData();
 
-  for (unsigned int i = 0; i < v.size(); i++){
+  /*for (unsigned int i = 0; i < v.size(); i++){
   	Animation* animation = checkType(v[i].type);
   	enemies.emplace_back(
       new EnemyView(
         v[i].position.x,
         v[i].position.y,
   		  animation));
+  }*/
+
+	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
+	for (unsigned int i = 0; i < others.size(); i++){
+		LTexture* texture = manager.getTexture("clothes");
+		PlayerView* player = new PlayerView();
+		player->init(texture, others[i].position.x, others[i].position.y);
+		LTexture* head = checkRace(others[i].rootd.prace);
+		player->setHead(head);
+		otherPlayers.emplace_back(player);
   }
 }
 
 void EnemyController::update() {
-	model.moveNPC(0, 1);
 	std::vector<EnemyData> v = model.getNPCData();
-	for(unsigned int i = 0; i < v.size(); i++){
-		enemies[i]->move(v[i].movement.xDir, v[i].movement.yDir, 
-			v[i].movement.speed);
+	if(v.size() > enemies.size()) {
+		unsigned int previousSize = enemies.size();
+		enemies.reserve(v.size());
+		for(unsigned int i = previousSize; i < v.size(); i++){
+			Animation* animation = checkType(v[i].type);
+			enemies.emplace_back(
+      new EnemyView(
+        v[i].position.x,
+        v[i].position.y,
+  		  animation));
+		}
 	}
+
+	//para agregar otro jugador despues del inicio
+	static int add = 0;
+	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
+	if(others.size() > otherPlayers.size()) {
+		unsigned int previousSize = otherPlayers.size();
+		otherPlayers.reserve(v.size());
+		for(unsigned int i = previousSize; i < others.size(); i++){
+			LTexture* texture = manager.getTexture("plate-armor");
+			PlayerView* player = new PlayerView();
+			player->init(texture, others[i].position.x, others[i].position.y);
+			LTexture* head = checkRace(others[i].rootd.prace);
+			player->setHead(head);
+			otherPlayers.emplace_back(player);
+		}
+	}
+
+	for(unsigned int i = 0; i < others.size(); i++){
+		//model.moveNPC(i, 1, 0);
+		otherPlayers[i]->move(others[i].movement.xDir, others[i].movement.yDir, 
+			others[i].movement.speed, others[i].movement.isMoving);
+	}
+
+	if(add == 100)
+		model.add();
+	
+	add++;
 }
 
-EntityList& EnemyController::getEntity(){
+EntityList& EnemyController::getNPCS(){
 	return enemies;
+}
+
+EntityList& EnemyController::getOtherPlayers(){
+	return otherPlayers;
 }
 
 Animation* EnemyController::checkType(NPCClass type){
@@ -64,6 +109,23 @@ Animation* EnemyController::checkType(NPCClass type){
 		break;
 	}
 	return NULL;
+}
+
+LTexture* EnemyController::checkRace(PlayerRace race) {
+  switch (race){
+    case DWARF:
+      return manager.getTexture("dwarf-head");
+    break;
+    case ELF:
+      return manager.getTexture("elf-head");
+    break;
+    case HUMAN:
+      return manager.getTexture("human-head");
+    break;
+    default:
+			return nullptr;
+    break;
+  }
 }
 
 EnemyController::~EnemyController() {}

@@ -13,6 +13,4 @@ bool Entity::checkCollision(Entity& otherEntity) const{
 
 LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h) :
   Entity(p),
-  health(h) {
-
-  }
+  health(h) {}

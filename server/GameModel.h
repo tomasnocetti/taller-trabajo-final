@@ -23,6 +23,7 @@ class GameModel{
     MapParser m;
     CronBQ& cronBQ;
     void parseMapData();
+
   public:
     GameModel(char* mapPath, CronBQ& cronBQ);
     ~GameModel();

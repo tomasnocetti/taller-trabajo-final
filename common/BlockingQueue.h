@@ -94,7 +94,7 @@ class FixedBlockingQueue: public BlockingQueue<T> {
   public:
     explicit FixedBlockingQueue(const T&) = delete;
     FixedBlockingQueue& operator=(const T&) = delete;
-    explicit FixedBlockingQueue() : size(s) {}
+    FixedBlockingQueue() : size(s) {}
     void push(T t) {
       std::unique_lock<std::mutex> lk(this->m);
 

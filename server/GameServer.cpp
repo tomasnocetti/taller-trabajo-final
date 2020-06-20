@@ -8,9 +8,7 @@ GameServer::GameServer(char* port, char* mapPath) :
   running(true),
   cron(instructionQueue),
   game(mapPath, cron.getBQ()),
-  clientAcceptor(port, instructionQueue) {
-
-  }
+  clientAcceptor(port, instructionQueue) {}
 
 GameServer::~GameServer(){}
 

@@ -4,6 +4,7 @@
 #include "PlayerDefinitions.h"
 #include "NPCDefinitions.h"
 #include "../common/BlockingQueue.h"
+#include <vector>
 
 struct CronGameModelData {
   std::vector<EnemyData> npcs;
@@ -12,4 +13,4 @@ struct CronGameModelData {
 
 using CronBQ = FixedBlockingQueue<1, std::unique_ptr<CronGameModelData>>;
 
-#endif
+#endif 
