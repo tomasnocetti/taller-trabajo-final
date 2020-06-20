@@ -6,7 +6,6 @@
 #include "definitions/PlayerDefinitions.h"
 #include <string>
 #include <vector>
-#include <msgpack.hpp>
 
 typedef enum {
   MOVE,
@@ -14,8 +13,15 @@ typedef enum {
   DEPOSIT_GOLD,
   DEPOSIT_ITEM,
   ATTACK,
-  CLOSE_SERVER
+  CLOSE_SERVER,
+  LOAD_PLAYER,
+  AUTHENTICATE
 } ActionTypeT;
+
+typedef enum {
+  PLAYER_GAME_MODEL,
+  MAP_MODEL
+} ResponseTypeT;
 
 MSGPACK_ADD_ENUM(ActionTypeT)
 
@@ -24,15 +30,10 @@ typedef struct ParamData {
   MSGPACK_DEFINE(value)
 } ParamDataT;
 
-typedef struct InstructionData {
-  size_t playerId;
+struct InstructionData {
   ActionTypeT action;
   std::vector<ParamData> params;
-  MSGPACK_DEFINE(playerId, action, params)
-} IntructionDataT;
-
-typedef struct GameModel{
-  std::string action;
-} GameModelT;
+  MSGPACK_DEFINE(action, params)
+};
 
 #endif

@@ -1,20 +1,23 @@
 #include "Player.h"
 #include <iostream>
 #include <vector>
+#include <string>
 
-#define MAX_LIFE_LEVEL_1 100
-
-Player::Player(){}
+Player::Player(MainPlayerData playerData, size_t id) :  id(id),
+  root(playerData.rootd), inventory(playerData.inventory), 
+  health(playerData.points), position(playerData.position), 
+  gold(playerData.gold), 
+  level(playerData.level) {}
 
 Player::~Player(){}
 
-void Player::create(){  
-  setPlayerDataToCreateNewPlayer();
+
+void Player::move(std::string x, std::string y){
+  position.x = stoi(x);
+  position.y = stoi(y);
 }
 
-void Player::move(uint32_t direction){}
-
-void Player::setPlayerDataToCreateNewPlayer(){
+// void Player::setPlayerDataToCreateNewPlayer(){
   /*
   playerData.manaPoints = 0;
   playerData.gold = 0;
@@ -25,18 +28,18 @@ void Player::setPlayerDataToCreateNewPlayer(){
   playerData.data.isDead = false;
   playerData.data.lifePoints = MAX_LIFE_LEVEL_1;
   */
-}
+// }
 
-void Player::revive(){}
+// void Player::revive(){}
 
-std::vector<int> Player::estimateCoordintates(uint32_t direction){
-  std::vector<int> coordinates = {0,0};
-  switch (direction)
-  {
-  // case RIGHT: coordinates[0] = getXCoordinate() + 5;
-  // break;
-  default:
-    break;
-  }
-  return coordinates;
-}
+// std::vector<int> Player::estimateCoordintates(uint32_t direction){
+//   std::vector<int> coordinates = {0,0};
+//   switch (direction)
+//   {
+//   // case RIGHT: coordinates[0] = getXCoordinate() + 5;
+//   // break;
+//   default:
+//     break;
+//   }
+//   return coordinates;
+// }

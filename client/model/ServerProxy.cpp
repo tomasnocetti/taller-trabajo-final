@@ -7,7 +7,7 @@
 ServerProxy::ServerProxy(std::string& host, std::string& port) :
   running(true),
   serverProxyWrite(*this, writeBQ),
-  serverProxyRead(readBQ){
+  serverProxyRead(*this){
     std::cout << "Connected to: " << host << ":" << port << std::endl;
     socket.connect(host.c_str(), port.c_str());
 }
@@ -24,6 +24,26 @@ void ServerProxy::init() {
   MapParser m;
   m.loadMap("client/assets/map/pindonga3.json");
   map = m.getMapData();
+
+  serverProxyWrite.start();
+  serverProxyRead.start();
+
+  ParamData nick = {"Fer"};
+  InstructionData instruction = {AUTHENTICATE, {nick}};
+  writeBQ.push(instruction);
+
+  // ------ TEST CODE FOR PARSE OBJ LAYER
+  std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
+
+  for (size_t i = 0; i < objectl.size(); i++){
+    std::cout << "layer: " << i + 1 << std::endl;
+    for (size_t j = 0; j < objectl[i].objects.size(); j++){
+      std::cout << objectl[i].objects[j].x << std::endl;
+      std::cout << objectl[i].objects[j].y << std::endl;
+      std::cout << objectl[i].objects[j].width << std::endl;
+      std::cout << objectl[i].objects[j].height << std::endl;
+    }
+  }
 
   struct EnemyData data;
   data.position.x = 100;
@@ -62,6 +82,16 @@ void ServerProxy::init() {
   mainPlayer.gold = 0;
 }
 
+void ServerProxy::update() {
+  std::unique_ptr<Response> r;
+
+  if (!running) return;
+  bool success = responseQ.try_front_pop(r);
+
+  if (!success) return;
+  r->run(*this);
+}
+
 void ServerProxy::move(int xDir, int yDir){
   if(xDir == 0 && yDir == 0){
     mainPlayer.movement.isMoving = false;
@@ -74,7 +104,7 @@ void ServerProxy::move(int xDir, int yDir){
 
     ParamData x = {std::to_string(xDir)};
     ParamData y = {std::to_string(yDir)};
-    InstructionData instruction = {1, MOVE, {x, y}};
+    InstructionData instruction = {MOVE, {x, y}};
     writeBQ.push(instruction);
   }
 }
@@ -109,6 +139,14 @@ MainPlayerData ServerProxy::getMainPlayerData() const {
   return mainPlayer;
 }
 
+void ServerProxy::setMainPlayerData() {
+  //LOGICA PARA QUE LLAME EL RESPONSE.
+}
+
+void ServerProxy::setMapData() {
+  //LOGICA PARA QUE LLAME EL RESPONSE.
+}
+
 MapData ServerProxy::getMapData() const {
   return map;
 }
@@ -123,8 +161,6 @@ bool ServerProxy::isAuthenticated() const {
 
 void ServerProxy::close(){
   running = false;
-  ParamData x = {"0"};
-  ParamData y = {"0"};
-  InstructionData instruction = {1, CLOSE_SERVER, {x, y}};
+  InstructionData instruction = {CLOSE_SERVER, {}};
   writeBQ.push(instruction);
 }

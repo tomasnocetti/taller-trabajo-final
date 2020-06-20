@@ -8,20 +8,20 @@
 
 #include "Player.h"
 #include "../DataDefinitions.h"
-#include "../common/BlockingQueue.h"
-#include "ActivePlayers.h"
+#include "instructions/Instruction.h"
+#include "responses/Response.h"
+#include "GameModel.h"
+#include "ClientAcceptor.h"
 
-class ServerProxy;
-
-using InstructionDataBQ = BlockingQueue<InstructionData>;
-using UpDateClientsBQ = FixedBlockingQueue<GameModelT>;
+class ClientProxy;
+class ClientAcceptor;
 
 class GameServer{
-  private: 
-    bool isClose;
-    InstructionDataBQ instructionQueue;
-    ActivePlayers activePlayers;
-    GameModelT gameModel;
+  private:
+    bool running;
+    InstructionBQ instructionQueue;
+    GameModel game;
+    ClientAcceptor clientAcceptor;
   public:
     GameServer();
     ~GameServer();
@@ -29,7 +29,6 @@ class GameServer{
     GameServer& operator=(const GameServer&) = delete;
     void init();
     void start();
-    void handleInstruction(InstructionData &instruction);
     void close();
 };
 

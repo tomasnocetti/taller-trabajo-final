@@ -41,7 +41,7 @@ void EnemyController::update() {
 		// std::cout << point.x << std::endl;
 		// std::cout << point.y << std::endl;
 		if(SDL_PointInRect(&point, &box)){
-			model.moveNPC(i, 0, 1);
+			model.moveNPC(i, 1, 0);
 			enemies[i]->move(v[i].movement.xDir, v[i].movement.yDir, 
 			v[i].movement.speed, v[i].movement.isMoving);
 		}
