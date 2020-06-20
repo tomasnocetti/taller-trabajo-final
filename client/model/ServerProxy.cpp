@@ -28,6 +28,10 @@ void ServerProxy::init() {
   serverProxyWrite.start();
   serverProxyRead.start();
 
+  ParamData nick = {"Fer"};
+  InstructionData instruction = {AUTHENTICATE, {nick}};
+  writeBQ.push(instruction);
+
   // ------ TEST CODE FOR PARSE OBJ LAYER
   std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
 
@@ -61,17 +65,17 @@ void ServerProxy::init() {
   npcs.emplace_back(data);
   // ------ TEST CODE FOR ENEMIES
 
-  mainPlayer.rootd.prace = HUMAN;
-  mainPlayer.position.x = (542 - 11) / 2;
-  mainPlayer.position.y = (413 - 154) / 2;
-  mainPlayer.movement.xDir = 0;
-  mainPlayer.movement.yDir = 0;
-  mainPlayer.points.totalHP = 100;
-  mainPlayer.points.totalMP = 100;
-  mainPlayer.points.currentHP = 100;
-  mainPlayer.points.currentMP = 100;
-  mainPlayer.movement.speed = 2;
-  mainPlayer.gold = 0;
+  mainPlayerData.rootd.prace = HUMAN;
+  mainPlayerData.position.x = (542 - 11) / 2;
+  mainPlayerData.position.y = (413 - 154) / 2;
+  mainPlayerData.movement.xDir = 0;
+  mainPlayerData.movement.yDir = 0;
+  mainPlayerData.points.totalHP = 100;
+  mainPlayerData.points.totalMP = 100;
+  mainPlayerData.points.currentHP = 100;
+  mainPlayerData.points.currentMP = 100;
+  mainPlayerData.movement.speed = 2;
+  mainPlayerData.gold = 0;
 }
 
 void ServerProxy::update() {
@@ -86,10 +90,10 @@ void ServerProxy::update() {
 
 void ServerProxy::move(int xDir, int yDir){
   /* Código para mockear */
-  mainPlayer.movement.xDir = xDir;
-  mainPlayer.movement.yDir = yDir;
-  mainPlayer.position.x += xDir * mainPlayer.movement.speed;
-  mainPlayer.position.y += yDir * mainPlayer.movement.speed;
+  mainPlayerData.movement.xDir = xDir;
+  mainPlayerData.movement.yDir = yDir;
+  mainPlayerData.position.x += xDir * mainPlayerData.movement.speed;
+  mainPlayerData.position.y += yDir * mainPlayerData.movement.speed;
 
   if (xDir == 0 && yDir == 0) return;
 
@@ -110,15 +114,14 @@ void ServerProxy::moveNPC(int xDir, int yDir){
 }
 
 MainPlayerData ServerProxy::getMainPlayerData() const {
-  return mainPlayer;
+  return mainPlayerData;
 }
 
-void ServerProxy::setMainPlayerData() {
-  //LOGICA PARA QUE LLAME EL RESPONSE.
-}
-
-void ServerProxy::setMapData() {
-  //LOGICA PARA QUE LLAME EL RESPONSE.
+void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
+  mainPlayerData = gameModelData.playerData;
+  npcs = gameModelData.npcs;
+  otherPlayers = gameModelData.otherPlayers;
+  map = gameModelData.map;
 }
 
 MapData ServerProxy::getMapData() const {
@@ -135,8 +138,6 @@ bool ServerProxy::isAuthenticated() const {
 
 void ServerProxy::close(){
   running = false;
-  ParamData x = {"0"};
-  ParamData y = {"0"};
-  InstructionData instruction = {CLOSE_SERVER, {x, y}};
+  InstructionData instruction = {CLOSE_SERVER, {}};
   writeBQ.push(instruction);
 }

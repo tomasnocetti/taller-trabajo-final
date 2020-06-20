@@ -4,12 +4,13 @@
 
 #include <string>
 #include <vector>
-//#include <msgpack.hpp>
+#include <msgpack.hpp>
 
 struct ObjectLayerData {
   int id;
   std::string name;
   std::vector<struct ObjectData> objects;
+  MSGPACK_DEFINE(id, name, objects)
 };
 
 struct ObjectData {
@@ -17,6 +18,7 @@ struct ObjectData {
   int y;
   int width;
   int height;
+  MSGPACK_DEFINE(x, y, width, height)
 };
 
 struct TileSetData {
@@ -24,12 +26,14 @@ struct TileSetData {
   int firstgid;
   int tilecount;
   std::string image;
+  MSGPACK_DEFINE(columns, firstgid, tilecount, image)
 };
 
 struct TileLayerData {
   int id;
   std::string name;
   std::vector<size_t> data;
+  MSGPACK_DEFINE(id, name, data)
 };
 
 struct MapData {
@@ -39,6 +43,7 @@ struct MapData {
   int tilewidth;
   std::vector<struct TileLayerData> layers;
   std::vector<struct TileSetData> tileSets;
+  MSGPACK_DEFINE(height, width, tileheight, tilewidth, layers, tileSets)
 };
 
 #endif

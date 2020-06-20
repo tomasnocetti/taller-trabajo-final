@@ -8,10 +8,10 @@
 
 #include "instructions/Instruction.h"
 #include "responses/Response.h"
-#include "services/MapParser.h"
 #include "ClientAcceptor.h"
 #include "GameCron.h"
 #include "GameModel.h"
+#include "ClientAcceptor.h"
 
 class ClientProxy;
 
@@ -19,11 +19,11 @@ class GameServer{
   private:
     bool running;
     InstructionBQ instructionQueue;
-    GameModel game;
     GameCron cron;
-    MapParser m;
+    GameModel game;
+    ClientAcceptor clientAcceptor;
   public:
-    explicit GameServer(std::string& mapPath);
+    GameServer(char* port, char* mapPath);
     ~GameServer();
     GameServer(const GameServer&) = delete;
     GameServer& operator=(const GameServer&) = delete;

@@ -8,10 +8,12 @@
 #include "../common/Thread.h"
 #include "instructions/Instruction.h"
 #include "responses/Response.h"
+#include "../common/common_socket.h"
 
 class Instruction;
 class ClientProxyRead;
 class ClientProxy;
+class Socket;
 
 class ClientProxyWrite: public Thread {
   public:
@@ -20,8 +22,6 @@ class ClientProxyWrite: public Thread {
 
   private:
     ClientProxy& client;
-    void handleInstruction(InstructionData& instruction);
-    void sendResponse(std::unique_ptr<Response>);
 };
 
 /**
@@ -45,13 +45,15 @@ class ClientProxy {
     std::atomic<bool> authenticated;
     std::atomic<size_t> playerId;
     ClientProxyRead readProxy;
-    ClientProxyRead writeProxy;
+    ClientProxyWrite writeProxy;
     InstructionBQ &instructionQueue;
     ResponseBQ responseBQ;
     friend ClientProxyRead;
     friend ClientProxyWrite;
+    Socket acceptedSocket;
+    
   public:
-    explicit ClientProxy(InstructionBQ &instructionQueue);
+    ClientProxy(InstructionBQ &instructionQueue, Socket&& socket);
     ~ClientProxy();
     ClientProxy(const ClientProxy&) = delete;
     ClientProxy& operator=(const ClientProxy&) = delete;

@@ -6,7 +6,6 @@
 #include "definitions/PlayerDefinitions.h"
 #include <string>
 #include <vector>
-#include <msgpack.hpp>
 
 typedef enum {
   MOVE,
@@ -20,8 +19,8 @@ typedef enum {
 } ActionTypeT;
 
 typedef enum {
-  PLAYER_GAME_MODEL,
-  MAP_MODEL
+  MAP_MODEL,
+  PLAYER_GAME_MODEL
 } ResponseTypeT;
 
 MSGPACK_ADD_ENUM(ActionTypeT)

@@ -47,4 +47,16 @@ class AuthInstruction: public Instruction {
     std::string nick;
 };
 
+class CloseInstruction: public Instruction {
+  public:
+    explicit CloseInstruction(size_t id);
+    CloseInstruction(const CloseInstruction&) = delete;
+    CloseInstruction& operator=(const CloseInstruction&) = delete;
+    CloseInstruction&& operator=(CloseInstruction&& other) = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+};
+
 #endif

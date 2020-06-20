@@ -3,17 +3,22 @@
 #include <iostream>
 #include <vector>
 #include <unistd.h>
+#include <string>
 
-ClientProxy::ClientProxy(InstructionBQ &instructionQueue):
+#include "../common/common_utils.h"
+
+ClientProxy::ClientProxy(InstructionBQ &instructionQueue, Socket&& socket):
   running(true),
   authenticated(false),
   playerId(0),
   readProxy(*this),
   writeProxy(*this),
-  instructionQueue(instructionQueue) {}
+  instructionQueue(instructionQueue),
+  acceptedSocket(std::move(socket)) {}
 
 void ClientProxy::start(){
-  readProxy.run();
+  readProxy.start();
+  writeProxy.run();
 }
 
 void ClientProxy::setPlayerId(size_t id) {
@@ -37,7 +42,6 @@ ClientProxyRead::ClientProxyRead(ClientProxy& client) :
 void ClientProxyRead::run(){
   try{
     while (client.running){
-
       InstructionData i = getInstruction();
       /** HANDLE **/
       handleInstruction(i);
@@ -50,12 +54,24 @@ void ClientProxyRead::run(){
 }
 
 InstructionData ClientProxyRead::getInstruction() {
-  /** READ FROM SOCKET BLOCKING **/
-  ParamData x = {"100"};
-  ParamData y = {"200"};
-  InstructionData instruction = {MOVE, {x,y}};
+  uint32_t sizeInstruction;
+  client.acceptedSocket.receive((char*) &sizeInstruction, 4);
 
-  return instruction;
+  sizeInstruction = from_big_end<uint32_t>(sizeInstruction);
+
+  std::vector<char> res_message(sizeInstruction);
+
+  client.acceptedSocket.receive(res_message.data(), sizeInstruction);
+  std::string instruction(res_message.begin(), res_message.end());
+
+  /* Código para mockear */
+  msgpack::object_handle oh =
+        msgpack::unpack(instruction.data(), instruction.size());
+  msgpack::object deserialized = oh.get();
+  InstructionData instructionData = deserialized.as<InstructionData>();
+  std::cout << deserialized << std::endl;
+
+  return instructionData;
 }
 
 void ClientProxyRead::handleInstruction(InstructionData& instruction) {
@@ -81,7 +97,9 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
     case ATTACK:
       break;
     case CLOSE_SERVER:
-      std::cout << "Se cerrará el server." << std::endl;
+      i = std::unique_ptr<Instruction>(new CloseInstruction(client.playerId));
+      client.instructionQueue.push(std::move(i));
+      client.running = false;
       break;
     default:
       std::cout << "El jugador quiere realizar otra accion. " << std::endl;
@@ -95,21 +113,17 @@ ClientProxyWrite::ClientProxyWrite(ClientProxy& client) :
 void ClientProxyWrite::run(){
   try{
     while (true){
-
       std::unique_ptr<Response> r;
       bool success = client.responseBQ.try_front_pop(r);
       if (!success) return;
 
       /** HANDLE RESPONSE **/
-      sendResponse(std::move(r));
+      std::string response = r->getModelPacked();
+      client.acceptedSocket.send(response.c_str(), response.length());
     }
   } catch(const std::exception& e) {
     std::cout << "ERROR CLIENT PROXY: " << e.what() << std::endl;
   } catch(...) {
     std::cout << "UNKOWN ERROR CLIENT PROXY" << std::endl;
   }
-}
-
-void ClientProxyWrite::sendResponse(std::unique_ptr<Response>) {
-  // HANDLE SENDING
 }
