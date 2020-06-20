@@ -15,6 +15,7 @@ class Entity {
   public:
     explicit Entity(PositionData& p);
     bool checkCollision(Entity& otherEntity) const;
+    bool checkInRange(Entity& otherEntity, double distance) const;
 };
 
 /**
