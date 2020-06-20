@@ -12,7 +12,6 @@ class PlayerAnimation : public Animation {
 
 	private:
 		void cropAnimationFrames();
-
 };
 
 #endif

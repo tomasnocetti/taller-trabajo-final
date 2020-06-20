@@ -45,29 +45,29 @@ void MainPlayerController::update() {
 
 void MainPlayerController::handleEvent(const SDL_Event &e, 
   int cameraX, int cameraY) {
-  if(e.type == SDL_MOUSEMOTION) return;
+  if (e.type == SDL_MOUSEMOTION) return;
 
-  if(e.type == SDL_MOUSEBUTTONDOWN){
-    if(e.button.button == SDL_BUTTON_LEFT){
+  if (e.type == SDL_MOUSEBUTTONDOWN){
+    if (e.button.button == SDL_BUTTON_LEFT){
       model.attack(e.button.x + cameraX - 11, e.button.y + cameraY - 154);
     }
   }
 
   const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-  if(currentKeyStates[SDL_SCANCODE_W]) {
-    if(myMoveData.xDir == 0 && myMoveData.yDir == -1 && 
+  if (currentKeyStates[SDL_SCANCODE_W]) {
+    if (myMoveData.xDir == 0 && myMoveData.yDir == -1 && 
       myMoveData.isMoving) return;
     model.move(0, -1);
-  } else if(currentKeyStates[SDL_SCANCODE_S]) {
-    if(myMoveData.xDir == 0 && myMoveData.yDir == 1 && 
+  } else if (currentKeyStates[SDL_SCANCODE_S]) {
+    if (myMoveData.xDir == 0 && myMoveData.yDir == 1 && 
       myMoveData.isMoving) return;
     model.move(0, 1);
-  } else if(currentKeyStates[SDL_SCANCODE_A]) {
-    if(myMoveData.xDir == -1 && myMoveData.yDir == 0 && 
+  } else if (currentKeyStates[SDL_SCANCODE_A]) {
+    if (myMoveData.xDir == -1 && myMoveData.yDir == 0 && 
       myMoveData.isMoving) return;
     model.move(-1, 0);
-  } else if(currentKeyStates[SDL_SCANCODE_D]) {
-    if(myMoveData.xDir == 1 && myMoveData.yDir == 0 && 
+  } else if (currentKeyStates[SDL_SCANCODE_D]) {
+    if (myMoveData.xDir == 1 && myMoveData.yDir == 0 && 
       myMoveData.isMoving) return;
     model.move(1, 0);
   } else if (!currentKeyStates[SDL_SCANCODE_W] &&

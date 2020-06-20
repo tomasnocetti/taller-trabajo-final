@@ -103,7 +103,7 @@ void ServerProxy::update() {
 }
 
 void ServerProxy::move(int xDir, int yDir){
-  if(xDir == 0 && yDir == 0){
+  if (xDir == 0 && yDir == 0){
     mainPlayer.movement.isMoving = false;
   } else {
     mainPlayer.movement.isMoving = true;
