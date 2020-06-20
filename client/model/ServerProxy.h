@@ -52,17 +52,22 @@ class ServerProxy{
     void init();
     void update();
     bool isAuthenticated() const;
+
     /** Client ACTIONS */
     void authentificate(std::string& alias);
     void move(int xDir, int yDir);
-    void moveNPC(int xDir, int yDir);
-    /** Client GETERS */
+    void moveNPC(int index, int xDir, int yDir);
+    void attack(int xPos, int yPos);
+
+    /** Client GETTERS */
     MapData getMapData() const;
     MainPlayerData getMainPlayerData() const;
     std::vector<EnemyData> getNPCData() const;
+    std::vector<OtherPlayersData> getOtherPlayersData() const;
     void setMainPlayerData();
     void setMapData();
     void close();
+    void add();
 
   private:
     friend class ServerProxyWrite;
@@ -72,6 +77,7 @@ class ServerProxy{
     MapData map;
     MainPlayerData mainPlayer;
     std::vector<EnemyData> npcs;
+    std::vector<OtherPlayersData> otherPlayers;
     BlockingQueueWrite writeBQ;
     ResponseQ readBQ;
     Socket socket;

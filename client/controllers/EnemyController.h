@@ -17,17 +17,18 @@ class EnemyController {
   	void init();
     ~EnemyController();
     void update();
-    EntityList& getEntity();
+    EntityList& getNPCS();
+    EntityList& getOtherPlayers();
 
   private:
-    //void move(int xOffset, int yOffset);
-    //void attack();
-    //std::vector<struct EnemyData> data;
     ServerProxy& model;
     SdlAssetsManager& manager;
     EntityList enemies;
+    EntityList otherPlayers;
+    EntityList entities;
 
     Animation* checkType(NPCClass type);
+    LTexture* checkRace(PlayerRace race);
 };
 
 #endif

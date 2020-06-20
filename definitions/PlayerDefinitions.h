@@ -57,9 +57,10 @@ struct MainPlayerData {
 
 struct OtherPlayersData {
   size_t id;
-  PositionData otherPlayerPosition;
-  PlayerRootData otherPlayerRoot;
-  MSGPACK_DEFINE(id, otherPlayerPosition, otherPlayerRoot)
+  PositionData position;
+  MovementData movement;
+  PlayerRootData rootd;
+  MSGPACK_DEFINE(id, position, rootd)
 };
 
 struct PlayerGameModelData {

@@ -65,7 +65,6 @@ SdlWindow::~SdlWindow() {
     SDL_DestroyWindow(this->window);
     this->window = nullptr;
   }
-  TTF_Quit();
   IMG_Quit();
   TTF_Quit();
   SDL_Quit();

@@ -16,11 +16,10 @@ public:
   ~SdlAssetsManager();
 
   void addTexture(std::string id, const char* path);
-  LTexture* createTexture();
   void addFont(std::string id, std::string path, int fontSize);
   TTF_Font* getFont(std::string id);
   LTexture* getTexture(std::string id);
-
+  
 private:
   std::map<std::string, LTexture*> textures;
   std::map<std::string, TTF_Font*> fonts;
