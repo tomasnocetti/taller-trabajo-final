@@ -2,6 +2,7 @@
 #include <iostream>
 #include <syslog.h>
 #include <string>
+#include <vector>
 #include "../../common/common_utils.h"
 
 ServerProxyRead::ServerProxyRead(ServerProxy& server) :
