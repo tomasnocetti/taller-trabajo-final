@@ -6,6 +6,8 @@
 #include <vector>
 #include <msgpack.hpp>
 
+#define MARGIN_LAYER "margins"
+
 struct ObjectLayerData {
   int id;
   std::string name;

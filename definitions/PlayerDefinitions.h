@@ -2,7 +2,7 @@
 #define __PLAYERDEF_H
 
 #include "EntityDefinitions.h"
-
+#include "NPCDefinitions.h"
 #include "MapDefinitions.h"
 #include <string>
 #include <vector>

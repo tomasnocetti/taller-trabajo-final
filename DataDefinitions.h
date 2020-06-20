@@ -1,6 +1,7 @@
 #ifndef __DATADEF_H
 #define __DATADEF_H
 
+#include "definitions/CronDefinitions.h"
 #include "definitions/MapDefinitions.h"
 #include "definitions/NPCDefinitions.h"
 #include "definitions/PlayerDefinitions.h"

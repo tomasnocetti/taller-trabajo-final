@@ -3,7 +3,29 @@
 #include <string> // TODO - Lo pide el parser
 #include <utility>
 
-GameModel::GameModel(){}
+GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
+  cronBQ(cronBQ) {
+  m.loadMap(mapPath);
+  parseMapData();
+}
+
+void GameModel::parseMapData() {
+  std::vector<struct ObjectLayerData>& obj = m.getObjectLayers();
+
+  for (size_t i = 0; i < obj.size(); i++){
+    ObjectLayerData& layer = obj[i];
+    for (size_t j = 0; j < obj[i].objects.size(); j++){
+      ObjectData& data = layer.objects[j];
+      PositionData p({data.x, data.y, data.width, data.height});
+
+      if (layer.name == MARGIN_LAYER){
+        std::unique_ptr<Entity> margin(
+          new Entity(p));
+        margins.push_back(std::move(margin));
+      }
+    }
+  }
+}
 
 GameModel::~GameModel(){}
 

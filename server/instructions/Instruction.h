@@ -5,6 +5,7 @@
 #include <memory>
 #include "../../common/BlockingQueue.h"
 
+class GameModel;
 class ClientProxy;
 class Instruction;
 using InstructionBQ = BlockingQueue<std::unique_ptr<Instruction>>;
