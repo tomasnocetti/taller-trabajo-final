@@ -22,8 +22,6 @@ class ClientProxyWrite: public Thread {
 
   private:
     ClientProxy& client;
-    void handleInstruction(InstructionData& instruction);
-    void sendResponse(std::unique_ptr<Response> r);
 };
 
 /**
@@ -47,7 +45,7 @@ class ClientProxy {
     std::atomic<bool> authenticated;
     std::atomic<size_t> playerId;
     ClientProxyRead readProxy;
-    ClientProxyRead writeProxy;
+    ClientProxyWrite writeProxy;
     InstructionBQ &instructionQueue;
     ResponseBQ responseBQ;
     friend ClientProxyRead;

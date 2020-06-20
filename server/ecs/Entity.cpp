@@ -1,5 +1,7 @@
 #include "Entity.h"
 
+Entity::Entity(PositionData& p) : position(p) {}
+
 bool Entity::checkCollision(Entity& otherEntity) const{
   PositionData& otherp = otherEntity.position;
 
@@ -8,3 +10,7 @@ bool Entity::checkCollision(Entity& otherEntity) const{
 		position.y + position.h >= otherp.y &&
 		otherp.y + otherp.h >= position.y;
 }
+
+LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h) :
+  Entity(p),
+  health(h) {}

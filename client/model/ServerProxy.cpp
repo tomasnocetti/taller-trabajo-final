@@ -81,6 +81,18 @@ void ServerProxy::init() {
   data.movement.speed = 3;
   npcs.emplace_back(data);
 
+  mainPlayer.rootd.prace = HUMAN;
+  mainPlayer.position.x = (542 - 11) / 2;
+  mainPlayer.position.y = (413 - 154) / 2;
+  mainPlayer.movement.xDir = 0;
+  mainPlayer.movement.yDir = 0;
+  mainPlayer.points.totalHP = 100;
+  mainPlayer.points.totalMP = 100;
+  mainPlayer.points.currentHP = 100;
+  mainPlayer.points.currentMP = 100;
+  mainPlayer.movement.speed = 2;
+  mainPlayer.gold = 0;
+
   OtherPlayersData other;
   other.position.x = 400;
   other.position.y = 100;
@@ -103,6 +115,15 @@ void ServerProxy::update() {
 }
 
 void ServerProxy::move(int xDir, int yDir){
+// <<<<<<< HEAD
+//   /* Código para mockear */
+//   mainPlayer.movement.xDir = xDir;
+//   mainPlayer.movement.yDir = yDir;
+//   mainPlayer.position.x += xDir * mainPlayer.movement.speed;
+//   mainPlayer.position.y += yDir * mainPlayer.movement.speed;
+
+//   if (xDir == 0 && yDir == 0) return;
+// =======
   if (xDir == 0 && yDir == 0){
     mainPlayer.movement.isMoving = false;
   } else {
@@ -149,12 +170,11 @@ MainPlayerData ServerProxy::getMainPlayerData() const {
   return mainPlayer;
 }
 
-void ServerProxy::setMainPlayerData() {
-  //LOGICA PARA QUE LLAME EL RESPONSE.
-}
-
-void ServerProxy::setMapData() {
-  //LOGICA PARA QUE LLAME EL RESPONSE.
+void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
+  mainPlayer = gameModelData.playerData;
+  npcs = gameModelData.npcs;
+  otherPlayers = gameModelData.otherPlayers;
+  map = gameModelData.map;
 }
 
 MapData ServerProxy::getMapData() const {

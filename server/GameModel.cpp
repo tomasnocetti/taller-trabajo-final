@@ -1,9 +1,33 @@
 #include "GameModel.h"
+
 #include <iostream>
 #include <string> // TODO - Lo pide el parser
 #include <utility>
+#include <vector>
 
-GameModel::GameModel(){}
+GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
+  cronBQ(cronBQ) {
+  m.loadMap(mapPath);
+  parseMapData();
+}
+
+void GameModel::parseMapData() {
+  std::vector<struct ObjectLayerData>& obj = m.getObjectLayers();
+
+  for (size_t i = 0; i < obj.size(); i++){
+    ObjectLayerData& layer = obj[i];
+    for (size_t j = 0; j < obj[i].objects.size(); j++){
+      ObjectData& data = layer.objects[j];
+      PositionData p({data.x, data.y, data.width, data.height});
+
+      if (layer.name == MARGIN_LAYER){
+        std::unique_ptr<Entity> margin(
+          new Entity(p));
+        margins.push_back(std::move(margin));
+      }
+    }
+  }
+}
 
 GameModel::~GameModel(){}
 
@@ -61,10 +85,10 @@ void GameModel::propagate() {
   generateOtherPlayersGameData();
   for (auto& it : players){
     PlayerGameModelData modelData = {};
-    
+
     generatePlayerModel(it.first, modelData);
-    
-    std::unique_ptr<PlayerGameResponse> response(new 
+
+    std::unique_ptr<Response> response(new
       PlayerGameResponse(modelData));
 
     clientsBQ.at(it.first).push(std::move(response));
@@ -74,14 +98,13 @@ void GameModel::propagate() {
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   //modelData.npcs = npcs;
   //modelData.map = map;
-  if (players.count(id) > 0){
-    modelData.playerData.gold = players.at(id)->gold;
-    modelData.playerData.points = players.at(id)->health;
-    modelData.playerData.inventory = players.at(id)->inventory;
-    modelData.playerData.level = players.at(id)->level;
-    modelData.playerData.position = players.at(id)->position;
-    modelData.playerData.rootd = players.at(id)->root;
-  }
+
+  modelData.playerData.gold = players.at(id)->gold;
+  modelData.playerData.points = players.at(id)->health;
+  modelData.playerData.inventory = players.at(id)->inventory;
+  modelData.playerData.level = players.at(id)->level;
+  modelData.playerData.position = players.at(id)->position;
+  modelData.playerData.rootd = players.at(id)->root;
 
   modelData.otherPlayers = otherPlayers;
 }
@@ -91,8 +114,8 @@ void GameModel::generateOtherPlayersGameData(){
   for (auto& it : players){
     OtherPlayersData otherPlayer;
     otherPlayer.id = players.at(it.first)->id;
-    otherPlayer.otherPlayerPosition = players.at(it.first)->position;
-    otherPlayer.otherPlayerRoot = players.at(it.first)->root;
+    otherPlayer.position = players.at(it.first)->position;
+    otherPlayer.rootd = players.at(it.first)->root;
     otherPlayers.push_back(std::move(otherPlayer));
   }
 }

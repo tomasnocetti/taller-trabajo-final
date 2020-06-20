@@ -42,6 +42,7 @@ class ServerProxyWrite : public Thread {
     ServerProxy &server;
     BlockingQueueWrite &writeBQ;
 };
+
 class ServerProxy{
   public:
     ServerProxy(std::string& host, std::string& port);
@@ -63,9 +64,8 @@ class ServerProxy{
     MapData getMapData() const;
     MainPlayerData getMainPlayerData() const;
     std::vector<EnemyData> getNPCData() const;
+    void setGameModelData(PlayerGameModelData &gameModelData);
     std::vector<OtherPlayersData> getOtherPlayersData() const;
-    void setMainPlayerData();
-    void setMapData();
     void close();
     void add();
 

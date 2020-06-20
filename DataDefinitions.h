@@ -1,6 +1,7 @@
 #ifndef __DATADEF_H
 #define __DATADEF_H
 
+#include "definitions/CronDefinitions.h"
 #include "definitions/MapDefinitions.h"
 #include "definitions/NPCDefinitions.h"
 #include "definitions/PlayerDefinitions.h"
@@ -19,8 +20,8 @@ typedef enum {
 } ActionTypeT;
 
 typedef enum {
-  PLAYER_GAME_MODEL,
-  MAP_MODEL
+  MAP_MODEL,
+  PLAYER_GAME_MODEL
 } ResponseTypeT;
 
 MSGPACK_ADD_ENUM(ActionTypeT)

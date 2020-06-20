@@ -26,7 +26,7 @@ class Response {
 
 class PlayerGameResponse: public Response {
   public:
-    explicit PlayerGameResponse(std::string buffer);
+    explicit PlayerGameResponse(std::string &buffer);
     PlayerGameResponse(const PlayerGameResponse&) = delete;
     PlayerGameResponse& operator=(const PlayerGameResponse&) = delete;
     PlayerGameResponse&& operator=(PlayerGameResponse&& other) = delete;
@@ -34,6 +34,5 @@ class PlayerGameResponse: public Response {
   private:
     PlayerGameModelData model;
 };
-
 
 #endif

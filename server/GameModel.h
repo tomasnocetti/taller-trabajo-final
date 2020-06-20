@@ -4,23 +4,28 @@
 #include <vector>
 #include <string>
 #include <stdio.h>
+#include "GameCron.h"
+#include "services/MapParser.h"
 #include "responses/Response.h"
+#include "ecs/Player.h"
 #include "../DataDefinitions.h"
-#include "Player.h"
 #include <map>
 
 class Player;
 
 class GameModel{
   private:
+    std::vector<std::unique_ptr<Entity>> margins;
     std::vector<EnemyData> npcs;
     std::map<size_t, ResponseBQ&> clientsBQ;
     std::map<size_t, std::unique_ptr<Player>> players;
     std::vector<OtherPlayersData> otherPlayers;
-    MapData map;
-    // vector de entidades como son margenes del mapa
+    MapParser m;
+    CronBQ& cronBQ;
+    void parseMapData();
+
   public:
-    GameModel();
+    GameModel(char* mapPath, CronBQ& cronBQ);
     ~GameModel();
     GameModel(const GameModel&) = delete;
     GameModel& operator=(const GameModel&) = delete;
