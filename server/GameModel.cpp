@@ -64,7 +64,7 @@ void GameModel::propagate() {
     
     generatePlayerModel(it.first, modelData);
     
-    std::unique_ptr<PlayerGameResponse> response(new 
+    std::unique_ptr<Response> response(new 
       PlayerGameResponse(modelData));
 
     clientsBQ.at(it.first).push(std::move(response));
@@ -74,14 +74,13 @@ void GameModel::propagate() {
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   //modelData.npcs = npcs;
   //modelData.map = map;
-  if (players.count(id) > 0){
-    modelData.playerData.gold = players.at(id)->gold;
-    modelData.playerData.points = players.at(id)->health;
-    modelData.playerData.inventory = players.at(id)->inventory;
-    modelData.playerData.level = players.at(id)->level;
-    modelData.playerData.position = players.at(id)->position;
-    modelData.playerData.rootd = players.at(id)->root;
-  }
+   
+  modelData.playerData.gold = players.at(id)->gold;
+  modelData.playerData.points = players.at(id)->health;
+  modelData.playerData.inventory = players.at(id)->inventory;
+  modelData.playerData.level = players.at(id)->level;
+  modelData.playerData.position = players.at(id)->position;
+  modelData.playerData.rootd = players.at(id)->root;
 
   modelData.otherPlayers = otherPlayers;
 }

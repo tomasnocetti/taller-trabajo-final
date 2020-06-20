@@ -37,7 +37,6 @@ void ServerProxyRead::handleResponse() {
 
   uint32_t sizeOfResponse;
   server.socket.receive((char*) &sizeOfResponse, 4);
-
   sizeOfResponse = from_big_end<uint32_t>(sizeOfResponse);
 
   std::vector<char> res_message(sizeOfResponse);
@@ -45,17 +44,7 @@ void ServerProxyRead::handleResponse() {
   server.socket.receive(res_message.data(), sizeOfResponse);
   std::string response(res_message.begin(), res_message.end());
 
-/*
-  msgpack::object_handle oh =
-        msgpack::unpack(response.data(), response.size());
-  msgpack::object deserialized = oh.get();
-  std::unique_ptr<Response> r = deserialized.as<std::unique_ptr<Response> r>();
-  std::cout << deserialized << std::endl;
-*/
-
   std::unique_ptr<Response> r;
-  //ResponseTypeT rtype = ResponseTypeT::PLAYER_GAME_MODEL;
-  //std::string buffer = "ACA VA LA ESTRUCTURA DEL GAME MODEL";
 
   switch (rtype) {
     case ResponseTypeT::PLAYER_GAME_MODEL:

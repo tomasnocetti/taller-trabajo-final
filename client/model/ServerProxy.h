@@ -42,6 +42,7 @@ class ServerProxyWrite : public Thread {
     ServerProxy &server;
     BlockingQueueWrite &writeBQ;
 };
+
 class ServerProxy{
   public:
     ServerProxy(std::string& host, std::string& port);
@@ -60,8 +61,7 @@ class ServerProxy{
     MapData getMapData() const;
     MainPlayerData getMainPlayerData() const;
     std::vector<EnemyData> getNPCData() const;
-    void setMainPlayerData();
-    void setMapData();
+    void setGameModelData(PlayerGameModelData &gameModelData);
     void close();
 
   private:
@@ -70,8 +70,9 @@ class ServerProxy{
     bool authentificated;
     std::atomic<bool> running;
     MapData map;
-    MainPlayerData mainPlayer;
+    MainPlayerData mainPlayerData;
     std::vector<EnemyData> npcs;
+    std::vector<OtherPlayersData> otherPlayers;
     BlockingQueueWrite writeBQ;
     ResponseQ readBQ;
     Socket socket;

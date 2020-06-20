@@ -28,7 +28,6 @@ void GameServer::start(){
     std::unique_ptr<Instruction> instruction;
     instructionQueue.try_front_pop(instruction);
 
-
     instruction->run(game);
     game.propagate();
   }

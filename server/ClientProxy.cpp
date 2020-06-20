@@ -17,7 +17,8 @@ ClientProxy::ClientProxy(InstructionBQ &instructionQueue, Socket&& socket):
   acceptedSocket(std::move(socket)) {}
 
 void ClientProxy::start(){
-  readProxy.run();
+  readProxy.start();
+  writeProxy.run();
 }
 
 void ClientProxy::setPlayerId(size_t id) {
@@ -117,17 +118,12 @@ void ClientProxyWrite::run(){
       if (!success) return;
 
       /** HANDLE RESPONSE **/
-      sendResponse(std::move(r));
+      std::string response = r->getModelPacked();
+      client.acceptedSocket.send(response.c_str(), response.length());
     }
   } catch(const std::exception& e) {
     std::cout << "ERROR CLIENT PROXY: " << e.what() << std::endl;
   } catch(...) {
     std::cout << "UNKOWN ERROR CLIENT PROXY" << std::endl;
   }
-}
-
-void ClientProxyWrite::sendResponse(std::unique_ptr<Response> r) {
-  std::string response = r.get()->getModelPacked();
-
-  client.acceptedSocket.send(response.c_str(), response.length());
 }
