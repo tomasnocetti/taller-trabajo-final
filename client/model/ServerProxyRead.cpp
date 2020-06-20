@@ -1,6 +1,7 @@
 #include "ServerProxy.h"
 #include <iostream>
 #include <syslog.h>
+#include <string>
 
 ServerProxyRead::ServerProxyRead(ServerProxy& server) :
   server(server) {}
@@ -42,6 +43,4 @@ void ServerProxyRead::handleResponse() {
     default:
       break;
   }
-
-};
-
+}

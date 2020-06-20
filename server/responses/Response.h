@@ -11,11 +11,11 @@ using ResponseBQ = BlockingQueue<std::unique_ptr<Response>>;
 
 class Response {
   public:
-    explicit Response(ResponseTypeT type) : type(type) {};
+    explicit Response(ResponseTypeT type) : type(type) {}
     Response(const Response&) = delete;
     Response& operator=(const Response&) = delete;
     Response&& operator=(Response&& other) = delete;
-    virtual std::string pack() = 0;
+    virtual void pack(PlayerGameModelData &model) = 0;
     virtual ~Response() = default;
   protected:
     ResponseTypeT type;
@@ -23,13 +23,13 @@ class Response {
 
 class PlayerGameResponse: public Response {
   public:
-    PlayerGameResponse() = default;
+    explicit PlayerGameResponse(PlayerGameModelData model);
     PlayerGameResponse(const PlayerGameResponse&) = delete;
     PlayerGameResponse& operator=(const PlayerGameResponse&) = delete;
     PlayerGameResponse&& operator=(PlayerGameResponse&& other) = delete;
-    std::string pack() override;
+    void pack(PlayerGameModelData &model) override;
   private:
-    PlayerGameModelData model;
+    std::string modelPacked;
 };
 
 

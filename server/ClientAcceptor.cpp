@@ -3,7 +3,8 @@
 #include <syslog.h>
 
 ClientAcceptor::ClientAcceptor(InstructionBQ &instructionQueue) :
-  instructionQueue(instructionQueue) {
+  instructionQueue(instructionQueue),
+  running(true) {
     bindedSocket.bind_and_listen("7777");
 }
 
@@ -12,10 +13,8 @@ ClientAcceptor::~ClientAcceptor(){}
 void ClientAcceptor::run(){
   try{
     /*Esperar nuevas conexiones e ir lanzando ClientProxies*/
-    int i = 0;
-    while (i < 2){
+    while (running){
       acceptClient();
-      i++;
     }
   } catch(const std::system_error& e) {
        /** This error codes gey by-passed. In Linux when a blocking socket.accept

@@ -14,7 +14,7 @@ using ResponseQ = Queue<std::unique_ptr<Response>>;
 
 class Response {
   public:
-    explicit Response(ResponseTypeT type) : type(type) {};
+    explicit Response(ResponseTypeT type) : type(type) {}
     Response(const Response&) = delete;
     Response& operator=(const Response&) = delete;
     Response&& operator=(Response&& other) = delete;
@@ -26,7 +26,7 @@ class Response {
 
 class PlayerGameResponse: public Response {
   public:
-    PlayerGameResponse(std::string buffer);
+    explicit PlayerGameResponse(std::string buffer);
     PlayerGameResponse(const PlayerGameResponse&) = delete;
     PlayerGameResponse& operator=(const PlayerGameResponse&) = delete;
     PlayerGameResponse&& operator=(PlayerGameResponse&& other) = delete;

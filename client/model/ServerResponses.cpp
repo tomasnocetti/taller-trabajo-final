@@ -10,6 +10,4 @@ PlayerGameResponse::PlayerGameResponse(std::string buffer) :
   */
 }
 
-void PlayerGameResponse::run(ServerProxy& server) {
-
-}
+void PlayerGameResponse::run(ServerProxy& server) {}

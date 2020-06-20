@@ -16,6 +16,7 @@ class ClientAcceptor : public Thread{
     InstructionBQ &instructionQueue;
     Socket bindedSocket;
   public:
+    std::atomic<bool> running;
     explicit ClientAcceptor(InstructionBQ &instructionQueue);
     ~ClientAcceptor();
     ClientAcceptor(const ClientAcceptor&) = delete;

@@ -28,6 +28,10 @@ void ServerProxy::init() {
   serverProxyWrite.start();
   serverProxyRead.start();
 
+  ParamData nick = {"Fer"};
+  InstructionData instruction = {AUTHENTICATE, {nick}};
+  writeBQ.push(instruction);
+
   // ------ TEST CODE FOR PARSE OBJ LAYER
   std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
 

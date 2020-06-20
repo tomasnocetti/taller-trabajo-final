@@ -4,14 +4,15 @@
 
 PlayerGameResponse::PlayerGameResponse(
   PlayerGameModelData model) :
-  Response(ResponseTypeT::PLAYER_GAME_MODEL),
-  model(model) {}
+  Response(ResponseTypeT::PLAYER_GAME_MODEL) {
+    pack(model);
+}
 
-
-std::string PlayerGameResponse::pack() {
+void PlayerGameResponse::pack(PlayerGameModelData &model) {
   /** LOGICA PARA PACKEAR LA RESPUESTA ACORDE AL PROTOCOLO
    * TIPODERESPUESTA - 4 bytes de largo - contenido
   */
- std::string r("mypackedresponse");
- return r;
+  std::string r("mypackedresponse");
+
+  modelPacked = r;
 }

@@ -53,6 +53,7 @@ class ClientProxy {
     friend ClientProxyRead;
     friend ClientProxyWrite;
     Socket acceptedSocket;
+    
   public:
     ClientProxy(InstructionBQ &instructionQueue, Socket&& socket);
     ~ClientProxy();

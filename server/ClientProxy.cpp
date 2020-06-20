@@ -3,6 +3,7 @@
 #include <iostream>
 #include <vector>
 #include <unistd.h>
+#include <string>
 
 #include "../common/common_utils.h"
 
@@ -40,7 +41,6 @@ ClientProxyRead::ClientProxyRead(ClientProxy& client) :
 void ClientProxyRead::run(){
   try{
     while (client.running){
-
       InstructionData i = getInstruction();
       /** HANDLE **/
       handleInstruction(i);
@@ -61,7 +61,7 @@ InstructionData ClientProxyRead::getInstruction() {
   std::vector<char> res_message(sizeInstruction);
 
   client.acceptedSocket.receive(res_message.data(), sizeInstruction);
-  std::string instruction (res_message.begin(), res_message.end());
+  std::string instruction(res_message.begin(), res_message.end());
 
   msgpack::object_handle oh =
         msgpack::unpack(instruction.data(), instruction.size());
@@ -111,7 +111,6 @@ ClientProxyWrite::ClientProxyWrite(ClientProxy& client) :
 void ClientProxyWrite::run(){
   try{
     while (true){
-
       std::unique_ptr<Response> r;
       bool success = client.responseBQ.try_front_pop(r);
       if (!success) return;

@@ -1,6 +1,7 @@
 #include "Instruction.h"
 
 #include <iostream>
+#include <string>
 
 MoveInstruction::MoveInstruction(size_t id) :
   playerId(id) {}
