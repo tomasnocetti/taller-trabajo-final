@@ -6,10 +6,11 @@
 #include <memory>
 #include <map>
 
-#include "Player.h"
-#include "../DataDefinitions.h"
 #include "instructions/Instruction.h"
 #include "responses/Response.h"
+#include "services/MapParser.h"
+#include "ClientAcceptor.h"
+#include "GameCron.h"
 #include "GameModel.h"
 
 class ClientProxy;
@@ -19,8 +20,10 @@ class GameServer{
     bool running;
     InstructionBQ instructionQueue;
     GameModel game;
+    GameCron cron;
+    MapParser m;
   public:
-    GameServer();
+    explicit GameServer(std::string& mapPath);
     ~GameServer();
     GameServer(const GameServer&) = delete;
     GameServer& operator=(const GameServer&) = delete;

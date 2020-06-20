@@ -23,7 +23,7 @@ class Response {
 
 class PlayerGameResponse: public Response {
   public:
-    PlayerGameResponse() = default;
+    explicit PlayerGameResponse(PlayerGameModelData model);
     PlayerGameResponse(const PlayerGameResponse&) = delete;
     PlayerGameResponse& operator=(const PlayerGameResponse&) = delete;
     PlayerGameResponse&& operator=(PlayerGameResponse&& other) = delete;
