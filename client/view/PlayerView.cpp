@@ -9,6 +9,7 @@ void PlayerView::init(LTexture* texture, int x, int y) {
 	animation = new PlayerAnimation(texture);
   animation->init();
 	animation->set(FORWARD_STAND);
+	headFrame = {0, 0, 16, 16};
 }
 
 void PlayerView::move(int xDir, int yDir, int speed, bool isMoving) {

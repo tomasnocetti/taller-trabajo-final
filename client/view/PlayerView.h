@@ -16,6 +16,7 @@ class PlayerView : public Entity {
     void setHead(LTexture* head);
 		PlayerView(const PlayerView&) = delete;
     PlayerView& operator=(const PlayerView&) = delete;
+
 	private:
 	  Animation* animation = nullptr;
 	  LTexture* head = nullptr;

@@ -101,6 +101,9 @@ void MainPlayerController::checkRace(PlayerRace race) {
     case HUMAN:
       playerView.setHead(manager.getTexture("human-head"));
     break;
+    case GNOME:
+      playerView.setHead(manager.getTexture("gnome-head"));
+    break;
     default:
     break;
   }

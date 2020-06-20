@@ -63,9 +63,11 @@ class ServerProxy{
     MapData getMapData() const;
     MainPlayerData getMainPlayerData() const;
     std::vector<EnemyData> getNPCData() const;
+    std::vector<OtherPlayersData> getOtherPlayersData() const;
     void setMainPlayerData();
     void setMapData();
     void close();
+    void add();
 
   private:
     friend class ServerProxyWrite;
@@ -75,6 +77,7 @@ class ServerProxy{
     MapData map;
     MainPlayerData mainPlayer;
     std::vector<EnemyData> npcs;
+    std::vector<OtherPlayersData> otherPlayers;
     BlockingQueueWrite writeBQ;
     ResponseQ readBQ;
     Socket socket;

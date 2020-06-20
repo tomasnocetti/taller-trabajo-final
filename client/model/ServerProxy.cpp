@@ -45,6 +45,20 @@ void ServerProxy::init() {
     }
   }
 
+  mainPlayer.rootd.prace = GNOME;
+  mainPlayer.position.x = (542 - 11) / 2;
+  mainPlayer.position.y = (413 - 154) / 2;
+  mainPlayer.movement.xDir = 0;
+  mainPlayer.movement.yDir = 1;
+  mainPlayer.movement.isMoving = false;
+  mainPlayer.points.totalHP = 100;
+  mainPlayer.points.totalMP = 100;
+  mainPlayer.points.currentHP = 100;
+  mainPlayer.points.currentMP = 100;
+  mainPlayer.movement.speed = 5;
+  mainPlayer.gold = 0;
+
+  // ------ TEST CODE FOR ENEMIES
   struct EnemyData data;
   data.position.x = 100;
   data.position.y = 100;
@@ -66,20 +80,16 @@ void ServerProxy::init() {
   data.type = SPIDER;
   data.movement.speed = 3;
   npcs.emplace_back(data);
-  // ------ TEST CODE FOR ENEMIES
 
-  mainPlayer.rootd.prace = DWARF;
-  mainPlayer.position.x = (542 - 11) / 2;
-  mainPlayer.position.y = (413 - 154) / 2;
-  mainPlayer.movement.xDir = 0;
-  mainPlayer.movement.yDir = 1;
-  mainPlayer.movement.isMoving = false;
-  mainPlayer.points.totalHP = 100;
-  mainPlayer.points.totalMP = 100;
-  mainPlayer.points.currentHP = 100;
-  mainPlayer.points.currentMP = 100;
-  mainPlayer.movement.speed = 5;
-  mainPlayer.gold = 0;
+  OtherPlayersData other;
+  other.position.x = 400;
+  other.position.y = 100;
+  other.rootd.prace = HUMAN;
+  other.movement.xDir = 0;
+  other.movement.yDir = 1;
+  other.movement.isMoving = false;
+  other.movement.speed = 1;
+  otherPlayers.emplace_back(other);
 }
 
 void ServerProxy::update() {
@@ -155,6 +165,10 @@ std::vector<EnemyData> ServerProxy::getNPCData() const {
   return npcs;
 }
 
+std::vector<OtherPlayersData> ServerProxy::getOtherPlayersData() const {
+  return otherPlayers;
+}
+
 bool ServerProxy::isAuthenticated() const {
   return authentificated;
 }
@@ -163,4 +177,17 @@ void ServerProxy::close(){
   running = false;
   InstructionData instruction = {CLOSE_SERVER, {}};
   writeBQ.push(instruction);
+}
+
+//para agregar otro jugador despues del inicio
+void ServerProxy::add(){
+  OtherPlayersData other;
+  other.position.x = 200;
+  other.position.y = 300;
+  other.rootd.prace = ELF;
+  other.movement.xDir = -1;
+  other.movement.yDir = 0;
+  other.movement.isMoving = false;
+  other.movement.speed = 2;
+  otherPlayers.emplace_back(other);
 }

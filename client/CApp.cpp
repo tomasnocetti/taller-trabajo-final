@@ -71,7 +71,8 @@ void CApp::OnRender() {
       globalViewport.paint(globalController.getEntities());
       mapViewport.paint(mapController.getEntities(),
         playerController.getEntity(),
-        enemyController.getEntity());
+        enemyController.getNPCS(), 
+        enemyController.getOtherPlayers());
       lifeViewport.paint(playerController.getBars());
       break;
   }
@@ -111,6 +112,7 @@ void CApp::LoadAssets() {
   manager.addTexture("dwarf-head", "client/assets/dwarf.png");
   manager.addTexture("elf-head", "client/assets/elf.png");
   manager.addTexture("human-head", "client/assets/human.png");
+  manager.addTexture("gnome-head", "client/assets/gnome.png");
   manager.addTexture("skeleton-view", "client/assets/skeletonView.png");
   manager.addTexture("goblin-view", "client/assets/goblinView.png");
   manager.addTexture("spider-view", "client/assets/spiderView.png");

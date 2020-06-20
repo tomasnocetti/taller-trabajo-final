@@ -12,7 +12,8 @@ void Map::setMaxCameraDimensions(MapData data){
 		data.height * data.tileheight);
 }
 
-void Map::paint(EntityList& entities, Entity &player, EntityList& enemies) {
+void Map::paint(EntityList& entities, Entity &player, EntityList& enemies, 
+  EntityList& otherPlayers) {
   fit();
   camera.setX(player.x - MAIN_SCREEN_BASE_MAP_W / 2);
   camera.setY(player.y - MAIN_SCREEN_BASE_MAP_H / 2);
@@ -23,6 +24,8 @@ void Map::paint(EntityList& entities, Entity &player, EntityList& enemies) {
       getScaleHeightFactor());
   }
   for (auto& e : enemies) e->paint(camera, getScaleWidthFactor(),
+      getScaleHeightFactor());
+  for (auto& e : otherPlayers) e->paint(camera, getScaleWidthFactor(),
       getScaleHeightFactor());
   player.paint(camera, getScaleWidthFactor(),
       getScaleHeightFactor());
