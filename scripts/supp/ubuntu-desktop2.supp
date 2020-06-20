@@ -1,0 +1,110 @@
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindow6renderEv
+   fun:_ZN9SdlWindow11handleEventERK9SDL_Event
+   fun:_ZN4CApp7OnEventERK9SDL_Event
+   fun:_ZN4CApp9OnExecuteEv
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:memmove
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindow5clearEv
+   fun:_ZN4CApp8OnRenderEv
+   fun:_ZN4CApp9OnExecuteEv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindow5clearEv
+   fun:_ZN4CApp8OnRenderEv
+   fun:_ZN4CApp9OnExecuteEv
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindow5clearEv
+   fun:_ZN4CApp8OnRenderEv
+   fun:_ZN4CApp9OnExecuteEv
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindow5clearEv
+   fun:_ZN4CApp8OnRenderEv
+   fun:_ZN4CApp9OnExecuteEv
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   fun:_dbus_message_loader_queue_messages
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   fun:dbus_connection_send_with_reply_and_block
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   fun:_dbus_type_writer_write_basic
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   obj:/lib/x86_64-linux-gnu/libdbus-1.so.3.19.4
+   fun:dbus_message_new_method_call
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}

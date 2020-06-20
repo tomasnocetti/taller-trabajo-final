@@ -7,6 +7,7 @@
 #include "../../DataDefinitions.h"
 #include "../entities/Bar.h"
 #include "../entities/TextEntity.h"
+#include <vector>
 
 class MainPlayerController {
   public:

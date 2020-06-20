@@ -1,4 +1,6 @@
 #include "MainPlayerController.h"
+#include <iostream>
+#include <vector>
 
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
@@ -68,7 +70,7 @@ void MainPlayerController::handleEvent(const SDL_Event &e,
     if(myMoveData.xDir == 1 && myMoveData.yDir == 0 && 
       myMoveData.isMoving) return;
     model.move(1, 0);
-  } else if(!currentKeyStates[SDL_SCANCODE_W] &&
+  } else if (!currentKeyStates[SDL_SCANCODE_W] &&
     !currentKeyStates[SDL_SCANCODE_S] && 
     !currentKeyStates[SDL_SCANCODE_D] && 
     !currentKeyStates[SDL_SCANCODE_A]) {
@@ -89,7 +91,7 @@ std::vector<Entity*> MainPlayerController::getBars() {
 }
 
 void MainPlayerController::checkRace(PlayerRace race) {
-  switch(race){
+  switch (race){
     case DWARF:
       playerView.setHead(manager.getTexture("dwarf-head"));
     break;

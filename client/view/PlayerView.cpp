@@ -39,7 +39,7 @@ void PlayerView::move(int xDir, int yDir, int speed, bool isMoving) {
 				headFrame = {0, 0, 16, 16};
 		} else if (xDir < 0 && yDir == 0){
 				animation->set(LEFT_STAND);
-				headFrame = {32, 0, 16, 16};;
+				headFrame = {32, 0, 16, 16};
 		} else if (xDir > 0 && yDir == 0){
 				animation->set(RIGHT_STAND);
 				headFrame = {16, 0, 16, 16};

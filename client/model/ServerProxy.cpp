@@ -2,9 +2,18 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <unistd.h>
 
-ServerProxy::ServerProxy(std::string& host, std::string& port) {
-  std::cout << "Connected to: " << host << ":" << port << std::endl;
+ServerProxy::ServerProxy(std::string& host, std::string& port) :
+  running(true),
+  serverProxyWrite(*this, writeBQ),
+  serverProxyRead(readBQ){
+    std::cout << "Connected to: " << host << ":" << port << std::endl;
+    socket.connect(host.c_str(), port.c_str());
+}
+
+ServerProxy::~ServerProxy(){
+  socket.close();
 }
 
 void ServerProxy::authentificate(std::string& alias) {
@@ -62,6 +71,11 @@ void ServerProxy::move(int xDir, int yDir){
     mainPlayer.movement.yDir = yDir;
     mainPlayer.position.x += xDir * mainPlayer.movement.speed;
     mainPlayer.position.y += yDir * mainPlayer.movement.speed;
+
+    ParamData x = {std::to_string(xDir)};
+    ParamData y = {std::to_string(yDir)};
+    InstructionData instruction = {1, MOVE, {x, y}};
+    writeBQ.push(instruction);
   }
 }
 
@@ -105,4 +119,12 @@ std::vector<EnemyData> ServerProxy::getNPCData() const {
 
 bool ServerProxy::isAuthenticated() const {
   return authentificated;
+}
+
+void ServerProxy::close(){
+  running = false;
+  ParamData x = {"0"};
+  ParamData y = {"0"};
+  InstructionData instruction = {1, CLOSE_SERVER, {x, y}};
+  writeBQ.push(instruction);
 }
