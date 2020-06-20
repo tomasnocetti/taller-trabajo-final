@@ -5,6 +5,7 @@
 #include "../common/BlockingQueue.h"
 #include "instructions/Instruction.h"
 #include "../DataDefinitions.h"
+#include <vector>
 
 /** Game Cron es la clase que se va a encargar de manejar todas las acciones del juego
  * que requieran continuidad en el tiempo. Es importante entender que GameCron
@@ -29,7 +30,7 @@ class GameCron: public Thread {
     CronBQ& getBQ();
     void close();
   private:
-    void runPlayersMovement();
+    void runPlayersMovement(std::vector<OtherPlayersData>& players);
     void runNPCLogic();
     std::atomic<bool> running;
     InstructionBQ& instructionQueue;

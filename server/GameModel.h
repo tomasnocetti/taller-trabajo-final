@@ -29,10 +29,12 @@ class GameModel{
     ~GameModel();
     GameModel(const GameModel&) = delete;
     GameModel& operator=(const GameModel&) = delete;
+    /* Handle move DIRECTION instruction. */
+    void move(size_t platerId, int x, int y);
     /* Handle move instruction.
     Chequea colisiones. Si lo puede mover, lo mueve, caso contrario el modelo
     permanece intalterado. */
-    void move(size_t platerId, int x, int y);
+    void playerSetCoords(size_t playerId, int x, int y);
     /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
       Devuelve true si pudo o es valido, false de lo contrario. */
     bool authenticate(

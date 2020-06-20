@@ -55,7 +55,9 @@ bool GameModel::authenticate(
   return true;
 }
 
-void GameModel::move(size_t playerId, int x, int y) {
+void GameModel::move(size_t playerId, int x, int y) { }
+
+void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   // bool canMove = true;
 
   /** SEARCH PLAYER */
