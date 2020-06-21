@@ -37,9 +37,9 @@ bool GameModel::authenticate(
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
-  {1, 1, 1, 1}, {0, 0, 2, false}, 0, 0};
+  {1, 1, 1, 1}, {0, 0, 20, false}, 0, 0};
 
-  if (nick == "Fer") playerId  = 1; //rand() % 10 + 1;
+  if (nick == "Fer") playerId  = rand() % 10 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -62,8 +62,6 @@ void GameModel::move(size_t playerId, int x, int y) {
 
 void GameModel::stopMovement(size_t playerId){
   players.at(playerId)->movement.isMoving = false;
-  players.at(playerId)->movement.xDir = 0;
-  players.at(playerId)->movement.yDir = 0;
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
@@ -125,6 +123,7 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.playerData.level = players.at(id)->level;
   modelData.playerData.position = players.at(id)->position;
   modelData.playerData.rootd = players.at(id)->root;
+  modelData.playerData.movement = players.at(id)->movement;
 
   modelData.otherPlayers = otherPlayers;
 }

@@ -18,7 +18,8 @@ void GameCron::run() {
       std::cout << "RUNNING GAME CRON" << std::endl;
       runPlayersMovement(d->otherPlayers);
 
-      std::this_thread::sleep_for(std::chrono::seconds(1));
+      
+      std::this_thread::sleep_for(std::chrono::milliseconds(60));
     }
   } catch(const std::exception& e) {
     std::cout << "ERROR CRON GAME: " << e.what() << std::endl;
@@ -42,8 +43,8 @@ void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
     if (! player.movement.isMoving) continue;
     std::cout << "RUNNING PLAYERS MOVEMENT" << std::endl;
 
-    int x = player.position.x + player.position.x * player.movement.speed;
-    int y = player.position.y + player.position.y * player.movement.speed;
+    int x = player.position.x + player.movement.xDir * player.movement.speed;
+    int y = player.position.y + player.movement.yDir * player.movement.speed;
 
     std::unique_ptr<Instruction> i(
       new PlayerSetCoordsInstruction(player.id, x, y));

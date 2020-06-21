@@ -12,8 +12,7 @@ MoveInstruction::MoveInstruction(size_t id, std::string xDir,
 void MoveInstruction::run(GameModel& game) {
   int x = stoi(xDir);
   int y = stoi(yDir);
-  std::cout << "MOVIENDO " << playerId << std::endl;
-  std::cout << "EN DIRECCION " << x << ", " << y << std::endl;
+  std::cout << "MOVIENDO " << playerId << " EN DIRECCION " << x << ", " << y << std::endl;
   game.move(playerId, x, y);
 }
 
@@ -46,6 +45,6 @@ StopMovementInstruction::StopMovementInstruction(size_t id) :
   playerId(id) {}
 
 void StopMovementInstruction::run(GameModel& game) {
-  std::cout << "Parando movimiento del jugador " << playerId << std::endl;
+  //std::cout << "Parando movimiento del jugador " << playerId << std::endl;
   game.stopMovement(playerId);
 }

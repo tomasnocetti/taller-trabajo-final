@@ -10,6 +10,6 @@ PlayerSetCoordsInstruction::PlayerSetCoordsInstruction(size_t id,
 
 void PlayerSetCoordsInstruction::run(GameModel& game) {
   std::cout << "SET COORDS "
-    << playerId << "A x: " << x << " y: " << y << std::endl;
+    << playerId << " A x: " << x << " y: " << y << std::endl;
   game.playerSetCoords(playerId, x, y);
 }
