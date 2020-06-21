@@ -9,17 +9,17 @@ class PlayerView : public Entity {
 		PlayerView();
     ~PlayerView();
 		void init(LTexture* texture, int x, int y);
-		void stand(int xOffset, int yOffset);
-		void move(int xDir, int yDir, int speed) override;
+		void move(int xDir, int yDir, int speed, bool isMoving) override;
 		void paint(double scaleW, double scaleH) override {}
     void paint(const Camera &camera, 
     	double scaleW, double scaleH) override;
     void setHead(LTexture* head);
 		PlayerView(const PlayerView&) = delete;
     PlayerView& operator=(const PlayerView&) = delete;
+
 	private:
 	  Animation* animation = nullptr;
-	  LTexture* head;
+	  LTexture* head = nullptr;
 	  SDL_Rect headFrame;
 };
 

@@ -87,14 +87,14 @@ public:
  * New items will push old items calling destructor.
  * Close will notify all waiting threads that the queue is closed.
  */
-template<typename T>
+template<size_t s, typename T>
 class FixedBlockingQueue: public BlockingQueue<T> {
   private:
     size_t size;
   public:
     explicit FixedBlockingQueue(const T&) = delete;
     FixedBlockingQueue& operator=(const T&) = delete;
-    explicit FixedBlockingQueue(size_t size) : size(size) {}
+    FixedBlockingQueue() : size(s) {}
     void push(T t) {
       std::unique_lock<std::mutex> lk(this->m);
 

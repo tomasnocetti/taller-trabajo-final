@@ -4,9 +4,11 @@
 #include <iostream>
 #include <vector>
 
-GameServer::GameServer() : 
+GameServer::GameServer(char* port, char* mapPath) :
   running(true),
-  clientAcceptor(instructionQueue) {}
+  cron(instructionQueue),
+  game(mapPath, cron.getBQ()),
+  clientAcceptor(port, instructionQueue) {}
 
 GameServer::~GameServer(){}
 

@@ -18,7 +18,7 @@ class MainPlayerController {
     void init();
     void update();
     ~MainPlayerController();
-    void handleEvent(const SDL_Event &e);
+    void handleEvent(const SDL_Event &e, int cameraX, int cameraY);
     Entity &getEntity();
     std::vector<Entity*> getBars();
 
@@ -30,7 +30,7 @@ class MainPlayerController {
     Bar healthBar;
     Bar manaBar;
     TextEntity gold;
-
+    
     void checkRace(PlayerRace race);
 };
 

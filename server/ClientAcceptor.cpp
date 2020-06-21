@@ -3,10 +3,10 @@
 #include <syslog.h>
 #include <iostream>
 
-ClientAcceptor::ClientAcceptor(InstructionBQ &instructionQueue) :
+ClientAcceptor::ClientAcceptor(char* port, InstructionBQ &instructionQueue) :
   instructionQueue(instructionQueue),
   running(true) {
-    bindedSocket.bind_and_listen("7777");
+    bindedSocket.bind_and_listen(port);
 }
 
 ClientAcceptor::~ClientAcceptor(){}

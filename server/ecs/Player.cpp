@@ -3,10 +3,11 @@
 #include <vector>
 #include <string>
 
-Player::Player(MainPlayerData playerData, size_t id) :  id(id),
-  root(playerData.rootd), inventory(playerData.inventory), 
-  health(playerData.points), position(playerData.position), 
-  gold(playerData.gold), 
+Player::Player(MainPlayerData playerData, size_t id) :
+  LiveEntity(playerData.position, playerData.points),
+  id(id),
+  root(playerData.rootd),
+  gold(playerData.gold),
   level(playerData.level) {}
 
 Player::~Player(){}

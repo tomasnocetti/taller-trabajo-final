@@ -5,15 +5,15 @@
 Camera::Camera() {}
 
 void Camera::init(int x, int y, int w, int h){
-	this->renderRect.x = x;
-	this->renderRect.y = y;
-	this->renderRect.w = w;
-	this->renderRect.h = h;
+	renderRect.x = x;
+	renderRect.y = y;
+	renderRect.w = w;
+	renderRect.h = h;
 }
 
 void Camera::setMaxDimensions(int width, int height){
-	this->maxWidth = width;
-	this->maxHeight = height;
+	maxWidth = width;
+	maxHeight = height;
 }
 
 bool Camera::isInCameraRange(int x, int y) const {
@@ -27,7 +27,7 @@ bool Camera::isInCameraRange(int x, int y) const {
 }
 
 void Camera::setX(int newX){
-	this->renderRect.x = newX;
+	renderRect.x = newX;
 
 	if (renderRect.x < 0){
     renderRect.x = 0;
@@ -38,7 +38,7 @@ void Camera::setX(int newX){
 }
 
 void Camera::setY(int newY){
-	this->renderRect.y = newY;
+	renderRect.y = newY;
 
 	if (renderRect.y < 0){
     renderRect.y = 0;

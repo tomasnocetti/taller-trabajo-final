@@ -2,7 +2,7 @@
 #define __PLAYERDEF_H
 
 #include "EntityDefinitions.h"
-
+#include "NPCDefinitions.h"
 #include "MapDefinitions.h"
 #include <string>
 #include <vector>
@@ -57,9 +57,10 @@ struct MainPlayerData {
 
 struct OtherPlayersData {
   size_t id;
-  PositionData otherPlayerPosition;
-  PlayerRootData otherPlayerRoot;
-  MSGPACK_DEFINE(id, otherPlayerPosition, otherPlayerRoot)
+  PositionData position;
+  MovementData movement;
+  PlayerRootData rootd;
+  MSGPACK_DEFINE(id, position, rootd)
 };
 
 struct PlayerGameModelData {

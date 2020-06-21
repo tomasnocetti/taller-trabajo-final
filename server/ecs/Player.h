@@ -2,18 +2,15 @@
 #define PLAYER_H
 
 #include "Entity.h"
-#include "../DataDefinitions.h"
-#include "GameModel.h"
+#include "../../DataDefinitions.h"
+#include "../GameModel.h"
 #include <string>
 
-class Player : public Entity{
+class Player : public LiveEntity{
   private:
     size_t id;
     PlayerRootData root;
     Inventory inventory;
-    HealthAndManaData health;
-    PositionData position;
-    MovementData movement;
     size_t gold;
     size_t level;
     friend class GameModel;

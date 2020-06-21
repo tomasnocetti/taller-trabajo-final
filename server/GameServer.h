@@ -6,24 +6,24 @@
 #include <memory>
 #include <map>
 
-#include "Player.h"
-#include "../DataDefinitions.h"
 #include "instructions/Instruction.h"
 #include "responses/Response.h"
+#include "ClientAcceptor.h"
+#include "GameCron.h"
 #include "GameModel.h"
 #include "ClientAcceptor.h"
 
 class ClientProxy;
-class ClientAcceptor;
 
 class GameServer{
   private:
     bool running;
     InstructionBQ instructionQueue;
+    GameCron cron;
     GameModel game;
     ClientAcceptor clientAcceptor;
   public:
-    GameServer();
+    GameServer(char* port, char* mapPath);
     ~GameServer();
     GameServer(const GameServer&) = delete;
     GameServer& operator=(const GameServer&) = delete;

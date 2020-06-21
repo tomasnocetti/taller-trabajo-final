@@ -9,12 +9,9 @@ class Entity {
   public:
     int x;
     int y;
-    //virtual void paint() {}
-    virtual void paint(double scaleW, double scaleH) {}
-    //virtual void paint(const Camera &camera) = 0;
-    //esto habria que sacarlo
-    virtual void move(int xDir, int yDir, int speed) {} 
-    virtual void paint(const Camera &camera, double scaleW, double scaleH) {}
+    virtual void paint(double scaleW, double scaleH) = 0;
+    virtual void move(int xDir, int yDir, int speed, bool isMoving) {}
+    virtual void paint(const Camera &camera, double scaleW, double scaleH) = 0;
     virtual ~Entity() {}
 };
 
