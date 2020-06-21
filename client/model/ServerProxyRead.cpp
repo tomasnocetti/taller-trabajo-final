@@ -40,7 +40,7 @@ void ServerProxyRead::handleResponse() {
   sizeOfResponse = from_big_end<uint32_t>(sizeOfResponse);
 
   std::vector<char> res_message(sizeOfResponse);
-
+  
   server.socket.receive(res_message.data(), sizeOfResponse);
   std::string response(res_message.begin(), res_message.end());
 

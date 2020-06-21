@@ -36,12 +36,10 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {0, 0},
-  {0, 0, 0, 0}, {0, 0, 0}};
+  MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
+  {1, 1, 1, 1}, {0, 0, 2, false}, 0, 0};
 
-  if (nick == "Fer") playerId = 1;
-
-  if (nick == "Tomi") playerId = 2;
+  if (nick == "Fer") playerId  = rand() % 10 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -62,7 +60,16 @@ void GameModel::move(size_t playerId, int x, int y) {
   players.at(playerId)->movement.yDir = y;
 }
 
+void GameModel::stopMovement(size_t playerId){
+  players.at(playerId)->movement.isMoving = false;
+  players.at(playerId)->movement.xDir = 0;
+  players.at(playerId)->movement.yDir = 0;
+}
+
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
+  players.at(playerId)->position.x = x;
+  players.at(playerId)->position.y = y;
+  
   // bool canMove = true;
 
   /** SEARCH PLAYER */
@@ -90,11 +97,17 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
 
 void GameModel::propagate() {
   generateOtherPlayersGameData();
+
+  std::unique_ptr<CronGameModelData> cronGameModelData (new CronGameModelData);
+  //cronGameModelData->npcs = npcs;
+  cronGameModelData->otherPlayers = (std::move(otherPlayers));
+  cronBQ.push(std::move(cronGameModelData));
+
   for (auto& it : players){
     PlayerGameModelData modelData = {};
 
     generatePlayerModel(it.first, modelData);
-
+    
     std::unique_ptr<Response> response(new
       PlayerGameResponse(modelData));
 
@@ -122,6 +135,7 @@ void GameModel::generateOtherPlayersGameData(){
     OtherPlayersData otherPlayer;
     otherPlayer.id = players.at(it.first)->id;
     otherPlayer.position = players.at(it.first)->position;
+    otherPlayer.movement = players.at(it.first)->movement;
     otherPlayer.rootd = players.at(it.first)->root;
     otherPlayers.push_back(std::move(otherPlayer));
   }

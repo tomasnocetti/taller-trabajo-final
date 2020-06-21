@@ -4,16 +4,17 @@
 #include <vector>
 
 GameCron::GameCron(InstructionBQ& instructionQueue) :
+  running(true),
   instructionQueue(instructionQueue) {}
 
 void GameCron::run() {
   try{
     while (running){
+
       std::unique_ptr<CronGameModelData> d;
 
       bool success = cronBQ.try_front_pop(d);
       if (!success) continue;
-
 
       std::cout << "RUNNING GAME CRON" << std::endl;
       runPlayersMovement(d->otherPlayers);
@@ -36,10 +37,12 @@ CronBQ& GameCron::getBQ() {
 }
 
 void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
-  std::cout << "RUNNING PLAYERS MOVEMENT" << std::endl;
 
   for (OtherPlayersData &player : players) {
+    std::cout << "Player " << player.id << " is moving? " << 
+      player.movement.isMoving << std::endl;
     if (! player.movement.isMoving) continue;
+    std::cout << "RUNNING PLAYERS MOVEMENT" << std::endl;
 
     int x = player.position.x + player.position.x * player.movement.speed;
     int y = player.position.y + player.position.y * player.movement.speed;
@@ -47,6 +50,7 @@ void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
     std::unique_ptr<Instruction> i(
       new PlayerSetCoordsInstruction(player.id, x, y));
     instructionQueue.push(std::move(i));
+
   }
 }
 

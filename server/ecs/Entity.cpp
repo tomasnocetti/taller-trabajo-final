@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include <math.h>   
 
 Entity::Entity(PositionData& p) : position(p) {}
 

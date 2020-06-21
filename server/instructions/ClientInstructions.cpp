@@ -24,6 +24,7 @@ void AuthInstruction::run(GameModel& game) {
   std::cout << "AUTENTIFICANDO " << nick << std::endl;
 
   size_t playerId;
+
   bool success = game.authenticate(nick, client.getUpdateBQ(), playerId);
 
   if (success) {
@@ -45,6 +46,6 @@ StopMovementInstruction::StopMovementInstruction(size_t id) :
   playerId(id) {}
 
 void StopMovementInstruction::run(GameModel& game) {
-  std::cout << "Despidiendo al jugador de id " << playerId << std::endl;
-  game.move(playerId, 0, 0);
+  std::cout << "Parando movimiento del jugador " << playerId << std::endl;
+  game.stopMovement(playerId);
 }

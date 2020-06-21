@@ -45,6 +45,8 @@ void ServerProxy::init() {
     }
   }
 
+  mainPlayer.level = 0;
+  mainPlayer.rootd.pclass = MAGE;
   mainPlayer.rootd.prace = GNOME;
   mainPlayer.position.x = (542 - 11) / 2;
   mainPlayer.position.y = (413 - 154) / 2;
@@ -115,43 +117,22 @@ void ServerProxy::update() {
 }
 
 void ServerProxy::move(int xDir, int yDir){
-<<<<<<< HEAD
-  /* Código para mockear */
-  mainPlayerData.movement.xDir = xDir;
-  mainPlayerData.movement.yDir = yDir;
-  mainPlayerData.position.x += xDir * mainPlayerData.movement.speed;
-  mainPlayerData.position.y += yDir * mainPlayerData.movement.speed;
-
-  if (xDir == 0 && yDir == 0){
-    InstructionData instruction = {STOP_MOVEMENT, {}};
-    writeBQ.push(instruction);
-  }
-=======
-// <<<<<<< HEAD
-//   /* Código para mockear */
-//   mainPlayer.movement.xDir = xDir;
-//   mainPlayer.movement.yDir = yDir;
-//   mainPlayer.position.x += xDir * mainPlayer.movement.speed;
-//   mainPlayer.position.y += yDir * mainPlayer.movement.speed;
-
-//   if (xDir == 0 && yDir == 0) return;
-// =======
   if (xDir == 0 && yDir == 0){
     mainPlayer.movement.isMoving = false;
+    InstructionData instruction = {STOP_MOVEMENT, {}};
+    writeBQ.push(instruction);
   } else {
     mainPlayer.movement.isMoving = true;
     mainPlayer.movement.xDir = xDir;
     mainPlayer.movement.yDir = yDir;
     mainPlayer.position.x += xDir * mainPlayer.movement.speed;
     mainPlayer.position.y += yDir * mainPlayer.movement.speed;
-
     ParamData x = {std::to_string(xDir)};
     ParamData y = {std::to_string(yDir)};
     InstructionData instruction = {MOVE, {x, y}};
     writeBQ.push(instruction);
   }
 }
->>>>>>> 9c175a4429d0a7873350175028b84d3579173ae3
 
 void ServerProxy::moveNPC(int index, int xDir, int yDir){
   // for(unsigned int i = 0; i < npcs.size(); i++){
@@ -184,6 +165,8 @@ MainPlayerData ServerProxy::getMainPlayerData() const {
 }
 
 void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
+  std::cout << "Jugador movido a: x:" << gameModelData.playerData.position.x <<
+    " y: " << gameModelData.playerData.position.y << std::endl;
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
@@ -210,9 +193,6 @@ void ServerProxy::close(){
   running = false;
   InstructionData instruction = {CLOSE_SERVER, {}};
   writeBQ.push(instruction);
-  //writeBQ.close();
-  //socket.shutdown();
-  //socket.close();
 }
 
 //para agregar otro jugador despues del inicio

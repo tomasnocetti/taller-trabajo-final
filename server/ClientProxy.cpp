@@ -83,11 +83,6 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
   std::unique_ptr<Instruction> i;
 
   switch (action) {
-    case AUTHENTICATE:
-      i = std::unique_ptr<Instruction>(
-        new AuthInstruction(client, instruction.params[0].value));
-      client.instructionQueue.push(std::move(i));
-      break;
     case MOVE:
       i = std::unique_ptr<Instruction>(new MoveInstruction(
         client.playerId,
@@ -105,9 +100,19 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
       break;
     case CLOSE_SERVER:
       client.running = false;
-      client.responseBQ.close();
-      client.acceptedSocket.close();
       i = std::unique_ptr<Instruction>(new CloseInstruction(client.playerId));
+      client.instructionQueue.push(std::move(i));
+      break;
+    case LOAD_PLAYER:
+      break;
+    case AUTHENTICATE:
+      i = std::unique_ptr<Instruction>(
+        new AuthInstruction(client, instruction.params[0].value));
+      client.instructionQueue.push(std::move(i));
+      break;
+    case STOP_MOVEMENT:
+      i = std::unique_ptr<Instruction>(new StopMovementInstruction(
+        client.playerId));
       client.instructionQueue.push(std::move(i));
       break;
     default:
@@ -130,6 +135,13 @@ void ClientProxyWrite::run(){
       std::string response = r->getModelPacked();
       client.acceptedSocket.send(response.c_str(), response.length());
     }
+
+    /* Cuando salga del while, quiere decir que ya el cliente cerro el juego.
+    Podría no ser necesario enviarle la última respuesta, pero de esta forma
+    cierro correctamente el serverProxyRead, que sigue a la espera de la ultima 
+    respuesta para poder salir de su bucle. */
+    client.acceptedSocket.close();
+  
   } catch(const std::exception& e) {
     std::cout << "ERROR CLIENT PROXY: " << e.what() << std::endl;
   } catch(...) {

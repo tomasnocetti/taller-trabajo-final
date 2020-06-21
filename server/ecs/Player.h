@@ -11,6 +11,7 @@ class Player : public LiveEntity{
     size_t id;
     PlayerRootData root;
     Inventory inventory;
+    MovementData movement;
     size_t gold;
     size_t level;
     friend class GameModel;
