@@ -81,17 +81,17 @@ void ServerProxy::init() {
   data.movement.speed = 3;
   npcs.emplace_back(data);
 
-  mainPlayer.rootd.prace = HUMAN;
-  mainPlayer.position.x = (542 - 11) / 2;
-  mainPlayer.position.y = (413 - 154) / 2;
-  mainPlayer.movement.xDir = 0;
-  mainPlayer.movement.yDir = 0;
-  mainPlayer.points.totalHP = 100;
-  mainPlayer.points.totalMP = 100;
-  mainPlayer.points.currentHP = 100;
-  mainPlayer.points.currentMP = 100;
-  mainPlayer.movement.speed = 2;
-  mainPlayer.gold = 0;
+  // mainPlayer.rootd.prace = HUMAN;
+  // mainPlayer.position.x = (542 - 11) / 2;
+  // mainPlayer.position.y = (413 - 154) / 2;
+  // mainPlayer.movement.xDir = 0;
+  // mainPlayer.movement.yDir = 0;
+  // mainPlayer.points.totalHP = 100;
+  // mainPlayer.points.totalMP = 100;
+  // mainPlayer.points.currentHP = 100;
+  // mainPlayer.points.currentMP = 100;
+  // mainPlayer.movement.speed = 2;
+  // mainPlayer.gold = 0;
 
   OtherPlayersData other;
   other.position.x = 400;
