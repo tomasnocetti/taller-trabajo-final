@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string> // TODO - Lo pide el parser
 #include <utility>
+#include <stdlib.h>     /* srand, rand */
 
 GameModel::GameModel(){}
 
@@ -16,6 +17,7 @@ bool GameModel::authenticate(
   {0, 0, 0, 0}, {0, 0, 0}};
 
   if (nick == "Fer") playerId = 1;
+
   if (nick == "Tomi") playerId = 2;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
@@ -32,6 +34,11 @@ bool GameModel::authenticate(
 }
 
 void GameModel::move(size_t playerId, int x, int y) {
+  players.at(playerId)->movement.isMoving = true;
+  players.at(playerId)->movement.xDir = x;
+  players.at(playerId)->movement.yDir = y;
+  
+  
   // bool canMove = true;
 
   /** SEARCH PLAYER */

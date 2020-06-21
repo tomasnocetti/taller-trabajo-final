@@ -13,6 +13,7 @@ class Player : public Entity{
     Inventory inventory;
     HealthAndManaData health;
     PositionData position;
+    MovementData movement;
     size_t gold;
     size_t level;
     friend class GameModel;
@@ -22,7 +23,6 @@ class Player : public Entity{
     ~Player();
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
-    void move(std::string x, std::string y);
 };
 
 #endif

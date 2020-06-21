@@ -18,7 +18,7 @@ ClientProxy::ClientProxy(InstructionBQ &instructionQueue, Socket&& socket):
 
 void ClientProxy::start(){
   readProxy.start();
-  writeProxy.run();
+  writeProxy.start();
 }
 
 void ClientProxy::setPlayerId(size_t id) {
@@ -32,6 +32,10 @@ ResponseBQ& ClientProxy::getUpdateBQ() {
 
 void ClientProxy::stop(){
   running = false;
+}
+
+bool ClientProxy::isClose(){
+  return !running;
 }
 
 ClientProxy::~ClientProxy(){}
@@ -85,7 +89,10 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
       client.instructionQueue.push(std::move(i));
       break;
     case MOVE:
-      i = std::unique_ptr<Instruction>(new MoveInstruction(client.playerId));
+      i = std::unique_ptr<Instruction>(new MoveInstruction(
+        client.playerId,
+        instruction.params[0].value,
+        instruction.params[1].value));
       client.instructionQueue.push(std::move(i));
       break;
     case BUY:
@@ -97,9 +104,11 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
     case ATTACK:
       break;
     case CLOSE_SERVER:
+      client.running = false;
+      client.responseBQ.close();
+      client.acceptedSocket.close();
       i = std::unique_ptr<Instruction>(new CloseInstruction(client.playerId));
       client.instructionQueue.push(std::move(i));
-      client.running = false;
       break;
     default:
       std::cout << "El jugador quiere realizar otra accion. " << std::endl;
@@ -112,7 +121,7 @@ ClientProxyWrite::ClientProxyWrite(ClientProxy& client) :
 
 void ClientProxyWrite::run(){
   try{
-    while (true){
+    while (client.running){
       std::unique_ptr<Response> r;
       bool success = client.responseBQ.try_front_pop(r);
       if (!success) return;

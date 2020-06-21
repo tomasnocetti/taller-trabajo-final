@@ -11,15 +11,14 @@ Player::Player(MainPlayerData playerData, size_t id) :  id(id),
 
 Player::~Player(){}
 
-
+/*
+  playerData.manaPoints = 0;
 void Player::move(std::string x, std::string y){
   position.x = stoi(x);
   position.y = stoi(y);
 }
 
-// void Player::setPlayerDataToCreateNewPlayer(){
-  /*
-  playerData.manaPoints = 0;
+void Player::setPlayerDataToCreateNewPlayer(){
   playerData.gold = 0;
   playerData.type = "Default"; // aca va a ir un  tipo de raza
   playerData.accountNumber = 0; // hay que pensar como inicializarla

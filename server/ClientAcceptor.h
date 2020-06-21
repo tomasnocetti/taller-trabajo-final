@@ -7,12 +7,13 @@
 #include "../common/common_socket.h"
 #include <vector>
 #include <memory>
+#include <list>
 
 class BlockinQueue;
 
 class ClientAcceptor : public Thread{
   private:
-    std::vector<std::unique_ptr<ClientProxy>> serverProxies;
+    std::list<std::unique_ptr<ClientProxy>> clientProxies;
     InstructionBQ &instructionQueue;
     Socket bindedSocket;
   public:
@@ -23,6 +24,7 @@ class ClientAcceptor : public Thread{
     ClientAcceptor& operator=(const ClientAcceptor&) = delete;
     void acceptClient();
     void run();
+    void cleanCloseClients();
 };
 
 #endif

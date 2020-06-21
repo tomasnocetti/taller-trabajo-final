@@ -15,7 +15,8 @@ typedef enum {
   ATTACK,
   CLOSE_SERVER,
   LOAD_PLAYER,
-  AUTHENTICATE
+  AUTHENTICATE,
+  STOP_MOVEMENT
 } ActionTypeT;
 
 typedef enum {

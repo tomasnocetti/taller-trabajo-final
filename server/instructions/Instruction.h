@@ -24,7 +24,7 @@ class Instruction {
 
 class MoveInstruction: public Instruction {
   public:
-    explicit MoveInstruction(size_t id);
+    MoveInstruction(size_t id, std::string xDir, std::string yDir);
     MoveInstruction(const MoveInstruction&) = delete;
     MoveInstruction& operator=(const MoveInstruction&) = delete;
     MoveInstruction&& operator=(MoveInstruction&& other) = delete;
@@ -32,6 +32,8 @@ class MoveInstruction: public Instruction {
 
   private:
     size_t playerId;
+    std::string xDir;
+    std::string yDir;
 };
 
 class AuthInstruction: public Instruction {
@@ -58,5 +60,19 @@ class CloseInstruction: public Instruction {
   private:
     size_t playerId;
 };
+
+class StopMovementInstruction: public Instruction {
+  public:
+    explicit StopMovementInstruction(size_t id);
+    StopMovementInstruction(const StopMovementInstruction&) = delete;
+    StopMovementInstruction& operator=(const StopMovementInstruction&) = delete;
+    StopMovementInstruction&& operator=(StopMovementInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+};
+
 
 #endif

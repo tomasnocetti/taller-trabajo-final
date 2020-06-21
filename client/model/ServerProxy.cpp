@@ -95,7 +95,10 @@ void ServerProxy::move(int xDir, int yDir){
   mainPlayerData.position.x += xDir * mainPlayerData.movement.speed;
   mainPlayerData.position.y += yDir * mainPlayerData.movement.speed;
 
-  if (xDir == 0 && yDir == 0) return;
+  if (xDir == 0 && yDir == 0){
+    InstructionData instruction = {STOP_MOVEMENT, {}};
+    writeBQ.push(instruction);
+  }
 
   ParamData x = {std::to_string(xDir)};
   ParamData y = {std::to_string(yDir)};
@@ -140,4 +143,7 @@ void ServerProxy::close(){
   running = false;
   InstructionData instruction = {CLOSE_SERVER, {}};
   writeBQ.push(instruction);
+  //writeBQ.close();
+  //socket.shutdown();
+  //socket.close();
 }

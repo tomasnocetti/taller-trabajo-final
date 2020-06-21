@@ -1,6 +1,7 @@
 #include "ClientAcceptor.h"
 #include <utility>
 #include <syslog.h>
+#include <iostream>
 
 ClientAcceptor::ClientAcceptor(InstructionBQ &instructionQueue) :
   instructionQueue(instructionQueue),
@@ -14,7 +15,10 @@ void ClientAcceptor::run(){
   try{
     /*Esperar nuevas conexiones e ir lanzando ClientProxies*/
     while (running){
+      std::cout << "Tamaño de la cola de clientes " << 
+        clientProxies.size() << std::endl;
       acceptClient();
+      //cleanCloseClients();
     }
   } catch(const std::system_error& e) {
        /** This error codes gey by-passed. In Linux when a blocking socket.accept
@@ -38,5 +42,12 @@ void ClientAcceptor::acceptClient(){
   std::unique_ptr<ClientProxy> p(
     new ClientProxy(instructionQueue, bindedSocket.accept()));
   p->start();
-  serverProxies.push_back(std::move(p));
+  clientProxies.push_back(std::move(p));
+}
+
+void ClientAcceptor::cleanCloseClients(){
+  clientProxies.remove_if([](std::unique_ptr<ClientProxy> &i) {
+    if (!i->isClose()) return false;
+    return true;
+  });
 }
