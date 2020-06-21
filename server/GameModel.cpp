@@ -39,7 +39,7 @@ bool GameModel::authenticate(
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
   {1, 1, 1, 1}, {0, 0, 2, false}, 0, 0};
 
-  if (nick == "Fer") playerId  = rand() % 10 + 1;
+  if (nick == "Fer") playerId  = 1; //rand() % 10 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -98,7 +98,7 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
 void GameModel::propagate() {
   generateOtherPlayersGameData();
 
-  std::unique_ptr<CronGameModelData> cronGameModelData (new CronGameModelData);
+  std::unique_ptr<CronGameModelData> cronGameModelData(new CronGameModelData);
   //cronGameModelData->npcs = npcs;
   cronGameModelData->otherPlayers = (std::move(otherPlayers));
   cronBQ.push(std::move(cronGameModelData));

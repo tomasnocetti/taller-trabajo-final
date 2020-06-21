@@ -141,7 +141,6 @@ void ClientProxyWrite::run(){
     cierro correctamente el serverProxyRead, que sigue a la espera de la ultima 
     respuesta para poder salir de su bucle. */
     client.acceptedSocket.close();
-  
   } catch(const std::exception& e) {
     std::cout << "ERROR CLIENT PROXY: " << e.what() << std::endl;
   } catch(...) {
