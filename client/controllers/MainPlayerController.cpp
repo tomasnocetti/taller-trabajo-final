@@ -24,7 +24,8 @@ void MainPlayerController::init(){
 
   playerView.init(
     manager.getTexture("clothes"), data.position.x, data.position.y);
-  std::cout << "x: "<< data.position.x << " y: " << data.position.y << std::endl; 
+  std::cout << "x: "<< data.position.x << " y: " 
+    << data.position.y << std::endl; 
   checkRace(data.rootd.prace);
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y);
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y);
