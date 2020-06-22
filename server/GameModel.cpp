@@ -37,9 +37,9 @@ bool GameModel::authenticate(
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
-  {10, 10, 1, 1}, {0, 0, 20, false}, 0, 0};
+  {100, 100, 1, 1}, {0, 0, 20, false}, 0, 0};
 
-  if (nick == "Fer") playerId  = 1// rand() % 100 + 1;
+  if (nick == "Fer") playerId  = 1;//rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -65,24 +65,24 @@ void GameModel::stopMovement(size_t playerId){
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
-  bool canMove = true;
+  bool collission = true;
   int auxXPos = players.at(playerId)->position.x;
   int auxYPos = players.at(playerId)->position.y;
   players.at(playerId)->position.x = x;
   players.at(playerId)->position.y = y;
+  
   /*
   for (auto& it : players){
     canMove = players.at(playerId)->checkCollision(*players.at(it.first));
   }
   */
-  /*
-  for (auto &it : margins){
-    canMove = players.at(playerId)->checkCollision(*it);
-    if (!canMove) break;
-  }
-  */
 
-  if (canMove) return;
+  for (auto &it : margins){
+    collission = players.at(playerId)->checkCollision(*it);
+    if (collission) break;
+  }
+ 
+  if (!collission) return;
 
   players.at(playerId)->position.x = auxXPos;
   players.at(playerId)->position.y = auxYPos;
@@ -114,7 +114,7 @@ void GameModel::propagate() {
 }
 
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
-  //modelData.npcs = npcs;
+  modelData.npcs = npcs;
   //modelData.map = map;
 
   modelData.playerData.gold = players.at(id)->gold;
@@ -138,4 +138,28 @@ void GameModel::generateOtherPlayersGameData(){
     otherPlayer.rootd = players.at(it.first)->root;
     otherPlayers.push_back(std::move(otherPlayer));
   }
+}
+
+void GameModel::addNPCS(){
+  struct EnemyData data;
+  data.position.x = 100;
+  data.position.y = 100;
+  data.movement.xDir = 0;
+  data.movement.yDir = 1;
+  data.movement.isMoving = false;
+  data.type = GOBLIN;
+  data.movement.speed = 1;
+  npcs.emplace_back(data);
+
+  data.position.x = 200;
+  data.position.y = 100;
+  data.type = SKELETON;
+  data.movement.speed = 2;
+  npcs.emplace_back(data);
+
+  data.position.x = 300;
+  data.position.y = 100;
+  data.type = SPIDER;
+  data.movement.speed = 3;
+  npcs.emplace_back(data);
 }
