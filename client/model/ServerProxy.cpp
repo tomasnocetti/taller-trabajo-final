@@ -44,19 +44,20 @@ void ServerProxy::init() {
       std::cout << objectl[i].objects[j].height << std::endl;
     }
   }
-
-  mainPlayer.position.x = 10;
-  mainPlayer.position.y = 10;
-  mainPlayer.level = 0;
   mainPlayer.rootd.pclass = WARRIOR;
   mainPlayer.rootd.prace = HUMAN;
+  mainPlayer.position.x = 100;
+  mainPlayer.position.y = 100;
+/*
   mainPlayer.movement.isMoving = false;
+  mainPlayer.level = 0;
   mainPlayer.points.totalHP = 100;
   mainPlayer.points.totalMP = 100;
   mainPlayer.points.currentHP = 100;
   mainPlayer.points.currentMP = 100;
   mainPlayer.movement.speed = 2;
   mainPlayer.gold = 0;
+*/
 }
 
 void ServerProxy::update() {

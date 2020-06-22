@@ -37,7 +37,7 @@ bool GameModel::authenticate(
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
-  {10, 10, 1, 1}, {0, 0, 20, false}, 0, 0};
+  {100, 100, 1, 1}, {0, 0, 20, false}, 0, 0};
 
   if (nick == "Fer") playerId  = 1;//rand() % 100 + 1;
 
@@ -65,24 +65,24 @@ void GameModel::stopMovement(size_t playerId){
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
-  bool canMove = true;
+  bool collission = true;
   int auxXPos = players.at(playerId)->position.x;
   int auxYPos = players.at(playerId)->position.y;
   players.at(playerId)->position.x = x;
   players.at(playerId)->position.y = y;
+  
   /*
   for (auto& it : players){
     canMove = players.at(playerId)->checkCollision(*players.at(it.first));
   }
   */
-  /*
-  for (auto &it : margins){
-    canMove = players.at(playerId)->checkCollision(*it);
-    if (!canMove) break;
-  }
-  */
 
-  if (canMove) return;
+  for (auto &it : margins){
+    collission = players.at(playerId)->checkCollision(*it);
+    if (collission) break;
+  }
+ 
+  if (!collission) return;
 
   players.at(playerId)->position.x = auxXPos;
   players.at(playerId)->position.y = auxYPos;
