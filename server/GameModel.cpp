@@ -37,9 +37,9 @@ bool GameModel::authenticate(
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
-  {100, 100, 1, 1}, {0, 0, 20, false}, 0, 0};
+  {100, 100, 25, 48}, {0, 0, 20, false}, 0, 0};
 
-  if (nick == "Fer") playerId  = 1;//rand() % 100 + 1;
+  if (nick == "Fer") playerId  = 1; //rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -62,6 +62,20 @@ void GameModel::move(size_t playerId, int x, int y) {
 
 void GameModel::stopMovement(size_t playerId){
   players.at(playerId)->movement.isMoving = false;
+}
+
+void GameModel::attack(size_t playerId, int xPos, int yPos, 
+  int width, int height){
+    for (auto& it : players){
+      if (!(players.at(it.first)->position.x <= xPos + width && 
+        players.at(it.first)->position.x >= xPos &&
+        players.at(it.first)->position.y >= yPos &&
+        players.at(it.first)->position.y <= yPos + height)) continue;
+
+      if (!players.at(playerId)->checkInRange(*it.second, 60)) continue;
+      
+      players.at(it.first)->health.currentHP -= 10;
+    }
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {

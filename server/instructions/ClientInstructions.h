@@ -61,4 +61,23 @@ class StopMovementInstruction : public Instruction {
     size_t playerId;
 };
 
+class AttackInstrucion : public Instruction {
+  public:
+    AttackInstrucion(size_t id, std::string xPos, std::string yPos,
+      std::string width, std::string height);
+    AttackInstrucion(const AttackInstrucion&) = delete;
+    AttackInstrucion& operator=(const AttackInstrucion&) 
+      = delete;
+    AttackInstrucion&& operator=(AttackInstrucion&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    int xPos;
+    int yPos;
+    int width;
+    int height;
+};
+
 #endif

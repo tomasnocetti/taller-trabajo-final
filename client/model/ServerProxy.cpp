@@ -48,16 +48,6 @@ void ServerProxy::init() {
   mainPlayer.rootd.prace = HUMAN;
   mainPlayer.position.x = 100;
   mainPlayer.position.y = 100;
-/*
-  mainPlayer.movement.isMoving = false;
-  mainPlayer.level = 0;
-  mainPlayer.points.totalHP = 100;
-  mainPlayer.points.totalMP = 100;
-  mainPlayer.points.currentHP = 100;
-  mainPlayer.points.currentMP = 100;
-  mainPlayer.movement.speed = 2;
-  mainPlayer.gold = 0;
-*/
 }
 
 void ServerProxy::update() {
@@ -83,6 +73,12 @@ void ServerProxy::move(int xDir, int yDir){
 }
 
 void ServerProxy::attack(int xPos, int yPos) {
+  ParamData x = {std::to_string(xPos)};
+  ParamData y = {std::to_string(yPos)};
+  ParamData width = {std::to_string(mainPlayer.position.w)};
+  ParamData height = {std::to_string(mainPlayer.position.h)};
+  InstructionData instruction = {ATTACK, {x, y, width, height}};
+  writeBQ.push(instruction);
   std::cout << xPos << std::endl;
   std::cout << yPos << std::endl;
   std::cout << std::endl;
@@ -99,6 +95,8 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   map = gameModelData.map;
   std::cout << "Jugador movido a: x:" << mainPlayer.position.y <<
     " y: " << mainPlayer.position.x << std::endl;
+  std::cout << "Puntos de vida del jugador: " << mainPlayer.points.currentHP 
+    << std::endl;
 }
 
 MapData ServerProxy::getMapData() const {
