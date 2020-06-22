@@ -50,6 +50,8 @@ class GameModel{
     void generatePlayerModel(size_t id, PlayerGameModelData &modelData);
     void propagate();
     void generateOtherPlayersGameData();
+    /* Handle close instruction */
+    void eraseClient(size_t playerId);
 };
 
 #endif

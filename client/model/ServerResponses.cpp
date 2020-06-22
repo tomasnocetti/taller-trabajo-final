@@ -13,6 +13,8 @@ PlayerGameResponse::PlayerGameResponse(std::string &buffer) :
         msgpack::unpack(buffer.data(), buffer.size());
   msgpack::object deserialized = oh.get();
   model = deserialized.as<PlayerGameModelData>();
+  std::cout << "Tamaño del vector otherPlayers: " 
+    << model.otherPlayers.size() << std::endl;
   std::cout << deserialized << std::endl;
 }
 

@@ -45,21 +45,16 @@ void ServerProxy::init() {
     }
   }
 
-  mainPlayer.position.x = 1;
-  mainPlayer.position.y = 1;
+  mainPlayer.position.x = 10;
+  mainPlayer.position.y = 10;
   mainPlayer.level = 0;
   mainPlayer.rootd.pclass = WARRIOR;
   mainPlayer.rootd.prace = HUMAN;
-  //mainPlayer.position.x = (542 - 11) / 2;
-  //mainPlayer.position.y = (413 - 154) / 2;
-  //mainPlayer.movement.xDir = 0;
-  //mainPlayer.movement.yDir = 1;
   mainPlayer.movement.isMoving = false;
   mainPlayer.points.totalHP = 100;
   mainPlayer.points.totalMP = 100;
   mainPlayer.points.currentHP = 100;
   mainPlayer.points.currentMP = 100;
-  //mainPlayer.movement.speed = 5;
   mainPlayer.movement.speed = 2;
   mainPlayer.gold = 0;
 
@@ -109,18 +104,9 @@ void ServerProxy::update() {
 
 void ServerProxy::move(int xDir, int yDir){
   if (xDir == 0 && yDir == 0){
-    std::cout << "Estoy quieto. " << std::endl;
-    //mainPlayer.movement.isMoving = false;
     InstructionData instruction = {STOP_MOVEMENT, {}};
     writeBQ.push(instruction);
   } else {
-    /*
-    mainPlayer.movement.isMoving = true;
-    mainPlayer.movement.xDir = xDir;
-    mainPlayer.movement.yDir = yDir;
-    mainPlayer.position.x += xDir * mainPlayer.movement.speed;
-    mainPlayer.position.y += yDir * mainPlayer.movement.speed;
-    */
     ParamData x = {std::to_string(xDir)};
     ParamData y = {std::to_string(yDir)};
     InstructionData instruction = {MOVE, {x, y}};
@@ -129,18 +115,6 @@ void ServerProxy::move(int xDir, int yDir){
 }
 
 void ServerProxy::moveNPC(int index, int xDir, int yDir){
-  // for(unsigned int i = 0; i < npcs.size(); i++){
-  //   if(xDir == 0 && yDir == 0){
-  //     npcs[i].movement.isMoving = false;
-  //   } else {
-  //     npcs[i].movement.isMoving = true;
-  //     npcs[i].movement.xDir = xDir;
-  //     npcs[i].movement.yDir = yDir;
-  //     npcs[i].position.x += xDir * npcs[i].movement.speed;
-  //     npcs[i].position.y += yDir * npcs[i].movement.speed;
-  //   }
-  // }
-
   npcs[index].movement.isMoving = true;
   npcs[index].movement.xDir = xDir;
   npcs[index].movement.yDir = yDir;

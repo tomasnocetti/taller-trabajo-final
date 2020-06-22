@@ -15,16 +15,16 @@ EnemyController::EnemyController(
 void EnemyController::init(){
   /** LOAD ASSETS ON INIT **/
   std::vector<EnemyData> v = model.getNPCData();
-
-  /*for (unsigned int i = 0; i < v.size(); i++){
+/*
+  for (unsigned int i = 0; i < v.size(); i++){
   	Animation* animation = checkType(v[i].type);
   	enemies.emplace_back(
       new EnemyView(
         v[i].position.x,
         v[i].position.y,
   		  animation));
-  }*/
-
+  }
+*/
 	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
 	for (unsigned int i = 0; i < others.size(); i++){
 		LTexture* texture = manager.getTexture("clothes");

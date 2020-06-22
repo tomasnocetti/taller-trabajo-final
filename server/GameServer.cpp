@@ -25,7 +25,7 @@ void GameServer::start(){
   cron.start();
   int i = 0;
 
-  while (running && i<1000){
+  while (running && i<10000){
     i++;
 
     std::unique_ptr<Instruction> instruction;

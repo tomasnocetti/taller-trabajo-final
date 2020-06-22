@@ -37,9 +37,9 @@ bool GameModel::authenticate(
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
-  {1, 1, 1, 1}, {0, 0, 20, false}, 0, 0};
+  {10, 10, 1, 1}, {0, 0, 20, false}, 0, 0};
 
-  if (nick == "Fer") playerId  = 1; //rand() % 10 + 1;
+  if (nick == "Fer") playerId  = 1// rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -65,32 +65,32 @@ void GameModel::stopMovement(size_t playerId){
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
+  bool canMove = true;
+  int auxXPos = players.at(playerId)->position.x;
+  int auxYPos = players.at(playerId)->position.y;
   players.at(playerId)->position.x = x;
   players.at(playerId)->position.y = y;
-  
-  // bool canMove = true;
+  /*
+  for (auto& it : players){
+    canMove = players.at(playerId)->checkCollision(*players.at(it.first));
+  }
+  */
+  /*
+  for (auto &it : margins){
+    canMove = players.at(playerId)->checkCollision(*it);
+    if (!canMove) break;
+  }
+  */
 
-  /** SEARCH PLAYER */
+  if (canMove) return;
 
-  // MainPlayerData playerProxyData;
-  // Player playerproxy(playerProxyData, -1);
+  players.at(playerId)->position.x = auxXPos;
+  players.at(playerId)->position.y = auxYPos;
+}
 
-  // playerproxy.move(instruction.params.at(0).value,
-  //   instruction.params.at(1).value);
-
-  // for (auto&it : players){
-  //   if (it.first == instruction.playerId) continue;
-  //   canMove = playerproxy.checkCollision(*it.second);
-  // }
-
-  // std::cout << canMove << std::endl;
-
-  // if (!canMove) return canMove;
-
-  // players.at(instruction.playerId)->move(instruction.params.at(0).value,
-  //   instruction.params.at(1).value);
-
-  // return canMove;
+void GameModel::eraseClient(size_t playerID){
+  std::cout << "Borrando jugador: " << playerID << std::endl;
+  players.erase(playerID);
 }
 
 void GameModel::propagate() {
@@ -98,7 +98,7 @@ void GameModel::propagate() {
 
   std::unique_ptr<CronGameModelData> cronGameModelData(new CronGameModelData);
   //cronGameModelData->npcs = npcs;
-  cronGameModelData->otherPlayers = (std::move(otherPlayers));
+  cronGameModelData->otherPlayers = otherPlayers;
   cronBQ.push(std::move(cronGameModelData));
 
   for (auto& it : players){
