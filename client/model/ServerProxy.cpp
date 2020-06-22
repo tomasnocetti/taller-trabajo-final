@@ -57,39 +57,6 @@ void ServerProxy::init() {
   mainPlayer.points.currentMP = 100;
   mainPlayer.movement.speed = 2;
   mainPlayer.gold = 0;
-
-  // ------ TEST CODE FOR ENEMIES
-  struct EnemyData data;
-  data.position.x = 100;
-  data.position.y = 100;
-  data.movement.xDir = 0;
-  data.movement.yDir = 1;
-  data.movement.isMoving = false;
-  data.type = GOBLIN;
-  data.movement.speed = 1;
-  npcs.emplace_back(data);
-
-  data.position.x = 200;
-  data.position.y = 100;
-  data.type = SKELETON;
-  data.movement.speed = 2;
-  npcs.emplace_back(data);
-
-  data.position.x = 300;
-  data.position.y = 100;
-  data.type = SPIDER;
-  data.movement.speed = 3;
-  npcs.emplace_back(data);
-
-  OtherPlayersData other;
-  other.position.x = 400;
-  other.position.y = 100;
-  other.rootd.prace = HUMAN;
-  other.movement.xDir = 0;
-  other.movement.yDir = 1;
-  other.movement.isMoving = false;
-  other.movement.speed = 1;
-  otherPlayers.emplace_back(other);
 }
 
 void ServerProxy::update() {
@@ -112,14 +79,6 @@ void ServerProxy::move(int xDir, int yDir){
     InstructionData instruction = {MOVE, {x, y}};
     writeBQ.push(instruction);
   }
-}
-
-void ServerProxy::moveNPC(int index, int xDir, int yDir){
-  npcs[index].movement.isMoving = true;
-  npcs[index].movement.xDir = xDir;
-  npcs[index].movement.yDir = yDir;
-  npcs[index].position.x += xDir * npcs[index].movement.speed;
-  npcs[index].position.y += yDir * npcs[index].movement.speed;
 }
 
 void ServerProxy::attack(int xPos, int yPos) {
@@ -161,17 +120,4 @@ void ServerProxy::close(){
   running = false;
   InstructionData instruction = {CLOSE_SERVER, {}};
   writeBQ.push(instruction);
-}
-
-//para agregar otro jugador despues del inicio
-void ServerProxy::add(){
-  OtherPlayersData other;
-  other.position.x = 200;
-  other.position.y = 300;
-  other.rootd.prace = ELF;
-  other.movement.xDir = -1;
-  other.movement.yDir = 0;
-  other.movement.isMoving = false;
-  other.movement.speed = 2;
-  otherPlayers.emplace_back(other);
 }

@@ -39,7 +39,7 @@ bool GameModel::authenticate(
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
   {10, 10, 1, 1}, {0, 0, 20, false}, 0, 0};
 
-  if (nick == "Fer") playerId  = 1// rand() % 100 + 1;
+  if (nick == "Fer") playerId  = 1;//rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -114,7 +114,7 @@ void GameModel::propagate() {
 }
 
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
-  //modelData.npcs = npcs;
+  modelData.npcs = npcs;
   //modelData.map = map;
 
   modelData.playerData.gold = players.at(id)->gold;
@@ -138,4 +138,28 @@ void GameModel::generateOtherPlayersGameData(){
     otherPlayer.rootd = players.at(it.first)->root;
     otherPlayers.push_back(std::move(otherPlayer));
   }
+}
+
+void GameModel::addNPCS(){
+  struct EnemyData data;
+  data.position.x = 100;
+  data.position.y = 100;
+  data.movement.xDir = 0;
+  data.movement.yDir = 1;
+  data.movement.isMoving = false;
+  data.type = GOBLIN;
+  data.movement.speed = 1;
+  npcs.emplace_back(data);
+
+  data.position.x = 200;
+  data.position.y = 100;
+  data.type = SKELETON;
+  data.movement.speed = 2;
+  npcs.emplace_back(data);
+
+  data.position.x = 300;
+  data.position.y = 100;
+  data.type = SPIDER;
+  data.movement.speed = 3;
+  npcs.emplace_back(data);
 }

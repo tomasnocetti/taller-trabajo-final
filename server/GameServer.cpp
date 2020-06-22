@@ -24,7 +24,7 @@ void GameServer::start(){
   clientAcceptor.start();
   cron.start();
   int i = 0;
-
+  game.addNPCS();
   while (running && i<10000){
     i++;
 
