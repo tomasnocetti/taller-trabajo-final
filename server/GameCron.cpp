@@ -56,7 +56,6 @@ void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
 void GameCron::runNPCLogic(
   std::vector<EnemyData>& npcs,
   std::vector<OtherPlayersData>& players) {
-
   for (EnemyData &npc : npcs) {
     bool hasPlayerInRange = false;
     double minDistanceToPlayer = MIN_DISTANCE_NPC;
@@ -64,7 +63,8 @@ void GameCron::runNPCLogic(
 
     // Calcula la distancia minima a un jugador
     for (OtherPlayersData &player : players) {
-      double distance = Entity::getPositionDistance(npc.position, player.position);
+      double distance = Entity::getPositionDistance(
+        npc.position, player.position);
       if (distance >= minDistanceToPlayer) continue;
       hasPlayerInRange = true;
       positionTofollow = player.position;
@@ -72,7 +72,6 @@ void GameCron::runNPCLogic(
 
     if (!hasPlayerInRange) continue;
     // moveNPC(npc.id, npc.position, positionTofollow);
-
   }
 }
 

@@ -3,7 +3,8 @@
 
 Entity::Entity(PositionData& p) : position(p) {}
 
-bool Entity::checkPositionCollision(const PositionData& p1, const PositionData&p2) {
+bool Entity::checkPositionCollision(
+  const PositionData& p1, const PositionData&p2) {
   return p1.x + p1.w >= p2.x &&
 		p2.x + p2.w >= p1.x &&
 		p1.y + p1.h >= p2.y &&
