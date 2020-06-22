@@ -39,7 +39,7 @@ bool GameModel::authenticate(
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
   {100, 100, 25, 48}, {0, 0, 20, false}, 0, 0};
 
-  if (nick == "Fer") playerId  = 1; //rand() % 100 + 1;
+  if (nick == "Fer") playerId  = 1// rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -81,7 +81,6 @@ void GameModel::attack(size_t playerId, int xPos, int yPos,
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
-  bool collission = true;
   int auxXPos = players.at(playerId)->position.x;
   int auxYPos = players.at(playerId)->position.y;
   players.at(playerId)->position.x = x;
@@ -94,12 +93,11 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   */
 
   for (auto &it : margins){
-    collission = players.at(playerId)->checkCollision(*it);
-    if (collission) break;
+    bool collission = players.at(playerId)->checkCollision(*it);
+    std::cout << "Collision? " << collission << std::endl;
+    if (!collission) return;
   }
  
-  if (!collission) return;
-
   players.at(playerId)->position.x = auxXPos;
   players.at(playerId)->position.y = auxYPos;
 }
@@ -107,6 +105,7 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
 void GameModel::eraseClient(size_t playerID){
   std::cout << "Borrando jugador: " << playerID << std::endl;
   players.erase(playerID);
+  clientsBQ.erase(playerID);
 }
 
 void GameModel::propagate() {

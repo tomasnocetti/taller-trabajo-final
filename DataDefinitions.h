@@ -21,6 +21,7 @@ typedef enum {
 } ActionTypeT;
 
 typedef enum {
+  DEFAULT,
   MAP_MODEL,
   PLAYER_GAME_MODEL
 } ResponseTypeT;

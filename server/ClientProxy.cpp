@@ -32,6 +32,8 @@ ResponseBQ& ClientProxy::getUpdateBQ() {
 
 void ClientProxy::stop(){
   running = false;
+  responseBQ.close();
+  acceptedSocket.close();
 }
 
 bool ClientProxy::isClose(){
@@ -112,7 +114,6 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
       break;
     case CLOSE_SERVER:
       client.running = false;
-      client.acceptedSocket.close();
       i = std::unique_ptr<Instruction>(new CloseInstruction(client.playerId));
       client.instructionQueue.push(std::move(i));
       break;

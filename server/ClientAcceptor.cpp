@@ -16,7 +16,7 @@ void ClientAcceptor::run(){
     /*Esperar nuevas conexiones e ir lanzando ClientProxies*/
     while (running){
       acceptClient();
-      //cleanCloseClients();
+      cleanCloseClients();
     }
   } catch(const std::system_error& e) {
        /** This error codes gey by-passed. In Linux when a blocking socket.accept
@@ -47,6 +47,7 @@ void ClientAcceptor::cleanCloseClients(){
   clientProxies.remove_if([](std::unique_ptr<ClientProxy> &i) {
     if (!i->isClose()) return false;
 
+    i->stop();
     i->join();
 
     return true;
