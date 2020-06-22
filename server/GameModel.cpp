@@ -62,6 +62,8 @@ void GameModel::move(size_t playerId, int x, int y) {
 
 void GameModel::stopMovement(size_t playerId){
   players.at(playerId)->movement.isMoving = false;
+  players.at(playerId)->movement.isMoving = 0;
+  players.at(playerId)->movement.isMoving = 0;
 }
 
 void GameModel::attack(size_t playerId, int xPos, int yPos, 
