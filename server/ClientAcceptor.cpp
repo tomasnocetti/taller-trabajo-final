@@ -16,7 +16,7 @@ void ClientAcceptor::run(){
     /*Esperar nuevas conexiones e ir lanzando ClientProxies*/
     while (running){
       acceptClient();
-      cleanCloseClients();
+      //cleanCloseClients();
     }
   } catch(const std::system_error& e) {
        /** This error codes gey by-passed. In Linux when a blocking socket.accept

@@ -39,7 +39,7 @@ CloseInstruction::CloseInstruction(size_t id) :
 
 void CloseInstruction::run(GameModel& game) {
   std::cout << "Despidiendo al jugador de id " << playerId << std::endl;
-  // game.eraseClient(playerId)
+  game.eraseClient(playerId);
 }
 
 StopMovementInstruction::StopMovementInstruction(size_t id) :
