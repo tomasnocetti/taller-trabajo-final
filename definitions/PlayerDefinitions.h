@@ -50,6 +50,7 @@ struct MainPlayerData {
   HealthAndManaData points;
   PositionData position;
   MovementData movement;
+  size_t id;
   size_t gold;
   size_t level;
   MSGPACK_DEFINE(rootd, inventory, points, position, movement, gold, level)

@@ -37,7 +37,7 @@ bool GameModel::authenticate(
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
-  {100, 100, 25, 48}, {0, 0, 20, false}, 0, 0};
+  {100, 100, 25, 48}, {0, 0, false}, 0, 0};
 
   if (nick == "Fer") playerId  = 1; //rand() % 100 + 1;
 
@@ -164,18 +164,15 @@ void GameModel::addNPCS(){
   data.movement.yDir = 1;
   data.movement.isMoving = false;
   data.type = GOBLIN;
-  data.movement.speed = 1;
   npcs.emplace_back(data);
 
   data.position.x = 200;
   data.position.y = 100;
   data.type = SKELETON;
-  data.movement.speed = 2;
   npcs.emplace_back(data);
 
   data.position.x = 300;
   data.position.y = 100;
   data.type = SPIDER;
-  data.movement.speed = 3;
   npcs.emplace_back(data);
 }

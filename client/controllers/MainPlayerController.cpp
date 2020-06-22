@@ -37,7 +37,7 @@ void MainPlayerController::update() {
   myMoveData.xDir = data.movement.xDir;
   myMoveData.yDir = data.movement.yDir;
   myMoveData.isMoving = data.movement.isMoving;
-  //playerView.move(data.movement.xDir, data.movement.yDir, 
+  //playerView.move(data.movement.xDir, data.movement.yDir,
   //  data.movement.speed, data.movement.isMoving);
   playerView.move(data.position.x, data.position.y);
 
@@ -46,7 +46,7 @@ void MainPlayerController::update() {
   gold.update(std::to_string(data.gold));
 }
 
-void MainPlayerController::handleEvent(const SDL_Event &e, 
+void MainPlayerController::handleEvent(const SDL_Event &e,
   int cameraX, int cameraY) {
   if (e.type == SDL_MOUSEMOTION) return;
 
@@ -76,8 +76,8 @@ void MainPlayerController::handleEvent(const SDL_Event &e,
 
   if (e.type == SDL_KEYUP) {
     const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-    if (!currentKeyStates[SDL_SCANCODE_W] && 
-      !currentKeyStates[SDL_SCANCODE_S] && 
+    if (!currentKeyStates[SDL_SCANCODE_W] &&
+      !currentKeyStates[SDL_SCANCODE_S] &&
       !currentKeyStates[SDL_SCANCODE_A] &&
       !currentKeyStates[SDL_SCANCODE_D]) {
 
