@@ -46,6 +46,15 @@ StopMovementInstruction::StopMovementInstruction(size_t id) :
   playerId(id) {}
 
 void StopMovementInstruction::run(GameModel& game) {
-  //std::cout << "Parando movimiento del jugador " << playerId << std::endl;
   game.stopMovement(playerId);
+}
+
+AttackInstrucion::AttackInstrucion(size_t id, std::string xPos, 
+  std::string yPos) :
+  playerId(id),
+  xPos(stoi(xPos)),
+  yPos(stoi(yPos)){}
+  
+void AttackInstrucion::run(GameModel& game) {
+  game.attack(playerId, xPos, yPos);
 }

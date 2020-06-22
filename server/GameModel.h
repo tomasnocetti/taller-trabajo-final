@@ -52,6 +52,8 @@ class GameModel{
     void generateOtherPlayersGameData();
     /* Handle close instruction */
     void eraseClient(size_t playerId);
+    /* Handle attack instruction */
+    void attack(size_t playerId, int xPos, int yPos);
     void addNPCS();
 };
 

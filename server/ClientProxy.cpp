@@ -32,10 +32,17 @@ ResponseBQ& ClientProxy::getUpdateBQ() {
 
 void ClientProxy::stop(){
   running = false;
+  responseBQ.close();
+  acceptedSocket.close();
 }
 
 bool ClientProxy::isClose(){
   return !running;
+}
+
+void ClientProxy::join(){
+  writeProxy.join();
+  readProxy.join();
 }
 
 ClientProxy::~ClientProxy(){}
@@ -97,10 +104,14 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
     case DEPOSIT_ITEM:
       break;
     case ATTACK:
+      i = std::unique_ptr<Instruction>(new AttackInstrucion(
+        client.playerId,
+        instruction.params[0].value,
+        instruction.params[1].value));
+      client.instructionQueue.push(std::move(i));
       break;
     case CLOSE_SERVER:
       client.running = false;
-      client.acceptedSocket.close();
       i = std::unique_ptr<Instruction>(new CloseInstruction(client.playerId));
       client.instructionQueue.push(std::move(i));
       break;

@@ -5,6 +5,7 @@
 #include "definitions/MapDefinitions.h"
 #include "definitions/NPCDefinitions.h"
 #include "definitions/PlayerDefinitions.h"
+#include "server/GameDefinitions.h"
 #include <string>
 #include <vector>
 
@@ -21,6 +22,7 @@ typedef enum {
 } ActionTypeT;
 
 typedef enum {
+  DEFAULT,
   MAP_MODEL,
   PLAYER_GAME_MODEL
 } ResponseTypeT;

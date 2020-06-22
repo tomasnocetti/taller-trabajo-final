@@ -32,10 +32,10 @@ void ServerProxyRead::run(){
 }
 
 void ServerProxyRead::handleResponse() {
-  ResponseTypeT rtype;
+  ResponseTypeT rtype = ResponseTypeT::DEFAULT;
   server.socket.receive((char*) &rtype, 1);
 
-  uint32_t sizeOfResponse;
+  uint32_t sizeOfResponse = 0;
   server.socket.receive((char*) &sizeOfResponse, 4);
   sizeOfResponse = from_big_end<uint32_t>(sizeOfResponse);
 
