@@ -22,6 +22,7 @@ void GameServer::init(){
 
 void GameServer::start(){
   clientAcceptor.start();
+  cron.start();
   int i = 0;
 
   while (running && i<1000){

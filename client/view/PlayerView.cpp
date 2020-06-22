@@ -12,6 +12,7 @@ void PlayerView::init(LTexture* texture, int x, int y) {
 	headFrame = {0, 0, 16, 16};
 }
 
+/*
 void PlayerView::move(int xDir, int yDir, int speed, bool isMoving) {
 	if(isMoving){
 		if(xDir == 0 && yDir < 0){
@@ -46,6 +47,12 @@ void PlayerView::move(int xDir, int yDir, int speed, bool isMoving) {
 				headFrame = {16, 0, 16, 16};
 		}
 	}
+}
+*/
+
+void PlayerView::move(int x, int y){
+	this->x = x;
+	this->y = y;
 }
 
 void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {

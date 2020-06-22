@@ -36,11 +36,10 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {0, 0},
-  {0, 0, 0, 0}, {0, 0, 0}};
+  MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
+  {1, 1, 1, 1}, {0, 0, 20, false}, 0, 0};
 
-  if (nick == "Fer") playerId = 1;
-  if (nick == "Tomi") playerId = 2;
+  if (nick == "Fer") playerId  = 1; //rand() % 10 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -55,7 +54,20 @@ bool GameModel::authenticate(
   return true;
 }
 
-void GameModel::move(size_t playerId, int x, int y) {
+void GameModel::move(size_t playerId, int x, int y) { 
+  players.at(playerId)->movement.isMoving = true;
+  players.at(playerId)->movement.xDir = x;
+  players.at(playerId)->movement.yDir = y;
+}
+
+void GameModel::stopMovement(size_t playerId){
+  players.at(playerId)->movement.isMoving = false;
+}
+
+void GameModel::playerSetCoords(size_t playerId, int x, int y) {
+  players.at(playerId)->position.x = x;
+  players.at(playerId)->position.y = y;
+  
   // bool canMove = true;
 
   /** SEARCH PLAYER */
@@ -83,11 +95,17 @@ void GameModel::move(size_t playerId, int x, int y) {
 
 void GameModel::propagate() {
   generateOtherPlayersGameData();
+
+  std::unique_ptr<CronGameModelData> cronGameModelData(new CronGameModelData);
+  //cronGameModelData->npcs = npcs;
+  cronGameModelData->otherPlayers = (std::move(otherPlayers));
+  cronBQ.push(std::move(cronGameModelData));
+
   for (auto& it : players){
     PlayerGameModelData modelData = {};
 
     generatePlayerModel(it.first, modelData);
-
+    
     std::unique_ptr<Response> response(new
       PlayerGameResponse(modelData));
 
@@ -105,6 +123,7 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.playerData.level = players.at(id)->level;
   modelData.playerData.position = players.at(id)->position;
   modelData.playerData.rootd = players.at(id)->root;
+  modelData.playerData.movement = players.at(id)->movement;
 
   modelData.otherPlayers = otherPlayers;
 }
@@ -115,6 +134,7 @@ void GameModel::generateOtherPlayersGameData(){
     OtherPlayersData otherPlayer;
     otherPlayer.id = players.at(it.first)->id;
     otherPlayer.position = players.at(it.first)->position;
+    otherPlayer.movement = players.at(it.first)->movement;
     otherPlayer.rootd = players.at(it.first)->root;
     otherPlayers.push_back(std::move(otherPlayer));
   }

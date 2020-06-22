@@ -1,23 +1,30 @@
 #include "GameCron.h"
 #include <iostream>
 #include <chrono>
+#include <vector>
 
 GameCron::GameCron(InstructionBQ& instructionQueue) :
+  running(true),
   instructionQueue(instructionQueue) {}
 
 void GameCron::run() {
   try{
     while (running){
+      std::unique_ptr<CronGameModelData> d;
+
+      bool success = cronBQ.try_front_pop(d);
+      if (!success) continue;
+
       std::cout << "RUNNING GAME CRON" << std::endl;
+      runPlayersMovement(d->otherPlayers);
 
-      runNPCLogic();
-
-      std::this_thread::sleep_for(std::chrono::seconds(1));
+      
+      std::this_thread::sleep_for(std::chrono::milliseconds(60));
     }
   } catch(const std::exception& e) {
-    std::cout << "ERROR CLIENT PROXY: " << e.what() << std::endl;
+    std::cout << "ERROR CRON GAME: " << e.what() << std::endl;
   } catch(...) {
-    std::cout << "UNKOWN ERROR CLIENT PROXY" << std::endl;
+    std::cout << "UNKOWN ERROR CRON GAME." << std::endl;
   }
 }
 
@@ -29,12 +36,20 @@ CronBQ& GameCron::getBQ() {
   return cronBQ;
 }
 
-void GameCron::runPlayersMovement() {
-  std::cout << "RUNNING PLAYERS MOVEMENT" << std::endl;
-  size_t playerId = 4;
+void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
+  for (OtherPlayersData &player : players) {
+    std::cout << "Player " << player.id << " is moving? " << 
+      player.movement.isMoving << std::endl;
+    if (! player.movement.isMoving) continue;
+    std::cout << "RUNNING PLAYERS MOVEMENT" << std::endl;
 
-  std::unique_ptr<Instruction> i(new MoveInstruction(playerId));
-  instructionQueue.push(std::move(i));
+    int x = player.position.x + player.movement.xDir * player.movement.speed;
+    int y = player.position.y + player.movement.yDir * player.movement.speed;
+
+    std::unique_ptr<Instruction> i(
+      new PlayerSetCoordsInstruction(player.id, x, y));
+    instructionQueue.push(std::move(i));
+  }
 }
 
 void GameCron::runNPCLogic() {
