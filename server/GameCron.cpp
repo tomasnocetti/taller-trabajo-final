@@ -16,7 +16,6 @@ void GameCron::run() {
       bool success = cronBQ.try_front_pop(d);
       if (!success) continue;
 
-      std::cout << "RUNNING GAME CRON" << std::endl;
       runPlayersMovement(d->otherPlayers);
       runNPCLogic(d->npcs, d->otherPlayers);
 
@@ -39,10 +38,8 @@ CronBQ& GameCron::getBQ() {
 
 void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
   for (OtherPlayersData &player : players) {
-    // std::cout << "Player " << player.id << " is moving? " std::endl;
     if (player.movement.xDir == 0 &&
       player.movement.yDir == 0) continue;
-    std::cout << "RUNNING PLAYERS MOVEMENT" << std::endl;
 
     int x = player.position.x + player.movement.xDir * SPEED;
     int y = player.position.y + player.movement.yDir * SPEED;

@@ -75,12 +75,10 @@ InstructionData ClientProxyRead::getInstruction() {
   client.acceptedSocket.receive(res_message.data(), sizeInstruction);
   std::string instruction(res_message.begin(), res_message.end());
 
-  /* Código para mockear */
   msgpack::object_handle oh =
         msgpack::unpack(instruction.data(), instruction.size());
   msgpack::object deserialized = oh.get();
   InstructionData instructionData = deserialized.as<InstructionData>();
-  std::cout << deserialized << std::endl;
 
   return instructionData;
 }
