@@ -17,7 +17,6 @@ void MainPlayerController::init(){
   MainPlayerData data = model.getMainPlayerData();
   myMoveData.xDir = data.movement.xDir;
   myMoveData.yDir = data.movement.yDir;
-  myMoveData.isMoving = data.movement.isMoving;
 
   TTF_Font* font = manager.getFont("main");
   LTexture* goldTexture = manager.getTexture("gold");
@@ -36,7 +35,6 @@ void MainPlayerController::update() {
   MainPlayerData data = model.getMainPlayerData();
   myMoveData.xDir = data.movement.xDir;
   myMoveData.yDir = data.movement.yDir;
-  myMoveData.isMoving = data.movement.isMoving;
   //playerView.move(data.movement.xDir, data.movement.yDir,
   //  data.movement.speed, data.movement.isMoving);
   playerView.move(data.position.x, data.position.y);

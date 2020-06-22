@@ -14,8 +14,7 @@ struct PositionData {
 struct MovementData {
   int xDir;
   int yDir;
-  bool isMoving;
-  MSGPACK_DEFINE(xDir, yDir, isMoving)
+  MSGPACK_DEFINE(xDir, yDir)
 };
 
 #endif

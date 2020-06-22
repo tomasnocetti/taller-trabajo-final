@@ -33,6 +33,20 @@ double Entity::getPositionDistance(
     pow(otherXCenter - xCenter, 2) + pow(otherYCenter - yCenter, 2));
 }
 
+MovementData Entity::getPositionDirection(
+  const PositionData& from, const PositionData& to) {
+  MovementData a = {0, 0};
+  int dirX = to.x - from.x;
+  int dirY = to.y - from.y;
+
+  if (abs(dirX) > abs(dirY)) {
+    a.xDir = dirX >= 0 ? 1 : -1;
+  } else {
+    a.yDir = dirY >= 0 ? 1 : -1;
+  }
+  return a;
+}
+
 bool Entity::checkCollision(Entity& otherEntity) const{
   PositionData& otherp = otherEntity.position;
 

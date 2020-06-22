@@ -22,7 +22,8 @@ class Entity {
       const PositionData& p1,
       const PositionData& p2,
       double distance);
-    static MovementData get
+    static MovementData getPositionDirection(
+      const PositionData& from, const PositionData& to);
     bool checkCollision(Entity& otherEntity) const;
     bool checkInRange(Entity& otherEntity, double distance) const;
 };

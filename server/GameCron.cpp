@@ -39,9 +39,9 @@ CronBQ& GameCron::getBQ() {
 
 void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
   for (OtherPlayersData &player : players) {
-    std::cout << "Player " << player.id << " is moving? " <<
-      player.movement.isMoving << std::endl;
-    if (! player.movement.isMoving) continue;
+    // std::cout << "Player " << player.id << " is moving? " std::endl;
+    if (player.movement.xDir == 0 &&
+      player.movement.yDir == 0) continue;
     std::cout << "RUNNING PLAYERS MOVEMENT" << std::endl;
 
     int x = player.position.x + player.movement.xDir * SPEED;
