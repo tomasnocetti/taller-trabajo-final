@@ -21,6 +21,7 @@ class Player : public LiveEntity{
     ~Player();
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
+    void attack(Player &player, int xCoord, int yCoord);
 };
 
 #endif

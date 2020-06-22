@@ -107,9 +107,7 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
       i = std::unique_ptr<Instruction>(new AttackInstrucion(
         client.playerId,
         instruction.params[0].value,
-        instruction.params[1].value,
-        instruction.params[2].value,
-        instruction.params[3].value));
+        instruction.params[1].value));
       client.instructionQueue.push(std::move(i));
       break;
     case CLOSE_SERVER:

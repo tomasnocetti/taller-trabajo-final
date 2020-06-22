@@ -39,7 +39,7 @@ bool GameModel::authenticate(
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
   {100, 100, 25, 48}, {0, 0, 20, false}, 0, 0};
 
-  if (nick == "Fer") playerId  = 1// rand() % 100 + 1;
+  if (nick == "Fer") playerId  = 1; //rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -66,20 +66,15 @@ void GameModel::stopMovement(size_t playerId){
   players.at(playerId)->movement.isMoving = 0;
 }
 
-void GameModel::attack(size_t playerId, int xPos, int yPos, 
-  int width, int height){
-    for (auto& it : players){
-      if (players.at(it.first)->id == playerId) continue;
+void GameModel::attack(size_t playerId, int xPos, int yPos){
+  for (auto& it : players){
+    if (players.at(it.first)->id == playerId) continue;
 
-      if (!(players.at(it.first)->position.x <= xPos + width && 
-        players.at(it.first)->position.x >= xPos &&
-        players.at(it.first)->position.y >= yPos &&
-        players.at(it.first)->position.y <= yPos + height)) continue;
-
-      if (!players.at(playerId)->checkInRange(*it.second, 60)) continue;
+    if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE)) 
+      continue;
       
-      players.at(it.first)->health.currentHP -= 10;
-    }
+    players.at(playerId)->attack(*it.second, xPos, yPos);
+  }
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
@@ -87,21 +82,25 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   int auxYPos = players.at(playerId)->position.y;
   players.at(playerId)->position.x = x;
   players.at(playerId)->position.y = y;
-  
-  /*
+
   for (auto& it : players){
-    canMove = players.at(playerId)->checkCollision(*players.at(it.first));
+    if (players.at(it.first)->id == playerId) continue;
+    bool collision = players.at(playerId)->checkCollision(*it.second);
+    if (collision){
+        players.at(playerId)->position.x = auxXPos;
+        players.at(playerId)->position.y = auxYPos;
+        return;
+    }
   }
-  */
 
   for (auto &it : margins){
-    bool collission = players.at(playerId)->checkCollision(*it);
-    std::cout << "Collision? " << collission << std::endl;
-    if (!collission) return;
+    bool collision = players.at(playerId)->checkCollision(*it);
+    if (collision){
+      players.at(playerId)->position.x = auxXPos;
+      players.at(playerId)->position.y = auxYPos;
+      return;
+    }
   }
- 
-  players.at(playerId)->position.x = auxXPos;
-  players.at(playerId)->position.y = auxYPos;
 }
 
 void GameModel::eraseClient(size_t playerID){

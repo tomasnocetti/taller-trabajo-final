@@ -63,8 +63,7 @@ class StopMovementInstruction : public Instruction {
 
 class AttackInstrucion : public Instruction {
   public:
-    AttackInstrucion(size_t id, std::string xPos, std::string yPos,
-      std::string width, std::string height);
+    AttackInstrucion(size_t id, std::string xPos, std::string yPos);
     AttackInstrucion(const AttackInstrucion&) = delete;
     AttackInstrucion& operator=(const AttackInstrucion&) 
       = delete;
@@ -76,8 +75,6 @@ class AttackInstrucion : public Instruction {
     size_t playerId;
     int xPos;
     int yPos;
-    int width;
-    int height;
 };
 
 #endif

@@ -50,13 +50,11 @@ void StopMovementInstruction::run(GameModel& game) {
 }
 
 AttackInstrucion::AttackInstrucion(size_t id, std::string xPos, 
-  std::string yPos, std::string width, std::string height) :
+  std::string yPos) :
   playerId(id),
   xPos(stoi(xPos)),
-  yPos(stoi(yPos)),
-  width(stoi(width)),
-  height(stoi(height)) {}
-
+  yPos(stoi(yPos)){}
+  
 void AttackInstrucion::run(GameModel& game) {
-  game.attack(playerId, xPos, yPos, width, height);
+  game.attack(playerId, xPos, yPos);
 }
