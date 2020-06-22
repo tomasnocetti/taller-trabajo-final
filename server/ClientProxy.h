@@ -66,6 +66,7 @@ class ClientProxy{
     ResponseBQ& getUpdateBQ();
     void stop();
     bool isClose();
+    void join();
 };
 
 #endif

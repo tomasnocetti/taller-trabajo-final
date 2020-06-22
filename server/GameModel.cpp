@@ -67,6 +67,8 @@ void GameModel::stopMovement(size_t playerId){
 void GameModel::attack(size_t playerId, int xPos, int yPos, 
   int width, int height){
     for (auto& it : players){
+      if (players.at(it.first)->id == playerId) continue;
+
       if (!(players.at(it.first)->position.x <= xPos + width && 
         players.at(it.first)->position.x >= xPos &&
         players.at(it.first)->position.y >= yPos &&

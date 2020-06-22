@@ -38,6 +38,11 @@ bool ClientProxy::isClose(){
   return !running;
 }
 
+void ClientProxy::join(){
+  writeProxy.join();
+  readProxy.join();
+}
+
 ClientProxy::~ClientProxy(){}
 
 ClientProxyRead::ClientProxyRead(ClientProxy& client) :

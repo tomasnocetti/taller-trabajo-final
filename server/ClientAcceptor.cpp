@@ -46,6 +46,9 @@ void ClientAcceptor::acceptClient(){
 void ClientAcceptor::cleanCloseClients(){
   clientProxies.remove_if([](std::unique_ptr<ClientProxy> &i) {
     if (!i->isClose()) return false;
+
+    i->join();
+
     return true;
   });
 }
