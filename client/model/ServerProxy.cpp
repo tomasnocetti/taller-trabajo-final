@@ -32,18 +32,6 @@ void ServerProxy::init() {
   InstructionData instruction = {AUTHENTICATE, {nick}};
   writeBQ.push(instruction);
 
-  // ------ TEST CODE FOR PARSE OBJ LAYER
-  std::vector<struct ObjectLayerData>& objectl = m.getObjectLayers();
-
-  for (size_t i = 0; i < objectl.size(); i++){
-    std::cout << "layer: " << i + 1 << std::endl;
-    for (size_t j = 0; j < objectl[i].objects.size(); j++){
-      std::cout << objectl[i].objects[j].x << std::endl;
-      std::cout << objectl[i].objects[j].y << std::endl;
-      std::cout << objectl[i].objects[j].width << std::endl;
-      std::cout << objectl[i].objects[j].height << std::endl;
-    }
-  }
   mainPlayer.rootd.pclass = WARRIOR;
   mainPlayer.rootd.prace = HUMAN;
   mainPlayer.position.x = 100;
@@ -79,9 +67,6 @@ void ServerProxy::attack(int xPos, int yPos) {
   ParamData height = {std::to_string(mainPlayer.position.h)};
   InstructionData instruction = {ATTACK, {x, y, width, height}};
   writeBQ.push(instruction);
-  std::cout << xPos << std::endl;
-  std::cout << yPos << std::endl;
-  std::cout << std::endl;
 }
 
 MainPlayerData ServerProxy::getMainPlayerData() const {
@@ -93,10 +78,6 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
   map = gameModelData.map;
-  std::cout << "Jugador movido a: x:" << mainPlayer.position.y <<
-    " y: " << mainPlayer.position.x << std::endl;
-  std::cout << "Puntos de vida del jugador: " << mainPlayer.points.currentHP 
-    << std::endl;
 }
 
 MapData ServerProxy::getMapData() const {

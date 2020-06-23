@@ -23,8 +23,6 @@ void MainPlayerController::init(){
 
   playerView.init(
     manager.getTexture("clothes"), data.position.x, data.position.y);
-  std::cout << "x: "<< data.position.x << " y: "
-    << data.position.y << std::endl;
   checkRace(data.rootd.prace);
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y);
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y);
@@ -35,8 +33,6 @@ void MainPlayerController::update() {
   MainPlayerData data = model.getMainPlayerData();
   myMoveData.xDir = data.movement.xDir;
   myMoveData.yDir = data.movement.yDir;
-  //playerView.move(data.movement.xDir, data.movement.yDir,
-  //  data.movement.speed, data.movement.isMoving);
   playerView.move(data.position.x, data.position.y);
 
   healthBar.update(data.points.currentHP, data.points.totalHP);

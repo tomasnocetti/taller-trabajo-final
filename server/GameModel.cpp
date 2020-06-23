@@ -39,7 +39,7 @@ bool GameModel::authenticate(
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
   {100, 100, 25, 48}, {0, 0}, 0, 0};
 
-  if (nick == "Fer") playerId  = 1; //rand() % 100 + 1;
+  if (nick == "Fer") playerId  = 1; // rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -47,9 +47,6 @@ bool GameModel::authenticate(
   std::unique_ptr<Player> player(new Player(playerData, playerId));
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
-
-  std::cout << "Id " << players.at(playerId)->id <<
-   " cargado exitosamente." << std::endl;
 
   return true;
 }
@@ -102,7 +99,6 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
 }
 
 void GameModel::eraseClient(size_t playerID){
-  std::cout << "Borrando jugador: " << playerID << std::endl;
   players.erase(playerID);
   clientsBQ.erase(playerID);
 }
