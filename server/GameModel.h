@@ -8,15 +8,18 @@
 #include "services/MapParser.h"
 #include "responses/Response.h"
 #include "ecs/Player.h"
+#include "ecs/Npc.h"
 #include "../DataDefinitions.h"
 #include <map>
 
 class Player;
+class NPC;
 
 class GameModel{
   private:
     std::vector<std::unique_ptr<Entity>> margins;
     std::vector<EnemyData> npcs;
+    std::map<size_t, std::unique_ptr<NPC>> npcMap;
     std::map<size_t, ResponseBQ&> clientsBQ;
     std::map<size_t, std::unique_ptr<Player>> players;
     std::vector<OtherPlayersData> otherPlayers;
@@ -33,10 +36,12 @@ class GameModel{
     void move(size_t playerId, int x, int y);
     /* Handle stop_movement instruction */
     void stopMovement(size_t playerId);
-    /* Handle move instruction.
+    /* Handle playerSetCoords instruction.
     Chequea colisiones. Si lo puede mover, lo mueve, caso contrario el modelo
     permanece intalterado. */
     void playerSetCoords(size_t playerId, int x, int y);
+    /* Handle npcSetCoords instruction. */
+    void npcSetCoords(size_t playerId, int x, int y);
     /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
       Devuelve true si pudo o es valido, false de lo contrario. */
     bool authenticate(
@@ -50,6 +55,7 @@ class GameModel{
     void generatePlayerModel(size_t id, PlayerGameModelData &modelData);
     void propagate();
     void generateOtherPlayersGameData();
+    void generateNPCVector();
     /* Handle close instruction */
     void eraseClient(size_t playerId);
     /* Handle attack instruction */
