@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include <math.h>
+#include <iostream>
 
 Entity::Entity(PositionData& p) : position(p) {}
 
@@ -60,3 +61,8 @@ bool Entity::checkInRange(Entity& otherEntity, double distance) const{
 LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h) :
   Entity(p),
   health(h) {}
+
+void LiveEntity::rcvDamage(){
+  health.currentHP -= 10;
+  std::cout << "Puntos de vida restantes: " << health.currentHP << std::endl;
+}

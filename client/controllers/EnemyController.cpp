@@ -89,6 +89,10 @@ void EnemyController::update() {
 		otherPlayers.at(others[i].id)->move(others[i].position.x, 
 			others[i].position.y);
 	}
+
+	for(unsigned int i = 0; i < enemies.size(); i++){
+		enemies[i]->move(v[i].position.x, v[i].position.y);
+	}
 }
 
 EntityList& EnemyController::getNPCS(){

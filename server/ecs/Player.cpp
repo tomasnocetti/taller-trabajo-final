@@ -14,7 +14,7 @@ Player::Player(MainPlayerData playerData, size_t id) :
 
 Player::~Player(){}
 
-void Player::attack(Player &player, int xCoord, int yCoord){
+void Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   PositionData attackZoneData = {
     xCoord,
     yCoord,
@@ -22,9 +22,9 @@ void Player::attack(Player &player, int xCoord, int yCoord){
     ATTACK_ZONE_HEIGHT};
   Entity attackZone(attackZoneData);
   
-  bool attackSuccess = player.checkCollision(attackZone);
+  bool attackSuccess = entity.checkCollision(attackZone);
   
   if (!attackSuccess) return;
 
-  player.health.currentHP -= 10;
+  entity.rcvDamage();
 }

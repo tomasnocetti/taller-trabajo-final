@@ -8,5 +8,6 @@
 // CRON ENVS
 #define MIN_DISTANCE_NPC 100 // TODO -> MOVE TO DEFINITIONS
 #define SPEED 20
+#define SPEED_NPC 5
 
 #endif

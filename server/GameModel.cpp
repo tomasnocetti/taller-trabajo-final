@@ -70,6 +70,13 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     players.at(playerId)->attack(*it.second, xPos, yPos);
   }
+
+  for (auto& it : npcMap){
+    if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
+      continue;
+
+    players.at(playerId)->attack(*it.second, xPos, yPos);
+  }
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
@@ -107,15 +114,12 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   }
 }
 
-void GameModel::npcSetCoords(size_t id, int x, int y){
-  std::cout << "Set npc Coords" << std::endl;
-  
-  //int auxXPos = npcMap.at(id)->position.x;
-  //int auxYPos = players.at(id)->position.y;
-  //npcMap.at(id)->position.x = x;
-  //npcMap.at(id)->position.y = y;
+void GameModel::npcSetCoords(size_t id, int x, int y){  
+  int auxXPos = npcMap.at(id)->position.x;
+  int auxYPos = npcMap.at(id)->position.y;
+  npcMap.at(id)->position.x = x;
+  npcMap.at(id)->position.y = y;
 
-/*
   for (auto& it : players){
     bool collision = npcMap.at(id)->checkCollision(*it.second);
     if (collision){
@@ -143,7 +147,6 @@ void GameModel::npcSetCoords(size_t id, int x, int y){
         return;
     }
   }
-  */
 }
 
 void GameModel::eraseClient(size_t playerID){
@@ -153,6 +156,7 @@ void GameModel::eraseClient(size_t playerID){
 
 void GameModel::propagate() {
   generateOtherPlayersGameData();
+  generateNPCVector();
 
   std::unique_ptr<CronGameModelData> cronGameModelData(new CronGameModelData);
   cronGameModelData->npcs = npcs;
@@ -198,6 +202,18 @@ void GameModel::generateOtherPlayersGameData(){
   }
 }
 
+void GameModel::generateNPCVector(){
+  npcs.clear();
+  for (auto& it : npcMap){
+    EnemyData enemy;
+    enemy.id = npcMap.at(it.first)->id;
+    enemy.position = npcMap.at(it.first)->position;
+    enemy.movement = npcMap.at(it.first)->movement;
+    enemy.type = npcMap.at(it.first)->type;
+    npcs.push_back(std::move(enemy));
+  }
+}
+
 void GameModel::addNPCS(){
   struct EnemyData data;
   data.id = rand() % 100 + 1;
@@ -208,8 +224,7 @@ void GameModel::addNPCS(){
   data.movement.xDir = 0;
   data.movement.yDir = 1;
   data.type = SPIDER;
-  npcs.emplace_back(data);
-  HealthAndManaData points = {100, 0, 100, 0};
+  HealthAndManaData points = {100, 100, 0, 0};
 
   std::unique_ptr<NPC> spider(new NPC(data, points));
   npcMap.insert(std::pair<size_t,
@@ -224,22 +239,9 @@ void GameModel::addNPCS(){
   data.movement.xDir = 0;
   data.movement.yDir = 1;
   data.type = SPIDER;
-  npcs.emplace_back(data);
-  points = {100, 0, 100, 0};
+  points = {100, 100, 0, 0};
 
   std::unique_ptr<NPC> spider2(new NPC(data, points));
   npcMap.insert(std::pair<size_t,
   std::unique_ptr<NPC>>(data.id, std::move(spider2)));  
-
-/*
-  data.position.x = 200;
-  data.position.y = 100;
-  data.type = SKELETON;
-  npcs.emplace_back(data);
-
-  data.position.x = 300;
-  data.position.y = 100;
-  data.type = SPIDER;
-  npcs.emplace_back(data);
-*/
 }
