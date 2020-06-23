@@ -22,7 +22,7 @@ void ServerProxy::authentificate(std::string& alias) {
 
 void ServerProxy::init() {
   MapParser m;
-  m.loadMap("client/assets/map/pindonga3.json");
+  m.loadMap("client/assets/map/gameMap.json");
   map = m.getMapData();
 
   serverProxyWrite.start();

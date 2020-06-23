@@ -6,7 +6,7 @@
 
 int main() {
   try {
-    char mapPath[] = "client/assets/map/pindonga3.json";
+    char mapPath[] = "client/assets/map/gameMap.json";
     char port[] = "7777";
     GameServer game(port, mapPath);
     game.start();

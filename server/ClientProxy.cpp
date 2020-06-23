@@ -58,9 +58,9 @@ void ClientProxyRead::run(){
       handleInstruction(i);
     }
   } catch(const std::exception& e) {
-    std::cout << "ERROR CLIENT PROXY: " << e.what() << std::endl;
+    std::cout << "ERROR CLIENT PROXY READ: " << e.what() << std::endl;
   } catch(...) {
-    std::cout << "UNKOWN ERROR CLIENT PROXY" << std::endl;
+    std::cout << "UNKOWN ERROR CLIENT PROXY READ" << std::endl;
   }
 }
 
@@ -147,8 +147,8 @@ void ClientProxyWrite::run(){
     }
   } catch(const std::exception& e) {
     if (errno == 9) return;
-    std::cout << "ERROR CLIENT PROXY: " << e.what() << std::endl;
+    std::cout << "ERROR CLIENT PROXY WRITE: " << e.what() << std::endl;
   } catch(...) {
-    std::cout << "UNKOWN ERROR CLIENT PROXY" << std::endl;
+    std::cout << "UNKOWN ERROR CLIENT PROXY WRITE" << std::endl;
   }
 }
