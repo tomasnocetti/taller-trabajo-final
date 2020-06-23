@@ -7,6 +7,7 @@
 #include <string>
 #include "../../DataDefinitions.h"
 
+#define INVALID_MAP_FILE "Invalid Map file."
 
 class MapParser {
   public:
