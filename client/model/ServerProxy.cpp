@@ -22,7 +22,7 @@ void ServerProxy::authentificate(std::string& alias) {
 
 void ServerProxy::init() {
   MapParser m;
-  m.loadMap("client/assets/map/pindonga3.json");
+  m.loadMap("client/assets/map/gameMap.json");
   map = m.getMapData();
 
   serverProxyWrite.start();
@@ -75,9 +75,6 @@ MainPlayerData ServerProxy::getMainPlayerData() const {
 
 void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   mainPlayer = gameModelData.playerData;
-  for(unsigned int i = 0; i < gameModelData.npcs.size(); i++){
-    std::cout << "id: " << gameModelData.npcs[i].id << std::endl;
-  }
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
   map = gameModelData.map;

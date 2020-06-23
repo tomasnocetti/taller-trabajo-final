@@ -39,7 +39,7 @@ bool GameModel::authenticate(
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
   {100, 100, 25, 48}, {0, 0}, 0, 0};
 
-  if (nick == "Fer") playerId  = rand() % 100 + 1;
+  if (nick == "Fer") playerId  = 1; //rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -216,7 +216,7 @@ void GameModel::generateNPCVector(){
 
 void GameModel::addNPCS(){
   struct EnemyData data;
-  data.id = rand() % 100 + 1;
+  data.id = 1; //rand() % 100 + 1;
   data.position.x = 200;
   data.position.y = 100;
   data.position.w = 53;
@@ -230,8 +230,7 @@ void GameModel::addNPCS(){
   npcMap.insert(std::pair<size_t,
     std::unique_ptr<NPC>>(data.id, std::move(spider)));  
 
-  //data.id = rand() % 100 + 1;
-  data.id = 3;
+  data.id = 2; //rand() % 100 + 1;
   data.position.x = 200;
   data.position.y = 200;
   data.position.w = 53;

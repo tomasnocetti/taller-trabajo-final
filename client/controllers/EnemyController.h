@@ -2,6 +2,7 @@
 #define _ENEMY_CONTROLLER_H_
 
 #include <vector>
+#include <map>
 #include "../model/ServerProxy.h"
 #include "../sdl/SdlAssetsManager.h"
 #include "../../DataDefinitions.h"
@@ -17,7 +18,7 @@ class EnemyController {
   	void init();
     ~EnemyController();
     void update();
-    EntityList& getNPCS();
+    EntityList& getNPCs();
     EntityList& getOtherPlayers();
 
   private:
@@ -30,6 +31,8 @@ class EnemyController {
 
     Animation* checkType(NPCClass type);
     LTexture* checkRace(PlayerRace race);
+    void updateNPCs();
+    void updateOtherPlayers();
 };
 
 #endif
