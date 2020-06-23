@@ -13,9 +13,6 @@ SDL_Rect sdlScaleRect(SDL_Rect& r, double scaleW, double scaleH){
   });
 }
 
-bool sdlInRect(SDL_Rect& rect, int x, int y){
-  return (x < rect.x) ||
-    (x > (rect.x + rect.w)) ||
-    (y < rect.y) ||
-    (y > (rect.y + rect.h));
+SDL_Rect sdlDownscaleRect(SDL_Rect& rect, double scaleW, double scaleH){
+  return sdlScaleRect(rect, 1/scaleW, 1/scaleH);
 }

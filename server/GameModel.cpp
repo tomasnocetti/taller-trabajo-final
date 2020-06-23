@@ -70,6 +70,13 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     players.at(playerId)->attack(*it.second, xPos, yPos);
   }
+
+  for (auto& it : npcMap){
+    if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
+      continue;
+
+    players.at(playerId)->attack(*it.second, xPos, yPos);
+  }
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
@@ -107,39 +114,40 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   }
 }
 
-void GameModel::npcSetCoords(size_t id, int x, int y){  
-  int auxXPos = npcMap.at(id)->position.x;
-  int auxYPos = npcMap.at(id)->position.y;
-  npcMap.at(id)->position.x = x;
-  npcMap.at(id)->position.y = y;
+void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
+    int auxXPos = npcMap.at(id)->position.x;
+    int auxYPos = npcMap.at(id)->position.y;
+    
+    npcMap.at(id)->position.x = xPos;
+    npcMap.at(id)->position.y = yPos;
 
-  for (auto& it : players){
-    bool collision = npcMap.at(id)->checkCollision(*it.second);
-    if (collision){
+    for (auto& it : players){
+      bool collision = npcMap.at(id)->checkCollision(*it.second);
+      if (collision){
+          npcMap.at(id)->position.x = auxXPos;
+          npcMap.at(id)->position.y = auxYPos;
+          return;
+      }
+    }
+
+    for (auto &it : margins){
+      bool collision = npcMap.at(id)->checkCollision(*it);
+      if (collision){
         npcMap.at(id)->position.x = auxXPos;
         npcMap.at(id)->position.y = auxYPos;
         return;
+      }
     }
-  }
 
-  for (auto &it : margins){
-    bool collision = npcMap.at(id)->checkCollision(*it);
-    if (collision){
-      npcMap.at(id)->position.x = auxXPos;
-      npcMap.at(id)->position.y = auxYPos;
-      return;
+    for (auto& it : npcMap){
+      if (npcMap.at(it.first)->id == id) continue;
+      bool collision = npcMap.at(id)->checkCollision(*it.second);
+      if (collision){
+          npcMap.at(id)->position.x = auxXPos;
+          npcMap.at(id)->position.y = auxYPos;
+          return;
+      }
     }
-  }
-
-  for (auto& it : npcMap){
-    if (npcMap.at(it.first)->id == id) continue;
-    bool collision = npcMap.at(id)->checkCollision(*it.second);
-    if (collision){
-        npcMap.at(id)->position.x = auxXPos;
-        npcMap.at(id)->position.y = auxYPos;
-        return;
-    }
-  }
 }
 
 void GameModel::eraseClient(size_t playerID){
@@ -217,7 +225,7 @@ void GameModel::addNPCS(){
   data.movement.xDir = 0;
   data.movement.yDir = 1;
   data.type = SPIDER;
-  HealthAndManaData points = {100, 0, 100, 0};
+  HealthAndManaData points = {100, 100, 0, 0};
 
   std::unique_ptr<NPC> spider(new NPC(data, points));
   npcMap.insert(std::pair<size_t,
@@ -231,7 +239,7 @@ void GameModel::addNPCS(){
   data.movement.xDir = 0;
   data.movement.yDir = 1;
   data.type = SPIDER;
-  points = {100, 0, 100, 0};
+  points = {100, 100, 0, 0};
 
   std::unique_ptr<NPC> spider2(new NPC(data, points));
   npcMap.insert(std::pair<size_t,

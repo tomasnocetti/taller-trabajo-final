@@ -32,7 +32,7 @@ void CApp::OnExecute() {
   OnCleanup();
 }
 
-void CApp::OnEvent(const SDL_Event& e) {
+void CApp::OnEvent(SDL_Event& e) {
   if (e.type == SDL_QUIT) {
     model.close();
     Running = false;
@@ -71,7 +71,7 @@ void CApp::OnRender() {
       globalViewport.paint(globalController.getEntities());
       mapViewport.paint(mapController.getEntities(),
         playerController.getEntity(),
-        enemyController.getNPCS(), 
+        enemyController.getNPCS(),
         enemyController.getOtherPlayers());
       lifeViewport.paint(playerController.getBars());
       break;

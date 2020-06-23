@@ -48,7 +48,7 @@ class CApp {
     EnemyController enemyController;
     void OnInit();
     void LoadAssets();
-    void OnEvent(const SDL_Event& Event);
+    void OnEvent(SDL_Event& Event);
     void OnLoop();
     void OnRender();
     void OnCleanup();

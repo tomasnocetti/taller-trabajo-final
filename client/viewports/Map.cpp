@@ -8,7 +8,7 @@ void Map::init() {
 }
 
 void Map::setMaxCameraDimensions(MapData data){
-	this->camera.setMaxDimensions(data.width * data.tilewidth, 
+	this->camera.setMaxDimensions(data.width * data.tilewidth,
 		data.height * data.tileheight);
 }
 
@@ -32,11 +32,11 @@ void Map::paint(EntityList& entities, Entity &player, EntityList& enemies,
 }
 
 int Map::getCameraX() {
-  return camera.getX() * getScaleWidthFactor();
+  return camera.getX();
 }
 
 int Map::getCameraY() {
-  return camera.getY() * getScaleHeightFactor();
+  return camera.getY();
 }
 
 Map::~Map() {}

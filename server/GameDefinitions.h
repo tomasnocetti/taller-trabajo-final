@@ -1,6 +1,8 @@
 #ifndef GAME_DEFINITIONS_H
 #define GAME_DEFINITIONS_H
 
+#include "definitions/PlayerDefinitions.h"
+
 #define ATTACK_ZONE_WIDTH 30
 #define ATTACK_ZONE_HEIGHT 30
 #define MAX_RANGE_ZONE 800
