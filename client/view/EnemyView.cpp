@@ -21,5 +21,6 @@ void EnemyView::paint(const Camera &camera, double scaleW, double scaleH){
 
 EnemyView::~EnemyView(){
 	if(animation == nullptr) return;
+	
 	delete animation;
 }

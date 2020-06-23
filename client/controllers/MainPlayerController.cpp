@@ -29,6 +29,7 @@ void MainPlayerController::init(){
 
 void MainPlayerController::update() {
   MainPlayerData data = model.getMainPlayerData();
+  //std::cout << "mi id es: " << data.id << std::endl;
   playerView.move(data.position.x, data.position.y);
 
   healthBar.update(data.points.currentHP, data.points.totalHP);

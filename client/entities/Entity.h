@@ -15,6 +15,6 @@ class Entity {
     virtual ~Entity() {}
 };
 
-using EntityList = std::vector<std::unique_ptr<Entity>>;
+using EntityList = std::vector<std::shared_ptr<Entity>>;
 
 #endif
