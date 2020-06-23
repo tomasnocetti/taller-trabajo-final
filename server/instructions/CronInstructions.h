@@ -22,7 +22,7 @@ class PlayerSetCoordsInstruction: public Instruction {
 
 class NPCSetCoordsInstruction: public Instruction {
   public:
-    NPCSetCoordsInstruction(size_t id, int x, int y);
+    NPCSetCoordsInstruction(size_t id, int xPos, int yPos, int xDir, int yDir);
     NPCSetCoordsInstruction(
       const NPCSetCoordsInstruction&) = delete;
     NPCSetCoordsInstruction& operator=(
@@ -33,8 +33,10 @@ class NPCSetCoordsInstruction: public Instruction {
 
   private:
     size_t npcId;
-    int x;
-    int y;
+    int xPos;
+    int yPos;
+    int xDir;
+    int yDir;
 };
 
 #endif
