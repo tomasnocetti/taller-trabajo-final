@@ -39,7 +39,7 @@ bool GameModel::authenticate(
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
   {100, 100, 25, 48}, {0, 0}, 0, 0};
 
-  //if (nick == "Fer") playerId  = rand() % 100 + 1;
+  if (nick == "Fer") playerId  = rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -70,6 +70,14 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     players.at(playerId)->attack(*it.second, xPos, yPos);
   }
+
+  for (auto& it : npcMap){
+    if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
+      continue;
+
+    players.at(playerId)->attack(*it.second, xPos, yPos);
+  }
+
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
@@ -209,7 +217,7 @@ void GameModel::generateNPCVector(){
 
 void GameModel::addNPCS(){
   struct EnemyData data;
-  //data.id =  rand() % 100 + 1;
+  data.id =  rand() % 100 + 1;
   data.position.x = 200;
   data.position.y = 100;
   data.position.w = 53;
@@ -217,13 +225,13 @@ void GameModel::addNPCS(){
   data.movement.xDir = 0;
   data.movement.yDir = 1;
   data.type = SPIDER;
-  HealthAndManaData points = {100, 0, 100, 0};
+  HealthAndManaData points = {100, 100, 0, 0};
 
   std::unique_ptr<NPC> spider(new NPC(data, points));
   npcMap.insert(std::pair<size_t,
     std::unique_ptr<NPC>>(data.id, std::move(spider)));  
 
-  //data.id =  rand() % 100 + 1;
+  data.id =  rand() % 100 + 1;
   data.position.x = 200;
   data.position.y = 200;
   data.position.w = 53;
@@ -231,7 +239,7 @@ void GameModel::addNPCS(){
   data.movement.xDir = 0;
   data.movement.yDir = 1;
   data.type = SPIDER;
-  points = {100, 0, 100, 0};
+  points = {100, 100, 0, 0};
 
   std::unique_ptr<NPC> spider2(new NPC(data, points));
   npcMap.insert(std::pair<size_t,

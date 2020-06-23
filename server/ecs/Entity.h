@@ -34,10 +34,12 @@ class Entity {
  */
 class LiveEntity: public Entity {
   protected:
+    friend class GameModel;
     HealthAndManaData health;
   public:
     LiveEntity(PositionData& p, HealthAndManaData& h);
     void move();
+    void rcvDamage();
 };
 
 #endif
