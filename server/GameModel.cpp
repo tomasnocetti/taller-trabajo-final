@@ -114,25 +114,18 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   }
 }
 
-void GameModel::npcSetCoords(size_t id, int xPos, int yPos, 
-  int xDir, int yDir){  
+void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
     int auxXPos = npcMap.at(id)->position.x;
     int auxYPos = npcMap.at(id)->position.y;
-    int auxXDir = npcMap.at(id)->movement.xDir;
-    int auxYDir = npcMap.at(id)->movement.yDir;
     
     npcMap.at(id)->position.x = xPos;
     npcMap.at(id)->position.y = yPos;
-    npcMap.at(id)->movement.xDir = xDir;
-    npcMap.at(id)->movement.yDir = yDir;
 
     for (auto& it : players){
       bool collision = npcMap.at(id)->checkCollision(*it.second);
       if (collision){
           npcMap.at(id)->position.x = auxXPos;
           npcMap.at(id)->position.y = auxYPos;
-          npcMap.at(id)->movement.xDir = auxXDir;
-          npcMap.at(id)->movement.yDir = auxYDir;
           return;
       }
     }
@@ -142,8 +135,6 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos,
       if (collision){
         npcMap.at(id)->position.x = auxXPos;
         npcMap.at(id)->position.y = auxYPos;
-        npcMap.at(id)->movement.xDir = auxXDir;
-        npcMap.at(id)->movement.yDir = auxYDir;
         return;
       }
     }
@@ -154,8 +145,6 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos,
       if (collision){
           npcMap.at(id)->position.x = auxXPos;
           npcMap.at(id)->position.y = auxYPos;
-          npcMap.at(id)->movement.xDir = auxXDir;
-          npcMap.at(id)->movement.yDir = auxYDir;
           return;
       }
     }

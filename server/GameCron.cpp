@@ -79,7 +79,7 @@ void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
   int y = npc.y + d.yDir * SPEED_NPC;
 
   std::unique_ptr<Instruction> i(
-      new NPCSetCoordsInstruction(id, x, y, d.xDir, d.yDir));
+      new NPCSetCoordsInstruction(id, x, y));
     instructionQueue.push(std::move(i));
 }
 
