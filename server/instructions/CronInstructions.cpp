@@ -20,6 +20,4 @@ NPCSetCoordsInstruction::NPCSetCoordsInstruction(size_t id,
 
 void NPCSetCoordsInstruction::run(GameModel& game) {
   game.npcSetCoords(npcId, x, y);
-  std::cout << "SET COORDS NPC : "
-    << npcId << " A x: " << x << " y: " << y << std::endl;
 }
