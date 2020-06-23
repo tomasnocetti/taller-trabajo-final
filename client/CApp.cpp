@@ -71,7 +71,11 @@ void CApp::OnRender() {
       globalViewport.paint(globalController.getEntities());
       mapViewport.paint(mapController.getEntities(),
         playerController.getEntity(),
+<<<<<<< HEAD
         enemyController.getNPCS(),
+=======
+        enemyController.getNPCs(),
+>>>>>>> 77f6abf5aacb607c78b428fa85a8bf55cbd43f37
         enemyController.getOtherPlayers());
       lifeViewport.paint(playerController.getBars());
       break;

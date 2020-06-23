@@ -5,6 +5,7 @@
 #include "../view/GoblinAnimation.h"
 #include "../view/SpiderAnimation.h"
 #include <vector>
+#include <map>
 #include <iostream>
 
 EnemyController::EnemyController(
@@ -12,75 +13,34 @@ EnemyController::EnemyController(
   SdlAssetsManager& manager) : 
   model(model), manager(manager) {}
 
-void EnemyController::init(){
-  /** LOAD ASSETS ON INIT **/
-  std::vector<EnemyData> v = model.getNPCData();
-
-  for (unsigned int i = 0; i < v.size(); i++){
-  	Animation* animation = checkType(v[i].type);
-  	enemies.emplace_back(
-      new EnemyView(
-        v[i].position.x,
-        v[i].position.y,
-  		  animation));
-  }
-
-	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
-	for (unsigned int i = 0; i < others.size(); i++){
-		LTexture* texture = manager.getTexture("clothes");
-		PlayerView* player = new PlayerView();
-		player->init(texture, others[i].position.x, others[i].position.y);
-		LTexture* head = checkRace(others[i].rootd.prace);
-		player->setHead(head);
-		otherPlayers.emplace_back(player);
-  }
+void EnemyController::init() {
+	//aca me gustaria setear el ID, cosa que
+	//no muestre al jugador principal como otro jugador
 }
 
 void EnemyController::update() {
-	std::vector<EnemyData> v = model.getNPCData();
-	if(v.size() > enemies.size()) {
-		unsigned int previousSize = enemies.size();
-		enemies.reserve(v.size());
-		for(unsigned int i = previousSize; i < v.size(); i++){
-			Animation* animation = checkType(v[i].type);
-			enemies.emplace_back(
-      new EnemyView(
-        v[i].position.x,
-        v[i].position.y,
-  		  animation));
-		}
-	}
-
-	//para agregar otro jugador despues del inicio
-	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
-	if(others.size() > otherPlayers.size()) {
-		unsigned int previousSize = otherPlayers.size();
-		otherPlayers.reserve(v.size());
-		for(unsigned int i = previousSize; i < others.size(); i++){
-			LTexture* texture = manager.getTexture("plate-armor");
-			PlayerView* player = new PlayerView();
-			player->init(texture, others[i].position.x, others[i].position.y);
-			LTexture* head = checkRace(others[i].rootd.prace);
-			player->setHead(head);
-			otherPlayers.emplace_back(player);
-		}
-	}
-
-	for(unsigned int i = 0; i < otherPlayers.size(); i++){
-		otherPlayers[i]->move(others[i].position.x, others[i].position.y);
-	}
-
-	for(unsigned int i = 0; i < enemies.size(); i++){
-		enemies[i]->move(v[i].position.x, v[i].position.y);
-	}
+	updateNPCs();
+	updateOtherPlayers();
 }
 
-EntityList& EnemyController::getNPCS(){
-	return enemies;
+EntityList& EnemyController::getNPCs(){
+	enemyVector.clear();
+	std::map<size_t, std::shared_ptr<Entity>>::iterator it;
+	for(it = enemies.begin(); it != enemies.end(); ++it) {
+    enemyVector.emplace_back(it->second);
+  }
+
+  return enemyVector;
 }
 
 EntityList& EnemyController::getOtherPlayers(){
-	return otherPlayers;
+	otherPlayersVector.clear();
+	std::map<size_t, std::shared_ptr<Entity>>::iterator it;
+	for(it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
+    otherPlayersVector.emplace_back(it->second);
+  }
+
+  return otherPlayersVector;
 }
 
 Animation* EnemyController::checkType(NPCClass type){
@@ -118,9 +78,80 @@ LTexture* EnemyController::checkRace(PlayerRace race) {
     case HUMAN:
       return manager.getTexture("human-head");
     break;
+    case GNOME:
+      return manager.getTexture("gnome-head");
+    break;
     default:
 			return nullptr;
     break;
+  }
+}
+
+void EnemyController::updateNPCs(){
+	std::vector<EnemyData> npcs = model.getNPCData();
+	for(unsigned int i = 0; i < npcs.size(); i++){
+		if(enemies.count(npcs[i].id) <= 0){
+			Animation* animation = checkType(npcs[i].type);
+			std::shared_ptr<EnemyView> enemy(new EnemyView(
+				npcs[i].position.x, npcs[i].position.y, animation));
+			enemies.emplace(npcs[i].id, enemy);
+		}
+		enemies.at(npcs[i].id)->move(npcs[i].position.x, npcs[i].position.y);
+	}
+
+	std::vector<size_t> eraseVector;
+	std::map<size_t, std::shared_ptr<Entity>>::iterator it;
+	for(it = enemies.begin(); it != enemies.end(); ++it) {
+		bool erase = true;
+    for (unsigned int i = 0; i < npcs.size(); i++){
+    	if(it->first == npcs[i].id){
+    		erase = false;
+    		break;
+    	}
+    }
+    if (erase){
+    	eraseVector.emplace_back(it->first);
+    }
+  }
+
+  for (unsigned int i = 0; i < eraseVector.size(); i++){
+  	enemies.erase(eraseVector[i]);
+  }
+}
+
+void EnemyController::updateOtherPlayers(){
+	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
+	for(unsigned int i = 0; i < others.size(); i++){
+		if(otherPlayers.count(others[i].id) <= 0){
+			std::cout << "jugador: " << others[i].id << std::endl;
+			LTexture* texture = manager.getTexture("plate-armor");
+			std::shared_ptr<PlayerView> player(new PlayerView());
+			player->init(texture, others[i].position.x, others[i].position.y);
+			LTexture* head = checkRace(others[i].rootd.prace);
+			player->setHead(head);
+			otherPlayers.emplace(others[i].id, player);
+		}
+		otherPlayers.at(others[i].id)->move(others[i].position.x, 
+			others[i].position.y);
+	}
+
+	std::vector<size_t> eraseVector;
+	std::map<size_t, std::shared_ptr<Entity>>::iterator it;
+	for(it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
+		bool erase = true;
+    for (unsigned int i = 0; i < others.size(); i++){
+    	if(it->first == others[i].id){
+    		erase = false;
+    		break;
+    	}
+    }
+    if (erase){
+    	eraseVector.emplace_back(it->first);
+    }
+  }
+
+  for (unsigned int i = 0; i < eraseVector.size(); i++){
+  	enemies.erase(eraseVector[i]);
   }
 }
 
