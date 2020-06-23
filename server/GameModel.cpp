@@ -236,5 +236,4 @@ void GameModel::addNPCS(){
   std::unique_ptr<NPC> spider2(new NPC(data, points));
   npcMap.insert(std::pair<size_t,
   std::unique_ptr<NPC>>(data.id, std::move(spider2)));  
-
 }
