@@ -1,7 +1,7 @@
 #ifndef __SDL_WINDOW_H__
 #define __SDL_WINDOW_H__
 #include "LTexture.h"
-
+#include "SdlUtils.h"
 class SdlWindow {
 public:
     /**
@@ -12,7 +12,8 @@ public:
     SdlWindow& operator=(const SdlWindow&) = delete;
     ~SdlWindow();
     void fill();
-    void handleEvent(const SDL_Event& e);
+    /** Este handler modifica al evento para adaptarlo a una escala real ! **/
+    void handleEvent(SDL_Event& e);
     void fill(int r, int g, int b, int alpha);
     void render();
     void clear();

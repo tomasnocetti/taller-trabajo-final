@@ -46,7 +46,9 @@ void MainPlayerController::handleEvent(const SDL_Event &e,
 
   if (e.type == SDL_MOUSEBUTTONDOWN){
     if (e.button.button == SDL_BUTTON_LEFT){
-      model.attack(e.button.x + cameraX - 11, e.button.y + cameraY - 154);
+      model.attack(
+        e.button.x + cameraX - MAIN_SCREEN_BASE_MAP_X,
+        e.button.y + cameraY - MAIN_SCREEN_BASE_MAP_Y);
     }
   }
 

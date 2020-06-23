@@ -5,6 +5,6 @@
 
 SDL_Rect sdlScaleRect(SDL_Rect& r, double scaleW, double scaleH);
 
-bool sdlInRect(SDL_Rect& r, int x, int y);
+SDL_Rect sdlDownscaleRect(SDL_Rect& rect, double scaleW, double scaleH);
 
 #endif

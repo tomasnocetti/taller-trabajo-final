@@ -8,6 +8,11 @@
 
 #define MARGIN_LAYER "margenes"
 
+#define MAIN_SCREEN_BASE_MAP_X 11
+#define MAIN_SCREEN_BASE_MAP_Y 154
+#define MAIN_SCREEN_BASE_MAP_W 542
+#define MAIN_SCREEN_BASE_MAP_H 413
+
 struct ObjectLayerData {
   int id;
   std::string name;
