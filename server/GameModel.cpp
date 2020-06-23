@@ -77,7 +77,6 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     players.at(playerId)->attack(*it.second, xPos, yPos);
   }
-
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
