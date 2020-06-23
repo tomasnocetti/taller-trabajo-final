@@ -15,12 +15,10 @@ MainPlayerController::MainPlayerController(
 
 void MainPlayerController::init(){
   MainPlayerData data = model.getMainPlayerData();
-  myMoveData.xDir = data.movement.xDir;
-  myMoveData.yDir = data.movement.yDir;
 
   TTF_Font* font = manager.getFont("main");
   LTexture* goldTexture = manager.getTexture("gold");
-
+  
   playerView.init(
     manager.getTexture("clothes"), data.position.x, data.position.y);
   checkRace(data.rootd.prace);
@@ -31,8 +29,7 @@ void MainPlayerController::init(){
 
 void MainPlayerController::update() {
   MainPlayerData data = model.getMainPlayerData();
-  myMoveData.xDir = data.movement.xDir;
-  myMoveData.yDir = data.movement.yDir;
+  //std::cout << "mi id es: " << data.id << std::endl;
   playerView.move(data.position.x, data.position.y);
 
   healthBar.update(data.points.currentHP, data.points.totalHP);

@@ -2,6 +2,7 @@
 #define _ENEMY_CONTROLLER_H_
 
 #include <vector>
+#include <map>
 #include "../model/ServerProxy.h"
 #include "../sdl/SdlAssetsManager.h"
 #include "../../DataDefinitions.h"
@@ -17,18 +18,21 @@ class EnemyController {
   	void init();
     ~EnemyController();
     void update();
-    EntityList& getNPCS();
+    EntityList& getNPCs();
     EntityList& getOtherPlayers();
 
   private:
     ServerProxy& model;
     SdlAssetsManager& manager;
-    EntityList enemies;
-    EntityList otherPlayers;
-    EntityList entities;
+    EntityList enemyVector;
+    EntityList otherPlayersVector;
+    std::map<size_t, std::shared_ptr<Entity>> enemies;
+    std::map<size_t, std::shared_ptr<Entity>> otherPlayers;
 
     Animation* checkType(NPCClass type);
     LTexture* checkRace(PlayerRace race);
+    void updateNPCs();
+    void updateOtherPlayers();
 };
 
 #endif
