@@ -12,6 +12,9 @@ void MapParser::loadMap(char* src) {
   Json::Value root;
 
   std::ifstream file(src, std::ifstream::binary);
+  if ((file.rdstate() & std::ifstream::failbit ) != 0)
+    throw std::invalid_argument(INVALID_MAP_FILE);
+  
   file >> root;
 
   mapData.height = root["height"].asInt();
