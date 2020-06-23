@@ -39,7 +39,7 @@ class ClientProxyRead: public Thread {
     InstructionData getInstruction();
 };
 
-class ClientProxy {
+class ClientProxy{
   private:
     std::atomic<bool> running;
     std::atomic<bool> authenticated;
@@ -65,6 +65,8 @@ class ClientProxy {
     void setPlayerId(size_t id);
     ResponseBQ& getUpdateBQ();
     void stop();
+    bool isClose();
+    void join();
 };
 
 #endif

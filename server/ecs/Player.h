@@ -11,6 +11,7 @@ class Player : public LiveEntity{
     size_t id;
     PlayerRootData root;
     Inventory inventory;
+    MovementData movement;
     size_t gold;
     size_t level;
     friend class GameModel;
@@ -20,7 +21,7 @@ class Player : public LiveEntity{
     ~Player();
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
-    void move(std::string x, std::string y);
+    void attack(Player &player, int xCoord, int yCoord);
 };
 
 #endif

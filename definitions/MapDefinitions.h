@@ -6,13 +6,12 @@
 #include <vector>
 #include <msgpack.hpp>
 
-#define MARGIN_LAYER "margins"
+#define MARGIN_LAYER "margenes"
 
 struct ObjectLayerData {
   int id;
   std::string name;
   std::vector<struct ObjectData> objects;
-  MSGPACK_DEFINE(id, name, objects)
 };
 
 struct ObjectData {
@@ -20,7 +19,6 @@ struct ObjectData {
   int y;
   int width;
   int height;
-  MSGPACK_DEFINE(x, y, width, height)
 };
 
 struct TileSetData {

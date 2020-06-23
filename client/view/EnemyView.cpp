@@ -7,32 +7,9 @@ EnemyView::EnemyView(int x, int y, Animation *animation) {
 	animation->set(FORWARD_STAND);
 }
 
-void EnemyView::move(int xDir, int yDir, int speed, bool isMoving){
-	if(isMoving){
-		if(xDir == 0 && yDir < 0){
-			y += yDir * speed;
-			animation->set(BACK_WALK);
-	} else if (xDir == 0 && yDir > 0){
-			y += yDir * speed;
-			animation->set(FORWARD_WALK);
-	} else if (xDir < 0 && yDir == 0){
-			x += xDir * speed;
-			animation->set(LEFT_WALK);
-	} else if (xDir > 0 && yDir == 0){
-			x += xDir * speed;
-			animation->set(RIGHT_WALK);
-		}
-	} else {
-		if(xDir == 0 && yDir < 0){
-				animation->set(BACK_STAND);
-		} else if (xDir == 0 && yDir > 0){
-				animation->set(FORWARD_STAND);
-		} else if (xDir < 0 && yDir == 0){
-				animation->set(LEFT_STAND);
-		} else if (xDir > 0 && yDir == 0){
-				animation->set(RIGHT_STAND);
-		}
-	}
+void EnemyView::move(int x, int y) {
+	this->x = x;
+	this->y = y;
 }
 
 void EnemyView::paint(const Camera &camera, double scaleW, double scaleH){

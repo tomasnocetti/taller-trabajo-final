@@ -14,7 +14,18 @@ class Entity {
     PositionData position;
   public:
     explicit Entity(PositionData& p);
+    static bool checkPositionCollision(
+      const PositionData& p1, const PositionData&p2);
+    static double getPositionDistance(
+      const PositionData& p1, const PositionData&p2);
+    static bool checkPositionInRange(
+      const PositionData& p1,
+      const PositionData& p2,
+      double distance);
+    static MovementData getPositionDirection(
+      const PositionData& from, const PositionData& to);
     bool checkCollision(Entity& otherEntity) const;
+    bool checkInRange(Entity& otherEntity, double distance) const;
 };
 
 /**

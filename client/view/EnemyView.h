@@ -8,8 +8,8 @@
 class EnemyView : public Entity {
 	public:
 		EnemyView(int x, int y, Animation* animation);
-		void move(int xDir, int yDir, int speed, bool isMoving) override;
-		void paint(double scaleW, double scaleH) override {};
+		void move(int x, int y) override;
+		void paint(double scaleW, double scaleH) override {}
     void paint(const Camera &camera, 
     	double scaleW, double scaleH) override;
 		EnemyView(const EnemyView&) = delete;

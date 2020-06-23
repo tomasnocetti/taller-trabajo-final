@@ -16,14 +16,14 @@ void EnemyController::init(){
   /** LOAD ASSETS ON INIT **/
   std::vector<EnemyData> v = model.getNPCData();
 
-  /*for (unsigned int i = 0; i < v.size(); i++){
+  for (unsigned int i = 0; i < v.size(); i++){
   	Animation* animation = checkType(v[i].type);
   	enemies.emplace_back(
       new EnemyView(
         v[i].position.x,
         v[i].position.y,
   		  animation));
-  }*/
+  }
 
 	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
 	for (unsigned int i = 0; i < others.size(); i++){
@@ -52,7 +52,6 @@ void EnemyController::update() {
 	}
 
 	//para agregar otro jugador despues del inicio
-	static int add = 0;
 	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
 	if(others.size() > otherPlayers.size()) {
 		unsigned int previousSize = otherPlayers.size();
@@ -67,16 +66,9 @@ void EnemyController::update() {
 		}
 	}
 
-	for(unsigned int i = 0; i < others.size(); i++){
-		//model.moveNPC(i, 1, 0);
-		otherPlayers[i]->move(others[i].movement.xDir, others[i].movement.yDir, 
-			others[i].movement.speed, others[i].movement.isMoving);
+	for(unsigned int i = 0; i < otherPlayers.size(); i++){
+		otherPlayers[i]->move(others[i].position.x, others[i].position.y);
 	}
-
-	if(add == 100)
-		model.add();
-	
-	add++;
 }
 
 EntityList& EnemyController::getNPCS(){

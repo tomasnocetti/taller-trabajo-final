@@ -13,9 +13,8 @@ PlayerGameResponse::PlayerGameResponse(std::string &buffer) :
         msgpack::unpack(buffer.data(), buffer.size());
   msgpack::object deserialized = oh.get();
   model = deserialized.as<PlayerGameModelData>();
-  std::cout << deserialized << std::endl;
 }
 
 void PlayerGameResponse::run(ServerProxy& server) {
-  //server.setGameModelData(model);
+  server.setGameModelData(model);
 }

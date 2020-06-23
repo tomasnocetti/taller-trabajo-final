@@ -36,11 +36,10 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {0, 0},
-  {0, 0, 0, 0}, {0, 0, 0}};
+  MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
+  {100, 100, 25, 48}, {0, 0}, 0, 0};
 
-  if (nick == "Fer") playerId = 1;
-  if (nick == "Tomi") playerId = 2;
+  if (nick == "Fer") playerId  = 1; // rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -49,40 +48,69 @@ bool GameModel::authenticate(
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
-  std::cout << "Id " << players.at(playerId)->id <<
-   " cargado exitosamente." << std::endl;
-
   return true;
 }
 
 void GameModel::move(size_t playerId, int x, int y) {
-  // bool canMove = true;
+  players.at(playerId)->movement.xDir = x;
+  players.at(playerId)->movement.yDir = y;
+}
 
-  /** SEARCH PLAYER */
+void GameModel::stopMovement(size_t playerId){
+  players.at(playerId)->movement.xDir = 0;
+  players.at(playerId)->movement.yDir = 0;
+}
 
-  // MainPlayerData playerProxyData;
-  // Player playerproxy(playerProxyData, -1);
+void GameModel::attack(size_t playerId, int xPos, int yPos){
+  for (auto& it : players){
+    if (players.at(it.first)->id == playerId) continue;
 
-  // playerproxy.move(instruction.params.at(0).value,
-  //   instruction.params.at(1).value);
+    if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
+      continue;
 
-  // for (auto&it : players){
-  //   if (it.first == instruction.playerId) continue;
-  //   canMove = playerproxy.checkCollision(*it.second);
-  // }
+    players.at(playerId)->attack(*it.second, xPos, yPos);
+  }
+}
 
-  // std::cout << canMove << std::endl;
+void GameModel::playerSetCoords(size_t playerId, int x, int y) {
+  int auxXPos = players.at(playerId)->position.x;
+  int auxYPos = players.at(playerId)->position.y;
+  players.at(playerId)->position.x = x;
+  players.at(playerId)->position.y = y;
 
-  // if (!canMove) return canMove;
+  for (auto& it : players){
+    if (players.at(it.first)->id == playerId) continue;
+    bool collision = players.at(playerId)->checkCollision(*it.second);
+    if (collision){
+        players.at(playerId)->position.x = auxXPos;
+        players.at(playerId)->position.y = auxYPos;
+        return;
+    }
+  }
 
-  // players.at(instruction.playerId)->move(instruction.params.at(0).value,
-  //   instruction.params.at(1).value);
+  for (auto &it : margins){
+    bool collision = players.at(playerId)->checkCollision(*it);
+    if (collision){
+      players.at(playerId)->position.x = auxXPos;
+      players.at(playerId)->position.y = auxYPos;
+      return;
+    }
+  }
+}
 
-  // return canMove;
+void GameModel::eraseClient(size_t playerID){
+  players.erase(playerID);
+  clientsBQ.erase(playerID);
 }
 
 void GameModel::propagate() {
   generateOtherPlayersGameData();
+
+  std::unique_ptr<CronGameModelData> cronGameModelData(new CronGameModelData);
+  //cronGameModelData->npcs = npcs;
+  cronGameModelData->otherPlayers = otherPlayers;
+  cronBQ.push(std::move(cronGameModelData));
+
   for (auto& it : players){
     PlayerGameModelData modelData = {};
 
@@ -96,7 +124,7 @@ void GameModel::propagate() {
 }
 
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
-  //modelData.npcs = npcs;
+  modelData.npcs = npcs;
   //modelData.map = map;
 
   modelData.playerData.gold = players.at(id)->gold;
@@ -105,6 +133,7 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.playerData.level = players.at(id)->level;
   modelData.playerData.position = players.at(id)->position;
   modelData.playerData.rootd = players.at(id)->root;
+  modelData.playerData.movement = players.at(id)->movement;
 
   modelData.otherPlayers = otherPlayers;
 }
@@ -115,7 +144,28 @@ void GameModel::generateOtherPlayersGameData(){
     OtherPlayersData otherPlayer;
     otherPlayer.id = players.at(it.first)->id;
     otherPlayer.position = players.at(it.first)->position;
+    otherPlayer.movement = players.at(it.first)->movement;
     otherPlayer.rootd = players.at(it.first)->root;
     otherPlayers.push_back(std::move(otherPlayer));
   }
+}
+
+void GameModel::addNPCS(){
+  struct EnemyData data;
+  data.position.x = 100;
+  data.position.y = 100;
+  data.movement.xDir = 0;
+  data.movement.yDir = 1;
+  data.type = GOBLIN;
+  npcs.emplace_back(data);
+
+  data.position.x = 200;
+  data.position.y = 100;
+  data.type = SKELETON;
+  npcs.emplace_back(data);
+
+  data.position.x = 300;
+  data.position.y = 100;
+  data.type = SPIDER;
+  npcs.emplace_back(data);
 }

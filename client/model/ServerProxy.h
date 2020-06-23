@@ -57,7 +57,6 @@ class ServerProxy{
     /** Client ACTIONS */
     void authentificate(std::string& alias);
     void move(int xDir, int yDir);
-    void moveNPC(int index, int xDir, int yDir);
     void attack(int xPos, int yPos);
 
     /** Client GETTERS */
@@ -67,7 +66,6 @@ class ServerProxy{
     void setGameModelData(PlayerGameModelData &gameModelData);
     std::vector<OtherPlayersData> getOtherPlayersData() const;
     void close();
-    void add();
 
   private:
     friend class ServerProxyWrite;

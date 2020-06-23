@@ -5,6 +5,7 @@
 #include "definitions/MapDefinitions.h"
 #include "definitions/NPCDefinitions.h"
 #include "definitions/PlayerDefinitions.h"
+#include "server/GameDefinitions.h"
 #include <string>
 #include <vector>
 
@@ -16,10 +17,12 @@ typedef enum {
   ATTACK,
   CLOSE_SERVER,
   LOAD_PLAYER,
-  AUTHENTICATE
+  AUTHENTICATE,
+  STOP_MOVEMENT
 } ActionTypeT;
 
 typedef enum {
+  DEFAULT,
   MAP_MODEL,
   PLAYER_GAME_MODEL
 } ResponseTypeT;
