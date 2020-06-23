@@ -10,7 +10,7 @@ class PlayerView : public Entity {
     ~PlayerView();
 		void init(LTexture* texture, int x, int y);
 		//void move(int xDir, int yDir, int speed, bool isMoving) override;
-		void move(int x, int y);
+		void move(int x, int y) override;
 		void paint(double scaleW, double scaleH) override {}
     void paint(const Camera &camera, 
     	double scaleW, double scaleH) override;

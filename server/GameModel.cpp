@@ -37,9 +37,9 @@ bool GameModel::authenticate(
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
   MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
-  {100, 100, 25, 48}, {0, 0, 20, false}, 0, 0};
+  {100, 100, 25, 48}, {0, 0}, 0, 0};
 
-  if (nick == "Fer") playerId  = 1; //rand() % 100 + 1;
+  if (nick == "Fer") playerId  = 1; // rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -48,29 +48,26 @@ bool GameModel::authenticate(
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
-  std::cout << "Id " << players.at(playerId)->id <<
-   " cargado exitosamente." << std::endl;
-
   return true;
 }
 
-void GameModel::move(size_t playerId, int x, int y) { 
-  players.at(playerId)->movement.isMoving = true;
+void GameModel::move(size_t playerId, int x, int y) {
   players.at(playerId)->movement.xDir = x;
   players.at(playerId)->movement.yDir = y;
 }
 
 void GameModel::stopMovement(size_t playerId){
-  players.at(playerId)->movement.isMoving = false;
+  players.at(playerId)->movement.xDir = 0;
+  players.at(playerId)->movement.yDir = 0;
 }
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   for (auto& it : players){
     if (players.at(it.first)->id == playerId) continue;
 
-    if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE)) 
+    if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
-      
+
     players.at(playerId)->attack(*it.second, xPos, yPos);
   }
 }
@@ -102,7 +99,6 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
 }
 
 void GameModel::eraseClient(size_t playerID){
-  std::cout << "Borrando jugador: " << playerID << std::endl;
   players.erase(playerID);
   clientsBQ.erase(playerID);
 }
@@ -119,7 +115,7 @@ void GameModel::propagate() {
     PlayerGameModelData modelData = {};
 
     generatePlayerModel(it.first, modelData);
-    
+
     std::unique_ptr<Response> response(new
       PlayerGameResponse(modelData));
 
@@ -160,20 +156,16 @@ void GameModel::addNPCS(){
   data.position.y = 100;
   data.movement.xDir = 0;
   data.movement.yDir = 1;
-  data.movement.isMoving = false;
   data.type = GOBLIN;
-  data.movement.speed = 1;
   npcs.emplace_back(data);
 
   data.position.x = 200;
   data.position.y = 100;
   data.type = SKELETON;
-  data.movement.speed = 2;
   npcs.emplace_back(data);
 
   data.position.x = 300;
   data.position.y = 100;
   data.type = SPIDER;
-  data.movement.speed = 3;
   npcs.emplace_back(data);
 }

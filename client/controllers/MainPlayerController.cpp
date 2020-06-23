@@ -17,15 +17,12 @@ void MainPlayerController::init(){
   MainPlayerData data = model.getMainPlayerData();
   myMoveData.xDir = data.movement.xDir;
   myMoveData.yDir = data.movement.yDir;
-  myMoveData.isMoving = data.movement.isMoving;
 
   TTF_Font* font = manager.getFont("main");
   LTexture* goldTexture = manager.getTexture("gold");
 
   playerView.init(
     manager.getTexture("clothes"), data.position.x, data.position.y);
-  std::cout << "x: "<< data.position.x << " y: " 
-    << data.position.y << std::endl; 
   checkRace(data.rootd.prace);
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y);
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y);
@@ -36,9 +33,6 @@ void MainPlayerController::update() {
   MainPlayerData data = model.getMainPlayerData();
   myMoveData.xDir = data.movement.xDir;
   myMoveData.yDir = data.movement.yDir;
-  myMoveData.isMoving = data.movement.isMoving;
-  //playerView.move(data.movement.xDir, data.movement.yDir, 
-  //  data.movement.speed, data.movement.isMoving);
   playerView.move(data.position.x, data.position.y);
 
   healthBar.update(data.points.currentHP, data.points.totalHP);
@@ -46,7 +40,7 @@ void MainPlayerController::update() {
   gold.update(std::to_string(data.gold));
 }
 
-void MainPlayerController::handleEvent(const SDL_Event &e, 
+void MainPlayerController::handleEvent(const SDL_Event &e,
   int cameraX, int cameraY) {
   if (e.type == SDL_MOUSEMOTION) return;
 
@@ -57,29 +51,31 @@ void MainPlayerController::handleEvent(const SDL_Event &e,
   }
 
   if (e.type == SDL_KEYDOWN) {
-    const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-    if (currentKeyStates[SDL_SCANCODE_W]) {
-      if (myMoveData.xDir == 0 && myMoveData.yDir == -1 && 
-        myMoveData.isMoving) return;
-        model.move(0, -1);
-    } else if (currentKeyStates[SDL_SCANCODE_S]) {
-      if (myMoveData.xDir == 0 && myMoveData.yDir == 1 && 
-        myMoveData.isMoving) return;
+    switch (e.key.keysym.sym) {
+			case SDLK_w:
+				model.move(0, -1);
+        break;
+			case SDLK_s:
         model.move(0, 1);
-    } else if (currentKeyStates[SDL_SCANCODE_A]) {
-      if (myMoveData.xDir == -1 && myMoveData.yDir == 0 && 
-        myMoveData.isMoving) return;
+				break;
+			case SDLK_a:
         model.move(-1, 0);
-    } else if (currentKeyStates[SDL_SCANCODE_D]) {
-      if (myMoveData.xDir == 1 && myMoveData.yDir == 0 && 
-        myMoveData.isMoving) return;
+				break;
+			case SDLK_d:
         model.move(1, 0);
-    }
+				break;
+		}
     return;
   }
 
   if (e.type == SDL_KEYUP) {
-    model.move(0, 0);
+    const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+    if (!currentKeyStates[SDL_SCANCODE_W] &&
+      !currentKeyStates[SDL_SCANCODE_S] &&
+      !currentKeyStates[SDL_SCANCODE_A] &&
+      !currentKeyStates[SDL_SCANCODE_D]) {
+      model.move(0, 0);
+    }
     return;
   }
 }

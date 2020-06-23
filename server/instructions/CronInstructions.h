@@ -20,4 +20,21 @@ class PlayerSetCoordsInstruction: public Instruction {
     int y;
 };
 
+class NPCSetCoordsInstruction: public Instruction {
+  public:
+    NPCSetCoordsInstruction(size_t id, int x, int y);
+    NPCSetCoordsInstruction(
+      const NPCSetCoordsInstruction&) = delete;
+    NPCSetCoordsInstruction& operator=(
+      const NPCSetCoordsInstruction&) = delete;
+    NPCSetCoordsInstruction&& operator=(
+      NPCSetCoordsInstruction&& other);
+    void run(GameModel& game) override;
+
+  private:
+    size_t npcId;
+    int x;
+    int y;
+};
+
 #endif
