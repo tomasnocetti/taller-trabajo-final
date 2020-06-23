@@ -16,14 +16,20 @@ void EnemyController::init(){
   /** LOAD ASSETS ON INIT **/
   std::vector<EnemyData> v = model.getNPCData();
 
-  for (unsigned int i = 0; i < v.size(); i++){
+  /*for (unsigned int i = 0; i < v.size(); i++){
+  	std::cout << v[i].id << std::endl;
   	Animation* animation = checkType(v[i].type);
   	enemies.emplace_back(
       new EnemyView(
         v[i].position.x,
         v[i].position.y,
   		  animation));
-  }
+  }*/
+
+  /*for(unsigned int i = 0; i < v.size(); i++){
+  	Animation* animation = checkType(v[i].type);
+  	enemies[v[i].id] = 
+  }*/
 
 	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
 	for (unsigned int i = 0; i < others.size(); i++){
@@ -38,16 +44,27 @@ void EnemyController::init(){
 
 void EnemyController::update() {
 	std::vector<EnemyData> v = model.getNPCData();
-	if(v.size() > enemies.size()) {
+	/*if(v.size() > enemies.size()) {
 		unsigned int previousSize = enemies.size();
 		enemies.reserve(v.size());
 		for(unsigned int i = previousSize; i < v.size(); i++){
+		std::cout << "id: " << v[i].id << std::endl;
 			Animation* animation = checkType(v[i].type);
 			enemies.emplace_back(
       new EnemyView(
         v[i].position.x,
         v[i].position.y,
   		  animation));
+		}
+	}*/
+
+	for(unsigned int i = 0; i < v.size(); i++){
+		if(enemies.count(v[i].id) == 0){
+			Animation* animation = checkType(v[i].type);
+			enemies[v[i].id] = new EnemyView(
+        v[i].position.x,
+        v[i].position.y,
+  		  animation);
 		}
 	}
 
@@ -57,6 +74,7 @@ void EnemyController::update() {
 		unsigned int previousSize = otherPlayers.size();
 		otherPlayers.reserve(v.size());
 		for(unsigned int i = previousSize; i < others.size(); i++){
+			std::cout << "jugador: " << v[i].id << std::endl;
 			LTexture* texture = manager.getTexture("plate-armor");
 			PlayerView* player = new PlayerView();
 			player->init(texture, others[i].position.x, others[i].position.y);

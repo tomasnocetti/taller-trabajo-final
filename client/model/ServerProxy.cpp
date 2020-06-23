@@ -76,6 +76,9 @@ MainPlayerData ServerProxy::getMainPlayerData() const {
 void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
+  for(unsigned int i = 0; i < npcs.size(); i++){
+    npcs[i].id = i + 1;
+  }
   otherPlayers = gameModelData.otherPlayers;
   map = gameModelData.map;
 }

@@ -23,9 +23,10 @@ class EnemyController {
   private:
     ServerProxy& model;
     SdlAssetsManager& manager;
-    EntityList enemies;
-    EntityList otherPlayers;
-    EntityList entities;
+   // EntityList enemies;
+    //EntityList otherPlayers;
+    std::map<size_t, std::unique_ptr<Entity>> enemies;
+    std::map<size_t, std::unique_ptr<Entity>> otherPlayers;
 
     Animation* checkType(NPCClass type);
     LTexture* checkRace(PlayerRace race);
