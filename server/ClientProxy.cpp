@@ -65,7 +65,7 @@ void ClientProxyRead::run(){
 }
 
 InstructionData ClientProxyRead::getInstruction() {
-  uint32_t sizeInstruction;
+  uint32_t sizeInstruction = 0;
   client.acceptedSocket.receive((char*) &sizeInstruction, 4);
 
   sizeInstruction = from_big_end<uint32_t>(sizeInstruction);

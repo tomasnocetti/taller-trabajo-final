@@ -5,10 +5,8 @@
 #include "../common/BlockingQueue.h"
 #include "instructions/Instruction.h"
 #include "../DataDefinitions.h"
+#include "GameDefinitions.h"
 #include <vector>
-
-#define MIN_DISTANCE_NPC 100 // TODO -> MOVE TO DEFINITIONS
-#define SPEED 20
 
 /** Game Cron es la clase que se va a encargar de manejar todas las acciones del juego
  * que requieran continuidad en el tiempo. Es importante entender que GameCron
@@ -32,11 +30,16 @@ class GameCron: public Thread {
     void run() override;
     CronBQ& getBQ();
     void close();
+
   private:
     void runPlayersMovement(std::vector<OtherPlayersData>& players);
     void runNPCLogic(
       std::vector<EnemyData>& npcs,
       std::vector<OtherPlayersData>& players);
+    void moveNPC(
+      size_t id,
+      PositionData& npc,
+      PositionData& follow);
     std::atomic<bool> running;
     InstructionBQ& instructionQueue;
     CronBQ cronBQ;

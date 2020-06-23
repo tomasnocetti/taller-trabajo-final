@@ -5,4 +5,8 @@
 #define ATTACK_ZONE_HEIGHT 30
 #define MAX_RANGE_ZONE 800
 
+// CRON ENVS
+#define MIN_DISTANCE_NPC 100 // TODO -> MOVE TO DEFINITIONS
+#define SPEED 20
+
 #endif
