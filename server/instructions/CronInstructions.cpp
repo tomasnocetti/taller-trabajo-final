@@ -13,11 +13,13 @@ void PlayerSetCoordsInstruction::run(GameModel& game) {
 }
 
 NPCSetCoordsInstruction::NPCSetCoordsInstruction(size_t id,
-  int x, int y) :
+  int xPos, int yPos, int xDir, int yDir) :
   npcId(id),
-  x(x),
-  y(y) {}
+  xPos(xPos),
+  yPos(yPos),
+  xDir(xDir),
+  yDir(yDir) {}
 
 void NPCSetCoordsInstruction::run(GameModel& game) {
-  game.npcSetCoords(npcId, x, y);
+  game.npcSetCoords(npcId, xPos, yPos, xDir, yDir);
 }
