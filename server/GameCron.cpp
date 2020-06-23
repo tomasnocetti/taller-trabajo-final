@@ -77,8 +77,12 @@ void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
   // CON ESTA DIRECCION HAY QUE HACER QUE EL NPC SE MUEVA, 
   // VAS A TENER QUE GENERAR UNA INSTRUCCION
   // Y MOVER POR ID, COMO HACES CON EL PLAYER.
-  std::cout << "Moviendo NPC en direccion: x- "
-     << d.xDir << " y -" << d.yDir << std::endl;
+  std::cout << "Moviendo NPC en direccion: x: "
+     << d.xDir << " y: " << d.yDir << std::endl;
+
+  std::unique_ptr<Instruction> i(
+      new NPCSetCoordsInstruction(id, d.xDir, d.yDir));
+    instructionQueue.push(std::move(i));
 }
 
 GameCron::~GameCron() {}
