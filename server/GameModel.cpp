@@ -184,17 +184,18 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.npcs = npcs;
   //modelData.map = map;
 
+  modelData.playerData.nick = players.at(id)->nick;
+  modelData.playerData.id = id;
   modelData.playerData.gold = players.at(id)->gold;
-  modelData.playerData.points = players.at(id)->health;
-  modelData.playerData.inventory = players.at(id)->inventory;
   modelData.playerData.levelAndExperience = 
     players.at(id)->levelAndExperience;
-  modelData.playerData.nick = players.at(id)->nick;
   modelData.playerData.skills = players.at(id)->skills;
-  modelData.playerData.id = id;
-  modelData.playerData.position = players.at(id)->position;
   modelData.playerData.rootd = players.at(id)->rootd;
+  modelData.playerData.inventory = players.at(id)->inventory;
+  modelData.playerData.points = players.at(id)->health;
+  modelData.playerData.position = players.at(id)->position;
   modelData.playerData.movement = players.at(id)->movement;
+  modelData.playerData.equipment = players.at(id)->equipment;
 
   modelData.otherPlayers = otherPlayers;
 }
@@ -219,6 +220,7 @@ void GameModel::generateNPCVector(){
     enemy.position = npcMap.at(it.first)->position;
     enemy.movement = npcMap.at(it.first)->movement;
     enemy.type = npcMap.at(it.first)->type;
+    enemy.healthAndManaData = npcMap.at(it.first)->health;
     npcs.push_back(std::move(enemy));
   }
 }
