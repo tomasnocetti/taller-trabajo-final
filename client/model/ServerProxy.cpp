@@ -77,7 +77,7 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
-  map = gameModelData.map;
+  //map = gameModelData.map;
 }
 
 MapData ServerProxy::getMapData() const {

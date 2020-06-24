@@ -58,6 +58,7 @@ void ClientProxyRead::run(){
       handleInstruction(i);
     }
   } catch(const std::exception& e) {
+    if (errno == 9) return;
     std::cout << "ERROR CLIENT PROXY READ: " << e.what() << std::endl;
   } catch(...) {
     std::cout << "UNKOWN ERROR CLIENT PROXY READ" << std::endl;

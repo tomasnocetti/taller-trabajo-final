@@ -88,10 +88,10 @@ struct OtherPlayersData {
 
 struct PlayerGameModelData {
   MainPlayerData playerData;
-  MapData map;
+  //MapData map;
   std::vector<EnemyData> npcs;
   std::vector<OtherPlayersData> otherPlayers;
-  MSGPACK_DEFINE(playerData, map, npcs, otherPlayers)
+  MSGPACK_DEFINE(playerData, npcs, otherPlayers)
 };
 
 #endif

@@ -189,6 +189,9 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.playerData.inventory = players.at(id)->inventory;
   modelData.playerData.levelAndExperience.level = 
     players.at(id)->levelAndExperience.level;
+  modelData.playerData.nick = players.at(id)->nick;
+  modelData.playerData.skills = players.at(id)->skills;
+  modelData.playerData.id = id;
   modelData.playerData.position = players.at(id)->position;
   modelData.playerData.rootd = players.at(id)->rootd;
   modelData.playerData.movement = players.at(id)->movement;

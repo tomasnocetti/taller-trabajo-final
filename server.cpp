@@ -1,15 +1,14 @@
 #include <iostream>
 #include <sstream>
 #include <cassert>
-#include "server/GameServer.h"
 #include <syslog.h>
+#include "server/ServerRun.h"
 
 int main() {
   try {
     char mapPath[] = "client/assets/map/gameMap.json";
     char port[] = "7777";
-    GameServer game(port, mapPath);
-    game.start();
+    serverRun(port, mapPath);
   } catch(const std::exception& e) {
     syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());
     std::cout << e.what() << std::endl;

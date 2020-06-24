@@ -53,3 +53,16 @@ void ClientAcceptor::cleanCloseClients(){
     return true;
   });
 }
+
+void ClientAcceptor::close(){
+  running = false;
+  for (auto &i : clientProxies) {
+    i->stop();
+    i->join();
+  }
+  /** Shutdown is needed for Linux */
+  bindedSocket.shutdown();
+  /** Close is needed for OSX */
+  bindedSocket.close();
+  this->join();
+}
