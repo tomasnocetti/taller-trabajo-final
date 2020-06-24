@@ -40,7 +40,6 @@ bool GameModel::authenticate(
   std::string& nick,
   ResponseBQ& responseBQ,
   size_t& playerId) {
-
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
   if (nick == "Fer") playerId  = rand_r(&seed) % 100;
 
