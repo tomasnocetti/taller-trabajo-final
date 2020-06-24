@@ -5,7 +5,6 @@
 #include <vector>
 #include <atomic>
 #include "Response.h"
-#include "../../DataDefinitions.h"
 #include "../MapParser.h"
 #include "../../common/BlockingQueue.h"
 #include "../../common/Thread.h"

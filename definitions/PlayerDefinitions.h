@@ -1,9 +1,9 @@
 #ifndef __PLAYERDEF_H
 #define __PLAYERDEF_H
 
-#include "EntityDefinitions.h"
 #include "NPCDefinitions.h"
 #include "MapDefinitions.h"
+#include "EquipmentDefinitions.h"
 #include <string>
 #include <vector>
 
@@ -25,6 +25,17 @@ typedef enum {
 
 MSGPACK_ADD_ENUM(PlayerClass)
 
+struct LevelExperienceAndSkillsData {
+  size_t level;
+  size_t currentExperience;
+  size_t maxLevelExperience;
+  size_t strength;
+  size_t agility;
+  size_t inteligence;
+  MSGPACK_DEFINE(level, currentExperience, maxLevelExperience, 
+    strength, agility, inteligence)
+};
+
 struct PlayerRootData {
   PlayerClass pclass;
   PlayerRace prace;
@@ -45,15 +56,18 @@ struct HealthAndManaData {
 };
 
 struct MainPlayerData {
+  std::string nick;
+  size_t id;
+  size_t gold;
+  LevelExperienceAndSkillsData levelExperienceSkills;
   PlayerRootData rootd;
   Inventory inventory;
   HealthAndManaData points;
   PositionData position;
   MovementData movement;
-  size_t id;
-  size_t gold;
-  size_t level;
-  MSGPACK_DEFINE(rootd, inventory, points, position, movement, gold, level)
+  EquipmentData equipment;
+  MSGPACK_DEFINE(nick, id, gold, levelExperienceSkills, rootd, inventory, 
+    points, position, movement, equipment)
 };
 
 struct OtherPlayersData {

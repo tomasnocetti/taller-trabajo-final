@@ -36,15 +36,17 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  MainPlayerData playerData = {{WARRIOR, HUMAN}, {""}, {100, 100, 100, 100},
-  {100, 100, 25, 48}, {0, 0}, 0, 0};
 
-  if (nick == "Fer") playerId  = 1; //rand() % 100 + 1;
+  //if (nick == "Fer") playerId  = rand() % 100 + 1;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
 
-  std::unique_ptr<Player> player(new Player(playerData, playerId));
+  PlayerRootData root = {WARRIOR, HUMAN};
+  PositionData p = {0, 0, 0, 0};
+  HealthAndManaData h = {0, 0, 0, 0};
+
+  std::unique_ptr<Player> player(new Player(playerId, nick, root, p, h));
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
@@ -183,9 +185,10 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.playerData.gold = players.at(id)->gold;
   modelData.playerData.points = players.at(id)->health;
   modelData.playerData.inventory = players.at(id)->inventory;
-  modelData.playerData.level = players.at(id)->level;
+  modelData.playerData.levelExperienceSkills.level = 
+    players.at(id)->levelExperienceSkills.level;
   modelData.playerData.position = players.at(id)->position;
-  modelData.playerData.rootd = players.at(id)->root;
+  modelData.playerData.rootd = players.at(id)->rootd;
   modelData.playerData.movement = players.at(id)->movement;
 
   modelData.otherPlayers = otherPlayers;
@@ -198,7 +201,7 @@ void GameModel::generateOtherPlayersGameData(){
     otherPlayer.id = players.at(it.first)->id;
     otherPlayer.position = players.at(it.first)->position;
     otherPlayer.movement = players.at(it.first)->movement;
-    otherPlayer.rootd = players.at(it.first)->root;
+    otherPlayer.rootd = players.at(it.first)->rootd;
     otherPlayers.push_back(std::move(otherPlayer));
   }
 }
@@ -217,7 +220,7 @@ void GameModel::generateNPCVector(){
 
 void GameModel::addNPCS(){
   struct EnemyData data;
-  data.id = 1; //rand() % 100 + 1;
+  //data.id = rand() % 100 + 1;
   data.position.x = 200;
   data.position.y = 100;
   data.position.w = 53;
@@ -231,7 +234,7 @@ void GameModel::addNPCS(){
   npcMap.insert(std::pair<size_t,
     std::unique_ptr<NPC>>(data.id, std::move(spider)));  
 
-  data.id = 2; //rand() % 100 + 1;
+  //data.id = rand() % 100 + 1;
   data.position.x = 200;
   data.position.y = 200;
   data.position.w = 53;

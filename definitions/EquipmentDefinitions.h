@@ -1,31 +1,42 @@
 #ifndef __EQUIPDEF_H
 #define __EQUIPDEF_H
 
-typedef enum {
-  DEFAULT,
+#include <msgpack.hpp>
+
+typedef enum{
+  DEFAULT1,
   HELMET
 } HeadEquipment;
 
+MSGPACK_ADD_ENUM(HeadEquipment)
+
 typedef enum {
-  DEFAULT,
+  DEFAULT2,
   TUNIC
 } BodyEquipment;
 
+MSGPACK_ADD_ENUM(BodyEquipment)
+
 typedef enum {
-  DEFAULT,
+  DEFAULT3,
   SWORD
 } RightHandEquipment;
 
+MSGPACK_ADD_ENUM(RightHandEquipment)
+
 typedef enum {
-  DEFAULT,
+  DEFAULT4,
   SHIELD
 } LeftHandEquipment;
+
+MSGPACK_ADD_ENUM(LeftHandEquipment)
 
 struct EquipmentData {
   HeadEquipment head;
   BodyEquipment body;
-  RightHandEquipment righHand;
+  RightHandEquipment rightHand;
   LeftHandEquipment leftHand;
+  MSGPACK_DEFINE(head, body, rightHand, leftHand)
 };
 
 #endif
