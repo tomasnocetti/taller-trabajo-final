@@ -216,10 +216,10 @@ void GameModel::generateNPCVector(){
   npcs.clear();
   for (auto& it : npcMap){
     EnemyData enemy;
-    enemy.id = npcMap.at(it.first)->id;
-    enemy.position = npcMap.at(it.first)->position;
     enemy.movement = npcMap.at(it.first)->movement;
+    enemy.position = npcMap.at(it.first)->position;
     enemy.type = npcMap.at(it.first)->type;
+    enemy.id = npcMap.at(it.first)->id;
     enemy.healthAndManaData = npcMap.at(it.first)->health;
     npcs.push_back(std::move(enemy));
   }
