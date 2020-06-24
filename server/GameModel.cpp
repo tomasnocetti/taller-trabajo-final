@@ -4,6 +4,11 @@
 #include <string> // TODO - Lo pide el parser
 #include <utility>
 #include <vector>
+#include <random>
+#include <stdlib.h>
+
+/* Para mockear el id random */
+unsigned int seed;
 
 GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
   cronBQ(cronBQ) {
@@ -35,9 +40,9 @@ bool GameModel::authenticate(
   std::string& nick,
   ResponseBQ& responseBQ,
   size_t& playerId) {
-  // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
 
-  //if (nick == "Fer") playerId  = rand() % 100 + 1;
+  // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
+  if (nick == "Fer") playerId  = rand_r(&seed) % 100;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -219,8 +224,10 @@ void GameModel::generateNPCVector(){
 }
 
 void GameModel::addNPCS(){
+  // Código para generar id random, solo para mockear //
+  
   struct EnemyData data;
-  //data.id = rand() % 100 + 1;
+  data.id = rand_r(&seed) % 100;
   data.position.x = 200;
   data.position.y = 100;
   data.position.w = 53;
@@ -234,7 +241,7 @@ void GameModel::addNPCS(){
   npcMap.insert(std::pair<size_t,
     std::unique_ptr<NPC>>(data.id, std::move(spider)));  
 
-  //data.id = rand() % 100 + 1;
+  data.id = rand_r(&seed) % 100;
   data.position.x = 200;
   data.position.y = 200;
   data.position.w = 53;
