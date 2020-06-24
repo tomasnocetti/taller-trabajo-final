@@ -10,10 +10,10 @@ Equations::~Equations(){}
 
 int Equations::maxLife(
   int constitution,
-  int classLife,
-  int raceLife,
+  int classHealth,
+  int raceHealth,
   int level) {
-    return constitution * classLife * raceLife * level;
+    return constitution * classHealth * raceHealth * level;
 }
 
 int Equations::maxMana(
@@ -40,17 +40,25 @@ int Equations::damage(
 int Equations::attackExperience(
   int damage,
   int otherLevel,
-  int level) {}
+  int level) {
+    return 0;
+}
 
 int Equations::killExperience(
-  int maxLifeOther, 
+  int maxHealthOther, 
   int otherLevel, 
-  int level) {}
+  int level) {
+    return 0;
+}
 
-bool Equations::dodgeAttack(int agility) {}
+bool Equations::dodgeAttack(int agility) {
+  return true;
+}
 
 int Equations::defend(
   int agility, 
   BodyEquipment bodyArmour, 
   LeftHandEquipment shield, 
-  HeadEquipment helmet) {}
+  HeadEquipment helmet) {
+    return 0;
+}
