@@ -158,6 +158,8 @@ void Player::attack(LiveEntity &entity, int xCoord, int yCoord){
 
   if (attackDodged) return;
 
+  levelAndExperience.currentExperience += 10;
+
   int damage = gameEquations.damage(skills.strength, equipment.rightHand);
 
   entity.rcvDamage(damage);
