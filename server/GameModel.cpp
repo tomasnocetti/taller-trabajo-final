@@ -47,10 +47,8 @@ bool GameModel::authenticate(
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
 
   PlayerRootData root = {WARRIOR, HUMAN};
-  PositionData p = {0, 0, 0, 0};
-  HealthAndManaData h = {0, 0, 0, 0};
 
-  std::unique_ptr<Player> player(new Player(playerId, nick, root, p, h));
+  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root));
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
@@ -189,8 +187,8 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.playerData.gold = players.at(id)->gold;
   modelData.playerData.points = players.at(id)->health;
   modelData.playerData.inventory = players.at(id)->inventory;
-  modelData.playerData.levelExperienceSkills.level = 
-    players.at(id)->levelExperienceSkills.level;
+  modelData.playerData.levelAndExperience.level = 
+    players.at(id)->levelAndExperience.level;
   modelData.playerData.position = players.at(id)->position;
   modelData.playerData.rootd = players.at(id)->rootd;
   modelData.playerData.movement = players.at(id)->movement;
@@ -234,9 +232,10 @@ void GameModel::addNPCS(){
   data.movement.xDir = 0;
   data.movement.yDir = 1;
   data.type = SPIDER;
-  HealthAndManaData points = {100, 100, 0, 0};
+  data.healthAndManaData = {100, 100, 0, 0};
+  SkillsData skills = {10, 10, 10};
 
-  std::unique_ptr<NPC> spider(new NPC(data, points));
+  std::unique_ptr<NPC> spider(new NPC(data, skills));
   npcMap.insert(std::pair<size_t,
     std::unique_ptr<NPC>>(data.id, std::move(spider)));  
 
@@ -248,9 +247,8 @@ void GameModel::addNPCS(){
   data.movement.xDir = 0;
   data.movement.yDir = 1;
   data.type = SPIDER;
-  points = {100, 100, 0, 0};
 
-  std::unique_ptr<NPC> spider2(new NPC(data, points));
+  std::unique_ptr<NPC> spider2(new NPC(data, skills));
   npcMap.insert(std::pair<size_t,
   std::unique_ptr<NPC>>(data.id, std::move(spider2)));  
 }
