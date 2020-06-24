@@ -33,6 +33,7 @@ class MainPlayerController {
     TextEntity level;
     
     void checkRace(PlayerRace race);
+    void checkEquipment(EquipmentData equipment);
 };
 
 #endif

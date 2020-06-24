@@ -5,7 +5,8 @@
 
 typedef enum{
   DEFAULT1,
-  HELMET
+  HELMET,
+  HAT
 } HeadEquipment;
 
 MSGPACK_ADD_ENUM(HeadEquipment)

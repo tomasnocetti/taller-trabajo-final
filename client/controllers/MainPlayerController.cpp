@@ -1,4 +1,5 @@
 #include "MainPlayerController.h"
+#include "../view/HeadWear.h"
 #include <iostream>
 #include <vector>
 
@@ -41,7 +42,10 @@ void MainPlayerController::update() {
   healthBar.update(data.points.currentHP, data.points.totalHP);
   manaBar.update(data.points.currentMP, data.points.totalMP);
   gold.update(std::to_string(data.gold));
-  level.update("Tangalanga - nivel: " + std::to_string(data.level));
+  level.update(data.nick + " - nivel: " + 
+    std::to_string(data.levelExperienceSkills.level));
+
+  checkEquipment(data.equipment);
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e,
@@ -117,6 +121,27 @@ void MainPlayerController::checkRace(PlayerRace race) {
     break;
     case GNOME:
       playerView.setHead(manager.getTexture("gnome-head"));
+    break;
+    default:
+    break;
+  }
+}
+
+void MainPlayerController::checkEquipment(EquipmentData equipment){
+  switch(equipment.head){
+    case HELMET:
+      {
+      std::shared_ptr<IronHelmet> headWear(
+        new IronHelmet(manager.getTexture("helmet")));
+      playerView.setHeadWear(headWear);
+      }
+    break;
+    case HAT:
+      {
+      std::shared_ptr<MagicHat> headWear(
+        new MagicHat(manager.getTexture("hat")));
+      playerView.setHeadWear(headWear);
+      }
     break;
     default:
     break;

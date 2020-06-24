@@ -18,6 +18,7 @@ void PlayerView::move(int x, int y){
 		this->y = y;
 		animation->set(BACK_WALK);
 		headFrame = {48, 0, 16, 16};
+		
 	} else if (x == this->x && y > this->y){
 			this->y = y;
 			animation->set(FORWARD_WALK);
@@ -41,13 +42,23 @@ void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
 		head->paint(x - camera.getX() + 3, y - camera.getY() - 9, 
 			scaleW, scaleH, &headFrame);
 	} else {
-		head->paint(x - camera.getX() - 2, y - camera.getY() - 10, 
+		head->paint(x - camera.getX() - 5, y - camera.getY() - 10, 
 			scaleW, scaleH, &headFrame);
 	}
+
+	if(headWear != nullptr){
+		headWear->paint(x - camera.getX(), y - camera.getY(), 
+			scaleW, scaleH, &headFrame);
+	}
+
 }
 
 void PlayerView::setHead(LTexture* head) {
 	this->head = head;
+}
+
+void PlayerView::setHeadWear(std::shared_ptr<HeadWear> headWear) {
+	this->headWear = headWear;
 }
 
 PlayerView::~PlayerView() {

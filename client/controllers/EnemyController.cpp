@@ -106,7 +106,6 @@ void EnemyController::updateOtherPlayers(){
 	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
 	for(unsigned int i = 0; i < others.size(); i++){
 		if(otherPlayers.count(others[i].id) <= 0){
-			//std::cout << "id: " << others[i].id << std::endl;
 			LTexture* texture = manager.getTexture("plate-armor");
 			std::shared_ptr<PlayerView> player(new PlayerView());
 			player->init(texture, others[i].position.x, others[i].position.y);
@@ -134,7 +133,7 @@ void EnemyController::updateOtherPlayers(){
   }
 
   for (unsigned int i = 0; i < eraseVector.size(); i++){
-  	enemies.erase(eraseVector[i]);
+  	otherPlayers.erase(eraseVector[i]);
   }
 }
 

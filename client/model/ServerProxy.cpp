@@ -36,6 +36,7 @@ void ServerProxy::init() {
   mainPlayer.rootd.prace = HUMAN;
   mainPlayer.position.x = 100;
   mainPlayer.position.y = 100;
+  mainPlayer.levelExperienceSkills.level = 1;
 }
 
 void ServerProxy::update() {
@@ -75,6 +76,7 @@ MainPlayerData ServerProxy::getMainPlayerData() const {
 
 void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   mainPlayer = gameModelData.playerData;
+  mainPlayer.equipment.head = HELMET;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
   map = gameModelData.map;

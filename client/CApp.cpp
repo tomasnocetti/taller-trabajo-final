@@ -55,7 +55,6 @@ void CApp::OnEvent(SDL_Event& e) {
 
 void CApp::OnLoop() {
   model.update();
-  //SDL_Delay(1000/60);
   playerController.update();
   enemyController.update();
 }
@@ -121,6 +120,8 @@ void CApp::LoadAssets() {
   manager.addTexture("skeleton-view", "client/assets/skeletonView.png");
   manager.addTexture("goblin-view", "client/assets/goblinView.png");
   manager.addTexture("spider-view", "client/assets/spiderView.png");
+  manager.addTexture("helmet", "client/assets/iron_helm.png");
+  manager.addTexture("hat", "client/assets/hat.png");
 }
 
 CApp::~CApp() {}
