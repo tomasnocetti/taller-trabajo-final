@@ -25,10 +25,12 @@ void EnemyController::update() {
 
 EntityList& EnemyController::getNPCs(){
 	enemyVector.clear();
-	std::map<size_t, std::shared_ptr<Entity>>::iterator it;
-	for(it = enemies.begin(); it != enemies.end(); ++it) {
-    enemyVector.emplace_back(it->second);
-  }
+	std::vector<EnemyData> npcs = model.getNPCData();
+	for(unsigned int i = 0; i < npcs.size(); i++){
+		//if(npcs[i].points.currentHP > 0){
+			enemyVector.emplace_back(enemies.at(npcs[i].id));
+		//}
+	}
 
   return enemyVector;
 }
@@ -91,39 +93,20 @@ void EnemyController::updateNPCs(){
 	std::vector<EnemyData> npcs = model.getNPCData();
 	for(unsigned int i = 0; i < npcs.size(); i++){
 		if(enemies.count(npcs[i].id) <= 0){
-			Animation* animation = checkType(npcs[i].type);
-			std::shared_ptr<EnemyView> enemy(new EnemyView(
-				npcs[i].position.x, npcs[i].position.y, animation));
-			enemies.emplace(npcs[i].id, enemy);
+		Animation* animation = checkType(npcs[i].type);
+		std::shared_ptr<EnemyView> enemy(new EnemyView(
+			npcs[i].position.x, npcs[i].position.y, animation));
+		enemies.emplace(npcs[i].id, enemy);
 		}
 		enemies.at(npcs[i].id)->move(npcs[i].position.x, npcs[i].position.y);
 	}
-
-	std::vector<size_t> eraseVector;
-	std::map<size_t, std::shared_ptr<Entity>>::iterator it;
-	for(it = enemies.begin(); it != enemies.end(); ++it) {
-		bool erase = true;
-    for (unsigned int i = 0; i < npcs.size(); i++){
-    	if(it->first == npcs[i].id){
-    		erase = false;
-    		break;
-    	}
-    }
-    if (erase){
-    	eraseVector.emplace_back(it->first);
-    }
-  }
-
-  for (unsigned int i = 0; i < eraseVector.size(); i++){
-  	enemies.erase(eraseVector[i]);
-  }
 }
 
 void EnemyController::updateOtherPlayers(){
 	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
 	for(unsigned int i = 0; i < others.size(); i++){
 		if(otherPlayers.count(others[i].id) <= 0){
-			std::cout << "jugador: " << others[i].id << std::endl;
+			//std::cout << "id: " << others[i].id << std::endl;
 			LTexture* texture = manager.getTexture("plate-armor");
 			std::shared_ptr<PlayerView> player(new PlayerView());
 			player->init(texture, others[i].position.x, others[i].position.y);
@@ -131,8 +114,8 @@ void EnemyController::updateOtherPlayers(){
 			player->setHead(head);
 			otherPlayers.emplace(others[i].id, player);
 		}
-		otherPlayers.at(others[i].id)->move(others[i].position.x, 
-			others[i].position.y);
+	otherPlayers.at(others[i].id)->move(others[i].position.x, 
+		others[i].position.y);
 	}
 
 	std::vector<size_t> eraseVector;

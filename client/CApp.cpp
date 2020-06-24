@@ -8,6 +8,7 @@ CApp::CApp(std::string& host, std::string& port) :
   globalViewport(window),
   mapViewport(window),
   lifeViewport(window),
+  expViewport(window),
   loginController(model, manager),
   globalController(model, manager),
   mapController(model, manager),
@@ -74,6 +75,7 @@ void CApp::OnRender() {
         enemyController.getNPCs(),
         enemyController.getOtherPlayers());
       lifeViewport.paint(playerController.getBars());
+      expViewport.paint(playerController.getExp());
       break;
   }
   window.render();
@@ -93,16 +95,19 @@ void CApp::OnInit() {
   mapViewport.init();
   MapData data = model.getMapData();
   mapViewport.setMaxCameraDimensions(data);
-  lifeViewport.init();
 }
 
 void CApp::OnCleanup() {}
 
 void CApp::LoadAssets() {
   manager.addFont("main", FONT_PATH, 12);
+  manager.addFont("arial", ARIAL_PATH, 12);
   manager.addTexture("main-screen-path", MAIN_SCREEN_PATH);
   manager.addTexture("login-screen-path", LOGIN_SCREEN_PATH);
-  manager.addTexture("gold", "client/assets/health.png");
+  manager.addTexture("healthText", "client/assets/health.png");
+  manager.addTexture("manaText", "client/assets/health.png");
+  manager.addTexture("goldText", "client/assets/health.png");
+  manager.addTexture("levelText", "client/assets/health.png");
   manager.addTexture("clothes", "client/assets/clothes.png");
   manager.addTexture("blue-tunic", "client/assets/blue_tunic.png");
   manager.addTexture("plate-armor", "client/assets/plate_armor.png");

@@ -21,6 +21,7 @@ class MainPlayerController {
     void handleEvent(const SDL_Event &e, int cameraX, int cameraY);
     Entity &getEntity();
     std::vector<Entity*> getBars();
+    std::vector<Entity*> getExp();
 
   private:
     ServerProxy& model;
@@ -29,6 +30,7 @@ class MainPlayerController {
     Bar healthBar;
     Bar manaBar;
     TextEntity gold;
+    TextEntity level;
     
     void checkRace(PlayerRace race);
 };

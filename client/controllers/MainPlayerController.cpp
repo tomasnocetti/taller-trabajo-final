@@ -6,6 +6,8 @@
 #define HEALTH_BAR_Y 109
 #define GOLD_Y 10
 #define GOLD_X 105
+#define LEVEL_X 50
+#define LEVEL_Y 24
 
 MainPlayerController::MainPlayerController(
   ServerProxy& model,
@@ -16,25 +18,30 @@ MainPlayerController::MainPlayerController(
 void MainPlayerController::init(){
   MainPlayerData data = model.getMainPlayerData();
 
-  TTF_Font* font = manager.getFont("main");
-  LTexture* goldTexture = manager.getTexture("gold");
+  TTF_Font* font = manager.getFont("arial");
+  LTexture* healthText = manager.getTexture("healthText");
+  LTexture* manaText = manager.getTexture("manaText");
+  LTexture* goldText = manager.getTexture("goldText");
+  LTexture* levelText = manager.getTexture("levelText");
   
   playerView.init(
     manager.getTexture("clothes"), data.position.x, data.position.y);
   checkRace(data.rootd.prace);
-  healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y);
-  manaBar.init(manager.getTexture("mana"), MANA_BAR_Y);
-  gold.init(GOLD_X, GOLD_Y, goldTexture, font);
+  healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y,
+    healthText, font);
+  manaBar.init(manager.getTexture("mana"), MANA_BAR_Y, manaText, font);
+  gold.init(GOLD_X, GOLD_Y, goldText, font);
+  level.init(LEVEL_X, LEVEL_Y, levelText, font);
 }
 
 void MainPlayerController::update() {
   MainPlayerData data = model.getMainPlayerData();
-  //std::cout << "mi id es: " << data.id << std::endl;
   playerView.move(data.position.x, data.position.y);
 
   healthBar.update(data.points.currentHP, data.points.totalHP);
   manaBar.update(data.points.currentMP, data.points.totalMP);
   gold.update(std::to_string(data.gold));
+  level.update("Tangalanga - nivel: " + std::to_string(data.level));
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e,
@@ -88,6 +95,12 @@ std::vector<Entity*> MainPlayerController::getBars() {
   v.push_back(&healthBar);
   v.push_back(&manaBar);
   v.push_back(&gold);
+  return v;
+}
+
+std::vector<Entity*> MainPlayerController::getExp() {
+  std::vector<Entity*> v;
+  v.push_back(&level);
   return v;
 }
 

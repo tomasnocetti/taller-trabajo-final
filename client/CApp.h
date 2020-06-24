@@ -23,6 +23,7 @@ typedef enum {
 #define MAIN_SCREEN_PATH "client/assets/main-screen.jpg"
 #define LOGIN_SCREEN_PATH "client/assets/main-screens/login-screen.jpg"
 #define FONT_PATH "client/assets/fonts/ringm.ttf"
+#define ARIAL_PATH "client/assets/fonts/arial.ttf"
 
 class CApp {
   public:
@@ -41,6 +42,7 @@ class CApp {
     Global globalViewport;
     Map mapViewport;
     LifeViewport lifeViewport;
+    ExpViewport expViewport;
     LoginController loginController;
     GlobalController globalController;
     MapController mapController;
