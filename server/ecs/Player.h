@@ -8,12 +8,16 @@
 
 class Player : public LiveEntity{
   private:
+    std::string nick;
     size_t id;
-    PlayerRootData root;
-    Inventory inventory;
-    MovementData movement;
     size_t gold;
-    size_t level;
+    LevelExperienceAndSkillsData levelExperienceSkills;
+    PlayerRootData rootd;
+    Inventory inventory;
+    HealthAndManaData points;
+    PositionData position;
+    MovementData movement;
+    EquipmentData equipment;
     friend class GameModel;
 
   public:
