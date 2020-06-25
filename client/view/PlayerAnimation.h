@@ -9,6 +9,7 @@ class PlayerAnimation : public Animation {
 		explicit PlayerAnimation(LTexture* texture);
 		PlayerAnimation(const PlayerAnimation&) = delete;
 	  PlayerAnimation& operator=(const PlayerAnimation&) = delete;
+		void changeTexture(LTexture* texture);
 
 	private:
 		void cropAnimationFrames();

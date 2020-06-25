@@ -144,7 +144,7 @@ void Player::setRaceSkills(SkillsData &skills, PlayerRootData &root){
 void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.body = TUNIC;
   equipment.head = HELMET;
-  equipment.leftHand = SHIELD;    
+  equipment.leftHand = IRON_SHIELD;    
   equipment.rightHand = SIMPLE_BOW;
 }
 
@@ -169,7 +169,7 @@ void Player::setRighHandSkills(RightHandEquipmentSkills
 void Player::setLeftHandSkills(LeftHandEquipmentSkills
   &leftSkills, LeftHandEquipment &leftEquipment){
     switch (leftEquipment){
-      case SHIELD:
+      case IRON_SHIELD:
         leftSkills.maxDefense = IRON_SHIELD_MAX_DEFENSE;
         leftSkills.minDefense = IRON_SHIELD_MIN_DEFENSE;
         break;

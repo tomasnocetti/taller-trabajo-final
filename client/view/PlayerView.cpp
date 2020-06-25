@@ -2,11 +2,11 @@
 #include "AnimationTypes.h"
 #include <iostream>
 
-PlayerView::PlayerView() {}
+PlayerView::PlayerView() : headWear(HeadWear(nullptr, 0, 0, 0, 0)) {}
 
-void PlayerView::init(LTexture* texture, int x, int y) {
-	this->x = x;
-	this->y = y;
+void PlayerView::init(LTexture* texture) {
+	this->x = 0;
+	this->y = 0;
 	animation = new PlayerAnimation(texture);
   animation->init();
 	animation->set(FORWARD_STAND);
@@ -18,6 +18,7 @@ void PlayerView::move(int x, int y){
 		this->y = y;
 		animation->set(BACK_WALK);
 		headFrame = {48, 0, 16, 16};
+		
 	} else if (x == this->x && y > this->y){
 			this->y = y;
 			animation->set(FORWARD_WALK);
@@ -30,6 +31,9 @@ void PlayerView::move(int x, int y){
 			this->x = x;
 			animation->set(RIGHT_WALK);
 			headFrame = {16, 0, 16, 16};
+	} else if (x != this->x && y != this->y){
+		this->x = x;
+		this->y = y;
 	}
 }
 
@@ -41,13 +45,24 @@ void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
 		head->paint(x - camera.getX() + 3, y - camera.getY() - 9, 
 			scaleW, scaleH, &headFrame);
 	} else {
-		head->paint(x - camera.getX() - 2, y - camera.getY() - 10, 
+		head->paint(x - camera.getX(), y - camera.getY() - 10, 
 			scaleW, scaleH, &headFrame);
 	}
+
+	headWear.paint(x - camera.getX(), y - camera.getY(), 
+		scaleW, scaleH, &headFrame);
 }
 
 void PlayerView::setHead(LTexture* head) {
 	this->head = head;
+}
+
+void PlayerView::setHeadWear(HeadWear headWear){
+	this->headWear = headWear;
+}
+
+void PlayerView::setBodyWear(LTexture* texture) {
+	animation->changeTexture(texture);
 }
 
 PlayerView::~PlayerView() {
