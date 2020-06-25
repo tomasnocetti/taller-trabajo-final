@@ -18,15 +18,15 @@ class Player : public LiveEntity{
     Inventory inventory;
     MovementData movement;
     EquipmentData equipment;
-    Equations gameEquations;
     RightHandEquipmentSkills rightSkills;
     LeftHandEquipmentSkills leftSkills;
     BodyEquipmentSkills bodySkills;
     HeadEquipmentSkills headSkills;
+    Equations &gameEquations;
     friend class GameModel;
 
   public:
-    Player(MainPlayerData playerData, size_t id);
+    Player(MainPlayerData playerData, size_t id, Equations &gameEquations);
     ~Player();
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
@@ -38,7 +38,8 @@ class Player : public LiveEntity{
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 
-      PlayerRootData root);
+      PlayerRootData root,
+      Equations &gameEquations);
     static void setClassSkills(SkillsData &skills, PlayerRootData &root);
     static void setRaceSkills(SkillsData &skills, PlayerRootData &root);  
     static void setInitEquipment(EquipmentData &equipment, 

@@ -48,7 +48,8 @@ bool GameModel::authenticate(
 
   PlayerRootData root = {WARRIOR, HUMAN};
 
-  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root));
+  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root,
+    gameEquations));
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
@@ -94,6 +95,8 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     if (damage == 0) continue;
 
     npcMap.at(it.first)->rcvDamage(damage);
+
+    /* Si el npc esta muerto, llamar a función que genere el drop */
 
     players.at(playerId)->addExperience(damage, 
       it.second->level, it.second->health.currentHP, 

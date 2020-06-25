@@ -4,7 +4,7 @@
 #include <string>
 #include <utility>
 
-Player::Player(MainPlayerData playerData, size_t id) :
+Player::Player(MainPlayerData playerData, size_t id, Equations &gameEquations):
   LiveEntity(playerData.position, playerData.points, playerData.skills, 
   playerData.level),
   id(id),
@@ -14,7 +14,8 @@ Player::Player(MainPlayerData playerData, size_t id) :
   rootd(playerData.rootd),
   inventory(playerData.inventory),
   movement(playerData.movement),
-  equipment(playerData.equipment) {
+  equipment(playerData.equipment),
+  gameEquations(gameEquations) {
     setRighHandSkills(rightSkills, equipment.rightHand);
     setLeftHandSkills(leftSkills, equipment.leftHand);
     setBodySkills(bodySkills, equipment.body);
@@ -22,8 +23,7 @@ Player::Player(MainPlayerData playerData, size_t id) :
 }
 
 std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick, 
-  PlayerRootData root) {
-    Equations equations;
+  PlayerRootData root, Equations &equations) {
     MainPlayerData data;
   
     data.rootd = root;
@@ -58,7 +58,7 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.movement.xDir = 0;
     data.movement.yDir = 0;
 
-    std::unique_ptr<Player> player(new Player(data, id));
+    std::unique_ptr<Player> player(new Player(data, id, equations));
 
     return player;
 }
