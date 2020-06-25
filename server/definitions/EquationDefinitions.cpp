@@ -3,7 +3,7 @@
 #include <iostream>
 
 #define MAX_LEVEL_EXPERIENCE_CONST 1.8
-#define DEFENSE_CONST 0,001
+#define DEFENSE_CONST 0.2
 
 Equations::Equations() : seed(0) {}
 
@@ -51,8 +51,9 @@ int Equations::killExperience(
 }
 
 bool Equations::dodgeAttack(int agility) {
-  //float rand = pow(randomFloat(0, 1), agility);
-  return false;
+  float rand = pow(randomFloat(0, 1), agility);
+  std::cout << rand << std::endl;
+  return rand < DEFENSE_CONST;
 }
 
 int Equations::defend(
@@ -68,8 +69,8 @@ int Equations::random(int minValue, int maxValue){
   return rand_r(&seed) % range + minValue;
 }
 
-float randomFloat(float a, float b) {
-  float random = 0; //((float) rand()) / (float) RAND_MAX;
+float Equations::randomFloat(float a, float b) {
+  float random = ((float) rand_r(&seed)) / (float) RAND_MAX;
   float diff = b - a;
   float r = random * diff;
   return a + r;

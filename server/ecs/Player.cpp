@@ -154,9 +154,9 @@ void Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   
   if (!canAttack) return;
 
-  bool attackDodged = gameEquations.dodgeAttack(LiveEntity::skills.agility);
+  bool dodged = gameEquations.dodgeAttack(LiveEntity::skills.agility);
 
-  if (attackDodged) return;
+  if (dodged) return;
 
   levelAndExperience.currentExperience += 10;
 
