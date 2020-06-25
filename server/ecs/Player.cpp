@@ -36,9 +36,10 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     Player::setClassSkills(data.skills, data.rootd);
     Player::setRaceSkills(data.skills, data.rootd);
 
-    data.experience.maxLevelExperience = 
-      equations.maxLevelExperience(data.level);
+
+    data.experience.maxLevelExperience = 0;
     data.experience.currentExperience = 0;
+    Player::setExperienceData(data.level, data.experience, equations);
     
     data.inventory.helmet = "";
     
@@ -203,6 +204,15 @@ void Player::setHeadSkills(HeadEquipmentSkills
     }
 }
 
+void Player::setExperienceData(size_t &level, ExperienceData &experience, 
+  Equations &gameEquations){
+    experience.minLevelExperience = experience.maxLevelExperience;
+    experience.currentExperience -= experience.maxLevelExperience;
+    experience.maxLevelExperience = 
+      gameEquations.maxLevelExperience(level);
+}
+
+
 int Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   PositionData attackZoneData = {
     xCoord,
@@ -218,9 +228,6 @@ int Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   double distanceAttackZone =  Entity::getPositionDistance(
     attackZoneData , position);
 
-  std::cout << "Distancia a la zona de ataque " << 
-    distanceAttackZone << std::endl;
-
   if (distanceAttackZone > rightSkills.range) return 0;
 
   bool dodged = gameEquations.dodgeAttack(LiveEntity::skills.agility);
@@ -235,12 +242,17 @@ int Player::attack(LiveEntity &entity, int xCoord, int yCoord){
 void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth, 
   int &otherMaxHEalth){
     if (otherHealth <= 0){
-      experience.currentExperience -= gameEquations.killExperience(
+      experience.currentExperience += gameEquations.killExperience(
         otherMaxHEalth, otherLevel, level);
-      return;
-    }
-    experience.currentExperience += gameEquations.attackExperience(
+    }else {
+      experience.currentExperience += gameEquations.attackExperience(
       damage, otherLevel, level);
+    }
+
+    if (experience.currentExperience >= experience.maxLevelExperience){
+      level += 1;
+      Player::setExperienceData(level, experience, gameEquations);
+    }
 }
 
 void Player::rcvDamage(int &damage){
@@ -249,9 +261,6 @@ void Player::rcvDamage(int &damage){
   if (defensePoints > damage) return;
   
   health.currentHP -= (damage - defensePoints);
-  
-  std::cout << "Defense points: " << defensePoints << std::endl;
-  std::cout << "Puntos de vida restantes: " << health.currentHP << std::endl;
 }
 
 int Player::defend(){

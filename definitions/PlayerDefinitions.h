@@ -47,7 +47,8 @@ struct SkillsData {
 struct ExperienceData{
   size_t currentExperience;
   size_t maxLevelExperience;
-  MSGPACK_DEFINE(currentExperience, maxLevelExperience)
+  size_t minLevelExperience;
+  MSGPACK_DEFINE(currentExperience, maxLevelExperience, minLevelExperience)
 };
 
 struct PlayerRootData {
