@@ -153,8 +153,8 @@ void Player::setRighHandSkills(RightHandEquipmentSkills
     switch (rightEquipment)
     {
     case SWORD:
-      rightSkills.maxDamage = 5;
-      rightSkills.minDamage = 2;
+      rightSkills.maxDamage = SWORD_MAX_DAMAGE;
+      rightSkills.minDamage = SWORD_MIN_DAMAGE;
       break;
     default:
       break;
@@ -166,8 +166,8 @@ void Player::setLeftHandSkills(LeftHandEquipmentSkills
     switch (leftEquipment)
     {
     case SHIELD:
-      leftSkills.maxDefense = 2;
-      leftSkills.minDefense = 1;
+      leftSkills.maxDefense = IRON_SHIELD_MAX_DEFENSE;
+      leftSkills.minDefense = IRON_SHIELD_MIN_DEFENSE;
       break;
     default:
       break;
@@ -179,8 +179,8 @@ void Player::setBodySkills(BodyEquipmentSkills
     switch (bodyEquipment)
     {
     case TUNIC:
-      bodySkills.maxDefense = 10;
-      bodySkills.minDefense = 6;
+      bodySkills.maxDefense = TUNIC_MAX_DEFENSE;
+      bodySkills.minDefense = TUNIC_MIN_DEFENSE;
       break;
     default:
       break;
@@ -192,8 +192,8 @@ void Player::setHeadSkills(HeadEquipmentSkills
     switch (headEquipment)
     {
     case HELMET:
-      headSkills.maxDefense = 8;
-      headSkills.minDefense = 4;
+      headSkills.maxDefense = HELMET_MAX_DEFENSE;
+      headSkills.minDefense = HELMET_MIN_DEFENSE;
       break;
     default:
       break;

@@ -59,4 +59,18 @@ struct HeadEquipmentSkills{
   int minDefense;
 };
 
+/* Daño de las armas */
+
+#define SWORD_MIN_DAMAGE 2
+#define SWORD_MAX_DAMAGE 5
+
+#define TUNIC_MIN_DEFENSE 6
+#define TUNIC_MAX_DEFENSE 10
+
+#define IRON_SHIELD_MIN_DEFENSE 1
+#define IRON_SHIELD_MAX_DEFENSE 4
+
+#define HELMET_MIN_DEFENSE 4
+#define HELMET_MAX_DEFENSE 8
+
 #endif
