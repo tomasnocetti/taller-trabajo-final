@@ -96,11 +96,21 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     npcMap.at(it.first)->rcvDamage(damage);
 
-    /* Si el npc esta muerto, llamar a función que genere el drop */
-
     players.at(playerId)->addExperience(damage, 
       it.second->level, it.second->health.currentHP, 
       it.second->health.totalHP);
+
+    if (!(npcMap.at(it.first)->health.currentHP <= 0)) continue;
+
+    std::cout << "Oro del jugador antes del kill: " << 
+      players.at(playerId)->gold << std::endl;
+
+    players.at(playerId)->gold += npcMap.at(it.first)->deathDrop();
+
+    std::cout << "Oro del jugador despues del kill: " << 
+      players.at(playerId)->gold << std::endl;
+
+    /* Si el npc esta muerto, llamar a función que genere el drop */
   }
 }
 
@@ -130,7 +140,7 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   }
 
   for (auto& it : npcMap){
-    bool collision = players.at(playerId)->checkCollision(*it.second);
+    bool collision = npcMap.at(it.first)->checkCollision(*players[playerId]);
     if (collision){
         players.at(playerId)->position.x = auxXPos;
         players.at(playerId)->position.y = auxYPos;
@@ -147,7 +157,7 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
     npcMap.at(id)->position.y = yPos;
 
     for (auto& it : players){
-      bool collision = players.at(it.first)->checkCollision(*npcMap[id]);
+      bool collision = npcMap.at(id)->checkCollision(*players[it.first]);
       if (collision){
           npcMap.at(id)->position.x = auxXPos;
           npcMap.at(id)->position.y = auxYPos;
