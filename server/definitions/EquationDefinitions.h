@@ -14,8 +14,8 @@ class Equations{
     int attackExperience(int damage, int otherLevel, int level);
     int killExperience(int maxHealthOther, int otherLevel, int level);
     bool dodgeAttack(int agility);
-    int defend(int agility, BodyEquipment bodyArmour, 
-      LeftHandEquipment shield, HeadEquipment helmet);
+    int defend(int agility, BodyEquipmentSkills bodySkills, 
+    LeftHandEquipmentSkills leftSkills, HeadEquipmentSkills headSkills);
     int random(int minValue, int maxValue);
     float randomFloat(float a, float b);
   private:

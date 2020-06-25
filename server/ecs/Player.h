@@ -30,7 +30,10 @@ class Player : public LiveEntity{
     ~Player();
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
-    void attack(LiveEntity &entity, int xCoord, int yCoord);
+    int attack(LiveEntity &entity, int xCoord, int yCoord);
+    void rcvDamage(int &damage) override;
+    int defend();
+    void addExperience(int &damage, size_t &otherLevel, int &otherHealth);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

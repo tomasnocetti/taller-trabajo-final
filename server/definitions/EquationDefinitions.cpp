@@ -1,6 +1,7 @@
 #include "EquationDefinitions.h"
 #include <math.h>
 #include <iostream>
+#include <algorithm>
 
 #define MAX_LEVEL_EXPERIENCE_CONST 1.8
 #define DEFENSE_CONST 0.2
@@ -40,7 +41,7 @@ int Equations::attackExperience(
   int damage,
   int otherLevel,
   int level) {
-    return 0;
+    return damage * std::max(otherLevel - level + 10, 0);
 }
 
 int Equations::killExperience(
@@ -52,16 +53,18 @@ int Equations::killExperience(
 
 bool Equations::dodgeAttack(int agility) {
   float rand = pow(randomFloat(0, 1), agility);
-  std::cout << rand << std::endl;
+  std::cout << "Rand number for dodge attack: " << rand << std::endl;
   return rand < DEFENSE_CONST;
 }
 
 int Equations::defend(
   int agility, 
-  BodyEquipment bodyArmour, 
-  LeftHandEquipment shield, 
-  HeadEquipment helmet) {
-    return 0;
+  BodyEquipmentSkills bodySkills, 
+  LeftHandEquipmentSkills leftSkills, 
+  HeadEquipmentSkills headSkills) {
+    return random(bodySkills.minDefense, bodySkills.maxDefense) + 
+      random(leftSkills.minDefense, leftSkills.maxDefense) + 
+      random(headSkills.minDefense, headSkills.maxDefense);
 }
 
 int Equations::random(int minValue, int maxValue){

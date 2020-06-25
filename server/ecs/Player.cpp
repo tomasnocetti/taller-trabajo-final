@@ -147,28 +147,6 @@ void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.rightHand = SWORD;
 }
 
-void Player::attack(LiveEntity &entity, int xCoord, int yCoord){
-  PositionData attackZoneData = {
-    xCoord,
-    yCoord,
-    ATTACK_ZONE_WIDTH,
-    ATTACK_ZONE_HEIGHT};
-  Entity attackZone(attackZoneData);
-  
-  bool canAttack = entity.checkCollision(attackZone);
-  
-  if (!canAttack) return;
-
-  bool dodged = gameEquations.dodgeAttack(LiveEntity::skills.agility);
-
-  if (dodged) return;
-
-  int damage = gameEquations.damage(skills.strength, rightSkills);
-
-  experience.currentExperience += 10;
-
-  entity.rcvDamage(damage);
-}
 
 void Player::setRighHandSkills(RightHandEquipmentSkills
   &rightSkills, RightHandEquipment &rightEquipment){
@@ -188,8 +166,8 @@ void Player::setLeftHandSkills(LeftHandEquipmentSkills
     switch (leftEquipment)
     {
     case SHIELD:
-      leftSkills.maxDamage = 1;
-      leftSkills.minDamage = 2;
+      leftSkills.maxDefense = 2;
+      leftSkills.minDefense = 1;
       break;
     default:
       break;
@@ -201,8 +179,8 @@ void Player::setBodySkills(BodyEquipmentSkills
     switch (bodyEquipment)
     {
     case TUNIC:
-      bodySkills.maxDamage = 10;
-      bodySkills.minDamage = 6;
+      bodySkills.maxDefense = 10;
+      bodySkills.minDefense = 6;
       break;
     default:
       break;
@@ -214,12 +192,52 @@ void Player::setHeadSkills(HeadEquipmentSkills
     switch (headEquipment)
     {
     case HELMET:
-      headSkills.maxDamage = 8;
-      headSkills.minDamage = 4;
+      headSkills.maxDefense = 8;
+      headSkills.minDefense = 4;
       break;
     default:
       break;
     }
 }
+
+int Player::attack(LiveEntity &entity, int xCoord, int yCoord){
+  PositionData attackZoneData = {
+    xCoord,
+    yCoord,
+    ATTACK_ZONE_WIDTH,
+    ATTACK_ZONE_HEIGHT};
+  Entity attackZone(attackZoneData);
+  
+  bool canAttack = entity.checkCollision(attackZone);
+  
+  if (!canAttack) return 0;
+
+  bool dodged = gameEquations.dodgeAttack(LiveEntity::skills.agility);
+
+  if (dodged) return 0;
+
+  int damage = gameEquations.damage(skills.strength, rightSkills);
+
+  return damage;
+}
+
+void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth){
+  experience.currentExperience += gameEquations.attackExperience(
+    damage, otherLevel, level);
+}
+
+void Player::rcvDamage(int &damage){
+  int defensePoints = defend();
+  health.currentHP -= (damage - defensePoints);
+  std::cout << "Defense points: " << defensePoints << std::endl;
+  std::cout << "Puntos de vida restantes: " << health.currentHP << std::endl;
+}
+
+int Player::defend(){
+  return gameEquations.defend(skills.agility, bodySkills, 
+    leftSkills, headSkills);
+}
+
+
 
 Player::~Player(){}

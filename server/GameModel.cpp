@@ -66,20 +66,36 @@ void GameModel::stopMovement(size_t playerId){
 }
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
+  int damage = 0;
+
   for (auto& it : players){
     if (players.at(it.first)->id == playerId) continue;
 
     if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
-    players.at(playerId)->attack(*it.second, xPos, yPos);
+    damage = players.at(playerId)->attack(*it.second, xPos, yPos);
+
+    if (damage == 0) continue;
+
+    players.at(playerId)->addExperience(damage, 
+      it.second->level, it.second->health.currentHP);
+
+    players.at(it.first)->rcvDamage(damage);
   }
 
   for (auto& it : npcMap){
     if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
-    players.at(playerId)->attack(*it.second, xPos, yPos);
+    damage = players.at(playerId)->attack(*it.second, xPos, yPos);
+    
+    if (damage == 0) continue;
+
+    players.at(playerId)->addExperience(damage, 
+      it.second->level, it.second->health.currentHP);
+
+    npcMap.at(it.first)->rcvDamage(damage);
   }
 }
 

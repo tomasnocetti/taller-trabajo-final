@@ -65,7 +65,7 @@ LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s,
     health(h),
     skills(s) {}
 
-void LiveEntity::rcvDamage(int damage){
+void LiveEntity::rcvDamage(int &damage){
   health.currentHP -= damage;
   std::cout << "Puntos de vida restantes: " << health.currentHP << std::endl;
 }

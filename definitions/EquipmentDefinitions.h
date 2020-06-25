@@ -45,18 +45,18 @@ struct RightHandEquipmentSkills{
 };
 
 struct LeftHandEquipmentSkills{
-  int maxDamage;
-  int minDamage;
+  int maxDefense;
+  int minDefense;
 };
 
 struct BodyEquipmentSkills{
-  int maxDamage;
-  int minDamage;
+  int maxDefense;
+  int minDefense;
 };
 
 struct HeadEquipmentSkills{
-  int maxDamage;
-  int minDamage;
+  int maxDefense;
+  int minDefense;
 };
 
 #endif
