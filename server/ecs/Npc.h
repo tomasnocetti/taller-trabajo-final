@@ -13,6 +13,8 @@ class NPC : public LiveEntity {
     NPC& operator=(const NPC&) = delete;
     bool checkCollision(Entity& otherEntity) const override;
     bool checkInRange(Entity& otherEntity, double distance) const override;
+    int attack(LiveEntity &entity, int xCoord, int yCoord) override;
+
   private:
     size_t id;
     NPCClass type;

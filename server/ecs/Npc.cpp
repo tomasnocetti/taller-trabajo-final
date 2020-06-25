@@ -18,3 +18,7 @@ bool NPC::checkInRange(Entity& otherEntity, double distance) const{
   if (this->health.currentHP < 0) return false;
   return Entity::checkInRange(otherEntity, distance);
 }
+
+int NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
+  return 0;
+}

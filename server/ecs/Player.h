@@ -30,7 +30,7 @@ class Player : public LiveEntity{
     ~Player();
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
-    int attack(LiveEntity &entity, int xCoord, int yCoord);
+    int attack(LiveEntity &entity, int xCoord, int yCoord) override;
     void rcvDamage(int &damage) override;
     int defend();
     void addExperience(int &damage, size_t &otherLevel, int &otherHealth,
