@@ -40,6 +40,8 @@ void MapParser::loadMap(char* src) {
     [this](Json::Value tileset){
       loadTileSet(tileset);
     });
+
+  file.close();
 }
 
 void MapParser::loadTileLayer(Json::Value& layer) {

@@ -20,22 +20,25 @@ void GameServer::init(){
   */
 }
 
-void GameServer::start(){
+void GameServer::run(){
   clientAcceptor.start();
   cron.start();
-  int i = 0;
   game.addNPCS();
-  while (running && i<10000){
-    i++;
-
+  while (running){
     std::unique_ptr<Instruction> instruction;
-    instructionQueue.try_front_pop(instruction);
-
+    bool success = instructionQueue.try_front_pop(instruction);
+    
+    if (!success) break;
+    
     instruction->run(game);
     game.propagate();
   }
 }
 
-void GameServer::close(){
+void GameServer::stop(){
   running = false;
+  instructionQueue.close();
+  clientAcceptor.stop();
+  cron.stop();
+  this->join();
 }
