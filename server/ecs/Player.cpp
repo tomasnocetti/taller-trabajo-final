@@ -5,11 +5,12 @@
 #include <utility>
 
 Player::Player(MainPlayerData playerData, size_t id) :
-  LiveEntity(playerData.position, playerData.points, playerData.skills),
+  LiveEntity(playerData.position, playerData.points, playerData.skills, 
+  playerData.level),
   id(id),
   nick(playerData.nick),
   gold(playerData.gold),
-  levelAndExperience(playerData.levelAndExperience),
+  experience(playerData.experience),
   rootd(playerData.rootd),
   inventory(playerData.inventory),
   movement(playerData.movement),
@@ -28,28 +29,28 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.rootd = root;
     data.nick = nick;
     data.gold = 0;
-    data.levelAndExperience.level = 1;
+    data.level = 1;
 
     int width = 25, height = 48;
 
     Player::setClassSkills(data.skills, data.rootd);
     Player::setRaceSkills(data.skills, data.rootd);
 
-    data.levelAndExperience.maxLevelExperience = 
-      equations.maxLevelExperience(data.levelAndExperience.level);
-    data.levelAndExperience.currentExperience = 0;
+    data.experience.maxLevelExperience = 
+      equations.maxLevelExperience(data.level);
+    data.experience.currentExperience = 0;
     
     data.inventory.helmet = "";
     
     data.position = {100 , 100, width, height};
     data.points.totalHP = equations.maxLife(data.skills.classConstitution, 
       data.skills.classHealth, data.skills.raceHealth, 
-      data.levelAndExperience.level);
+      data.level);
     data.points.currentHP = data.points.totalHP;
     
     data.points.totalMP = equations.maxMana
       (data.skills.inteligence, data.skills.classMana, data.skills.raceMana, 
-      data.levelAndExperience.level);
+      data.level);
     data.points.currentMP = data.points.totalMP;
 
     Player::setInitEquipment(data.equipment, data.rootd);
@@ -162,9 +163,9 @@ void Player::attack(LiveEntity &entity, int xCoord, int yCoord){
 
   if (dodged) return;
 
-  levelAndExperience.currentExperience += 10;
+  int damage = gameEquations.damage(skills.strength, rightSkills);
 
-  int damage = gameEquations.damage(skills.strength, equipment.rightHand);
+  experience.currentExperience += 10;
 
   entity.rcvDamage(damage);
 }

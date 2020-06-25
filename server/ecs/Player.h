@@ -13,7 +13,7 @@ class Player : public LiveEntity{
     size_t id;
     std::string nick;
     size_t gold;
-    LevelAndExperienceData levelAndExperience;
+    ExperienceData experience;
     PlayerRootData rootd;
     Inventory inventory;
     MovementData movement;

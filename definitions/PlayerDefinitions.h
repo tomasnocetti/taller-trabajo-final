@@ -44,11 +44,10 @@ struct SkillsData {
     raceMana, raceHealth, classConstitution)
 };
 
-struct LevelAndExperienceData{
-  size_t level;
+struct ExperienceData{
   size_t currentExperience;
   size_t maxLevelExperience;
-  MSGPACK_DEFINE(level, currentExperience, maxLevelExperience)
+  MSGPACK_DEFINE(currentExperience, maxLevelExperience)
 };
 
 struct PlayerRootData {
@@ -66,7 +65,8 @@ struct MainPlayerData {
   std::string nick;
   size_t id;
   size_t gold;
-  LevelAndExperienceData levelAndExperience;
+  size_t level;
+  ExperienceData experience;
   SkillsData skills;
   PlayerRootData rootd;
   Inventory inventory;
@@ -74,7 +74,7 @@ struct MainPlayerData {
   PositionData position;
   MovementData movement;
   EquipmentData equipment;
-  MSGPACK_DEFINE(nick, id, gold, levelAndExperience, skills, rootd, inventory, 
+  MSGPACK_DEFINE(nick, id, gold, level, experience, skills, rootd, inventory, 
     points, position, movement, equipment)
 };
 

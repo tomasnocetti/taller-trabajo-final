@@ -1,7 +1,7 @@
 #include "Npc.h"
 
-NPC::NPC(EnemyData npcData, SkillsData skills) : 
-  LiveEntity(npcData.position, npcData.healthAndManaData, skills),
+NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) : 
+  LiveEntity(npcData.position, npcData.healthAndManaData, skills, level),
   id(npcData.id),
   type(npcData.type),
   movement(npcData.movement)

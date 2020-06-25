@@ -31,8 +31,8 @@ int Equations::maxLevelExperience(int level) {
 
 int Equations::damage(
   int strength,
-  RightHandEquipment weapon) {
-    int rand = random(1, 6);
+  RightHandEquipmentSkills weaponSkills) {
+    int rand = random(weaponSkills.minDamage, weaponSkills.maxDamage);
     return strength * rand;
 }
 

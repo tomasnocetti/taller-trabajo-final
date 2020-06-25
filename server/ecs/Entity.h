@@ -35,10 +35,12 @@ class Entity {
 class LiveEntity: public Entity {
   protected:
     friend class GameModel;
+    size_t level;
     HealthAndManaData health;
     SkillsData skills;
   public:
-    LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s);
+    LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s, 
+      size_t level);
     void move();
     void rcvDamage(int damage);
 };
