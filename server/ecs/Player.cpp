@@ -221,9 +221,15 @@ int Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   return damage;
 }
 
-void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth){
-  experience.currentExperience += gameEquations.attackExperience(
-    damage, otherLevel, level);
+void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth, 
+  int &otherMaxHEalth){
+    if (otherHealth <= 0){
+      experience.currentExperience -= gameEquations.killExperience(
+        otherMaxHEalth, otherLevel, level);
+      return;
+    }
+    experience.currentExperience += gameEquations.attackExperience(
+      damage, otherLevel, level);
 }
 
 void Player::rcvDamage(int &damage){
