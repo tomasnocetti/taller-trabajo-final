@@ -83,7 +83,6 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     players.at(playerId)->addExperience(damage, 
       it.second->level, it.second->health.currentHP, 
       it.second->health.totalHP);
-
   }
 
   for (auto& it : npcMap){
