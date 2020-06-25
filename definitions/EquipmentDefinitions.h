@@ -19,7 +19,8 @@ MSGPACK_ADD_ENUM(BodyEquipment)
 
 typedef enum {
   DEFAULT3,
-  SWORD
+  SWORD,
+  SIMPLE_BOW
 } RightHandEquipment;
 
 MSGPACK_ADD_ENUM(RightHandEquipment)
@@ -42,6 +43,7 @@ struct EquipmentData {
 struct RightHandEquipmentSkills{
   int maxDamage;
   int minDamage;
+  int range;
 };
 
 struct LeftHandEquipmentSkills{
@@ -59,17 +61,27 @@ struct HeadEquipmentSkills{
   int minDefense;
 };
 
-/* Daño de las armas */
+/* Right Hand Skills */
 
 #define SWORD_MIN_DAMAGE 2
 #define SWORD_MAX_DAMAGE 5
+#define SWORD_RANGE 100
+
+#define SIMPLE_BOW_MIN_DAMAGE 1
+#define SIMPLE_BOW_MAX_DAMAGE 4
+#define SIMPLE_BOW_RANGE 300
+
+/* Body Equipment Skills */
 
 #define TUNIC_MIN_DEFENSE 6
 #define TUNIC_MAX_DEFENSE 10
 
+/* Left hand skills */
+
 #define IRON_SHIELD_MIN_DEFENSE 1
 #define IRON_SHIELD_MAX_DEFENSE 4
 
+/* Head Skills */
 #define HELMET_MIN_DEFENSE 4
 #define HELMET_MAX_DEFENSE 8
 

@@ -144,33 +144,36 @@ void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.body = TUNIC;
   equipment.head = HELMET;
   equipment.leftHand = SHIELD;    
-  equipment.rightHand = SWORD;
+  equipment.rightHand = SIMPLE_BOW;
 }
 
 
 void Player::setRighHandSkills(RightHandEquipmentSkills
   &rightSkills, RightHandEquipment &rightEquipment){
-    switch (rightEquipment)
-    {
-    case SWORD:
-      rightSkills.maxDamage = SWORD_MAX_DAMAGE;
-      rightSkills.minDamage = SWORD_MIN_DAMAGE;
-      break;
-    default:
-      break;
+    switch (rightEquipment){
+      case SWORD:
+        rightSkills.maxDamage = SWORD_MAX_DAMAGE;
+        rightSkills.minDamage = SWORD_MIN_DAMAGE;
+        rightSkills.range = SWORD_RANGE;
+        break;
+      case SIMPLE_BOW:
+        rightSkills.maxDamage = SIMPLE_BOW_MAX_DAMAGE;
+        rightSkills.minDamage = SIMPLE_BOW_MIN_DAMAGE;
+        rightSkills.range = SIMPLE_BOW_RANGE;
+      default:
+        break;
     }
 }
 
 void Player::setLeftHandSkills(LeftHandEquipmentSkills
   &leftSkills, LeftHandEquipment &leftEquipment){
-    switch (leftEquipment)
-    {
-    case SHIELD:
-      leftSkills.maxDefense = IRON_SHIELD_MAX_DEFENSE;
-      leftSkills.minDefense = IRON_SHIELD_MIN_DEFENSE;
-      break;
-    default:
-      break;
+    switch (leftEquipment){
+      case SHIELD:
+        leftSkills.maxDefense = IRON_SHIELD_MAX_DEFENSE;
+        leftSkills.minDefense = IRON_SHIELD_MIN_DEFENSE;
+        break;
+      default:
+        break;
     }
 }
 
@@ -209,8 +212,16 @@ int Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   Entity attackZone(attackZoneData);
   
   bool canAttack = entity.checkCollision(attackZone);
-  
+
   if (!canAttack) return 0;
+  
+  double distanceAttackZone =  Entity::getPositionDistance(
+    attackZoneData , position);
+
+  std::cout << "Distancia a la zona de ataque " << 
+    distanceAttackZone << std::endl;
+
+  if (distanceAttackZone > rightSkills.range) return 0;
 
   bool dodged = gameEquations.dodgeAttack(LiveEntity::skills.agility);
 
@@ -234,7 +245,11 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
 
 void Player::rcvDamage(int &damage){
   int defensePoints = defend();
+
+  if (defensePoints > damage) return;
+  
   health.currentHP -= (damage - defensePoints);
+  
   std::cout << "Defense points: " << defensePoints << std::endl;
   std::cout << "Puntos de vida restantes: " << health.currentHP << std::endl;
 }
