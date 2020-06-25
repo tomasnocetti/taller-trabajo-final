@@ -127,7 +127,7 @@ void MainPlayerController::checkRace(PlayerRace race) {
 }
 
 void MainPlayerController::checkEquipment(EquipmentData equipment){
-  switch(equipment.body){
+  switch (equipment.body){
     case TUNIC:
       playerView.setBodyWear(manager.getTexture("blue-tunic"));
     break;
@@ -142,7 +142,7 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
     break;
   }
 
-  switch(equipment.head){
+  switch (equipment.head){
     case HELMET:
       playerView.setHeadWear(HeadWear(manager.getTexture("helmet"), 
         3, -9, 0, -10));
