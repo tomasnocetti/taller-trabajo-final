@@ -1,6 +1,5 @@
 #include "EquationDefinitions.h"
 #include <math.h>
-#include <random>
 
 #define MAX_LEVEL_EXPERIENCE_CONST 1.8
 
@@ -31,10 +30,7 @@ int Equations::maxLevelExperience(int level) {
 int Equations::damage(
   int strength,
   RightHandEquipment weapon) {
-    std::mt19937 generator; 
-    /* DañoArmaMin, DañoArmaMax */
-    std::uniform_int_distribution<> distribution(1, 6); 
-    return strength * distribution(generator);
+    return strength * 2;
 }
 
 int Equations::attackExperience(
@@ -52,7 +48,7 @@ int Equations::killExperience(
 }
 
 bool Equations::dodgeAttack(int agility) {
-  return true;
+  return false;
 }
 
 int Equations::defend(

@@ -122,6 +122,8 @@ void CApp::LoadAssets() {
   manager.addTexture("spider-view", "client/assets/spiderView.png");
   manager.addTexture("helmet", "client/assets/iron_helm.png");
   manager.addTexture("hat", "client/assets/hat.png");
+  manager.addTexture("hood", "client/assets/hood.png");
+  manager.addTexture("turtle-shield", "client/assets/turtle_shield.png");
 }
 
 CApp::~CApp() {}

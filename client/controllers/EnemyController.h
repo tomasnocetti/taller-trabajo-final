@@ -2,7 +2,7 @@
 #define _ENEMY_CONTROLLER_H_
 
 #include <vector>
-#include <map>
+#include <unordered_map>
 #include "../model/ServerProxy.h"
 #include "../sdl/SdlAssetsManager.h"
 #include "../../DataDefinitions.h"
@@ -16,18 +16,19 @@ class EnemyController {
     EnemyController& operator=(const EnemyController&) = delete;
     EnemyController&& operator=(EnemyController&& other);
   	void init();
-    ~EnemyController();
     void update();
     EntityList& getNPCs();
     EntityList& getOtherPlayers();
+    ~EnemyController();
 
   private:
+    size_t id;
     ServerProxy& model;
     SdlAssetsManager& manager;
     EntityList enemyVector;
     EntityList otherPlayersVector;
-    std::map<size_t, std::shared_ptr<Entity>> enemies;
-    std::map<size_t, std::shared_ptr<Entity>> otherPlayers;
+    std::unordered_map<size_t, std::shared_ptr<Entity>> enemies;
+    std::unordered_map<size_t, std::shared_ptr<Entity>> otherPlayers;
 
     Animation* checkType(NPCClass type);
     LTexture* checkRace(PlayerRace race);

@@ -5,27 +5,18 @@
 #include "../sdl/LTexture.h"
 
 class HeadWear {
-	public:
-		virtual void paint(int x, int y, double scaleW, double scaleH, 
-			SDL_Rect* headFrame) = 0;
-};
-
-class IronHelmet : public HeadWear {
-	public:
-		IronHelmet(LTexture* texture);
-		void paint(int x, int y, double scaleW, double scaleH, 
-			SDL_Rect* headFrame);
 	private:
 		LTexture* texture;
-};
+		int xOffsetYAxis;
+		int yOffsetYAxis;
+		int xOffsetXAxis;
+		int yOffsetXAxis;
 
-class MagicHat : public HeadWear {
 	public:
-		MagicHat(LTexture* texture);
+		HeadWear(LTexture* texture, int xOffsetYAxis, int yOffsetYAxis, 
+			int xOffsetXAxis, int yOffsetXAxis);
 		void paint(int x, int y, double scaleW, double scaleH, 
 			SDL_Rect* headFrame);
-	private:
-		LTexture* texture;
 };
 
 #endif

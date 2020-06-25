@@ -17,11 +17,11 @@ class MainPlayerController {
     MainPlayerController&& operator=(MainPlayerController&& other);
     void init();
     void update();
-    ~MainPlayerController();
     void handleEvent(const SDL_Event &e, int cameraX, int cameraY);
     Entity &getEntity();
     std::vector<Entity*> getBars();
     std::vector<Entity*> getExp();
+    ~MainPlayerController();
 
   private:
     ServerProxy& model;

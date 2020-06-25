@@ -25,8 +25,7 @@ void MainPlayerController::init(){
   LTexture* goldText = manager.getTexture("goldText");
   LTexture* levelText = manager.getTexture("levelText");
   
-  playerView.init(
-    manager.getTexture("clothes"), data.position.x, data.position.y);
+  playerView.init(manager.getTexture("clothes"));
   checkRace(data.rootd.prace);
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y,
     healthText, font);
@@ -43,7 +42,7 @@ void MainPlayerController::update() {
   manaBar.update(data.points.currentMP, data.points.totalMP);
   gold.update(std::to_string(data.gold));
   level.update(data.nick + " - nivel: " + 
-    std::to_string(data.levelExperienceSkills.level));
+    std::to_string(data.levelAndExperience.level));
 
   checkEquipment(data.equipment);
 }
@@ -128,24 +127,60 @@ void MainPlayerController::checkRace(PlayerRace race) {
 }
 
 void MainPlayerController::checkEquipment(EquipmentData equipment){
-  switch(equipment.head){
-    case HELMET:
-      {
-      std::shared_ptr<IronHelmet> headWear(
-        new IronHelmet(manager.getTexture("helmet")));
-      playerView.setHeadWear(headWear);
-      }
+  switch(equipment.body){
+    case TUNIC:
+      playerView.setBodyWear(manager.getTexture("blue-tunic"));
     break;
-    case HAT:
-      {
-      std::shared_ptr<MagicHat> headWear(
-        new MagicHat(manager.getTexture("hat")));
-      playerView.setHeadWear(headWear);
-      }
+    case PLATE_ARMOR:
+      playerView.setBodyWear(manager.getTexture("plate-armor"));
+    break;
+    case LEATHER_ARMOR:
+      playerView.setBodyWear(manager.getTexture("leather-armor"));
     break;
     default:
+      playerView.setBodyWear(manager.getTexture("clothes"));
     break;
   }
+
+  switch(equipment.head){
+    case HELMET:
+      playerView.setHeadWear(HeadWear(manager.getTexture("helmet"), 
+        3, -9, 0, -10));
+    break;
+    case HAT:
+      playerView.setHeadWear(HeadWear(manager.getTexture("hat"), 
+        3, -25, 0, -25));
+    break;
+    case HOOD:
+      playerView.setHeadWear(HeadWear(manager.getTexture("hood"), 
+        2, -10, -1, -10));
+    break;
+    default:
+      playerView.setHeadWear(HeadWear(nullptr, 0, 0, 0, 0));
+    break;
+  }
+  
+  /*if(equipment.rightHand != equipped.rightHand){
+    switch(equipment.head){
+      case HELMET:
+        {
+        std::shared_ptr<IronHelmet> headWear(
+          new IronHelmet(manager.getTexture("helmet")));
+        playerView.setHeadWear(headWear);
+        }
+      break;
+      case HAT:
+        {
+        std::shared_ptr<MagicHat> headWear(
+          new MagicHat(manager.getTexture("hat")));
+        playerView.setHeadWear(headWear);
+        }
+      break;
+      default:
+      break;
+    }
+    equipped.rightHand = equipment.rightHand;
+  }*/
 }
 
 MainPlayerController::~MainPlayerController() {}

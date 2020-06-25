@@ -3,6 +3,7 @@
 
 #include "NPCDefinitions.h"
 #include "MapDefinitions.h"
+#include "EntityDefinitions.h"
 #include "EquipmentDefinitions.h"
 #include <string>
 #include <vector>
@@ -25,15 +26,29 @@ typedef enum {
 
 MSGPACK_ADD_ENUM(PlayerClass)
 
-struct LevelExperienceAndSkillsData {
-  size_t level;
-  size_t currentExperience;
-  size_t maxLevelExperience;
+struct SkillsData {
   size_t strength;
   size_t agility;
   size_t inteligence;
-  MSGPACK_DEFINE(level, currentExperience, maxLevelExperience, 
-    strength, agility, inteligence)
+  size_t classRecovery;
+  size_t classMeditation;
+  size_t raceRecovery;
+  size_t raceMeditation;
+  size_t classMana;
+  size_t classHealth;
+  size_t raceMana;
+  size_t raceHealth;
+  size_t classConstitution;
+  MSGPACK_DEFINE(strength, agility, inteligence, classRecovery, 
+    classMeditation, raceRecovery, raceMeditation, classMana, classHealth,
+    raceMana, raceHealth, classConstitution)
+};
+
+struct LevelAndExperienceData{
+  size_t level;
+  size_t currentExperience;
+  size_t maxLevelExperience;
+  MSGPACK_DEFINE(level, currentExperience, maxLevelExperience)
 };
 
 struct PlayerRootData {
@@ -47,26 +62,19 @@ struct Inventory {
   MSGPACK_DEFINE(helmet)
 };
 
-struct HealthAndManaData {
-  int totalHP;
-  int currentHP;
-  int totalMP;
-  int currentMP;
-  MSGPACK_DEFINE(totalHP, currentHP, totalMP, currentMP)
-};
-
 struct MainPlayerData {
   std::string nick;
   size_t id;
   size_t gold;
-  LevelExperienceAndSkillsData levelExperienceSkills;
+  LevelAndExperienceData levelAndExperience;
+  SkillsData skills;
   PlayerRootData rootd;
   Inventory inventory;
   HealthAndManaData points;
   PositionData position;
   MovementData movement;
   EquipmentData equipment;
-  MSGPACK_DEFINE(nick, id, gold, levelExperienceSkills, rootd, inventory, 
+  MSGPACK_DEFINE(nick, id, gold, levelAndExperience, skills, rootd, inventory, 
     points, position, movement, equipment)
 };
 
@@ -80,10 +88,10 @@ struct OtherPlayersData {
 
 struct PlayerGameModelData {
   MainPlayerData playerData;
-  MapData map;
+  //MapData map;
   std::vector<EnemyData> npcs;
   std::vector<OtherPlayersData> otherPlayers;
-  MSGPACK_DEFINE(playerData, map, npcs, otherPlayers)
+  MSGPACK_DEFINE(playerData, npcs, otherPlayers)
 };
 
 #endif

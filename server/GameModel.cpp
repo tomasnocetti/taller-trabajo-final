@@ -4,6 +4,11 @@
 #include <string> // TODO - Lo pide el parser
 #include <utility>
 #include <vector>
+#include <random>
+#include <stdlib.h>
+
+/* Para mockear el id random */
+unsigned int seed;
 
 GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
   cronBQ(cronBQ) {
@@ -36,17 +41,14 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-
-  if (nick == "Fer") playerId  = rand() % 100 + 1;
+  if (nick == "Fer") playerId  = rand_r(&seed) % 100;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
 
   PlayerRootData root = {WARRIOR, HUMAN};
-  PositionData p = {0, 0, 0, 0};
-  HealthAndManaData h = {0, 0, 0, 0};
 
-  std::unique_ptr<Player> player(new Player(playerId, nick, root, p, h));
+  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root));
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
@@ -182,14 +184,18 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.npcs = npcs;
   //modelData.map = map;
 
+  modelData.playerData.nick = players.at(id)->nick;
+  modelData.playerData.id = id;
   modelData.playerData.gold = players.at(id)->gold;
-  modelData.playerData.points = players.at(id)->health;
-  modelData.playerData.inventory = players.at(id)->inventory;
-  modelData.playerData.levelExperienceSkills.level = 
-    players.at(id)->levelExperienceSkills.level;
-  modelData.playerData.position = players.at(id)->position;
+  modelData.playerData.levelAndExperience = 
+    players.at(id)->levelAndExperience;
+  modelData.playerData.skills = players.at(id)->skills;
   modelData.playerData.rootd = players.at(id)->rootd;
+  modelData.playerData.inventory = players.at(id)->inventory;
+  modelData.playerData.points = players.at(id)->health;
+  modelData.playerData.position = players.at(id)->position;
   modelData.playerData.movement = players.at(id)->movement;
+  modelData.playerData.equipment = players.at(id)->equipment;
 
   modelData.otherPlayers = otherPlayers;
 }
@@ -210,17 +216,20 @@ void GameModel::generateNPCVector(){
   npcs.clear();
   for (auto& it : npcMap){
     EnemyData enemy;
-    enemy.id = npcMap.at(it.first)->id;
-    enemy.position = npcMap.at(it.first)->position;
     enemy.movement = npcMap.at(it.first)->movement;
+    enemy.position = npcMap.at(it.first)->position;
     enemy.type = npcMap.at(it.first)->type;
+    enemy.id = npcMap.at(it.first)->id;
+    enemy.healthAndManaData = npcMap.at(it.first)->health;
     npcs.push_back(std::move(enemy));
   }
 }
 
 void GameModel::addNPCS(){
+  // Código para generar id random, solo para mockear //
+  
   struct EnemyData data;
-  data.id = rand() % 100 + 1;
+  data.id = rand_r(&seed) % 100;
   data.position.x = 200;
   data.position.y = 100;
   data.position.w = 53;
@@ -228,13 +237,14 @@ void GameModel::addNPCS(){
   data.movement.xDir = 0;
   data.movement.yDir = 1;
   data.type = SPIDER;
-  HealthAndManaData points = {100, 100, 0, 0};
+  data.healthAndManaData = {100, 100, 0, 0};
+  SkillsData skills = {10, 10, 10};
 
-  std::unique_ptr<NPC> spider(new NPC(data, points));
+  std::unique_ptr<NPC> spider(new NPC(data, skills));
   npcMap.insert(std::pair<size_t,
     std::unique_ptr<NPC>>(data.id, std::move(spider)));  
 
-  data.id = rand() % 100 + 1;
+  data.id = rand_r(&seed) % 100;
   data.position.x = 200;
   data.position.y = 200;
   data.position.w = 53;
@@ -242,9 +252,8 @@ void GameModel::addNPCS(){
   data.movement.xDir = 0;
   data.movement.yDir = 1;
   data.type = SPIDER;
-  points = {100, 100, 0, 0};
 
-  std::unique_ptr<NPC> spider2(new NPC(data, points));
+  std::unique_ptr<NPC> spider2(new NPC(data, skills));
   npcMap.insert(std::pair<size_t,
   std::unique_ptr<NPC>>(data.id, std::move(spider2)));  
 }

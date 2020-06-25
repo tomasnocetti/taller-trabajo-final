@@ -1,5 +1,5 @@
 #include "PlayerAnimation.h"
-#include <iostream>
+
 PlayerAnimation::PlayerAnimation(LTexture* texture) :
   Animation(texture) {
 	forwardFrames = 6;
@@ -40,4 +40,8 @@ void PlayerAnimation::cropAnimationFrames() {
 	rightAnim.emplace_back(frame);
 	frame = {104, 139, 12, 39};
 	rightAnim.emplace_back(frame);
+}
+
+void PlayerAnimation::changeTexture(LTexture* texture) {
+	this->texture = texture;
 }

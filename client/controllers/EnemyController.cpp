@@ -13,10 +13,7 @@ EnemyController::EnemyController(
   SdlAssetsManager& manager) : 
   model(model), manager(manager) {}
 
-void EnemyController::init() {
-	//aca me gustaria setear el ID, cosa que
-	//no muestre al jugador principal como otro jugador
-}
+void EnemyController::init() {} 
 
 void EnemyController::update() {
 	updateNPCs();
@@ -27,9 +24,9 @@ EntityList& EnemyController::getNPCs(){
 	enemyVector.clear();
 	std::vector<EnemyData> npcs = model.getNPCData();
 	for(unsigned int i = 0; i < npcs.size(); i++){
-		//if(npcs[i].points.currentHP > 0){
+		if(npcs[i].healthAndManaData.currentHP > 0){
 			enemyVector.emplace_back(enemies.at(npcs[i].id));
-		//}
+		}
 	}
 
   return enemyVector;
@@ -37,7 +34,7 @@ EntityList& EnemyController::getNPCs(){
 
 EntityList& EnemyController::getOtherPlayers(){
 	otherPlayersVector.clear();
-	std::map<size_t, std::shared_ptr<Entity>>::iterator it;
+	std::unordered_map<size_t, std::shared_ptr<Entity>>::iterator it;
 	for(it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
     otherPlayersVector.emplace_back(it->second);
   }
@@ -105,20 +102,22 @@ void EnemyController::updateNPCs(){
 void EnemyController::updateOtherPlayers(){
 	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
 	for(unsigned int i = 0; i < others.size(); i++){
-		if(otherPlayers.count(others[i].id) <= 0){
-			LTexture* texture = manager.getTexture("plate-armor");
-			std::shared_ptr<PlayerView> player(new PlayerView());
-			player->init(texture, others[i].position.x, others[i].position.y);
-			LTexture* head = checkRace(others[i].rootd.prace);
-			player->setHead(head);
-			otherPlayers.emplace(others[i].id, player);
+		if(others[i].id != model.getMainPlayerData().id){
+			if(otherPlayers.count(others[i].id) <= 0){
+				LTexture* texture = manager.getTexture("plate-armor");
+				std::shared_ptr<PlayerView> player(new PlayerView());
+				player->init(texture);
+				LTexture* head = checkRace(others[i].rootd.prace);
+				player->setHead(head);
+				otherPlayers.emplace(others[i].id, player);
+			}
+			otherPlayers.at(others[i].id)->move(others[i].position.x, 
+				others[i].position.y);
 		}
-	otherPlayers.at(others[i].id)->move(others[i].position.x, 
-		others[i].position.y);
 	}
 
 	std::vector<size_t> eraseVector;
-	std::map<size_t, std::shared_ptr<Entity>>::iterator it;
+	std::unordered_map<size_t, std::shared_ptr<Entity>>::iterator it;
 	for(it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
 		bool erase = true;
     for (unsigned int i = 0; i < others.size(); i++){

@@ -13,7 +13,7 @@ class Player : public LiveEntity{
     size_t id;
     std::string nick;
     size_t gold;
-    LevelExperienceAndSkillsData levelExperienceSkills;
+    LevelAndExperienceData levelAndExperience;
     PlayerRootData rootd;
     Inventory inventory;
     MovementData movement;
@@ -23,12 +23,18 @@ class Player : public LiveEntity{
 
   public:
     Player(MainPlayerData playerData, size_t id);
-    Player(size_t id, std::string nick, PlayerRootData root,
-      PositionData p, HealthAndManaData h);
     ~Player();
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
     void attack(LiveEntity &entity, int xCoord, int yCoord);
+    static std::unique_ptr<Player> createPlayer(
+      size_t id, 
+      std::string nick, 
+      PlayerRootData root);
+    static void setClassSkills(SkillsData &skills, PlayerRootData &root);
+    static void setRaceSkills(SkillsData &skills, PlayerRootData &root);  
+    static void setInitEquipment(EquipmentData &equipment, 
+      PlayerRootData &root);      
 };
 
 #endif
