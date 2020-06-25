@@ -13,7 +13,12 @@ Player::Player(MainPlayerData playerData, size_t id) :
   rootd(playerData.rootd),
   inventory(playerData.inventory),
   movement(playerData.movement),
-  equipment(playerData.equipment) {}
+  equipment(playerData.equipment) {
+    setRighHandSkills(rightSkills, equipment.rightHand);
+    setLeftHandSkills(leftSkills, equipment.leftHand);
+    setBodySkills(bodySkills, equipment.body);
+    setHeadSkills(headSkills, equipment.head);
+}
 
 std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick, 
   PlayerRootData root) {
@@ -141,7 +146,6 @@ void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.rightHand = SWORD;
 }
 
-
 void Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   PositionData attackZoneData = {
     xCoord,
@@ -163,6 +167,58 @@ void Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   int damage = gameEquations.damage(skills.strength, equipment.rightHand);
 
   entity.rcvDamage(damage);
+}
+
+void Player::setRighHandSkills(RightHandEquipmentSkills
+  &rightSkills, RightHandEquipment &rightEquipment){
+    switch (rightEquipment)
+    {
+    case SWORD:
+      rightSkills.maxDamage = 5;
+      rightSkills.minDamage = 2;
+      break;
+    default:
+      break;
+    }
+}
+
+void Player::setLeftHandSkills(LeftHandEquipmentSkills
+  &leftSkills, LeftHandEquipment &leftEquipment){
+    switch (leftEquipment)
+    {
+    case SHIELD:
+      leftSkills.maxDamage = 1;
+      leftSkills.minDamage = 2;
+      break;
+    default:
+      break;
+    }
+}
+
+void Player::setBodySkills(BodyEquipmentSkills
+  &bodySkills, BodyEquipment &bodyEquipment){
+    switch (bodyEquipment)
+    {
+    case TUNIC:
+      bodySkills.maxDamage = 10;
+      bodySkills.minDamage = 6;
+      break;
+    default:
+      break;
+    }
+}
+
+void Player::setHeadSkills(HeadEquipmentSkills
+  &headSkills, HeadEquipment &headEquipment){
+    switch (headEquipment)
+    {
+    case HELMET:
+      headSkills.maxDamage = 8;
+      headSkills.minDamage = 4;
+      break;
+    default:
+      break;
+    }
 }
 
 Player::~Player(){}
