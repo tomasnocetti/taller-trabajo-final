@@ -16,6 +16,10 @@ class Equations{
     bool dodgeAttack(int agility);
     int defend(int agility, BodyEquipment bodyArmour, 
       LeftHandEquipment shield, HeadEquipment helmet);
+    int random(int minValue, int maxValue);
+    float randomFloat(float a, float b);
+  private:
+    unsigned int seed;
 };
 
 #endif

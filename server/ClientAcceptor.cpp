@@ -54,7 +54,7 @@ void ClientAcceptor::cleanCloseClients(){
   });
 }
 
-void ClientAcceptor::close(){
+void ClientAcceptor::stop(){
   running = false;
   for (auto &i : clientProxies) {
     i->stop();
