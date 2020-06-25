@@ -37,7 +37,8 @@ void GameServer::run(){
 
 void GameServer::stop(){
   running = false;
-  clientAcceptor.close();
   instructionQueue.close();
-  cron.close();
+  clientAcceptor.stop();
+  cron.stop();
+  this->join();
 }

@@ -28,7 +28,7 @@ void GameCron::run() {
   }
 }
 
-void GameCron::close() {
+void GameCron::stop() {
   running = false;
   cronBQ.close();
 }

@@ -126,7 +126,7 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
     npcMap.at(id)->position.y = yPos;
 
     for (auto& it : players){
-      bool collision = npcMap.at(id)->checkCollision(*it.second);
+      bool collision = players.at(it.first)->checkCollision(*npcMap[id]);
       if (collision){
           npcMap.at(id)->position.x = auxXPos;
           npcMap.at(id)->position.y = auxYPos;
@@ -145,7 +145,7 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
 
     for (auto& it : npcMap){
       if (npcMap.at(it.first)->id == id) continue;
-      bool collision = npcMap.at(id)->checkCollision(*it.second);
+      bool collision = npcMap.at(it.first)->checkCollision(*npcMap[id]);
       if (collision){
           npcMap.at(id)->position.x = auxXPos;
           npcMap.at(id)->position.y = auxYPos;
@@ -187,8 +187,9 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.playerData.nick = players.at(id)->nick;
   modelData.playerData.id = id;
   modelData.playerData.gold = players.at(id)->gold;
-  modelData.playerData.levelAndExperience = 
-    players.at(id)->levelAndExperience;
+  modelData.playerData.level = players.at(id)->level;
+  modelData.playerData.experience = 
+    players.at(id)->experience;
   modelData.playerData.skills = players.at(id)->skills;
   modelData.playerData.rootd = players.at(id)->rootd;
   modelData.playerData.inventory = players.at(id)->inventory;
@@ -208,6 +209,7 @@ void GameModel::generateOtherPlayersGameData(){
     otherPlayer.position = players.at(it.first)->position;
     otherPlayer.movement = players.at(it.first)->movement;
     otherPlayer.rootd = players.at(it.first)->rootd;
+    otherPlayer.equipment = players.at(it.first)->equipment;
     otherPlayers.push_back(std::move(otherPlayer));
   }
 }
@@ -240,7 +242,7 @@ void GameModel::addNPCS(){
   data.healthAndManaData = {100, 100, 0, 0};
   SkillsData skills = {10, 10, 10};
 
-  std::unique_ptr<NPC> spider(new NPC(data, skills));
+  std::unique_ptr<NPC> spider(new NPC(data, skills, 5));
   npcMap.insert(std::pair<size_t,
     std::unique_ptr<NPC>>(data.id, std::move(spider)));  
 
@@ -253,7 +255,7 @@ void GameModel::addNPCS(){
   data.movement.yDir = 1;
   data.type = SPIDER;
 
-  std::unique_ptr<NPC> spider2(new NPC(data, skills));
+  std::unique_ptr<NPC> spider2(new NPC(data, skills, 8));
   npcMap.insert(std::pair<size_t,
   std::unique_ptr<NPC>>(data.id, std::move(spider2)));  
 }

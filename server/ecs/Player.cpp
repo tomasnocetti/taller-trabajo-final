@@ -5,15 +5,21 @@
 #include <utility>
 
 Player::Player(MainPlayerData playerData, size_t id) :
-  LiveEntity(playerData.position, playerData.points, playerData.skills),
+  LiveEntity(playerData.position, playerData.points, playerData.skills, 
+  playerData.level),
   id(id),
   nick(playerData.nick),
   gold(playerData.gold),
-  levelAndExperience(playerData.levelAndExperience),
+  experience(playerData.experience),
   rootd(playerData.rootd),
   inventory(playerData.inventory),
   movement(playerData.movement),
-  equipment(playerData.equipment) {}
+  equipment(playerData.equipment) {
+    setRighHandSkills(rightSkills, equipment.rightHand);
+    setLeftHandSkills(leftSkills, equipment.leftHand);
+    setBodySkills(bodySkills, equipment.body);
+    setHeadSkills(headSkills, equipment.head);
+}
 
 std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick, 
   PlayerRootData root) {
@@ -23,28 +29,28 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.rootd = root;
     data.nick = nick;
     data.gold = 0;
-    data.levelAndExperience.level = 1;
+    data.level = 1;
 
     int width = 25, height = 48;
 
     Player::setClassSkills(data.skills, data.rootd);
     Player::setRaceSkills(data.skills, data.rootd);
 
-    data.levelAndExperience.maxLevelExperience = 
-      equations.maxLevelExperience(data.levelAndExperience.level);
-    data.levelAndExperience.currentExperience = 0;
+    data.experience.maxLevelExperience = 
+      equations.maxLevelExperience(data.level);
+    data.experience.currentExperience = 0;
     
     data.inventory.helmet = "";
     
     data.position = {100 , 100, width, height};
     data.points.totalHP = equations.maxLife(data.skills.classConstitution, 
       data.skills.classHealth, data.skills.raceHealth, 
-      data.levelAndExperience.level);
+      data.level);
     data.points.currentHP = data.points.totalHP;
     
     data.points.totalMP = equations.maxMana
       (data.skills.inteligence, data.skills.classMana, data.skills.raceMana, 
-      data.levelAndExperience.level);
+      data.level);
     data.points.currentMP = data.points.totalMP;
 
     Player::setInitEquipment(data.equipment, data.rootd);
@@ -137,10 +143,9 @@ void Player::setRaceSkills(SkillsData &skills, PlayerRootData &root){
 void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.body = TUNIC;
   equipment.head = HELMET;
-  equipment.leftHand = SHIELD;    
+  equipment.leftHand = TURTLE_SHIELD;    
   equipment.rightHand = SWORD;
 }
-
 
 void Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   PositionData attackZoneData = {
@@ -154,15 +159,67 @@ void Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   
   if (!canAttack) return;
 
-  bool attackDodged = gameEquations.dodgeAttack(LiveEntity::skills.agility);
+  bool dodged = gameEquations.dodgeAttack(LiveEntity::skills.agility);
 
-  if (attackDodged) return;
+  if (dodged) return;
 
-  levelAndExperience.currentExperience += 10;
+  int damage = gameEquations.damage(skills.strength, rightSkills);
 
-  int damage = gameEquations.damage(skills.strength, equipment.rightHand);
+  experience.currentExperience += 10;
 
   entity.rcvDamage(damage);
+}
+
+void Player::setRighHandSkills(RightHandEquipmentSkills
+  &rightSkills, RightHandEquipment &rightEquipment){
+    switch (rightEquipment)
+    {
+    case SWORD:
+      rightSkills.maxDamage = 5;
+      rightSkills.minDamage = 2;
+      break;
+    default:
+      break;
+    }
+}
+
+void Player::setLeftHandSkills(LeftHandEquipmentSkills
+  &leftSkills, LeftHandEquipment &leftEquipment){
+    switch (leftEquipment)
+    {
+    case TURTLE_SHIELD:
+      leftSkills.maxDamage = 1;
+      leftSkills.minDamage = 2;
+      break;
+    default:
+      break;
+    }
+}
+
+void Player::setBodySkills(BodyEquipmentSkills
+  &bodySkills, BodyEquipment &bodyEquipment){
+    switch (bodyEquipment)
+    {
+    case TUNIC:
+      bodySkills.maxDamage = 10;
+      bodySkills.minDamage = 6;
+      break;
+    default:
+      break;
+    }
+}
+
+void Player::setHeadSkills(HeadEquipmentSkills
+  &headSkills, HeadEquipment &headEquipment){
+    switch (headEquipment)
+    {
+    case HELMET:
+      headSkills.maxDamage = 8;
+      headSkills.minDamage = 4;
+      break;
+    default:
+      break;
+    }
 }
 
 Player::~Player(){}

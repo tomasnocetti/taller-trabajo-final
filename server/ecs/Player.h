@@ -13,12 +13,16 @@ class Player : public LiveEntity{
     size_t id;
     std::string nick;
     size_t gold;
-    LevelAndExperienceData levelAndExperience;
+    ExperienceData experience;
     PlayerRootData rootd;
     Inventory inventory;
     MovementData movement;
     EquipmentData equipment;
     Equations gameEquations;
+    RightHandEquipmentSkills rightSkills;
+    LeftHandEquipmentSkills leftSkills;
+    BodyEquipmentSkills bodySkills;
+    HeadEquipmentSkills headSkills;
     friend class GameModel;
 
   public:
@@ -34,7 +38,15 @@ class Player : public LiveEntity{
     static void setClassSkills(SkillsData &skills, PlayerRootData &root);
     static void setRaceSkills(SkillsData &skills, PlayerRootData &root);  
     static void setInitEquipment(EquipmentData &equipment, 
-      PlayerRootData &root);      
+      PlayerRootData &root);   
+    static void setRighHandSkills(RightHandEquipmentSkills
+      &rightSkills, RightHandEquipment &rightEquipment);
+    static void setLeftHandSkills(LeftHandEquipmentSkills
+      &leftSkills, LeftHandEquipment &leftEquipment); 
+    static void setBodySkills(BodyEquipmentSkills
+      &bodySkills, BodyEquipment &bodyEquipment); 
+    static void setHeadSkills(HeadEquipmentSkills
+      &headSkills, HeadEquipment &headEquipment);    
 };
 
 #endif

@@ -24,8 +24,8 @@ class Entity {
       double distance);
     static MovementData getPositionDirection(
       const PositionData& from, const PositionData& to);
-    bool checkCollision(Entity& otherEntity) const;
-    bool checkInRange(Entity& otherEntity, double distance) const;
+    virtual bool checkCollision(Entity& otherEntity) const;
+    virtual bool checkInRange(Entity& otherEntity, double distance) const;
 };
 
 /**
@@ -35,10 +35,12 @@ class Entity {
 class LiveEntity: public Entity {
   protected:
     friend class GameModel;
+    size_t level;
     HealthAndManaData health;
     SkillsData skills;
   public:
-    LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s);
+    LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s, 
+      size_t level);
     void move();
     void rcvDamage(int damage);
 };

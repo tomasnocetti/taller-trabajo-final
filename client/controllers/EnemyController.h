@@ -7,6 +7,7 @@
 #include "../sdl/SdlAssetsManager.h"
 #include "../../DataDefinitions.h"
 #include "../view/Animation.h"
+#include "../view/PlayerView.h"
 #include "../entities/Entity.h"
 
 class EnemyController {
@@ -32,6 +33,8 @@ class EnemyController {
 
     Animation* checkType(NPCClass type);
     LTexture* checkRace(PlayerRace race);
+    void checkEquipment(std::shared_ptr<PlayerView>playerView, 
+      EquipmentData equipment);
     void updateNPCs();
     void updateOtherPlayers();
 };

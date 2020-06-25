@@ -104,7 +104,7 @@ void EnemyController::updateOtherPlayers(){
 	for(unsigned int i = 0; i < others.size(); i++){
 		if(others[i].id != model.getMainPlayerData().id){
 			if(otherPlayers.count(others[i].id) <= 0){
-				LTexture* texture = manager.getTexture("plate-armor");
+				LTexture* texture = manager.getTexture("clothes");
 				std::shared_ptr<PlayerView> player(new PlayerView());
 				player->init(texture);
 				LTexture* head = checkRace(others[i].rootd.prace);
@@ -113,6 +113,9 @@ void EnemyController::updateOtherPlayers(){
 			}
 			otherPlayers.at(others[i].id)->move(others[i].position.x, 
 				others[i].position.y);
+			std::shared_ptr<PlayerView> player = 
+				std::dynamic_pointer_cast<PlayerView>(otherPlayers.at(others[i].id));
+			checkEquipment(player, others[i].equipment);
 		}
 	}
 
@@ -133,6 +136,42 @@ void EnemyController::updateOtherPlayers(){
 
   for (unsigned int i = 0; i < eraseVector.size(); i++){
   	otherPlayers.erase(eraseVector[i]);
+  }
+}
+
+void EnemyController::checkEquipment(std::shared_ptr<PlayerView> playerView, 
+	EquipmentData equipment){
+  switch(equipment.body){
+    case TUNIC:
+      playerView->setBodyWear(manager.getTexture("blue-tunic"));
+    break;
+    case PLATE_ARMOR:
+      playerView->setBodyWear(manager.getTexture("plate-armor"));
+    break;
+    case LEATHER_ARMOR:
+      playerView->setBodyWear(manager.getTexture("leather-armor"));
+    break;
+    default:
+      playerView->setBodyWear(manager.getTexture("clothes"));
+    break;
+  }
+
+  switch(equipment.head){
+    case HELMET:
+      playerView->setHeadWear(HeadWear(manager.getTexture("helmet"), 
+        3, -9, 0, -10));
+    break;
+    case HAT:
+      playerView->setHeadWear(HeadWear(manager.getTexture("hat"), 
+        3, -25, 0, -25));
+    break;
+    case HOOD:
+      playerView->setHeadWear(HeadWear(manager.getTexture("hood"), 
+        2, -10, -1, -10));
+    break;
+    default:
+      playerView->setHeadWear(HeadWear(nullptr, 0, 0, 0, 0));
+    break;
   }
 }
 

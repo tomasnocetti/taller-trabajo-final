@@ -1,9 +1,11 @@
 #include "EquationDefinitions.h"
 #include <math.h>
+#include <iostream>
 
 #define MAX_LEVEL_EXPERIENCE_CONST 1.8
+#define DEFENSE_CONST 0.2
 
-Equations::Equations(){}
+Equations::Equations() : seed(0) {}
 
 Equations::~Equations(){}
 
@@ -29,8 +31,9 @@ int Equations::maxLevelExperience(int level) {
 
 int Equations::damage(
   int strength,
-  RightHandEquipment weapon) {
-    return strength * 2;
+  RightHandEquipmentSkills weaponSkills) {
+    int rand = random(weaponSkills.minDamage, weaponSkills.maxDamage);
+    return strength * rand;
 }
 
 int Equations::attackExperience(
@@ -48,7 +51,9 @@ int Equations::killExperience(
 }
 
 bool Equations::dodgeAttack(int agility) {
-  return false;
+  float rand = pow(randomFloat(0, 1), agility);
+  std::cout << rand << std::endl;
+  return rand < DEFENSE_CONST;
 }
 
 int Equations::defend(
@@ -57,4 +62,16 @@ int Equations::defend(
   LeftHandEquipment shield, 
   HeadEquipment helmet) {
     return 0;
+}
+
+int Equations::random(int minValue, int maxValue){
+  int range = (maxValue + 1) - minValue;
+  return rand_r(&seed) % range + minValue;
+}
+
+float Equations::randomFloat(float a, float b) {
+  float random = ((float) rand_r(&seed)) / (float) RAND_MAX;
+  float diff = b - a;
+  float r = random * diff;
+  return a + r;
 }

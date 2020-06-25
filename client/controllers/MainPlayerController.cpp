@@ -42,7 +42,7 @@ void MainPlayerController::update() {
   manaBar.update(data.points.currentMP, data.points.totalMP);
   gold.update(std::to_string(data.gold));
   level.update(data.nick + " - nivel: " + 
-    std::to_string(data.levelAndExperience.level));
+    std::to_string(data.level));
 
   checkEquipment(data.equipment);
 }
@@ -164,9 +164,7 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
     switch(equipment.head){
       case HELMET:
         {
-        std::shared_ptr<IronHelmet> headWear(
-          new IronHelmet(manager.getTexture("helmet")));
-        playerView.setHeadWear(headWear);
+        playerView.setShield(shield);
         }
       break;
       case HAT:

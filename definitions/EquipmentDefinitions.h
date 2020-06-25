@@ -44,4 +44,24 @@ struct EquipmentData {
   MSGPACK_DEFINE(head, body, rightHand, leftHand)
 };
 
+struct RightHandEquipmentSkills{
+  int maxDamage;
+  int minDamage;
+};
+
+struct LeftHandEquipmentSkills{
+  int maxDamage;
+  int minDamage;
+};
+
+struct BodyEquipmentSkills{
+  int maxDamage;
+  int minDamage;
+};
+
+struct HeadEquipmentSkills{
+  int maxDamage;
+  int minDamage;
+};
+
 #endif
