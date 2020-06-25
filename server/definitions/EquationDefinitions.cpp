@@ -69,7 +69,7 @@ int Equations::random(int minValue, int maxValue){
 }
 
 float randomFloat(float a, float b) {
-  float random = ((float) rand()) / (float) RAND_MAX;
+  float random = 0; //((float) rand()) / (float) RAND_MAX;
   float diff = b - a;
   float r = random * diff;
   return a + r;
