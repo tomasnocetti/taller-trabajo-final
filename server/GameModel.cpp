@@ -126,7 +126,7 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
     npcMap.at(id)->position.y = yPos;
 
     for (auto& it : players){
-      bool collision = npcMap.at(id)->checkCollision(*it.second);
+      bool collision = players.at(it.first)->checkCollision(*npcMap[id]);
       if (collision){
           npcMap.at(id)->position.x = auxXPos;
           npcMap.at(id)->position.y = auxYPos;
@@ -145,7 +145,7 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
 
     for (auto& it : npcMap){
       if (npcMap.at(it.first)->id == id) continue;
-      bool collision = npcMap.at(id)->checkCollision(*it.second);
+      bool collision = npcMap.at(it.first)->checkCollision(*npcMap[id]);
       if (collision){
           npcMap.at(id)->position.x = auxXPos;
           npcMap.at(id)->position.y = auxYPos;

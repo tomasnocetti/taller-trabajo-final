@@ -24,8 +24,8 @@ class Entity {
       double distance);
     static MovementData getPositionDirection(
       const PositionData& from, const PositionData& to);
-    bool checkCollision(Entity& otherEntity) const;
-    bool checkInRange(Entity& otherEntity, double distance) const;
+    virtual bool checkCollision(Entity& otherEntity) const;
+    virtual bool checkInRange(Entity& otherEntity, double distance) const;
 };
 
 /**

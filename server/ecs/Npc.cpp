@@ -8,3 +8,13 @@ NPC::NPC(EnemyData npcData, SkillsData skills) :
   {}
 
 NPC::~NPC(){}
+
+bool NPC::checkCollision(Entity& otherEntity) const{
+  if (this->health.currentHP < 0) return false;
+  return Entity::checkCollision(otherEntity);
+}
+
+bool NPC::checkInRange(Entity& otherEntity, double distance) const{
+  if (this->health.currentHP < 0) return false;
+  return Entity::checkInRange(otherEntity, distance);
+}
