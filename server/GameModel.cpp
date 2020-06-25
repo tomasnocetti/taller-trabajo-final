@@ -209,6 +209,7 @@ void GameModel::generateOtherPlayersGameData(){
     otherPlayer.position = players.at(it.first)->position;
     otherPlayer.movement = players.at(it.first)->movement;
     otherPlayer.rootd = players.at(it.first)->rootd;
+    otherPlayer.equipment = players.at(it.first)->equipment;
     otherPlayers.push_back(std::move(otherPlayer));
   }
 }
