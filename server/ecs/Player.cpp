@@ -58,7 +58,7 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
 }
 
 void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
-  switch (root.pclass){
+  switch (root.prace){
     case HUMAN:
       skills.classRecovery = HUMAN_RECOVERY;
       skills.classMana = HUMAN_MANA;
@@ -105,7 +105,7 @@ void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
 }
 
 void Player::setRaceSkills(SkillsData &skills, PlayerRootData &root){
-  switch (root.prace){
+  switch (root.pclass){
     case MAGE:
       skills.raceRecovery = MAGE_RECOVERY;
       skills.raceMana = MAGE_MANA;
