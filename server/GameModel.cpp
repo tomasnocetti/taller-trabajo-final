@@ -67,8 +67,7 @@ bool GameModel::authenticate(
 
   PlayerRootData root = {CLERIC, HUMAN};
 
-  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root,
-    gameEquations));
+  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root));
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
@@ -86,6 +85,8 @@ void GameModel::stopMovement(size_t playerId){
 }
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
+  if (players.at(playerId)->health.currentHP <= 0) return;
+
   for (auto& it : players){
     if (players.at(it.first)->id == playerId) continue;
 
@@ -184,6 +185,8 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
 
 void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   for (auto& it : players){
+    if (players.at(it.first)->health.currentHP <= 0) continue;
+    
     if (!npcMap.at(npcId)->checkInRange(*it.second, MAX_RANGE_ZONE))
         return;
     npcMap.at(npcId)->attack(*it.second, xPos, yPos);

@@ -22,11 +22,10 @@ class Player : public LiveEntity{
     LeftHandEquipmentSkills leftSkills;
     BodyEquipmentSkills bodySkills;
     HeadEquipmentSkills headSkills;
-    Equations &gameEquations;
     friend class GameModel;
 
   public:
-    Player(MainPlayerData playerData, size_t id, Equations &gameEquations);
+    Player(MainPlayerData playerData, size_t id);
     ~Player();
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
@@ -51,8 +50,7 @@ class Player : public LiveEntity{
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 
-      PlayerRootData root,
-      Equations &gameEquations);
+      PlayerRootData root);
     static void setClassSkills(SkillsData &skills, PlayerRootData &root);
     static void setRaceSkills(SkillsData &skills, PlayerRootData &root);  
     static void setInitEquipment(EquipmentData &equipment, 
@@ -65,8 +63,7 @@ class Player : public LiveEntity{
       &bodySkills, BodyEquipment &bodyEquipment); 
     static void setHeadSkills(HeadEquipmentSkills
       &headSkills, HeadEquipment &headEquipment);   
-    static void setExperienceData(size_t &level, ExperienceData &experience, 
-      Equations &gameEquations);
+    static void setExperienceData(size_t &level, ExperienceData &experience);
 };
 
 #endif

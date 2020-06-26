@@ -26,7 +26,6 @@ class GameModel{
     std::vector<OtherPlayersData> otherPlayers;
     MapParser m;
     CronBQ& cronBQ;
-    Equations gameEquations;
     void parseMapData();
     unsigned int randomSeed;
 
