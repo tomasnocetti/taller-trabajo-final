@@ -7,12 +7,9 @@
 #include <random>
 #include <stdlib.h>
 
-/* Para mockear el id random */
-
 GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
   cronBQ(cronBQ),
-  randomSeed(0),
-  idNpc(0) {
+  randomSeed(0){
   m.loadMap(mapPath);
   parseMapData();
 }
@@ -31,21 +28,12 @@ void GameModel::parseMapData() {
           new Entity(p));
         margins.push_back(std::move(margin));
       }
-    }
-  }
-
-  for (size_t i = 0; i < obj.size(); i++){
-    ObjectLayerData& layer = obj[i];
-    for (size_t j = 0; j < obj[i].objects.size(); j++){
-      ObjectData& data = layer.objects[j];
-      PositionData p({data.x, data.y, data.width, data.height});
 
       if (layer.name == SPIDER_SPAWN_POINTS){
         std::unique_ptr<NPC> npc(NPC::createNPC(
-          idNpc, p, 10, SPIDER));
+          i, p, 10, SPIDER));
         npcMap.insert(std::pair<size_t,
-          std::unique_ptr<NPC>>(idNpc, std::move(npc)));  
-        idNpc ++;
+          std::unique_ptr<NPC>>(i, std::move(npc)));  
       }
     }
   }

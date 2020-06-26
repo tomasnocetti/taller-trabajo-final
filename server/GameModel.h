@@ -29,7 +29,6 @@ class GameModel{
     Equations gameEquations;
     void parseMapData();
     unsigned int randomSeed;
-    int idNpc;
 
   public:
     GameModel(char* mapPath, CronBQ& cronBQ);
