@@ -20,10 +20,12 @@ class NPC : public LiveEntity {
       PositionData position,
       size_t level,
       NPCClass npcType);
+    static size_t getNewId();
   private:
     size_t id;
     NPCClass type;
     MovementData movement;
+    static size_t idGenerator;
     friend class GameModel;
 };
 

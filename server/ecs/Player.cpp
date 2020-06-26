@@ -266,6 +266,8 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
 void Player::rcvDamage(int &damage){
   int defensePoints = defend();
 
+  std::cout << "DEFENSE POINTS PLAYER: " << defensePoints << std::endl;
+
   if (defensePoints > damage) return;
   
   health.currentHP -= (damage - defensePoints);
@@ -275,7 +277,5 @@ int Player::defend(){
   return gameEquations.defend(skills.agility, bodySkills, 
     leftSkills, headSkills);
 }
-
-
 
 Player::~Player(){}

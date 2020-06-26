@@ -5,7 +5,7 @@ NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
   LiveEntity(npcData.position, npcData.healthAndManaData, skills, level),
   id(npcData.id),
   type(npcData.type),
-  movement(npcData.movement) {}
+  movement(npcData.movement){}
 
 NPC::~NPC(){}
 
@@ -20,7 +20,18 @@ bool NPC::checkInRange(Entity& otherEntity, double distance) const{
 }
 
 int NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
-  return 0;
+  PositionData attackZoneData = {
+    xCoord,
+    yCoord,
+    50,
+    50};
+  Entity attackZone(attackZoneData);
+
+  bool canAttack = entity.checkCollision(attackZone);
+
+  if (!canAttack) return 0;
+
+  return (skills.strength)*level*0.2;
 }
 
 int NPC::deathDrop(unsigned int &seed){
@@ -45,4 +56,11 @@ std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
     std::unique_ptr<NPC> npc(new NPC(data, skills, level));
 
     return npc;
+}
+
+size_t NPC::idGenerator = 0;
+
+size_t NPC::getNewId(){
+  NPC::idGenerator ++;
+  return NPC::idGenerator;
 }

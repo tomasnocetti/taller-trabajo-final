@@ -21,3 +21,13 @@ NPCSetCoordsInstruction::NPCSetCoordsInstruction(size_t id,
 void NPCSetCoordsInstruction::run(GameModel& game) {
   game.npcSetCoords(npcId, xPos, yPos);
 }
+
+NPCAttackInstruction::NPCAttackInstruction(size_t id,
+  int xPos, int yPos) :
+  npcId(id),
+  xPos(xPos),
+  yPos(yPos) {}
+
+void NPCAttackInstruction::run(GameModel& game) {
+  game.npcAttack(npcId, xPos, yPos);
+}

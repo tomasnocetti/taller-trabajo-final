@@ -58,8 +58,7 @@ void GameCron::runNPCLogic(
     bool hasPlayerInRange = false;
     double minDistanceToPlayer = MIN_DISTANCE_NPC;
 
-    //bool hasPlayerInRangeOfAttack = false;
-    //double minDistanceToAttackPlayer = 100;
+    double minDistanceToAttackPlayer = MIN_DISTANCE_TO_ATTACK_PLAYER;
     PositionData playerPosition;
 
     // Calcula la distancia minima a un jugador
@@ -76,8 +75,8 @@ void GameCron::runNPCLogic(
     if (!hasPlayerInRange) continue;
     moveNPC(npc.id, npc.position, playerPosition);    
 
-    //if (minDistanceToPlayer > minDistanceToAttackPlayer) continue;
-    /* attackNPC(npc.id, playerPosition); */
+    if (minDistanceToPlayer > minDistanceToAttackPlayer) continue;
+    NPCAttack(npc.id, playerPosition);
   }
 }
 
@@ -89,6 +88,12 @@ void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
 
   std::unique_ptr<Instruction> i(
       new NPCSetCoordsInstruction(id, x, y));
+    instructionQueue.push(std::move(i));
+}
+
+void GameCron::NPCAttack(size_t npcId, PositionData& playerToAttack) {
+  std::unique_ptr<Instruction> i(
+      new NPCAttackInstruction(npcId, playerToAttack.x, playerToAttack.y));
     instructionQueue.push(std::move(i));
 }
 

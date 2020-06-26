@@ -45,6 +45,8 @@ class GameModel{
     void playerSetCoords(size_t playerId, int x, int y);
     /* Handle npcSetCoords instruction. */
     void npcSetCoords(size_t playerId, int xPos, int yPos);
+    /* Handle npcAttack instruction. */
+    void npcAttack(size_t npcId, int xPos, int yPos);
     /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
       Devuelve true si pudo o es valido, false de lo contrario. */
     bool authenticate(
