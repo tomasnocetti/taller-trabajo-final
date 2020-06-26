@@ -4,7 +4,7 @@
 #include <algorithm>
 
 #define MAX_LEVEL_EXPERIENCE_CONST 1.8
-#define DEFENSE_CONST 0.2
+#define DEFENSE_CONST 0.001
 
 Equations::Equations() : seed(0) {}
 

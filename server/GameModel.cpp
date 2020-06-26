@@ -51,7 +51,7 @@ bool GameModel::authenticate(
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
 
-  PlayerRootData root = {WARRIOR, HUMAN};
+  PlayerRootData root = {CLERIC, HUMAN};
 
   std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root,
     gameEquations));

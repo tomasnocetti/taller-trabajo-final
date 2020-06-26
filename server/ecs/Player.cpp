@@ -64,8 +64,8 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     return player;
 }
 
-void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
-  switch (root.pclass){
+void Player::setRaceSkills(SkillsData &skills, PlayerRootData &root){
+  switch (root.prace){
     case HUMAN:
       skills.classRecovery = HUMAN_RECOVERY;
       skills.classMana = HUMAN_MANA;
@@ -111,8 +111,8 @@ void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
     }
 }
 
-void Player::setRaceSkills(SkillsData &skills, PlayerRootData &root){
-  switch (root.prace){
+void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
+  switch (root.pclass){
     case MAGE:
       skills.raceRecovery = MAGE_RECOVERY;
       skills.raceMana = MAGE_MANA;
@@ -136,6 +136,7 @@ void Player::setRaceSkills(SkillsData &skills, PlayerRootData &root){
       skills.raceMana = WARRIOR_MANA;
       skills.raceMeditation = WARRIOR_MEDITATION;
       skills.raceHealth = WARRIOR_HEALTH;
+      break;
     default:
       break;
   }
@@ -252,6 +253,13 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
     if (experience.currentExperience >= experience.maxLevelExperience){
       level += 1;
       Player::setExperienceData(level, experience, gameEquations);
+
+      health.totalHP = gameEquations.maxLife(skills.classConstitution, 
+      skills.classHealth, skills.raceHealth, 
+      level);
+    
+      health.totalMP = gameEquations.maxMana
+      (skills.inteligence, skills.classMana, skills.raceMana, level);
     }
 }
 
