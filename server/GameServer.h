@@ -15,7 +15,7 @@
 
 class ClientProxy;
 
-class GameServer{
+class GameServer : public Thread{
   private:
     bool running;
     InstructionBQ instructionQueue;
@@ -28,8 +28,8 @@ class GameServer{
     GameServer(const GameServer&) = delete;
     GameServer& operator=(const GameServer&) = delete;
     void init();
-    void start();
-    void close();
+    void run();
+    void stop();
 };
 
 #endif

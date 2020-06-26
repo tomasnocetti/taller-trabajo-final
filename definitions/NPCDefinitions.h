@@ -17,7 +17,8 @@ struct EnemyData {
   PositionData position;
   NPCClass type;
   size_t id;
-  MSGPACK_DEFINE(movement, position, type, id)
+  HealthAndManaData healthAndManaData;
+  MSGPACK_DEFINE(movement, position, type, id, healthAndManaData)
 };
 
 #endif

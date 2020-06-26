@@ -7,7 +7,7 @@
 
 class NPC : public LiveEntity {
   public:
-    NPC(EnemyData npcData, HealthAndManaData points);
+    NPC(EnemyData npcData, SkillsData skills);
     ~NPC();
     NPC(const NPC&) = delete;
     NPC& operator=(const NPC&) = delete;

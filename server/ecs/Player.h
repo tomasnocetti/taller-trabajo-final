@@ -2,18 +2,23 @@
 #define PLAYER_H
 
 #include "Entity.h"
-#include "../../DataDefinitions.h"
+#include "../definitions/EquationDefinitions.h"
 #include "../GameModel.h"
 #include <string>
+
+class Equation;
 
 class Player : public LiveEntity{
   private:
     size_t id;
-    PlayerRootData root;
+    std::string nick;
+    size_t gold;
+    LevelAndExperienceData levelAndExperience;
+    PlayerRootData rootd;
     Inventory inventory;
     MovementData movement;
-    size_t gold;
-    size_t level;
+    EquipmentData equipment;
+    Equations gameEquations;
     friend class GameModel;
 
   public:
@@ -22,6 +27,14 @@ class Player : public LiveEntity{
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
     void attack(LiveEntity &entity, int xCoord, int yCoord);
+    static std::unique_ptr<Player> createPlayer(
+      size_t id, 
+      std::string nick, 
+      PlayerRootData root);
+    static void setClassSkills(SkillsData &skills, PlayerRootData &root);
+    static void setRaceSkills(SkillsData &skills, PlayerRootData &root);  
+    static void setInitEquipment(EquipmentData &equipment, 
+      PlayerRootData &root);      
 };
 
 #endif
