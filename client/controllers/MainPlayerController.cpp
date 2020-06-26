@@ -1,5 +1,6 @@
 #include "MainPlayerController.h"
 #include "../view/HeadWear.h"
+#include "../view/Shield.h"
 #include <iostream>
 #include <vector>
 
@@ -44,13 +45,14 @@ void MainPlayerController::update() {
   healthBar.update(data.points.currentHP, data.points.totalHP, 0);
   manaBar.update(data.points.currentMP, data.points.totalMP, 0);
   gold.update(std::to_string(data.gold));
-  
+
   level.update(data.nick + " - nivel: " + 
     std::to_string(data.level));
   expBar.update(data.experience.currentExperience, 
     data.experience.maxLevelExperience, 
     data.experience.minLevelExperience);
 
+  checkHealth(data.points.currentHP, data.rootd.prace);
   checkEquipment(data.equipment);
 }
 
@@ -168,25 +170,31 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
     break;
   }
   
-  /*if(equipment.rightHand != equipped.rightHand){
-    switch(equipment.head){
-      case HELMET:
-        {
-        playerView.setShield(shield);
-        }
-      break;
-      case HAT:
-        {
-        std::shared_ptr<MagicHat> headWear(
-          new MagicHat(manager.getTexture("hat")));
-        playerView.setHeadWear(headWear);
-        }
-      break;
-      default:
-      break;
-    }
-    equipped.rightHand = equipment.rightHand;
-  }*/
+  switch(equipment.leftHand){
+    case TURTLE_SHIELD:
+      playerView.setShield(Shield(manager.getTexture("turtle-shield"), 
+        12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16));
+    break;
+    case IRON_SHIELD:
+      playerView.setShield(Shield(manager.getTexture("iron-shield"), 
+        6, 10, 17, 24, 1, 60, 13, 16, 25, 104, 24, 18));
+    break;
+    default:
+      playerView.setShield(Shield(nullptr, 
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    break;
+  }
+}
+
+void MainPlayerController::checkHealth(int health, PlayerRace race) {
+  if(health <= 0 && !playerView.ghostState()){
+    playerView.setGhostAnimation(manager.getTexture("ghost"));
+  }
+
+  if(health > 0 && playerView.ghostState()){
+    playerView.setPlayerAnimation(manager.getTexture("clothes"));
+    checkRace(race);
+  }
 }
 
 MainPlayerController::~MainPlayerController() {}
