@@ -113,6 +113,7 @@ void CApp::LoadAssets() {
   manager.addTexture("blue-tunic", "client/assets/blue_tunic.png");
   manager.addTexture("plate-armor", "client/assets/plate_armor.png");
   manager.addTexture("leather-armor", "client/assets/leather_armor.png");
+  manager.addTexture("ghost", "client/assets/ghost.png");
   manager.addTexture("health", "client/assets/health.png");
   manager.addTexture("mana", "client/assets/mana.png");
   manager.addTexture("exp", "client/assets/exp.png");
@@ -127,6 +128,7 @@ void CApp::LoadAssets() {
   manager.addTexture("hat", "client/assets/hat.png");
   manager.addTexture("hood", "client/assets/hood.png");
   manager.addTexture("turtle-shield", "client/assets/turtle_shield.png");
+  manager.addTexture("iron-shield", "client/assets/iron_shield.png");
 }
 
 CApp::~CApp() {}

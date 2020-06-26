@@ -2,8 +2,10 @@
 #define _PLAYER_VIEW_H_
 
 #include "PlayerAnimation.h"
+#include "GhostAnimation.h"
 #include "../entities/Entity.h"
 #include "HeadWear.h"
+#include "Shield.h"
 
 class PlayerView : public Entity {
 	public:
@@ -17,6 +19,10 @@ class PlayerView : public Entity {
     void setHead(LTexture* head);
 		void setHeadWear(HeadWear headWear);
 		void setBodyWear(LTexture* texture);
+		void setShield(Shield shield);
+		void setGhostAnimation(LTexture* texture);
+		void setPlayerAnimation(LTexture* texture);
+		bool ghostState();
 		PlayerView(const PlayerView&) = delete;
     PlayerView& operator=(const PlayerView&) = delete;
 
@@ -24,7 +30,9 @@ class PlayerView : public Entity {
 	  Animation* animation = nullptr;
 	  LTexture* head = nullptr;
 		HeadWear headWear;
+		Shield shield;
 	  SDL_Rect headFrame;
+		bool ghost;
 };
 
 #endif

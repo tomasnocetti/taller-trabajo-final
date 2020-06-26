@@ -115,6 +115,7 @@ void EnemyController::updateOtherPlayers(){
 				others[i].position.y);
 			std::shared_ptr<PlayerView> player = 
 				std::dynamic_pointer_cast<PlayerView>(otherPlayers.at(others[i].id));
+			//checkHealth(player, others[i].points);
 			checkEquipment(player, others[i].equipment);
 		}
 	}
@@ -171,6 +172,21 @@ void EnemyController::checkEquipment(std::shared_ptr<PlayerView> playerView,
     break;
     default:
       playerView->setHeadWear(HeadWear(nullptr, 0, 0, 0, 0));
+    break;
+  }
+
+	switch(equipment.leftHand){
+    case TURTLE_SHIELD:
+      playerView->setShield(Shield(manager.getTexture("turtle-shield"), 
+        12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16));
+    break;
+    case IRON_SHIELD:
+      playerView->setShield(Shield(manager.getTexture("iron-shield"), 
+        6, 10, 17, 24, 1, 60, 13, 16, 25, 104, 24, 18));
+    break;
+    default:
+      playerView->setShield(Shield(nullptr, 
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     break;
   }
 }
