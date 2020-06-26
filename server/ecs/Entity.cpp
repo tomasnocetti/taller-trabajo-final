@@ -69,6 +69,6 @@ void LiveEntity::rcvDamage(int &damage){
   health.currentHP -= damage;
 }
 
-int LiveEntity::attack(LiveEntity &entity, int xCoord, int yCoord) {
+bool LiveEntity::attack(LiveEntity &entity, int xCoord, int yCoord) {
   return 0;
 }

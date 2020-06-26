@@ -19,19 +19,21 @@ bool NPC::checkInRange(Entity& otherEntity, double distance) const{
   return Entity::checkInRange(otherEntity, distance);
 }
 
-int NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
+bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
   PositionData attackZoneData = {
     xCoord,
     yCoord,
-    50,
-    50};
+    ATTACK_NPC_ZONE_WIDTH,
+    ATTACK_NPC_ZONE_HEIGHT};
   Entity attackZone(attackZoneData);
 
   bool canAttack = entity.checkCollision(attackZone);
+  if (!canAttack) return false;
 
-  if (!canAttack) return 0;
+  int damage = skills.strength * level * 0.2;
+  entity.rcvDamage(damage);
 
-  return (skills.strength)*level*0.2;
+  return true;
 }
 
 int NPC::deathDrop(unsigned int &seed){

@@ -37,7 +37,7 @@ class Player : public LiveEntity{
     no se genera ningun daño en el enemigo, y el jugador no gana experiencia.
     Si el ataque no logra ser esquivado, se calcula el daño y se le suma
     la experiencia correspondiente al jugador. */
-    int attack(LiveEntity &entity, int xCoord, int yCoord) override;
+    bool attack(LiveEntity &entity, int xCoord, int yCoord) override;
     /* Se descuenta el daño recibido de los puntos de salud, luego 
     de haber calculado los puntos de defensa. */
     void rcvDamage(int &damage) override;

@@ -214,7 +214,7 @@ void Player::setExperienceData(size_t &level, ExperienceData &experience,
 }
 
 
-int Player::attack(LiveEntity &entity, int xCoord, int yCoord){
+bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   PositionData attackZoneData = {
     xCoord,
     yCoord,
@@ -223,21 +223,22 @@ int Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   Entity attackZone(attackZoneData);
   
   bool canAttack = entity.checkCollision(attackZone);
-
-  if (!canAttack) return 0;
+  if (!canAttack) return false;
   
   double distanceAttackZone =  Entity::getPositionDistance(
     attackZoneData , position);
-
-  if (distanceAttackZone > rightSkills.range) return 0;
+  if (distanceAttackZone > rightSkills.range) return false;
 
   bool dodged = gameEquations.dodgeAttack(LiveEntity::skills.agility);
-
-  if (dodged) return 0;
+  if (dodged) return false;
 
   int damage = gameEquations.damage(skills.strength, rightSkills);
+  entity.rcvDamage(damage);
 
-  return damage;
+  addExperience(damage, entity.level, entity.health.currentHP, 
+    entity.health.totalHP);
+
+  return true;
 }
 
 void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth, 

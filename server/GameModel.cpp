@@ -86,39 +86,23 @@ void GameModel::stopMovement(size_t playerId){
 }
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
-  int damage = 0;
-
   for (auto& it : players){
     if (players.at(it.first)->id == playerId) continue;
 
     if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
-    damage = players.at(playerId)->attack(*it.second, xPos, yPos);
-
-    if (damage == 0) continue;
-
-    players.at(it.first)->rcvDamage(damage);
-
-    players.at(playerId)->addExperience(damage, 
-      it.second->level, it.second->health.currentHP, 
-      it.second->health.totalHP);
-    return;
+    bool success = players.at(playerId)->attack(*it.second, xPos, yPos);
+    if(success) break;
   }
 
   for (auto& it : npcMap){
     if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
-    damage = players.at(playerId)->attack(*it.second, xPos, yPos);
-    
-    if (damage == 0) continue;
-    
-    npcMap.at(it.first)->rcvDamage(damage);
+    bool success = players.at(playerId)->attack(*it.second, xPos, yPos);
 
-    players.at(playerId)->addExperience(damage, 
-      it.second->level, it.second->health.currentHP, 
-      it.second->health.totalHP);
+    if (!success) continue;
 
     if (!(npcMap.at(it.first)->health.currentHP <= 0)) return;
 
@@ -200,13 +184,9 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
 
 void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   for (auto& it : players){
-    int damage = npcMap.at(npcId)->attack(*it.second, xPos, yPos);
-
-    if (damage == 0) continue;
-
-    players.at(it.first)->rcvDamage(damage);
-
-    std::cout << "NPC ATTACK CON DAÑO DE: " << damage << std::endl;
+    if (!npcMap.at(npcId)->checkInRange(*it.second, MAX_RANGE_ZONE))
+        return;
+    npcMap.at(npcId)->attack(*it.second, xPos, yPos);
   }
 }
 
