@@ -94,7 +94,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
       continue;
 
     bool success = players.at(playerId)->attack(*it.second, xPos, yPos);
-    if(success) break;
+    if (success) break;
   }
 
   for (auto& it : npcMap){
@@ -186,7 +186,7 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
 void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   for (auto& it : players){
     if (players.at(it.first)->health.currentHP <= 0) continue;
-    
+
     if (!npcMap.at(npcId)->checkInRange(*it.second, MAX_RANGE_ZONE))
         return;
     npcMap.at(npcId)->attack(*it.second, xPos, yPos);
