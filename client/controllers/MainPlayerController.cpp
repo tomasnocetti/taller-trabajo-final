@@ -170,7 +170,7 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
     break;
   }
   
-  switch(equipment.leftHand){
+  switch (equipment.leftHand){
     case TURTLE_SHIELD:
       playerView.setShield(Shield(manager.getTexture("turtle-shield"), 
         12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16));
@@ -187,11 +187,11 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
 }
 
 void MainPlayerController::checkHealth(int health, PlayerRace race) {
-  if(health <= 0 && !playerView.ghostState()){
+  if (health <= 0 && !playerView.ghostState()){
     playerView.setGhostAnimation(manager.getTexture("ghost"));
   }
 
-  if(health > 0 && playerView.ghostState()){
+  if (health > 0 && playerView.ghostState()){
     playerView.setPlayerAnimation(manager.getTexture("clothes"));
     checkRace(race);
   }
