@@ -41,7 +41,6 @@ int Equations::attackExperience(
   int damage,
   int otherLevel,
   int level) {
-    std::cout << "ATTACK EXPERIENCE" << std::endl;
     return damage * std::max(otherLevel - level + 10, 0);
 }
 
@@ -49,7 +48,6 @@ int Equations::killExperience(
   int maxHealthOther, 
   int otherLevel, 
   int level) {
-    std::cout << "KILL EXPERIENCE" << std::endl;
     return randomFloat(0, 0.1) * 
       maxHealthOther * 
       std::max(otherLevel - level + 10, 0);
@@ -57,7 +55,6 @@ int Equations::killExperience(
 
 bool Equations::dodgeAttack(int agility) {
   float rand = pow(randomFloat(0, 1), agility);
-  std::cout << "Rand number for dodge attack: " << rand << std::endl;
   return rand < DEFENSE_CONST;
 }
 

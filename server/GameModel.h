@@ -28,6 +28,8 @@ class GameModel{
     CronBQ& cronBQ;
     Equations gameEquations;
     void parseMapData();
+    unsigned int randomSeed;
+    int idNpc;
 
   public:
     GameModel(char* mapPath, CronBQ& cronBQ);
@@ -62,7 +64,6 @@ class GameModel{
     void eraseClient(size_t playerId);
     /* Handle attack instruction */
     void attack(size_t playerId, int xPos, int yPos);
-    void addNPCS();
 };
 
 #endif

@@ -7,6 +7,7 @@
 #include <msgpack.hpp>
 
 #define MARGIN_LAYER "margenes"
+#define SPIDER_SPAWN_POINTS "spider-spawn"
 
 #define MAIN_SCREEN_BASE_MAP_X 11
 #define MAIN_SCREEN_BASE_MAP_Y 154

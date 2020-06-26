@@ -14,13 +14,16 @@ class NPC : public LiveEntity {
     bool checkCollision(Entity& otherEntity) const override;
     bool checkInRange(Entity& otherEntity, double distance) const override;
     int attack(LiveEntity &entity, int xCoord, int yCoord) override;
-    int deathDrop();
-
+    int deathDrop(unsigned int &seed);
+    static std::unique_ptr<NPC> createNPC(
+      size_t id,
+      PositionData position,
+      size_t level,
+      NPCClass npcType);
   private:
     size_t id;
     NPCClass type;
     MovementData movement;
-    unsigned int seed;
     friend class GameModel;
 };
 

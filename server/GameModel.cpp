@@ -8,10 +8,11 @@
 #include <stdlib.h>
 
 /* Para mockear el id random */
-unsigned int seed;
 
 GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
-  cronBQ(cronBQ) {
+  cronBQ(cronBQ),
+  randomSeed(0),
+  idNpc(0) {
   m.loadMap(mapPath);
   parseMapData();
 }
@@ -32,6 +33,22 @@ void GameModel::parseMapData() {
       }
     }
   }
+
+  for (size_t i = 0; i < obj.size(); i++){
+    ObjectLayerData& layer = obj[i];
+    for (size_t j = 0; j < obj[i].objects.size(); j++){
+      ObjectData& data = layer.objects[j];
+      PositionData p({data.x, data.y, data.width, data.height});
+
+      if (layer.name == SPIDER_SPAWN_POINTS){
+        std::unique_ptr<NPC> npc(NPC::createNPC(
+          idNpc, p, 10, SPIDER));
+        npcMap.insert(std::pair<size_t,
+          std::unique_ptr<NPC>>(idNpc, std::move(npc)));  
+        idNpc ++;
+      }
+    }
+  }
 }
 
 GameModel::~GameModel(){}
@@ -41,7 +58,7 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  if (nick == "Fer") playerId  = rand_r(&seed) % 100;
+  if (nick == "Fer") playerId  = rand_r(&randomSeed) % 100;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -100,17 +117,9 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
       it.second->level, it.second->health.currentHP, 
       it.second->health.totalHP);
 
-    if (!(npcMap.at(it.first)->health.currentHP <= 0)) continue;
+    if (!(npcMap.at(it.first)->health.currentHP <= 0)) continue;;
 
-    std::cout << "Oro del jugador antes del kill: " << 
-      players.at(playerId)->gold << std::endl;
-
-    players.at(playerId)->gold += npcMap.at(it.first)->deathDrop();
-
-    std::cout << "Oro del jugador despues del kill: " << 
-      players.at(playerId)->gold << std::endl;
-
-    /* Si el npc esta muerto, llamar a función que genere el drop */
+    players.at(playerId)->gold += npcMap.at(it.first)->deathDrop(randomSeed);
   }
 }
 
@@ -256,37 +265,4 @@ void GameModel::generateNPCVector(){
     enemy.healthAndManaData = npcMap.at(it.first)->health;
     npcs.push_back(std::move(enemy));
   }
-}
-
-void GameModel::addNPCS(){
-  // Código para generar id random, solo para mockear //
-  
-  struct EnemyData data;
-  data.id = rand_r(&seed) % 100;
-  data.position.x = 200;
-  data.position.y = 100;
-  data.position.w = 53;
-  data.position.h = 35;
-  data.movement.xDir = 0;
-  data.movement.yDir = 1;
-  data.type = SPIDER;
-  data.healthAndManaData = {100, 100, 0, 0};
-  SkillsData skills = {10, 10, 10};
-
-  std::unique_ptr<NPC> spider(new NPC(data, skills, 5));
-  npcMap.insert(std::pair<size_t,
-    std::unique_ptr<NPC>>(data.id, std::move(spider)));  
-
-  data.id = rand_r(&seed) % 100;
-  data.position.x = 200;
-  data.position.y = 200;
-  data.position.w = 53;
-  data.position.h = 35;
-  data.movement.xDir = 0;
-  data.movement.yDir = 1;
-  data.type = SPIDER;
-
-  std::unique_ptr<NPC> spider2(new NPC(data, skills, 8));
-  npcMap.insert(std::pair<size_t,
-  std::unique_ptr<NPC>>(data.id, std::move(spider2)));  
 }
