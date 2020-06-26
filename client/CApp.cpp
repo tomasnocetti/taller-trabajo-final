@@ -108,12 +108,14 @@ void CApp::LoadAssets() {
   manager.addTexture("manaText", "client/assets/health.png");
   manager.addTexture("goldText", "client/assets/health.png");
   manager.addTexture("levelText", "client/assets/health.png");
+  manager.addTexture("expText", "client/assets/health.png");
   manager.addTexture("clothes", "client/assets/clothes.png");
   manager.addTexture("blue-tunic", "client/assets/blue_tunic.png");
   manager.addTexture("plate-armor", "client/assets/plate_armor.png");
   manager.addTexture("leather-armor", "client/assets/leather_armor.png");
   manager.addTexture("health", "client/assets/health.png");
   manager.addTexture("mana", "client/assets/mana.png");
+  manager.addTexture("exp", "client/assets/exp.png");
   manager.addTexture("dwarf-head", "client/assets/dwarf.png");
   manager.addTexture("elf-head", "client/assets/elf.png");
   manager.addTexture("human-head", "client/assets/human.png");

@@ -31,6 +31,7 @@ class MainPlayerController {
     Bar manaBar;
     TextEntity gold;
     TextEntity level;
+    Bar expBar;
     
     void checkRace(PlayerRace race);
     void checkEquipment(EquipmentData equipment);

@@ -207,7 +207,7 @@ void Player::setHeadSkills(HeadEquipmentSkills
 void Player::setExperienceData(size_t &level, ExperienceData &experience, 
   Equations &gameEquations){
     experience.minLevelExperience = experience.maxLevelExperience;
-    experience.currentExperience -= experience.maxLevelExperience;
+    //experience.currentExperience -= experience.maxLevelExperience;
     experience.maxLevelExperience = 
       gameEquations.maxLevelExperience(level);
 }

@@ -73,9 +73,6 @@ MainPlayerData ServerProxy::getMainPlayerData() const {
 
 void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   mainPlayer = gameModelData.playerData;
-  /*mainPlayer.equipment.head = HOOD;
-  mainPlayer.equipment.body = PLATE_ARMOR;
-  mainPlayer.equipment.leftHand = TURTLE_SHIELD;*/
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
   //map = gameModelData.map;
