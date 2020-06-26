@@ -10,6 +10,7 @@
 #include "ecs/Player.h"
 #include "ecs/Npc.h"
 #include "../DataDefinitions.h"
+#include "definitions/EquationDefinitions.h"
 #include <map>
 
 class Player;
@@ -25,6 +26,7 @@ class GameModel{
     std::vector<OtherPlayersData> otherPlayers;
     MapParser m;
     CronBQ& cronBQ;
+    Equations gameEquations;
     void parseMapData();
 
   public:

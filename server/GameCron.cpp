@@ -57,19 +57,29 @@ void GameCron::runNPCLogic(
   for (EnemyData &npc : npcs) {
     bool hasPlayerInRange = false;
     double minDistanceToPlayer = MIN_DISTANCE_NPC;
-    PositionData positionTofollow;
+
+    //bool hasPlayerInRangeOfAttack = false;
+    //double minDistanceToAttackPlayer = 100;
+    PositionData positionToFollowAttack;
 
     // Calcula la distancia minima a un jugador
     for (OtherPlayersData &player : players) {
       double distance = Entity::getPositionDistance(
         npc.position, player.position);
+      
       if (distance >= minDistanceToPlayer) continue;
       hasPlayerInRange = true;
-      positionTofollow = player.position;
+      positionToFollowAttack = player.position;
+/*
+      if (distance >= minDistanceToAttackPlayer) continue;
+      hasPlayerInRangeOfAttack = true;
+      positionToFollowAttack = player.position;
+      break;
+*/
     }
 
     if (!hasPlayerInRange) continue;
-    moveNPC(npc.id, npc.position, positionTofollow);
+    moveNPC(npc.id, npc.position, positionToFollowAttack);    
   }
 }
 

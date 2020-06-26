@@ -5,6 +5,7 @@
 
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
+#define EXP_BAR_Y 45
 #define GOLD_Y 10
 #define GOLD_X 105
 #define LEVEL_X 50
@@ -24,6 +25,7 @@ void MainPlayerController::init(){
   LTexture* manaText = manager.getTexture("manaText");
   LTexture* goldText = manager.getTexture("goldText");
   LTexture* levelText = manager.getTexture("levelText");
+  LTexture* expText = manager.getTexture("expText");
   
   playerView.init(manager.getTexture("clothes"));
   checkRace(data.rootd.prace);
@@ -32,17 +34,22 @@ void MainPlayerController::init(){
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y, manaText, font);
   gold.init(GOLD_X, GOLD_Y, goldText, font);
   level.init(LEVEL_X, LEVEL_Y, levelText, font);
+  expBar.init(manager.getTexture("exp"), EXP_BAR_Y, expText, font);
 }
 
 void MainPlayerController::update() {
   MainPlayerData data = model.getMainPlayerData();
   playerView.move(data.position.x, data.position.y);
 
-  healthBar.update(data.points.currentHP, data.points.totalHP);
-  manaBar.update(data.points.currentMP, data.points.totalMP);
+  healthBar.update(data.points.currentHP, data.points.totalHP, 0);
+  manaBar.update(data.points.currentMP, data.points.totalMP, 0);
   gold.update(std::to_string(data.gold));
+  
   level.update(data.nick + " - nivel: " + 
     std::to_string(data.level));
+  expBar.update(data.experience.currentExperience, 
+    data.experience.maxLevelExperience, 
+    data.experience.minLevelExperience);
 
   checkEquipment(data.equipment);
 }
@@ -104,6 +111,7 @@ std::vector<Entity*> MainPlayerController::getBars() {
 std::vector<Entity*> MainPlayerController::getExp() {
   std::vector<Entity*> v;
   v.push_back(&level);
+  v.push_back(&expBar);
   return v;
 }
 

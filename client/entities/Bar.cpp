@@ -9,12 +9,12 @@ void Bar::init(LTexture* texture, int y, LTexture* textTexture,
 	text.init(BAR_X + 30, y - 1, textTexture, font);
 }
 
-void Bar::update(int value, int maxValue) {
+void Bar::update(int value, int maxValue, int minValue) {
 	if (maxValue == 0) {
 		destRect.w = 0;
 	} else {
 		if(value < 0) value = 0;
-		destRect.w = (value * BAR_W) / maxValue;
+		destRect.w = (value - minValue) * BAR_W / (maxValue - minValue);
 	}
 	text.update(std::to_string(value) + "/" + std::to_string(maxValue));
 }

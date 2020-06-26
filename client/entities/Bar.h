@@ -19,7 +19,7 @@ class Bar : public Entity {
 	public:
 		Bar();
 		void init(LTexture* texture, int y, LTexture* textTexture, TTF_Font* font);
-		void update(int value, int maxValue);
+		void update(int value, int maxValue, int minValue);
 		void paint(const Camera &camera, 
 			double scaleW, double scaleH) override {}
 		void paint(double scaleW, double scaleH) override;
