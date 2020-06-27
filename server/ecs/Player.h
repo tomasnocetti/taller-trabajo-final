@@ -5,6 +5,7 @@
 #include "../definitions/EquationDefinitions.h"
 #include "../GameModel.h"
 #include <string>
+#include <vector>
 
 class Equation;
 
