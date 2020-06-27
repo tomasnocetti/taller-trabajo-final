@@ -65,6 +65,7 @@ class Player : public LiveEntity{
       &headSkills, HeadEquipment &headEquipment);   
     static void setExperienceData(size_t &level, ExperienceData &experience);
     static void setPositionData(PlayerRootData &root, PositionData &position);
+    static void setDefaultEquipment(MainPlayerData &data);
 };
 
 #endif

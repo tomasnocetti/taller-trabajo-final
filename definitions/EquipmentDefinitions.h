@@ -14,7 +14,7 @@ typedef enum {
 MSGPACK_ADD_ENUM(Equipable)
 
 typedef enum{
-  DEFAULT1,
+  DEFAULT_H,
   HELMET,
   HAT,
   HOOD
@@ -23,7 +23,7 @@ typedef enum{
 MSGPACK_ADD_ENUM(HeadEquipment)
 
 typedef enum {
-  DEFAULT2,
+  DEFAULT_B,
   TUNIC,
   LEATHER_ARMOR,
   PLATE_ARMOR
@@ -32,7 +32,7 @@ typedef enum {
 MSGPACK_ADD_ENUM(BodyEquipment)
 
 typedef enum {
-  DEFAULT3,
+  DEFAULT_R,
   SWORD,
   SIMPLE_BOW,
   ASH_STICK
@@ -41,7 +41,7 @@ typedef enum {
 MSGPACK_ADD_ENUM(RightHandEquipment)
 
 typedef enum {
-  DEFAULT4,
+  DEFAULT_L,
   TURTLE_SHIELD,
   IRON_SHIELD
 } LeftHandEquipment;

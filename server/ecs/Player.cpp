@@ -33,6 +33,8 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     Player::setClassSkills(data.skills, data.rootd);
     Player::setRaceSkills(data.skills, data.rootd);
 
+    Player::setDefaultEquipment(data);
+
     data.experience.maxLevelExperience = 0;
     data.experience.currentExperience = 0;
     Player::setExperienceData(data.level, data.experience);
@@ -48,8 +50,6 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
       (data.skills.inteligence, data.skills.classMana, data.skills.raceMana, 
       data.level);
     data.points.currentMP = data.points.totalMP;
-
-    Player::setInitEquipment(data.equipment, data.rootd);
 
     data.movement.xDir = 0;
     data.movement.yDir = 0;
@@ -137,6 +137,8 @@ void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
   }
 }
 
+/* VER SI TODAVIA SIRVE
+
 void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.body = TUNIC;
   equipment.head = HELMET;
@@ -144,6 +146,7 @@ void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.rightHand = ASH_STICK;
 }
 
+*/
 
 void Player::setRighHandSkills(RightHandEquipmentSkills
   &rightSkills, RightHandEquipment &rightEquipment){
@@ -166,6 +169,10 @@ void Player::setRighHandSkills(RightHandEquipmentSkills
         rightSkills.range = ASH_STICK_RANGE;
         rightSkills.mana = ASH_STICK_MANA;
       default:
+        rightSkills.maxDamage = 0;
+        rightSkills.minDamage = 0;
+        rightSkills.range = 0;
+        rightSkills.mana = 0;
         break;
     }
 }
@@ -178,6 +185,8 @@ void Player::setLeftHandSkills(LeftHandEquipmentSkills
         leftSkills.minDefense = IRON_SHIELD_MIN_DEFENSE;
         break;
       default:
+        leftSkills.maxDefense = 0;
+        leftSkills.minDefense = 0;
         break;
     }
 }
@@ -191,6 +200,8 @@ void Player::setBodySkills(BodyEquipmentSkills
       bodySkills.minDefense = TUNIC_MIN_DEFENSE;
       break;
     default:
+      bodySkills.maxDefense = 0;
+      bodySkills.minDefense = 0;
       break;
     }
 }
@@ -204,6 +215,8 @@ void Player::setHeadSkills(HeadEquipmentSkills
       headSkills.minDefense = HELMET_MIN_DEFENSE;
       break;
     default:
+      headSkills.maxDefense = 0;
+      headSkills.minDefense = 0;
       break;
     }
 }
@@ -291,3 +304,25 @@ int Player::defend(){
     leftSkills, headSkills);
 }
 
+void Player::setDefaultEquipment(MainPlayerData &data){
+  InventoryElementData bodyArmour, weapon;
+  
+  bodyArmour.amount = 1;
+  bodyArmour.isEquiped = true;
+  bodyArmour.equipableType = BODY_ARMOUR;
+  bodyArmour.enumPosition = BodyEquipment::DEFAULT_B;
+  data.equipment.body = DEFAULT_B;
+
+  weapon.amount = 1;
+  weapon.isEquiped = true;
+  weapon.equipableType = WEAPON;
+  weapon.enumPosition = RightHandEquipment::SWORD;
+  data.equipment.rightHand = SWORD;
+
+  /* Mano izquierda y cabeza quedan en default (nada equipado) */
+  data.equipment.head = DEFAULT_H;
+  data.equipment.leftHand = DEFAULT_L;
+
+  data.inventory.push_back(bodyArmour);
+  data.inventory.push_back(weapon);
+}
