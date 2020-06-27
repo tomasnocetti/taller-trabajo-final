@@ -33,13 +33,15 @@ void GameModel::parseMapData() {
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 10, SPIDER));
         npcMap.insert(std::pair<size_t,
+
           std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
       }
-      
+
       if (layer.name == GOBLIN_SPAWN_POINTS){
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 15, GOBLIN));
         npcMap.insert(std::pair<size_t,
+
           std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
       }
 
@@ -47,6 +49,7 @@ void GameModel::parseMapData() {
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 8, SKELETON));
         npcMap.insert(std::pair<size_t,
+
           std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
       }
 

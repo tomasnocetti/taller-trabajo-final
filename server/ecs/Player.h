@@ -26,7 +26,6 @@ class Player : public LiveEntity{
 
   public:
     Player(MainPlayerData playerData, size_t id);
-    ~Player();
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
     /* Cheque si la posición a la que se quiere atacar contiene un npc

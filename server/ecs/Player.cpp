@@ -279,4 +279,3 @@ int Player::defend(){
     leftSkills, headSkills);
 }
 
-Player::~Player(){}
