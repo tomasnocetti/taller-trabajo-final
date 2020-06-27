@@ -94,10 +94,11 @@ void GameModel::stopMovement(size_t playerId){
 }
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
-  if (players.at(playerId)->health.currentHP <= 0) return;
+  Player& p = *players.at(playerId);
+  if (p.health.currentHP <= 0) return;
 
   for (auto &it : cities)
-    if (players.at(playerId)->checkCollision(*it)) return;
+    if (p.checkCollision(*it)) return;
 
   for (auto& it : players){
     for (auto &itCities : cities)
@@ -105,22 +106,22 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     if (players.at(it.first)->id == playerId) continue;
 
-    if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
+    if (!p.checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
-    bool success = players.at(playerId)->attack(*it.second, xPos, yPos);
+    bool success = p.attack(*it.second, xPos, yPos);
     if (success) break;
   }
 
   for (auto& it : npcMap){
-    if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
+    if (!p.checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
-    bool success = players.at(playerId)->attack(*it.second, xPos, yPos);
+    bool success = p.attack(*it.second, xPos, yPos);
 
     if (!success) continue;
 
-    players.at(playerId)->gold += npcMap.at(it.first)->drop(randomSeed);
+    p.gold += npcMap.at(it.first)->drop(randomSeed);
     return;
   }
 }
