@@ -7,8 +7,6 @@ NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
   type(npcData.type),
   movement(npcData.movement) {}
 
-NPC::~NPC(){}
-
 bool NPC::checkCollision(Entity& otherEntity) const{
   if (this->health.currentHP <= 0) return false;
   return Entity::checkCollision(otherEntity);

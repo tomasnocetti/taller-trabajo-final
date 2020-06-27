@@ -275,7 +275,3 @@ int Player::defend(){
   return gameEquations.defend(skills.agility, bodySkills, 
     leftSkills, headSkills);
 }
-
-
-
-Player::~Player(){}

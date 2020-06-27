@@ -29,11 +29,9 @@ class ServerProxyRead : public Thread {
 class ServerProxyWrite : public Thread {
   public:
     ServerProxyWrite(ServerProxy &server, BlockingQueueWrite &readBQ);
-    ~ServerProxyWrite();
     ServerProxyWrite(const ServerProxyWrite&) = delete;
     ServerProxyWrite& operator=(const ServerProxyWrite&) = delete;
     void run();
-    void getInstruction(InstructionData &instruction);
     std::stringstream packInstruction(InstructionData &instruction);
     void sendInstruction(std::stringstream &buffer);
 
@@ -45,7 +43,6 @@ class ServerProxyWrite : public Thread {
 class ServerProxy{
   public:
     ServerProxy(std::string& host, std::string& port);
-    ~ServerProxy();
     ServerProxy(const ServerProxy&) = delete;
     ServerProxy& operator=(const ServerProxy&) = delete;
     ServerProxy&& operator=(ServerProxy&& other);
@@ -77,9 +74,14 @@ class ServerProxy{
     std::vector<OtherPlayersData> otherPlayers;
     BlockingQueueWrite writeBQ;
     ResponseQ readBQ;
-    Socket socket;
+    /** IMPORTANTE **/
+    /** El orden en estos items es muy importante.
+     * Necesitamos que se destruya primero el socket y luego los threads
+     * sino quedaran joineando infinitamente en los destructores **/
     ServerProxyWrite serverProxyWrite;
     ServerProxyRead serverProxyRead;
+    Socket socket;
+    /** -------- **/
     ResponseQ responseQ;
 };
 

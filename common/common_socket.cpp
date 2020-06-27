@@ -44,6 +44,7 @@ Socket::Socket(Socket&& other) {
 }
 
 Socket::~Socket() {
+  this->shutdown();
   this->close();
 }
 
