@@ -24,7 +24,6 @@ void ServerProxyRead::run(){
       LOG_CRIT,
       "[Crit] Error!: \n Error Code: %i \n Message: %s",
       e.code().value(), e.what());
-
   } catch(const std::exception& e) {
     syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());
   } catch(...) {

@@ -14,7 +14,7 @@ class Entity {
     PositionData position;
   public:
     explicit Entity(PositionData& p);
-    virtual ~Entity() {};
+    virtual ~Entity();
     static bool checkPositionCollision(
       const PositionData& p1, const PositionData&p2);
     static double getPositionDistance(

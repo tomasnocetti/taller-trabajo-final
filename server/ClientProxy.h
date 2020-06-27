@@ -9,6 +9,7 @@
 #include "instructions/Instruction.h"
 #include "responses/Response.h"
 #include "../common/common_socket.h"
+#include <string>
 
 class Instruction;
 class ClientProxyRead;
