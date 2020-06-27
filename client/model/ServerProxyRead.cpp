@@ -14,16 +14,16 @@ void ServerProxyRead::run(){
       handleResponse();
     }
   } catch(const std::system_error& e) {
-    /** This error codes gey by-passed. In Linux when a blocking socket.accept
-     * is being called and the bind socket get's closed an errno is thrown with
-     * EINVAL. This is common logic so it shouldn't be handled as an error.
+    /** This error codes gey by-passed. If user closes the game then the connection
+     * will be closed by other thread. In this situation the read will throw a EBADF error
+     * code, so if the server is off and we get this error we skip.
     */
-    if (e.code().value() != ECONNABORTED && e.code().value() != EINVAL) {
-      syslog(
-        LOG_CRIT,
-        "[Crit] Error!: \n Error Code: %i \n Message: %s",
-        e.code().value(), e.what());
-    }
+    if (server.running == false && e.code().value() == EBADF) return;
+
+    syslog(
+      LOG_CRIT,
+      "[Crit] Error!: \n Error Code: %i \n Message: %s",
+      e.code().value(), e.what());
   } catch(const std::exception& e) {
     syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());
   } catch(...) {
@@ -40,7 +40,7 @@ void ServerProxyRead::handleResponse() {
   sizeOfResponse = from_big_end<uint32_t>(sizeOfResponse);
 
   std::vector<char> res_message(sizeOfResponse);
-  
+
   server.socket.receive(res_message.data(), sizeOfResponse);
   std::string response(res_message.begin(), res_message.end());
 

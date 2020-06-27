@@ -53,29 +53,44 @@ ClientProxyRead::ClientProxyRead(ClientProxy& client) :
 void ClientProxyRead::run(){
   try{
     while (client.running){
-      InstructionData i = getInstruction();
+      std::string buffer;
+      InstructionData i;
+      bool success = getRawInstruction(buffer);
+      if (!success) {
+        std::cout << "CERRANDO!" << std::endl;
+        client.running = false;
+        i = {CLOSE_SERVER, {}};
+      } else {
+        i = getInstruction(buffer);
+      }
+
       /** HANDLE **/
       handleInstruction(i);
     }
   } catch(const std::exception& e) {
-    if (errno == 9) return;
     std::cout << "ERROR CLIENT PROXY READ: " << e.what() << std::endl;
   } catch(...) {
     std::cout << "UNKOWN ERROR CLIENT PROXY READ" << std::endl;
   }
 }
 
-InstructionData ClientProxyRead::getInstruction() {
+bool ClientProxyRead::getRawInstruction(std::string& buffer) {
   uint32_t sizeInstruction = 0;
-  client.acceptedSocket.receive((char*) &sizeInstruction, 4);
+  bool success = client.acceptedSocket.receive((char*) &sizeInstruction, 4);
+  if (!success) return false;
 
   sizeInstruction = from_big_end<uint32_t>(sizeInstruction);
 
   std::vector<char> res_message(sizeInstruction);
 
-  client.acceptedSocket.receive(res_message.data(), sizeInstruction);
-  std::string instruction(res_message.begin(), res_message.end());
+  success = client.acceptedSocket.receive(res_message.data(), sizeInstruction);
+  if (!success) return false;
 
+  buffer = std::string(res_message.begin(), res_message.end());
+  return true;
+}
+
+InstructionData ClientProxyRead::getInstruction(std::string& instruction) {
   msgpack::object_handle oh =
         msgpack::unpack(instruction.data(), instruction.size());
   msgpack::object deserialized = oh.get();

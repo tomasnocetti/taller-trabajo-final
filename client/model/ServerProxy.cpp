@@ -12,10 +12,6 @@ ServerProxy::ServerProxy(std::string& host, std::string& port) :
     socket.connect(host.c_str(), port.c_str());
 }
 
-ServerProxy::~ServerProxy(){
-  socket.close();
-}
-
 void ServerProxy::authentificate(std::string& alias) {
   std::cout << "Player " << alias << " authentificated" << std::endl;
 }
@@ -33,9 +29,7 @@ void ServerProxy::init() {
   writeBQ.push(instruction);
 
   mainPlayer.rootd.pclass = WARRIOR;
-  mainPlayer.rootd.prace = HUMAN;
-  mainPlayer.position.x = 100;
-  mainPlayer.position.y = 100;
+  mainPlayer.rootd.prace = GNOME;
 }
 
 void ServerProxy::update() {
@@ -98,6 +92,5 @@ bool ServerProxy::isAuthenticated() const {
 
 void ServerProxy::close(){
   running = false;
-  InstructionData instruction = {CLOSE_SERVER, {}};
-  writeBQ.push(instruction);
+  writeBQ.close();
 }

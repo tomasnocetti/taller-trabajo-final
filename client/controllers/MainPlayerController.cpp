@@ -1,11 +1,16 @@
 #include "MainPlayerController.h"
+#include "../view/HeadWear.h"
+#include "../view/Shield.h"
 #include <iostream>
 #include <vector>
 
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
+#define EXP_BAR_Y 45
 #define GOLD_Y 10
 #define GOLD_X 105
+#define LEVEL_X 50
+#define LEVEL_Y 24
 
 MainPlayerController::MainPlayerController(
   ServerProxy& model,
@@ -16,25 +21,39 @@ MainPlayerController::MainPlayerController(
 void MainPlayerController::init(){
   MainPlayerData data = model.getMainPlayerData();
 
-  TTF_Font* font = manager.getFont("main");
-  LTexture* goldTexture = manager.getTexture("gold");
+  TTF_Font* font = manager.getFont("arial");
+  LTexture* healthText = manager.getTexture("healthText");
+  LTexture* manaText = manager.getTexture("manaText");
+  LTexture* goldText = manager.getTexture("goldText");
+  LTexture* levelText = manager.getTexture("levelText");
+  LTexture* expText = manager.getTexture("expText");
   
-  playerView.init(
-    manager.getTexture("clothes"), data.position.x, data.position.y);
+  playerView.init(manager.getTexture("clothes"));
   checkRace(data.rootd.prace);
-  healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y);
-  manaBar.init(manager.getTexture("mana"), MANA_BAR_Y);
-  gold.init(GOLD_X, GOLD_Y, goldTexture, font);
+  healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y,
+    healthText, font);
+  manaBar.init(manager.getTexture("mana"), MANA_BAR_Y, manaText, font);
+  gold.init(GOLD_X, GOLD_Y, goldText, font);
+  level.init(LEVEL_X, LEVEL_Y, levelText, font);
+  expBar.init(manager.getTexture("exp"), EXP_BAR_Y, expText, font);
 }
 
 void MainPlayerController::update() {
   MainPlayerData data = model.getMainPlayerData();
-  //std::cout << "mi id es: " << data.id << std::endl;
   playerView.move(data.position.x, data.position.y);
 
-  healthBar.update(data.points.currentHP, data.points.totalHP);
-  manaBar.update(data.points.currentMP, data.points.totalMP);
+  healthBar.update(data.points.currentHP, data.points.totalHP, 0);
+  manaBar.update(data.points.currentMP, data.points.totalMP, 0);
   gold.update(std::to_string(data.gold));
+
+  level.update(data.nick + " - nivel: " + 
+    std::to_string(data.level));
+  expBar.update(data.experience.currentExperience, 
+    data.experience.maxLevelExperience, 
+    data.experience.minLevelExperience);
+
+  checkHealth(data.points.currentHP, data.rootd.prace);
+  checkEquipment(data.equipment);
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e,
@@ -91,6 +110,13 @@ std::vector<Entity*> MainPlayerController::getBars() {
   return v;
 }
 
+std::vector<Entity*> MainPlayerController::getExp() {
+  std::vector<Entity*> v;
+  v.push_back(&level);
+  v.push_back(&expBar);
+  return v;
+}
+
 void MainPlayerController::checkRace(PlayerRace race) {
   switch (race){
     case DWARF:
@@ -107,6 +133,67 @@ void MainPlayerController::checkRace(PlayerRace race) {
     break;
     default:
     break;
+  }
+}
+
+void MainPlayerController::checkEquipment(EquipmentData equipment){
+  switch (equipment.body){
+    case TUNIC:
+      playerView.setBodyWear(manager.getTexture("blue-tunic"));
+    break;
+    case PLATE_ARMOR:
+      playerView.setBodyWear(manager.getTexture("plate-armor"));
+    break;
+    case LEATHER_ARMOR:
+      playerView.setBodyWear(manager.getTexture("leather-armor"));
+    break;
+    default:
+      playerView.setBodyWear(manager.getTexture("clothes"));
+    break;
+  }
+
+  switch (equipment.head){
+    case HELMET:
+      playerView.setHeadWear(HeadWear(manager.getTexture("helmet"), 
+        3, -9, 0, -10));
+    break;
+    case HAT:
+      playerView.setHeadWear(HeadWear(manager.getTexture("hat"), 
+        3, -25, 0, -25));
+    break;
+    case HOOD:
+      playerView.setHeadWear(HeadWear(manager.getTexture("hood"), 
+        2, -10, -1, -10));
+    break;
+    default:
+      playerView.setHeadWear(HeadWear(nullptr, 0, 0, 0, 0));
+    break;
+  }
+  
+  switch (equipment.leftHand){
+    case TURTLE_SHIELD:
+      playerView.setShield(Shield(manager.getTexture("turtle-shield"), 
+        12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16));
+    break;
+    case IRON_SHIELD:
+      playerView.setShield(Shield(manager.getTexture("iron-shield"), 
+        6, 10, 17, 24, 1, 60, 13, 16, 25, 104, 24, 18));
+    break;
+    default:
+      playerView.setShield(Shield(nullptr, 
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    break;
+  }
+}
+
+void MainPlayerController::checkHealth(int health, PlayerRace race) {
+  if (health <= 0 && !playerView.ghostState()){
+    playerView.setGhostAnimation(manager.getTexture("ghost"));
+  }
+
+  if (health > 0 && playerView.ghostState()){
+    playerView.setPlayerAnimation(manager.getTexture("clothes"));
+    checkRace(race);
   }
 }
 

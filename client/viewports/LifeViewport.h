@@ -13,7 +13,6 @@
 
 class LifeViewport : SdlViewport{
 	public:
-		//Initializes variables
 	  LifeViewport(
       SdlWindow& window,
       int x = X,
@@ -23,8 +22,6 @@ class LifeViewport : SdlViewport{
     LifeViewport(const LifeViewport&) = delete;
     LifeViewport& operator=(const LifeViewport&) = delete;
     void paint(std::vector<Entity*> values);
-    void init();
-		//Deallocates memory
 		~LifeViewport();
 };
 

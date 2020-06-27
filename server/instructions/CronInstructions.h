@@ -37,4 +37,21 @@ class NPCSetCoordsInstruction: public Instruction {
     int yPos;
 };
 
+class NPCAttackInstruction: public Instruction {
+  public:
+    NPCAttackInstruction(size_t id, int xPos, int yPos);
+    NPCAttackInstruction(
+      const NPCAttackInstruction&) = delete;
+    NPCAttackInstruction& operator=(
+      const NPCAttackInstruction&) = delete;
+    NPCAttackInstruction&& operator=(
+      NPCAttackInstruction&& other);
+    void run(GameModel& game) override;
+
+  private:
+    size_t npcId;
+    int xPos;
+    int yPos;
+};
+
 #endif

@@ -10,6 +10,7 @@
 #include "ecs/Player.h"
 #include "ecs/Npc.h"
 #include "../DataDefinitions.h"
+#include "definitions/EquationDefinitions.h"
 #include <map>
 
 class Player;
@@ -18,6 +19,7 @@ class NPC;
 class GameModel{
   private:
     std::vector<std::unique_ptr<Entity>> margins;
+    std::vector<std::unique_ptr<Entity>> cities;
     std::vector<EnemyData> npcs;
     std::map<size_t, std::unique_ptr<NPC>> npcMap;
     std::map<size_t, ResponseBQ&> clientsBQ;
@@ -26,6 +28,7 @@ class GameModel{
     MapParser m;
     CronBQ& cronBQ;
     void parseMapData();
+    unsigned int randomSeed;
 
   public:
     GameModel(char* mapPath, CronBQ& cronBQ);
@@ -42,6 +45,8 @@ class GameModel{
     void playerSetCoords(size_t playerId, int x, int y);
     /* Handle npcSetCoords instruction. */
     void npcSetCoords(size_t playerId, int xPos, int yPos);
+    /* Handle npcAttack instruction. */
+    void npcAttack(size_t npcId, int xPos, int yPos);
     /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
       Devuelve true si pudo o es valido, false de lo contrario. */
     bool authenticate(
@@ -60,7 +65,6 @@ class GameModel{
     void eraseClient(size_t playerId);
     /* Handle attack instruction */
     void attack(size_t playerId, int xPos, int yPos);
-    void addNPCS();
 };
 
 #endif
