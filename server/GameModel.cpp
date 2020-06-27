@@ -31,23 +31,26 @@ void GameModel::parseMapData() {
 
       if (layer.name == SPIDER_SPAWN_POINTS){
         std::unique_ptr<NPC> npc(NPC::createNPC(
-          i, p, 10, SPIDER));
+          NPC::getNewId(), p, 10, SPIDER));
         npcMap.insert(std::pair<size_t,
-          std::unique_ptr<NPC>>(i, std::move(npc)));
+
+          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
       }
 
       if (layer.name == GOBLIN_SPAWN_POINTS){
         std::unique_ptr<NPC> npc(NPC::createNPC(
-          i, p, 15, GOBLIN));
+          NPC::getNewId(), p, 15, GOBLIN));
         npcMap.insert(std::pair<size_t,
-          std::unique_ptr<NPC>>(i, std::move(npc)));
+
+          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
       }
 
       if (layer.name == SKELETON_SPAWN_POINTS){
         std::unique_ptr<NPC> npc(NPC::createNPC(
-          i, p, 8, SKELETON));
+          NPC::getNewId(), p, 8, SKELETON));
         npcMap.insert(std::pair<size_t,
-          std::unique_ptr<NPC>>(i, std::move(npc)));
+
+          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
       }
     }
   }
@@ -67,8 +70,7 @@ bool GameModel::authenticate(
 
   PlayerRootData root = {CLERIC, HUMAN};
 
-  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root,
-    gameEquations));
+  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root));
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
@@ -86,51 +88,30 @@ void GameModel::stopMovement(size_t playerId){
 }
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
-  int damage = 0;
-  int attacksAmount = 0;
+  if (players.at(playerId)->health.currentHP <= 0) return;
 
   for (auto& it : players){
-    if (!attacksAmount == 0) break;
-
     if (players.at(it.first)->id == playerId) continue;
 
     if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
-    damage = players.at(playerId)->attack(*it.second, xPos, yPos);
-
-    if (damage == 0) continue;
-
-    attacksAmount += 1;
-
-    players.at(it.first)->rcvDamage(damage);
-
-    players.at(playerId)->addExperience(damage, 
-      it.second->level, it.second->health.currentHP, 
-      it.second->health.totalHP);
+    bool success = players.at(playerId)->attack(*it.second, xPos, yPos);
+    if (success) break;
   }
 
   for (auto& it : npcMap){
-    if (!attacksAmount == 0) break;
-
     if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
-    damage = players.at(playerId)->attack(*it.second, xPos, yPos);
-    
-    if (damage == 0) continue;
-    
-    attacksAmount += 1;
+    bool success = players.at(playerId)->attack(*it.second, xPos, yPos);
 
-    npcMap.at(it.first)->rcvDamage(damage);
+    if (!success) continue;
 
-    players.at(playerId)->addExperience(damage, 
-      it.second->level, it.second->health.currentHP, 
-      it.second->health.totalHP);
-
-    if (!(npcMap.at(it.first)->health.currentHP <= 0)) continue;;
+    if (!(npcMap.at(it.first)->health.currentHP <= 0)) return;
 
     players.at(playerId)->gold += npcMap.at(it.first)->deathDrop(randomSeed);
+    return;
   }
 }
 
@@ -205,6 +186,14 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
     }
 }
 
+void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
+  for (auto& it : players){
+    if (!npcMap.at(npcId)->checkInRange(*it.second, MAX_RANGE_ZONE))
+        return;
+    npcMap.at(npcId)->attack(*it.second, xPos, yPos);
+  }
+}
+
 void GameModel::eraseClient(size_t playerID){
   players.erase(playerID);
   clientsBQ.erase(playerID);
@@ -261,6 +250,7 @@ void GameModel::generateOtherPlayersGameData(){
     otherPlayer.movement = players.at(it.first)->movement;
     otherPlayer.rootd = players.at(it.first)->rootd;
     otherPlayer.equipment = players.at(it.first)->equipment;
+    otherPlayer.otherPlayerHealth = players.at(it.first)->health.currentHP;
     otherPlayers.push_back(std::move(otherPlayer));
   }
 }

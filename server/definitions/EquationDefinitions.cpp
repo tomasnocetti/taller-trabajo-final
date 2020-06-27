@@ -6,9 +6,11 @@
 #define MAX_LEVEL_EXPERIENCE_CONST 1.8
 #define DEFENSE_CONST 0.001
 
-Equations::Equations() : seed(0) {}
+Equations::Equations() {}
 
 Equations::~Equations(){}
+
+unsigned int Equations::seed = 0;
 
 int Equations::maxLife(
   int constitution,
