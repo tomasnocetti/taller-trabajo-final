@@ -127,26 +127,27 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
-  int auxXPos = players.at(playerId)->position.x;
-  int auxYPos = players.at(playerId)->position.y;
-  players.at(playerId)->position.x = x;
-  players.at(playerId)->position.y = y;
+  Player& p = *players.at(playerId);
+  int auxXPos = p.position.x;
+  int auxYPos = p.position.y;
+  p.position.x = x;
+  p.position.y = y;
 
   for (auto& it : players){
     if (players.at(it.first)->id == playerId) continue;
-    bool collision = players.at(playerId)->checkCollision(*it.second);
+    bool collision = p.checkCollision(*it.second);
     if (collision){
-        players.at(playerId)->position.x = auxXPos;
-        players.at(playerId)->position.y = auxYPos;
+        p.position.x = auxXPos;
+        p.position.y = auxYPos;
         return;
     }
   }
 
   for (auto &it : margins){
-    bool collision = players.at(playerId)->checkCollision(*it);
+    bool collision = p.checkCollision(*it);
     if (collision){
-      players.at(playerId)->position.x = auxXPos;
-      players.at(playerId)->position.y = auxYPos;
+      p.position.x = auxXPos;
+      p.position.y = auxYPos;
       return;
     }
   }
@@ -154,66 +155,68 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   for (auto& it : npcMap){
     bool collision = npcMap.at(it.first)->checkCollision(*players[playerId]);
     if (collision){
-        players.at(playerId)->position.x = auxXPos;
-        players.at(playerId)->position.y = auxYPos;
+        p.position.x = auxXPos;
+        p.position.y = auxYPos;
         return;
     }
   }
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
-    int auxXPos = npcMap.at(id)->position.x;
-    int auxYPos = npcMap.at(id)->position.y;
+    NPC& n = *npcMap.at(id);
+    int auxXPos = n.position.x;
+    int auxYPos = n.position.y;
     
-    npcMap.at(id)->position.x = xPos;
-    npcMap.at(id)->position.y = yPos;
+    n.position.x = xPos;
+    n.position.y = yPos;
 
     for (auto& it : players){
-      bool collision = npcMap.at(id)->checkCollision(*players[it.first]);
+      bool collision = n.checkCollision(*players[it.first]);
       if (collision){
-          npcMap.at(id)->position.x = auxXPos;
-          npcMap.at(id)->position.y = auxYPos;
+          n.position.x = auxXPos;
+          n.position.y = auxYPos;
           return;
       }
     }
 
     for (auto &it : cities){
-      bool collision = npcMap.at(id)->checkCollision(*it);
+      bool collision = n.checkCollision(*it);
       if (collision){
-        npcMap.at(id)->position.x = auxXPos;
-        npcMap.at(id)->position.y = auxYPos;
+        n.position.x = auxXPos;
+        n.position.y = auxYPos;
         return;
       }
     }
 
     for (auto &it : margins){
-      bool collision = npcMap.at(id)->checkCollision(*it);
+      bool collision = n.checkCollision(*it);
       if (collision){
-        npcMap.at(id)->position.x = auxXPos;
-        npcMap.at(id)->position.y = auxYPos;
+        n.position.x = auxXPos;
+        n.position.y = auxYPos;
         return;
       }
     }
 
     for (auto& it : npcMap){
-      if (npcMap.at(it.first)->id == id) continue;
+      if (n.id == id) continue;
       bool collision = npcMap.at(it.first)->checkCollision(*npcMap[id]);
       if (collision){
-          npcMap.at(id)->position.x = auxXPos;
-          npcMap.at(id)->position.y = auxYPos;
+          n.position.x = auxXPos;
+          n.position.y = auxYPos;
           return;
       }
     }
 }
 
 void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
+  NPC& n = *npcMap.at(npcId);
   for (auto& it : players){
     for (auto &itCities : cities)
       if (players.at(it.first)->checkCollision(*itCities)) return;
 
-    if (!npcMap.at(npcId)->checkInRange(*it.second, MAX_RANGE_ZONE))
+    if (!n.checkInRange(*it.second, MAX_RANGE_ZONE))
         return;
-    npcMap.at(npcId)->attack(*it.second, xPos, yPos);
+    n.attack(*it.second, xPos, yPos);
   }
 }
 

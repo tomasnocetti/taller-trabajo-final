@@ -28,13 +28,10 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.rootd = root;
     data.nick = nick;
     data.gold = 0;
-    data.level = 1;
-
-    int width = 25, height = 48;
+    data.level = PLAYER_INITIAL_LEVEL;
 
     Player::setClassSkills(data.skills, data.rootd);
     Player::setRaceSkills(data.skills, data.rootd);
-
 
     data.experience.maxLevelExperience = 0;
     data.experience.currentExperience = 0;
@@ -42,7 +39,8 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     
     data.inventory.helmet = "";
     
-    data.position = {2600 , 2600, width, height};
+    Player::setPositionData(root, data.position);
+
     data.points.totalHP = Equations::maxLife(data.skills.classConstitution, 
       data.skills.classHealth, data.skills.raceHealth, 
       data.level);
@@ -218,11 +216,18 @@ void Player::setExperienceData(size_t &level, ExperienceData &experience){
       Equations::maxLevelExperience(level);
 }
 
+void Player::setPositionData(PlayerRootData &root, PositionData &position){
+  position.w = PLAYER_WIDTH;
+  position.h = PLAYER_HEIGHT;
+  position.x = 2600;
+  position.y = 2600;
+}
+
 
 bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   PositionData attackZoneData = {
-    xCoord,
-    yCoord,
+    xCoord - ATTACK_NPC_ZONE_WIDTH / 2,
+    yCoord - ATTACK_ZONE_HEIGHT / 2,
     ATTACK_ZONE_WIDTH,
     ATTACK_ZONE_HEIGHT};
   Entity attackZone(attackZoneData);
@@ -234,10 +239,7 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
     attackZoneData , position);
   if (distanceAttackZone > rightSkills.range) return false;
 
-  if (health.currentMP < rightSkills.mana){
-    std::cout << "Mana insuficiente" << std::endl;
-    return false;
-  } 
+  if (health.currentMP < rightSkills.mana) return false;
 
   health.currentMP -= rightSkills.mana;
   

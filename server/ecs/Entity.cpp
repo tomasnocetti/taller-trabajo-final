@@ -70,7 +70,3 @@ LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s,
 void LiveEntity::rcvDamage(int &damage){
   health.currentHP -= damage;
 }
-
-bool LiveEntity::attack(LiveEntity &entity, int xCoord, int yCoord) {
-  return 0;
-}

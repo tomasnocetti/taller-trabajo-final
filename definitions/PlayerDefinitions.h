@@ -8,6 +8,9 @@
 #include <string>
 #include <vector>
 
+#define PLAYER_WIDTH 25
+#define PLAYER_HEIGHT 48
+
 typedef enum {
   HUMAN,
   ELF,

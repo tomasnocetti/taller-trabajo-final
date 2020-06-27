@@ -19,8 +19,8 @@ bool NPC::checkInRange(Entity& otherEntity, double distance) const{
 
 bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
   PositionData attackZoneData = {
-    xCoord,
-    yCoord,
+    xCoord - ATTACK_NPC_ZONE_WIDTH / 2,
+    yCoord - ATTACK_NPC_ZONE_HEIGHT / 2,
     ATTACK_NPC_ZONE_WIDTH,
     ATTACK_NPC_ZONE_HEIGHT};
   Entity attackZone(attackZoneData);
@@ -28,7 +28,7 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
   bool canAttack = entity.checkCollision(attackZone);
   if (!canAttack) return false;
 
-  int damage = skills.strength * level * 0.2;
+  int damage = Equations::NPCDamage(level, skills.strength);
   entity.rcvDamage(damage);
 
   return true;
@@ -37,10 +37,7 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
 int NPC::drop(unsigned int &seed){
   if (health.currentHP > 0) return 0;
 
-  float random = ((float) rand_r(&seed)) / (float) RAND_MAX;
-  float diff = 0.2;
-  float r = random * diff;
-  return r * health.totalHP;
+  return health.totalHP * Equations::randomFloat(0, NPC_RANDOM_DROP);
 }
 
 std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position, 
@@ -51,9 +48,13 @@ std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
     data.movement.xDir = 0;
     data.movement.yDir = 0;
     data.type = npcType;
-    data.healthAndManaData = {100, 100, 0, 0};
+    data.healthAndManaData = {  
+      NPC_INIT_HEALTH_POINTS, 
+      NPC_INIT_HEALTH_POINTS,
+      0, 
+      0};
     
-    SkillsData skills = {10, 10, 10};
+    SkillsData skills = {NPC_INIT_SKILLS, NPC_INIT_SKILLS, NPC_INIT_SKILLS};
   
     std::unique_ptr<NPC> npc(new NPC(data, skills, level));
 
