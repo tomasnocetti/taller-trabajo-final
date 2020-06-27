@@ -58,6 +58,8 @@ bool Entity::checkInRange(Entity& otherEntity, double distance) const{
   return Entity::checkPositionInRange(position, otherEntity.position, distance);
 }
 
+Entity::~Entity(){}
+
 LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s,
   size_t level) :
     Entity(p),
@@ -67,9 +69,8 @@ LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s,
 
 void LiveEntity::rcvDamage(int &damage){
   health.currentHP -= damage;
-  std::cout << "Puntos de vida restantes: " << health.currentHP << std::endl;
 }
 
-int LiveEntity::attack(LiveEntity &entity, int xCoord, int yCoord) {
+bool LiveEntity::attack(LiveEntity &entity, int xCoord, int yCoord) {
   return 0;
 }

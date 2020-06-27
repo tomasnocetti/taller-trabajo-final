@@ -1,6 +1,7 @@
 #include "MainPlayerController.h"
 #include "../view/HeadWear.h"
 #include "../view/Shield.h"
+#include "../view/Weapon.h"
 #include <iostream>
 #include <vector>
 
@@ -52,7 +53,7 @@ void MainPlayerController::update() {
     data.experience.minLevelExperience);
 
   checkRace(data.rootd.prace);
-  checkHealth(data.points.currentHP, data.rootd.prace);
+  checkHealth(data.points.currentHP);
   checkEquipment(data.equipment);
 }
 
@@ -139,7 +140,7 @@ void MainPlayerController::checkRace(PlayerRace race) {
 }
 
 void MainPlayerController::checkEquipment(EquipmentData equipment){
-  switch(equipment.body){
+  switch (equipment.body){
     case TUNIC:
       playerView.setBodyWear(manager.getTexture("blue-tunic"));
     break;
@@ -154,7 +155,7 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
     break;
   }
 
-  switch(equipment.head){
+  switch (equipment.head){
     case HELMET:
       playerView.setHeadWear(HeadWear(manager.getTexture("helmet"), 
         3, -9, 0, -10));
@@ -172,7 +173,7 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
     break;
   }
   
-  switch(equipment.leftHand){
+  switch (equipment.leftHand){
     case TURTLE_SHIELD:
       playerView.setShield(Shield(manager.getTexture("turtle-shield"), 
         12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16));
@@ -186,14 +187,29 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     break;
   }
+
+  switch (equipment.rightHand){
+    case SIMPLE_BOW:
+      playerView.setWeapon(Weapon(manager.getTexture("simple-bow"), 
+        2, 6, 10, 20, 15, 56, 10, 14, 0, 141, 15, 15, 13, 5, 15, 10, 0, 5));
+    break;
+    case SWORD:
+      playerView.setWeapon(Weapon(manager.getTexture("sword"), 
+        34, 18, 17, 15, 44, 67, 4, 12, 9, 158, 13, 20, 17, 13, 20, 15, 2, 15));
+    break;
+    default:
+      playerView.setWeapon(Weapon(nullptr, 
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    break;
+  }
 }
 
-void MainPlayerController::checkHealth(int health, PlayerRace race) {
-  if(health <= 0 && !playerView.ghostState()){
+void MainPlayerController::checkHealth(int health) {
+  if (health <= 0 && !playerView.ghostState()){
     playerView.setGhostAnimation(manager.getTexture("ghost"));
   }
 
-  if(health > 0 && playerView.ghostState()){
+  if (health > 0 && playerView.ghostState()){
     playerView.setPlayerAnimation(manager.getTexture("clothes"));
   }
 }

@@ -14,6 +14,7 @@ class Entity {
     PositionData position;
   public:
     explicit Entity(PositionData& p);
+    virtual ~Entity();
     static bool checkPositionCollision(
       const PositionData& p1, const PositionData&p2);
     static double getPositionDistance(
@@ -34,7 +35,7 @@ class Entity {
  */
 class LiveEntity: public Entity {
   protected:
-    friend class GameModel;
+    friend class Player;
     size_t level;
     HealthAndManaData health;
     SkillsData skills;
@@ -42,7 +43,7 @@ class LiveEntity: public Entity {
     LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s, 
       size_t level);
     virtual void rcvDamage(int &damage);
-    virtual int attack(LiveEntity &entity, int xCoord, int yCoord);
+    virtual bool attack(LiveEntity &entity, int xCoord, int yCoord);
 };
 
 #endif

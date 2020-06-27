@@ -58,7 +58,9 @@ class Socket {
     */
     void close();
     /**
-     * @brief Destructor will call this->close().
+     * @brief Destructor will call this->shutdown() and this->close().
+     * It's imporant that behaviour is different in OSX and Linux.
+     * Linux requires shutdown!!
     */
     ~Socket();
 

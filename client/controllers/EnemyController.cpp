@@ -117,7 +117,7 @@ void EnemyController::updateOtherPlayers(){
 				others[i].position.y);
 			std::shared_ptr<PlayerView> player = 
 				std::dynamic_pointer_cast<PlayerView>(otherPlayers.at(others[i].id));
-			checkHealth(player, others[i]);
+			checkHealth(player, others[i].otherPlayerHealth);
 			checkEquipment(player, others[i].equipment);
 		}
 	}
@@ -144,7 +144,7 @@ void EnemyController::updateOtherPlayers(){
 
 void EnemyController::checkEquipment(std::shared_ptr<PlayerView> playerView, 
 	EquipmentData equipment){
-  switch(equipment.body){
+  switch (equipment.body){
     case TUNIC:
       playerView->setBodyWear(manager.getTexture("blue-tunic"));
     break;
@@ -159,7 +159,7 @@ void EnemyController::checkEquipment(std::shared_ptr<PlayerView> playerView,
     break;
   }
 
-  switch(equipment.head){
+  switch (equipment.head){
     case HELMET:
       playerView->setHeadWear(HeadWear(manager.getTexture("helmet"), 
         3, -9, 0, -10));
@@ -190,6 +190,17 @@ void EnemyController::checkEquipment(std::shared_ptr<PlayerView> playerView,
       playerView->setShield(Shield(nullptr, 
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     break;
+  }
+}
+
+void EnemyController::checkHealth(std::shared_ptr<PlayerView> playerView, 
+  size_t health) {
+  if (health <= 0 && !playerView->ghostState()){
+    playerView->setGhostAnimation(manager.getTexture("ghost"));
+  }
+
+  if (health > 0 && playerView->ghostState()){
+    playerView->setPlayerAnimation(manager.getTexture("clothes"));
   }
 }
 

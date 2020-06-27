@@ -28,6 +28,7 @@ void CApp::OnExecute() {
 
     OnLoop();
     OnRender();
+    SDL_Delay(1000/60);
   }
 
   OnCleanup();
@@ -55,7 +56,6 @@ void CApp::OnEvent(SDL_Event& e) {
 
 void CApp::OnLoop() {
   model.update();
-  //SDL_Delay(1000/60);
   playerController.update();
   enemyController.update();
 }
@@ -130,6 +130,8 @@ void CApp::LoadAssets() {
   manager.addTexture("hood", "client/assets/hood.png");
   manager.addTexture("turtle-shield", "client/assets/turtle_shield.png");
   manager.addTexture("iron-shield", "client/assets/iron_shield.png");
+  manager.addTexture("simple-bow", "client/assets/simpleBow.png");
+  manager.addTexture("sword", "client/assets/sword.png");
 }
 
 CApp::~CApp() {}

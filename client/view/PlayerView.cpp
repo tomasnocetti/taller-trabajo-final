@@ -3,7 +3,9 @@
 #include <iostream>
 
 PlayerView::PlayerView() : headWear(HeadWear(nullptr, 0, 0, 0, 0)), 
-	shield(Shield(nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)) {}
+	shield(Shield(nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), 
+	weapon(Weapon(nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+		0, 0, 0, 0, 0, 0)) {}
 
 void PlayerView::init(LTexture* texture) {
 	this->x = 0;
@@ -57,6 +59,9 @@ void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
 
 	shield.paint(x - camera.getX(), y - camera.getY(), 
 		scaleW, scaleH, &headFrame);
+
+	weapon.paint(x - camera.getX(), y - camera.getY(), 
+		scaleW, scaleH, &headFrame);
 }
 
 void PlayerView::setHead(LTexture* head) {
@@ -75,6 +80,10 @@ void PlayerView::setBodyWear(LTexture* texture) {
 
 void PlayerView::setShield(Shield shield){
 	this->shield = shield;
+}
+
+void PlayerView::setWeapon(Weapon weapon){
+	this->weapon = weapon;
 }
 
 void PlayerView::setGhostAnimation(LTexture* texture) {

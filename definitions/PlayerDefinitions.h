@@ -85,7 +85,8 @@ struct OtherPlayersData {
   MovementData movement;
   PlayerRootData rootd;
   EquipmentData equipment;
-  MSGPACK_DEFINE(id, position, rootd, equipment)
+  size_t otherPlayerHealth;
+  MSGPACK_DEFINE(id, position, rootd, equipment, otherPlayerHealth)
 };
 
 struct PlayerGameModelData {

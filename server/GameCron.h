@@ -40,6 +40,9 @@ class GameCron: public Thread {
       size_t id,
       PositionData& npc,
       PositionData& follow);
+    void NPCAttack(
+      size_t npcId,
+      PositionData& playerToAttack);
     std::atomic<bool> running;
     InstructionBQ& instructionQueue;
     CronBQ cronBQ;

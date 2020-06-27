@@ -7,11 +7,9 @@
 #include <random>
 #include <stdlib.h>
 
-/* Para mockear el id random */
-unsigned int seed;
-
 GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
-  cronBQ(cronBQ) {
+  cronBQ(cronBQ),
+  randomSeed(0){
   m.loadMap(mapPath);
   parseMapData();
 }
@@ -30,6 +28,36 @@ void GameModel::parseMapData() {
           new Entity(p));
         margins.push_back(std::move(margin));
       }
+
+      if (layer.name == SPIDER_SPAWN_POINTS){
+        std::unique_ptr<NPC> npc(NPC::createNPC(
+          NPC::getNewId(), p, 10, SPIDER));
+        npcMap.insert(std::pair<size_t,
+
+          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
+      }
+
+      if (layer.name == GOBLIN_SPAWN_POINTS){
+        std::unique_ptr<NPC> npc(NPC::createNPC(
+          NPC::getNewId(), p, 15, GOBLIN));
+        npcMap.insert(std::pair<size_t,
+
+          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
+      }
+
+      if (layer.name == SKELETON_SPAWN_POINTS){
+        std::unique_ptr<NPC> npc(NPC::createNPC(
+          NPC::getNewId(), p, 8, SKELETON));
+        npcMap.insert(std::pair<size_t,
+
+          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
+      }
+
+      if (layer.name == CITY_LAYER){
+        std::unique_ptr<Entity> city(
+          new Entity(p));
+        cities.push_back(std::move(city));
+      }
     }
   }
 }
@@ -41,15 +69,14 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  if (nick == "Fer") playerId  = rand_r(&seed) % 100;
+  if (nick == "Fer") playerId  = rand_r(&randomSeed) % 100;
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
 
-  PlayerRootData root = {WARRIOR, HUMAN};
+  PlayerRootData root = {CLERIC, HUMAN};
 
-  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root,
-    gameEquations));
+  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root));
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
@@ -67,50 +94,34 @@ void GameModel::stopMovement(size_t playerId){
 }
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
-  int damage = 0;
+  if (players.at(playerId)->health.currentHP <= 0) return;
+
+  for (auto &it : cities)
+    if (players.at(playerId)->checkCollision(*it)) return;
 
   for (auto& it : players){
+    for (auto &itCities : cities)
+      if (players.at(it.first)->checkCollision(*itCities)) return;
+
     if (players.at(it.first)->id == playerId) continue;
 
     if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
-    damage = players.at(playerId)->attack(*it.second, xPos, yPos);
-
-    if (damage == 0) continue;
-
-    players.at(it.first)->rcvDamage(damage);
-
-    players.at(playerId)->addExperience(damage, 
-      it.second->level, it.second->health.currentHP, 
-      it.second->health.totalHP);
+    bool success = players.at(playerId)->attack(*it.second, xPos, yPos);
+    if (success) break;
   }
 
   for (auto& it : npcMap){
     if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
-    damage = players.at(playerId)->attack(*it.second, xPos, yPos);
-    
-    if (damage == 0) continue;
+    bool success = players.at(playerId)->attack(*it.second, xPos, yPos);
 
-    npcMap.at(it.first)->rcvDamage(damage);
+    if (!success) continue;
 
-    players.at(playerId)->addExperience(damage, 
-      it.second->level, it.second->health.currentHP, 
-      it.second->health.totalHP);
-
-    if (!(npcMap.at(it.first)->health.currentHP <= 0)) continue;
-
-    std::cout << "Oro del jugador antes del kill: " << 
-      players.at(playerId)->gold << std::endl;
-
-    players.at(playerId)->gold += npcMap.at(it.first)->deathDrop();
-
-    std::cout << "Oro del jugador despues del kill: " << 
-      players.at(playerId)->gold << std::endl;
-
-    /* Si el npc esta muerto, llamar a función que genere el drop */
+    players.at(playerId)->gold += npcMap.at(it.first)->drop(randomSeed);
+    return;
   }
 }
 
@@ -165,6 +176,15 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
       }
     }
 
+    for (auto &it : cities){
+      bool collision = npcMap.at(id)->checkCollision(*it);
+      if (collision){
+        npcMap.at(id)->position.x = auxXPos;
+        npcMap.at(id)->position.y = auxYPos;
+        return;
+      }
+    }
+
     for (auto &it : margins){
       bool collision = npcMap.at(id)->checkCollision(*it);
       if (collision){
@@ -183,6 +203,17 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
           return;
       }
     }
+}
+
+void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
+  for (auto& it : players){
+    for (auto &itCities : cities)
+      if (players.at(it.first)->checkCollision(*itCities)) return;
+
+    if (!npcMap.at(npcId)->checkInRange(*it.second, MAX_RANGE_ZONE))
+        return;
+    npcMap.at(npcId)->attack(*it.second, xPos, yPos);
+  }
 }
 
 void GameModel::eraseClient(size_t playerID){
@@ -241,6 +272,7 @@ void GameModel::generateOtherPlayersGameData(){
     otherPlayer.movement = players.at(it.first)->movement;
     otherPlayer.rootd = players.at(it.first)->rootd;
     otherPlayer.equipment = players.at(it.first)->equipment;
+    otherPlayer.otherPlayerHealth = players.at(it.first)->health.currentHP;
     otherPlayers.push_back(std::move(otherPlayer));
   }
 }
@@ -256,37 +288,4 @@ void GameModel::generateNPCVector(){
     enemy.healthAndManaData = npcMap.at(it.first)->health;
     npcs.push_back(std::move(enemy));
   }
-}
-
-void GameModel::addNPCS(){
-  // Código para generar id random, solo para mockear //
-  
-  struct EnemyData data;
-  data.id = rand_r(&seed) % 100;
-  data.position.x = 200;
-  data.position.y = 100;
-  data.position.w = 53;
-  data.position.h = 35;
-  data.movement.xDir = 0;
-  data.movement.yDir = 1;
-  data.type = SPIDER;
-  data.healthAndManaData = {100, 100, 0, 0};
-  SkillsData skills = {10, 10, 10};
-
-  std::unique_ptr<NPC> spider(new NPC(data, skills, 5));
-  npcMap.insert(std::pair<size_t,
-    std::unique_ptr<NPC>>(data.id, std::move(spider)));  
-
-  data.id = rand_r(&seed) % 100;
-  data.position.x = 200;
-  data.position.y = 200;
-  data.position.w = 53;
-  data.position.h = 35;
-  data.movement.xDir = 0;
-  data.movement.yDir = 1;
-  data.type = SPIDER;
-
-  std::unique_ptr<NPC> spider2(new NPC(data, skills, 8));
-  npcMap.insert(std::pair<size_t,
-  std::unique_ptr<NPC>>(data.id, std::move(spider2)));  
 }

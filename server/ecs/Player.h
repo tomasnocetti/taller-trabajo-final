@@ -22,12 +22,10 @@ class Player : public LiveEntity{
     LeftHandEquipmentSkills leftSkills;
     BodyEquipmentSkills bodySkills;
     HeadEquipmentSkills headSkills;
-    Equations &gameEquations;
     friend class GameModel;
 
   public:
-    Player(MainPlayerData playerData, size_t id, Equations &gameEquations);
-    ~Player();
+    Player(MainPlayerData playerData, size_t id);
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
     /* Cheque si la posición a la que se quiere atacar contiene un npc
@@ -37,7 +35,7 @@ class Player : public LiveEntity{
     no se genera ningun daño en el enemigo, y el jugador no gana experiencia.
     Si el ataque no logra ser esquivado, se calcula el daño y se le suma
     la experiencia correspondiente al jugador. */
-    int attack(LiveEntity &entity, int xCoord, int yCoord) override;
+    bool attack(LiveEntity &entity, int xCoord, int yCoord) override;
     /* Se descuenta el daño recibido de los puntos de salud, luego 
     de haber calculado los puntos de defensa. */
     void rcvDamage(int &damage) override;
@@ -51,8 +49,7 @@ class Player : public LiveEntity{
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 
-      PlayerRootData root,
-      Equations &gameEquations);
+      PlayerRootData root);
     static void setClassSkills(SkillsData &skills, PlayerRootData &root);
     static void setRaceSkills(SkillsData &skills, PlayerRootData &root);  
     static void setInitEquipment(EquipmentData &equipment, 
@@ -65,8 +62,7 @@ class Player : public LiveEntity{
       &bodySkills, BodyEquipment &bodyEquipment); 
     static void setHeadSkills(HeadEquipmentSkills
       &headSkills, HeadEquipment &headEquipment);   
-    static void setExperienceData(size_t &level, ExperienceData &experience, 
-      Equations &gameEquations);
+    static void setExperienceData(size_t &level, ExperienceData &experience);
 };
 
 #endif
