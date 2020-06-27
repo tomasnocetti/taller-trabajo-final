@@ -24,7 +24,8 @@ MSGPACK_ADD_ENUM(BodyEquipment)
 typedef enum {
   DEFAULT3,
   SWORD,
-  SIMPLE_BOW
+  SIMPLE_BOW,
+  ASH_STICK
 } RightHandEquipment;
 
 MSGPACK_ADD_ENUM(RightHandEquipment)
@@ -49,6 +50,7 @@ struct RightHandEquipmentSkills{
   int maxDamage;
   int minDamage;
   int range;
+  int mana;
 };
 
 struct LeftHandEquipmentSkills{
@@ -75,6 +77,12 @@ struct HeadEquipmentSkills{
 #define SIMPLE_BOW_MIN_DAMAGE 1
 #define SIMPLE_BOW_MAX_DAMAGE 4
 #define SIMPLE_BOW_RANGE 300
+
+#define ASH_STICK_MIN_DAMAGE 2
+#define ASH_STICK_MAX_NDAMAGE 4
+#define ASH_STICK_MANA 5
+#define ASH_STICK_RANGE 300
+
 
 /* Body Equipment Skills */
 
