@@ -11,11 +11,11 @@ int main() {
     serverRun(port, mapPath);
   } catch(const std::exception& e) {
     syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());
-    std::cout << e.what() << std::endl;
+    std::cout << "Error en el main thread:" << e.what() << std::endl;
     return EXIT_FAILURE;
   } catch(...) {
     syslog(LOG_CRIT, "[Crit] Unknown Error!");
     return EXIT_FAILURE;
   }
-  return 0;
+  return EXIT_SUCCESS;
 }

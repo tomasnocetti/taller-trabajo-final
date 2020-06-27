@@ -10,26 +10,6 @@ SkeletonAnimation::SkeletonAnimation(LTexture* texture) :
 }
 
 void SkeletonAnimation::cropAnimationFrames() {
-	/*for(int i = 0; i < forwardFrames; i++){
-		 SDL_Rect frame = {i * 27, 0, 27, 48};
-		 forwardAnim.push_back(frame);
-	}
-
-	for(int i = 0; i < backwardFrames; i++){
-		SDL_Rect frame = {i * 27, 48, 27, 48};
-		backwardAnim.push_back(frame);
-	}
-
-	for(int i = 0; i < leftFrames; i++){
-		SDL_Rect frame = {i * 27, 96, 27, 48};
-		leftAnim.push_back(frame);
-	}
-
-	for(int i = 0; i < rightFrames; i++){
-		SDL_Rect frame = {i * 27, 144, 27, 48};
-		rightAnim.push_back(frame);
-	}*/
-
 	SDL_Rect frame = {0, 0, 25, 47};
 	forwardAnim.push_back(frame);
 	frame = {29, 0, 21, 47};

@@ -1,13 +1,16 @@
 #include "EquationDefinitions.h"
 #include <math.h>
 #include <iostream>
+#include <algorithm>
 
 #define MAX_LEVEL_EXPERIENCE_CONST 1.8
-#define DEFENSE_CONST 0,001
+#define DEFENSE_CONST 0.001
 
-Equations::Equations() : seed(0) {}
+Equations::Equations() {}
 
 Equations::~Equations(){}
+
+unsigned int Equations::seed = 0;
 
 int Equations::maxLife(
   int constitution,
@@ -31,8 +34,8 @@ int Equations::maxLevelExperience(int level) {
 
 int Equations::damage(
   int strength,
-  RightHandEquipment weapon) {
-    int rand = random(1, 6);
+  RightHandEquipmentSkills weaponSkills) {
+    int rand = random(weaponSkills.minDamage, weaponSkills.maxDamage);
     return strength * rand;
 }
 
@@ -40,27 +43,31 @@ int Equations::attackExperience(
   int damage,
   int otherLevel,
   int level) {
-    return 0;
+    return damage * std::max(otherLevel - level + 10, 0);
 }
 
 int Equations::killExperience(
   int maxHealthOther, 
   int otherLevel, 
   int level) {
-    return 0;
+    return randomFloat(0, 0.1) * 
+      maxHealthOther * 
+      std::max(otherLevel - level + 10, 0);
 }
 
 bool Equations::dodgeAttack(int agility) {
-  //float rand = pow(randomFloat(0, 1), agility);
-  return false;
+  float rand = pow(randomFloat(0, 1), agility);
+  return rand < DEFENSE_CONST;
 }
 
 int Equations::defend(
   int agility, 
-  BodyEquipment bodyArmour, 
-  LeftHandEquipment shield, 
-  HeadEquipment helmet) {
-    return 0;
+  BodyEquipmentSkills bodySkills, 
+  LeftHandEquipmentSkills leftSkills, 
+  HeadEquipmentSkills headSkills) {
+    return random(bodySkills.minDefense, bodySkills.maxDefense) + 
+      random(leftSkills.minDefense, leftSkills.maxDefense) + 
+      random(headSkills.minDefense, headSkills.maxDefense);
 }
 
 int Equations::random(int minValue, int maxValue){
@@ -68,8 +75,8 @@ int Equations::random(int minValue, int maxValue){
   return rand_r(&seed) % range + minValue;
 }
 
-float randomFloat(float a, float b) {
-  float random = 0; //((float) rand()) / (float) RAND_MAX;
+float Equations::randomFloat(float a, float b) {
+  float random = ((float) rand_r(&seed)) / (float) RAND_MAX;
   float diff = b - a;
   float r = random * diff;
   return a + r;

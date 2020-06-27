@@ -10,14 +10,14 @@ BlockingQueueWrite &writeBQ):
   server(server),
   writeBQ(writeBQ) {}
 
-ServerProxyWrite::~ServerProxyWrite(){}
-
 void ServerProxyWrite::run(){
   try{
     while (server.running){
       InstructionData instructionToSend;
 
-      getInstruction(instructionToSend);
+      bool succcess = writeBQ.try_front_pop(instructionToSend);
+      if (!succcess) return;
+
       std::stringstream buffer = packInstruction(instructionToSend);
       sendInstruction(buffer);
     }
@@ -37,10 +37,6 @@ void ServerProxyWrite::run(){
   } catch(...) {
     syslog(LOG_CRIT, "[Crit] Unknown Error!");
   }
-}
-
-void ServerProxyWrite::getInstruction(InstructionData &instruction){
-  writeBQ.try_front_pop(instruction);
 }
 
 std::stringstream ServerProxyWrite::packInstruction(InstructionData

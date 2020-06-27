@@ -17,10 +17,11 @@ class MainPlayerController {
     MainPlayerController&& operator=(MainPlayerController&& other);
     void init();
     void update();
-    ~MainPlayerController();
     void handleEvent(const SDL_Event &e, int cameraX, int cameraY);
     Entity &getEntity();
     std::vector<Entity*> getBars();
+    std::vector<Entity*> getExp();
+    ~MainPlayerController();
 
   private:
     ServerProxy& model;
@@ -29,8 +30,12 @@ class MainPlayerController {
     Bar healthBar;
     Bar manaBar;
     TextEntity gold;
-    
+    TextEntity level;
+    Bar expBar;
+
     void checkRace(PlayerRace race);
+    void checkHealth(int health, PlayerRace race);
+    void checkEquipment(EquipmentData equipment);
 };
 
 #endif
