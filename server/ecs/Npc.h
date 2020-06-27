@@ -14,7 +14,7 @@ class NPC : public LiveEntity {
     bool checkCollision(Entity& otherEntity) const override;
     bool checkInRange(Entity& otherEntity, double distance) const override;
     bool attack(LiveEntity &entity, int xCoord, int yCoord) override;
-    int deathDrop(unsigned int &seed);
+    int drop(unsigned int &seed);
     static std::unique_ptr<NPC> createNPC(
       size_t id,
       PositionData position,

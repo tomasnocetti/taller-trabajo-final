@@ -36,7 +36,9 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
   return true;
 }
 
-int NPC::deathDrop(unsigned int &seed){
+int NPC::drop(unsigned int &seed){
+  if (health.currentHP > 0) return 0;
+
   float random = ((float) rand_r(&seed)) / (float) RAND_MAX;
   float diff = 0.2;
   float r = random * diff;

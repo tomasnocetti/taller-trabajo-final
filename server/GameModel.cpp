@@ -49,6 +49,12 @@ void GameModel::parseMapData() {
         npcMap.insert(std::pair<size_t,
           std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
       }
+
+      if (layer.name == CITY_LAYER){
+        std::unique_ptr<Entity> city(
+          new Entity(p));
+        cities.push_back(std::move(city));
+      }
     }
   }
 }
@@ -105,9 +111,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     if (!success) continue;
 
-    if (!(npcMap.at(it.first)->health.currentHP <= 0)) return;
-
-    players.at(playerId)->gold += npcMap.at(it.first)->deathDrop(randomSeed);
+    players.at(playerId)->gold += npcMap.at(it.first)->drop(randomSeed);
     return;
   }
 }
@@ -160,6 +164,15 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
           npcMap.at(id)->position.x = auxXPos;
           npcMap.at(id)->position.y = auxYPos;
           return;
+      }
+    }
+
+    for (auto &it : cities){
+      bool collision = npcMap.at(id)->checkCollision(*it);
+      if (collision){
+        npcMap.at(id)->position.x = auxXPos;
+        npcMap.at(id)->position.y = auxYPos;
+        return;
       }
     }
 
