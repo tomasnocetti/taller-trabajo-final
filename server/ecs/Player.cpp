@@ -270,6 +270,8 @@ void Player::rcvDamage(int &damage){
   if (defensePoints > damage) return;
   
   health.currentHP -= (damage - defensePoints);
+
+  if(health.currentHP < 0) health.currentHP = 0;
 }
 
 int Player::defend(){
