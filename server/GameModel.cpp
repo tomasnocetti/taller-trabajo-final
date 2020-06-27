@@ -96,7 +96,13 @@ void GameModel::stopMovement(size_t playerId){
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   if (players.at(playerId)->health.currentHP <= 0) return;
 
+  for (auto &it : cities)
+    if (players.at(playerId)->checkCollision(*it)) return;
+
   for (auto& it : players){
+    for (auto &itCities : cities)
+      if (players.at(it.first)->checkCollision(*itCities)) return;
+
     if (players.at(it.first)->id == playerId) continue;
 
     if (!players.at(playerId)->checkInRange(*it.second, MAX_RANGE_ZONE))
@@ -201,6 +207,9 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
 
 void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   for (auto& it : players){
+    for (auto &itCities : cities)
+      if (players.at(it.first)->checkCollision(*itCities)) return;
+
     if (!npcMap.at(npcId)->checkInRange(*it.second, MAX_RANGE_ZONE))
         return;
     npcMap.at(npcId)->attack(*it.second, xPos, yPos);
