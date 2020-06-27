@@ -144,7 +144,7 @@ void Player::setRaceSkills(SkillsData &skills, PlayerRootData &root){
 void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.body = TUNIC;
   equipment.head = HELMET;
-  equipment.leftHand = IRON_SHIELD;    
+  equipment.leftHand = IRON_SHIELD;
   equipment.rightHand = SIMPLE_BOW;
 }
 

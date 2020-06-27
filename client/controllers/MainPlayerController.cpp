@@ -29,7 +29,6 @@ void MainPlayerController::init(){
   LTexture* expText = manager.getTexture("expText");
   
   playerView.init(manager.getTexture("clothes"));
-  checkRace(data.rootd.prace);
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y,
     healthText, font);
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y, manaText, font);
@@ -52,6 +51,7 @@ void MainPlayerController::update() {
     data.experience.maxLevelExperience, 
     data.experience.minLevelExperience);
 
+  checkRace(data.rootd.prace);
   checkHealth(data.points.currentHP, data.rootd.prace);
   checkEquipment(data.equipment);
 }
@@ -118,6 +118,8 @@ std::vector<Entity*> MainPlayerController::getExp() {
 }
 
 void MainPlayerController::checkRace(PlayerRace race) {
+  if (playerView.ghostState()) return;
+
   switch (race){
     case DWARF:
       playerView.setHead(manager.getTexture("dwarf-head"));
@@ -193,7 +195,6 @@ void MainPlayerController::checkHealth(int health, PlayerRace race) {
 
   if(health > 0 && playerView.ghostState()){
     playerView.setPlayerAnimation(manager.getTexture("clothes"));
-    checkRace(race);
   }
 }
 

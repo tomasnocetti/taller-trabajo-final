@@ -32,8 +32,8 @@ void ServerProxy::init() {
   InstructionData instruction = {AUTHENTICATE, {nick}};
   writeBQ.push(instruction);
 
-  mainPlayer.rootd.pclass = WARRIOR;
-  mainPlayer.rootd.prace = GNOME;
+  //mainPlayer.rootd.pclass = WARRIOR;
+  //mainPlayer.rootd.prace = GNOME;
 }
 
 void ServerProxy::update() {
