@@ -17,4 +17,12 @@ struct MovementData {
   MSGPACK_DEFINE(xDir, yDir)
 };
 
+struct HealthAndManaData {
+  int totalHP;
+  int currentHP;
+  int totalMP;
+  int currentMP;
+  MSGPACK_DEFINE(totalHP, currentHP, totalMP, currentMP)
+};
+
 #endif

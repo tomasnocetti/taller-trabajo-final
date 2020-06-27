@@ -1,9 +1,10 @@
 #ifndef __PLAYERDEF_H
 #define __PLAYERDEF_H
 
-#include "EntityDefinitions.h"
 #include "NPCDefinitions.h"
 #include "MapDefinitions.h"
+#include "EntityDefinitions.h"
+#include "EquipmentDefinitions.h"
 #include <string>
 #include <vector>
 
@@ -25,6 +26,31 @@ typedef enum {
 
 MSGPACK_ADD_ENUM(PlayerClass)
 
+struct SkillsData {
+  size_t strength;
+  size_t agility;
+  size_t inteligence;
+  size_t classRecovery;
+  size_t classMeditation;
+  size_t raceRecovery;
+  size_t raceMeditation;
+  size_t classMana;
+  size_t classHealth;
+  size_t raceMana;
+  size_t raceHealth;
+  size_t classConstitution;
+  MSGPACK_DEFINE(strength, agility, inteligence, classRecovery, 
+    classMeditation, raceRecovery, raceMeditation, classMana, classHealth,
+    raceMana, raceHealth, classConstitution)
+};
+
+struct ExperienceData{
+  size_t currentExperience;
+  size_t maxLevelExperience;
+  size_t minLevelExperience;
+  MSGPACK_DEFINE(currentExperience, maxLevelExperience, minLevelExperience)
+};
+
 struct PlayerRootData {
   PlayerClass pclass;
   PlayerRace prace;
@@ -36,24 +62,21 @@ struct Inventory {
   MSGPACK_DEFINE(helmet)
 };
 
-struct HealthAndManaData {
-  int totalHP;
-  int currentHP;
-  int totalMP;
-  int currentMP;
-  MSGPACK_DEFINE(totalHP, currentHP, totalMP, currentMP)
-};
-
 struct MainPlayerData {
+  std::string nick;
+  size_t id;
+  size_t gold;
+  size_t level;
+  ExperienceData experience;
+  SkillsData skills;
   PlayerRootData rootd;
   Inventory inventory;
   HealthAndManaData points;
   PositionData position;
   MovementData movement;
-  size_t id;
-  size_t gold;
-  size_t level;
-  MSGPACK_DEFINE(rootd, inventory, points, position, movement, gold, level)
+  EquipmentData equipment;
+  MSGPACK_DEFINE(nick, id, gold, level, experience, skills, rootd, inventory, 
+    points, position, movement, equipment)
 };
 
 struct OtherPlayersData {
@@ -61,15 +84,17 @@ struct OtherPlayersData {
   PositionData position;
   MovementData movement;
   PlayerRootData rootd;
-  MSGPACK_DEFINE(id, position, rootd)
+  EquipmentData equipment;
+  size_t otherPlayerHealth;
+  MSGPACK_DEFINE(id, position, rootd, equipment, otherPlayerHealth)
 };
 
 struct PlayerGameModelData {
   MainPlayerData playerData;
-  MapData map;
+  //MapData map;
   std::vector<EnemyData> npcs;
   std::vector<OtherPlayersData> otherPlayers;
-  MSGPACK_DEFINE(playerData, map, npcs, otherPlayers)
+  MSGPACK_DEFINE(playerData, npcs, otherPlayers)
 };
 
 #endif

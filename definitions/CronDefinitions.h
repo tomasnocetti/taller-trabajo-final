@@ -2,7 +2,6 @@
 #define __CRONDEF_H
 
 #include "PlayerDefinitions.h"
-#include "NPCDefinitions.h"
 #include "../common/BlockingQueue.h"
 #include <vector>
 

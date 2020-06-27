@@ -25,6 +25,7 @@ class ClientAcceptor : public Thread{
     void acceptClient();
     void run();
     void cleanCloseClients();
+    void stop();
 };
 
 #endif

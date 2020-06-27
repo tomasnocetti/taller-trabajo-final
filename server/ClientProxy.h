@@ -9,6 +9,7 @@
 #include "instructions/Instruction.h"
 #include "responses/Response.h"
 #include "../common/common_socket.h"
+#include <string>
 
 class Instruction;
 class ClientProxyRead;
@@ -36,7 +37,8 @@ class ClientProxyRead: public Thread {
   private:
     ClientProxy& client;
     void handleInstruction(InstructionData& instruction);
-    InstructionData getInstruction();
+    bool getRawInstruction(std::string& buffer);
+    InstructionData getInstruction(std::string& instrution);
 };
 
 class ClientProxy{

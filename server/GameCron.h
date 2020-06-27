@@ -29,7 +29,7 @@ class GameCron: public Thread {
     ~GameCron();
     void run() override;
     CronBQ& getBQ();
-    void close();
+    void stop();
 
   private:
     void runPlayersMovement(std::vector<OtherPlayersData>& players);
@@ -40,6 +40,9 @@ class GameCron: public Thread {
       size_t id,
       PositionData& npc,
       PositionData& follow);
+    void NPCAttack(
+      size_t npcId,
+      PositionData& playerToAttack);
     std::atomic<bool> running;
     InstructionBQ& instructionQueue;
     CronBQ cronBQ;
