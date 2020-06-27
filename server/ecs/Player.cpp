@@ -42,7 +42,7 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     
     data.inventory.helmet = "";
     
-    data.position = {100 , 100, width, height};
+    data.position = {2600 , 2600, width, height};
     data.points.totalHP = Equations::maxLife(data.skills.classConstitution, 
       data.skills.classHealth, data.skills.raceHealth, 
       data.level);

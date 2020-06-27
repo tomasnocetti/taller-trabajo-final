@@ -58,6 +58,8 @@ bool Entity::checkInRange(Entity& otherEntity, double distance) const{
   return Entity::checkPositionInRange(position, otherEntity.position, distance);
 }
 
+Entity::~Entity(){}
+
 LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s,
   size_t level) :
     Entity(p),
