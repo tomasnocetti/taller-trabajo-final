@@ -145,7 +145,7 @@ void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.body = TUNIC;
   equipment.head = HELMET;
   equipment.leftHand = IRON_SHIELD;    
-  equipment.rightHand = SIMPLE_BOW;
+  equipment.rightHand = ASH_STICK;
 }
 
 
@@ -156,11 +156,19 @@ void Player::setRighHandSkills(RightHandEquipmentSkills
         rightSkills.maxDamage = SWORD_MAX_DAMAGE;
         rightSkills.minDamage = SWORD_MIN_DAMAGE;
         rightSkills.range = SWORD_RANGE;
+        rightSkills.mana = 0;
         break;
       case SIMPLE_BOW:
         rightSkills.maxDamage = SIMPLE_BOW_MAX_DAMAGE;
         rightSkills.minDamage = SIMPLE_BOW_MIN_DAMAGE;
         rightSkills.range = SIMPLE_BOW_RANGE;
+        rightSkills.mana = 0;
+        break;
+      case ASH_STICK:
+        rightSkills.maxDamage = ASH_STICK_MAX_NDAMAGE;
+        rightSkills.minDamage = ASH_STICK_MIN_DAMAGE;
+        rightSkills.range = ASH_STICK_RANGE;
+        rightSkills.mana = ASH_STICK_MANA;
       default:
         break;
     }
@@ -206,7 +214,6 @@ void Player::setHeadSkills(HeadEquipmentSkills
 
 void Player::setExperienceData(size_t &level, ExperienceData &experience){
     experience.minLevelExperience = experience.maxLevelExperience;
-    //experience.currentExperience -= experience.maxLevelExperience;
     experience.maxLevelExperience = 
       Equations::maxLevelExperience(level);
 }
@@ -227,9 +234,16 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
     attackZoneData , position);
   if (distanceAttackZone > rightSkills.range) return false;
 
+  if (health.currentMP < rightSkills.mana){
+    std::cout << "Mana insuficiente" << std::endl;
+    return false;
+  } 
+
+  health.currentMP -= rightSkills.mana;
+  
   bool dodged = Equations::dodgeAttack(LiveEntity::skills.agility);
   if (dodged) return false;
-
+  
   int damage = Equations::damage(skills.strength, rightSkills);
   entity.rcvDamage(damage);
 
