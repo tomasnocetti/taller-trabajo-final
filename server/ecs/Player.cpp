@@ -36,9 +36,7 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.experience.maxLevelExperience = 0;
     data.experience.currentExperience = 0;
     Player::setExperienceData(data.level, data.experience);
-    
-    data.inventory.helmet = "";
-    
+        
     Player::setPositionData(root, data.position);
 
     data.points.totalHP = Equations::maxLife(data.skills.classConstitution, 

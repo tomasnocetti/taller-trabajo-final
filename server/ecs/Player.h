@@ -15,7 +15,7 @@ class Player : public LiveEntity{
     size_t gold;
     ExperienceData experience;
     PlayerRootData rootd;
-    Inventory inventory;
+    std::vector<InventoryElementData> inventory;
     MovementData movement;
     EquipmentData equipment;
     RightHandEquipmentSkills rightSkills;
