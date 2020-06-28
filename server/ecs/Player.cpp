@@ -338,7 +338,6 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   weapon2.isEquiped = false;
   weapon2.equipableType = WEAPON;
   weapon2.enumPosition = RightHandEquipment::SIMPLE_BOW;
-  data.equipment.rightHand = SIMPLE_BOW;  
 
   data.inventory.push_back(bodyArmour);
   data.inventory.push_back(weapon);
@@ -394,7 +393,7 @@ void Player::equip(Potions potion, int inventoryPosition) {
 
   if (inventory[inventoryPosition].amount > 0) return;
   
-  inventory.erase(inventory.begin() + inventoryPosition - 1);
+  inventory.erase(inventory.begin() + inventoryPosition);
 }
 
 void Player::equip(RightHandEquipment rightHandEquipment, 

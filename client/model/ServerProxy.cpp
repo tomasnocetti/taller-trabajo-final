@@ -27,7 +27,7 @@ void ServerProxy::init() {
   ParamData nick = {"Fer"};
   InstructionData instruction = {AUTHENTICATE, {nick}};
   writeBQ.push(instruction);
-
+  
   mainPlayer.rootd.pclass = WARRIOR;
   mainPlayer.rootd.prace = GNOME;
 }

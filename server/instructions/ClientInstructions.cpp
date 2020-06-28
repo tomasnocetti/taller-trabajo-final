@@ -58,5 +58,5 @@ EquipInstruction::EquipInstruction(size_t id, std::string inventoryPosition) :
   inventoryPosition(stoi(inventoryPosition)){}
   
 void EquipInstruction::run(GameModel& game) {
-  //game.attack(playerId, xPos, yPos);
+  game.equipPlayer(playerId, inventoryPosition);
 }
