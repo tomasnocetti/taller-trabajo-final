@@ -104,6 +104,8 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     for (auto &itCities : cities)
       if (players.at(it.first)->checkCollision(*itCities)) return;
 
+    if (players.at(it.first)->health.currentHP <= 0) continue;
+
     if (players.at(it.first)->id == playerId) continue;
 
     if (!p.checkInRange(*it.second, MAX_RANGE_ZONE))
