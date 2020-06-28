@@ -36,7 +36,6 @@ class CApp {
 
   private:
     bool Running;
-    bool Running;
     GameMode mode = GameMode::RUN;
     ServerProxy model;
     SdlWindow window;
@@ -45,7 +44,9 @@ class CApp {
     Map mapViewport;
     LifeViewport lifeViewport;
     ExpViewport expViewport;
+    ChatViewport chatViewport;
     LoginController loginController;
+    ChatController chatController;
     GlobalController globalController;
     MapController mapController;
     MainPlayerController playerController;

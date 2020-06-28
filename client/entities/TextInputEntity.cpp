@@ -2,90 +2,87 @@
 
 #include <string>
 
+#define CURSOR_ANIM_LAPSE 700
 
 TextInputEntity::TextInputEntity(
   LTexture* texture,
   TTF_Font* font,
   int xpos,
-  int ypos) :
+  int ypos,
+  int maxWidth,
+  int maxHeight) :
   texture(texture),
   font(font),
   xpos(xpos),
-  ypos(ypos) {}
+  ypos(ypos),
+  maxWidth(maxWidth),
+  maxHeight(maxHeight) {}
 
 void TextInputEntity::paint(double wScale, double hScale) {
   SDL_Color textColor = { 255, 255, 255, 0xFF };
 
-  lWScale = wScale;
-  lHScale = hScale;
-  if (input.length() <= 0) return;
+  std::string showInput = input;
+  int currentTime = SDL_GetTicks();
+  if((currentTime - lastRenderTime) >= CURSOR_ANIM_LAPSE && inside) {
+    showInput += "|";
+    if((currentTime - lastRenderTime) >= CURSOR_ANIM_LAPSE * 2) {
+      lastRenderTime = currentTime;
+    };
+  }
+  if (showInput.length() <= 0) return;
 
   texture->loadFromRenderedText(
     font,
-    input,
+    showInput,
     textColor);
 
-  texture->paint(xpos, ypos, wScale, hScale);
+  int w, h;
+	texture->queryTexture(w, h);
+	SDL_Rect destRect = {xpos, ypos, w, h};
+
+  texture->paint(destRect, wScale, hScale);
 }
 
-void TextInputEntity::handleEvent(const SDL_Event &e) {
+void TextInputEntity::handleClick(int xCoord, int yCoord) {
 
-    SDL_Rect src = { this->xpos, this->ypos, BUTTON_WIDTH, BUTTON_HEIGHT };
-    SDL_Rect dest = sdlScaleRect(src, lWScale, lHScale);
+  SDL_Rect src = { this->xpos, this->ypos, maxWidth, maxHeight };
+  //Check if mouse is in button
+  inside = inRect(src, xCoord, yCoord);
 
-    switch (e.type) {
-      case SDL_MOUSEBUTTONDOWN:
-
-        //Get mouse position
-        int x, y;
-        SDL_GetMouseState( &x, &y );
-
-
-        //Check if mouse is in button
-        inside = true;
-
-        //Mouse is left of the button
-        if( x < xpos ) {
-          inside = false;
-        }
-        //Mouse is right of the button
-        else if( x > dest.x + dest.w )
-        {
-            inside = false;
-        }
-        //Mouse above the button
-        else if( y < dest.y )
-        {
-            inside = false;
-        }
-        //Mouse below the button
-        else if( y > dest.y + dest.h )
-        {
-            inside = false;
-        }
-        if(inside) {
-          SDL_StartTextInput();
-        } else {
-          SDL_StopTextInput();
-        }
-        break;
-      case SDL_TEXTINPUT:
-        if (!inside) return;
-        input += e.text.text;
-
-        break;
-      case SDL_KEYDOWN:
-        if( e.key.keysym.sym == SDLK_BACKSPACE && input.length() > 0 ) {
-          //lop off character
-          input.pop_back();
-        } else if( e.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL ) {
-          SDL_SetClipboardText( input.c_str() );
-        } else if( e.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL ) {
-          input = SDL_GetClipboardText();
-        }
-        break;
-      default:
-        break;
-    }
-
+  if(inside) {
+    SDL_StartTextInput();
+    lastRenderTime = SDL_GetTicks();
+  } else {
+    SDL_StopTextInput();
+  }
 };
+
+void TextInputEntity::handleInput(const SDL_Event& e) {
+  switch (e.type) {
+    case SDL_TEXTINPUT:
+      if (!inside) return;
+      input += e.text.text;
+
+      break;
+    case SDL_KEYDOWN:
+      if( e.key.keysym.sym == SDLK_BACKSPACE && input.length() > 0 ) {
+        //lop off character
+        input.pop_back();
+      } else if( e.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL ) {
+        SDL_SetClipboardText( input.c_str() );
+      } else if( e.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL ) {
+        input = SDL_GetClipboardText();
+      }
+      break;
+    default:
+      break;
+  }
+};
+
+void TextInputEntity::clearInput() {
+  input.clear();
+};
+
+std::string TextInputEntity::getInput() {
+  return input;
+}

@@ -9,7 +9,9 @@ CApp::CApp(std::string& host, std::string& port) :
   mapViewport(window),
   lifeViewport(window),
   expViewport(window),
+  chatViewport(window),
   loginController(model, manager),
+  chatController(model, manager),
   globalController(model, manager),
   mapController(model, manager),
   playerController(model, manager),
@@ -50,6 +52,7 @@ void CApp::OnEvent(SDL_Event& e) {
     case GameMode::RUN:
       playerController.handleEvent(e, 
         mapViewport.getCameraX(), mapViewport.getCameraY());
+      chatController.handleEvent(e);
       break;
   }
 }
@@ -76,6 +79,7 @@ void CApp::OnRender() {
         enemyController.getOtherPlayers());
       lifeViewport.paint(playerController.getBars());
       expViewport.paint(playerController.getExp());
+      chatViewport.paint(chatController.getEntities());
       break;
   }
   window.render();
@@ -87,6 +91,7 @@ void CApp::OnInit() {
   model.init();
 
   loginController.init();
+  chatController.init();
   globalController.init();
   mapController.init();
   playerController.init();
@@ -104,6 +109,7 @@ void CApp::LoadAssets() {
   manager.addFont("arial", ARIAL_PATH, 12);
   manager.addTexture("main-screen-path", MAIN_SCREEN_PATH);
   manager.addTexture("login-screen-path", LOGIN_SCREEN_PATH);
+  manager.addTextTexture("user-input");
   manager.addTexture("healthText", "client/assets/health.png");
   manager.addTexture("manaText", "client/assets/health.png");
   manager.addTexture("goldText", "client/assets/health.png");

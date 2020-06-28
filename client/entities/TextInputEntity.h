@@ -16,11 +16,16 @@ class TextInputEntity: public Entity {
       LTexture* texture,
       TTF_Font* font,
       int xpos,
-      int ypos);
+      int ypos,
+      int maxWidth,
+      int maxHeight);
     TextInputEntity(const TextInputEntity&) = delete;
     TextInputEntity& operator=(const TextInputEntity&) = delete;
     TextInputEntity&& operator=(TextInputEntity&& other);
-    void handleEvent(const SDL_Event &e);
+    std::string getInput();
+    void clearInput();
+    void handleClick(int xCoord, int yCoord);
+    void handleInput(const SDL_Event &e);
     void paint(double scaleW, double scaleH) override;
     void paint(const Camera &camera, 
       double scaleW, double scaleH) override {}
@@ -30,11 +35,14 @@ class TextInputEntity: public Entity {
     TTF_Font* font;
     std::string input;
     bool inside = false;
+    int lastRenderTime = 0;
     double lWScale = 1;
     double lHScale = 1;
     int size;
     int xpos;
     int ypos;
+    int maxWidth;
+    int maxHeight;
 };
 
 #endif

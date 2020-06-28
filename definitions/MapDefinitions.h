@@ -17,6 +17,19 @@
 #define MAIN_SCREEN_BASE_MAP_W 542
 #define MAIN_SCREEN_BASE_MAP_H 413
 
+#define CHAT_BASE_X 11
+#define CHAT_BASE_Y 15
+#define CHAT_BASE_W 542
+#define CHAT_BASE_H 180
+#define CHAT_BUTTON_X 57
+#define CHAT_BUTTON_Y 129
+#define CHAT_BUTTON_W 58
+#define CHAT_BUTTON_H 15
+#define CHAT_INPUT_X 71
+#define CHAT_INPUT_Y 116
+#define CHAT_INPUT_W 475
+#define CHAT_INPUT_H 14
+
 struct ObjectLayerData {
   int id;
   std::string name;

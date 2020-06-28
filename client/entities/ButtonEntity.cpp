@@ -41,13 +41,13 @@ void ButtonEntity::handleEvent(const SDL_Event &e) {
         SDL_GetMouseState( &x, &y );
 
         //Check if mouse is in button
-        inside = sdlInRect(dest, x, y);
+        inside = inRect(dest, x, y);
         break;
       case SDL_MOUSEBUTTONDOWN:
 
         SDL_GetMouseState( &x, &y );
 
-        click = sdlInRect(dest, x, y);
+        click = inRect(dest, x, y);
         break;
       case SDL_MOUSEBUTTONUP:
         click = false;

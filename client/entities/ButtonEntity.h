@@ -23,7 +23,7 @@ class ButtonEntity: public Entity {
     ButtonEntity&& operator=(ButtonEntity&& other);
     void handleEvent(const SDL_Event &e);
     void paint(double scaleW, double scaleH) override;
-    void paint(const Camera &camera) override {};
+    virtual void paint(const Camera &camera, double scaleW, double scaleH) override {};
 
   private:
     LTexture* mainT;
