@@ -28,21 +28,19 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.rootd = root;
     data.nick = nick;
     data.gold = 0;
-    data.level = 1;
-
-    int width = 25, height = 48;
+    data.level = PLAYER_INITIAL_LEVEL;
 
     Player::setClassSkills(data.skills, data.rootd);
     Player::setRaceSkills(data.skills, data.rootd);
 
+    Player::setDefaultEquipment(data);
 
     data.experience.maxLevelExperience = 0;
     data.experience.currentExperience = 0;
     Player::setExperienceData(data.level, data.experience);
-    
-    data.inventory.helmet = "";
-    
-    data.position = {2600 , 2600, width, height};
+        
+    Player::setPositionData(root, data.position);
+
     data.points.totalHP = Equations::maxLife(data.skills.classConstitution, 
       data.skills.classHealth, data.skills.raceHealth, 
       data.level);
@@ -52,8 +50,6 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
       (data.skills.inteligence, data.skills.classMana, data.skills.raceMana, 
       data.level);
     data.points.currentMP = data.points.totalMP;
-
-    Player::setInitEquipment(data.equipment, data.rootd);
 
     data.movement.xDir = 0;
     data.movement.yDir = 0;
@@ -141,6 +137,8 @@ void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
   }
 }
 
+/* VER SI TODAVIA SIRVE
+
 void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.body = TUNIC;
   equipment.head = HELMET;
@@ -148,6 +146,7 @@ void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.rightHand = SIMPLE_BOW;
 }
 
+*/
 
 void Player::setRighHandSkills(RightHandEquipmentSkills
   &rightSkills, RightHandEquipment &rightEquipment){
@@ -170,6 +169,10 @@ void Player::setRighHandSkills(RightHandEquipmentSkills
         rightSkills.range = ASH_STICK_RANGE;
         rightSkills.mana = ASH_STICK_MANA;
       default:
+        rightSkills.maxDamage = 0;
+        rightSkills.minDamage = 0;
+        rightSkills.range = 0;
+        rightSkills.mana = 0;
         break;
     }
 }
@@ -182,6 +185,8 @@ void Player::setLeftHandSkills(LeftHandEquipmentSkills
         leftSkills.minDefense = IRON_SHIELD_MIN_DEFENSE;
         break;
       default:
+        leftSkills.maxDefense = 0;
+        leftSkills.minDefense = 0;
         break;
     }
 }
@@ -195,6 +200,8 @@ void Player::setBodySkills(BodyEquipmentSkills
       bodySkills.minDefense = TUNIC_MIN_DEFENSE;
       break;
     default:
+      bodySkills.maxDefense = 0;
+      bodySkills.minDefense = 0;
       break;
     }
 }
@@ -208,6 +215,8 @@ void Player::setHeadSkills(HeadEquipmentSkills
       headSkills.minDefense = HELMET_MIN_DEFENSE;
       break;
     default:
+      headSkills.maxDefense = 0;
+      headSkills.minDefense = 0;
       break;
     }
 }
@@ -218,11 +227,18 @@ void Player::setExperienceData(size_t &level, ExperienceData &experience){
       Equations::maxLevelExperience(level);
 }
 
+void Player::setPositionData(PlayerRootData &root, PositionData &position){
+  position.w = PLAYER_WIDTH;
+  position.h = PLAYER_HEIGHT;
+  position.x = 2600;
+  position.y = 2600;
+}
+
 
 bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   PositionData attackZoneData = {
-    xCoord,
-    yCoord,
+    xCoord - ATTACK_NPC_ZONE_WIDTH / 2,
+    yCoord - ATTACK_ZONE_HEIGHT / 2,
     ATTACK_ZONE_WIDTH,
     ATTACK_ZONE_HEIGHT};
   Entity attackZone(attackZoneData);
@@ -234,10 +250,7 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
     attackZoneData , position);
   if (distanceAttackZone > rightSkills.range) return false;
 
-  if (health.currentMP < rightSkills.mana){
-    std::cout << "Mana insuficiente" << std::endl;
-    return false;
-  } 
+  if (health.currentMP < rightSkills.mana) return false;
 
   health.currentMP -= rightSkills.mana;
   
@@ -289,4 +302,153 @@ void Player::rcvDamage(int &damage){
 int Player::defend(){
   return Equations::defend(skills.agility, bodySkills, 
     leftSkills, headSkills);
+}
+
+void Player::setDefaultEquipment(MainPlayerData &data){
+  InventoryElementData bodyArmour, weapon, healthPotion, manaPotion,
+    weapon2;
+  
+  bodyArmour.amount = 1;
+  bodyArmour.isEquiped = true;
+  bodyArmour.equipableType = BODY_ARMOUR;
+  bodyArmour.enumPosition = BodyEquipment::DEFAULT_B;
+  data.equipment.body = DEFAULT_B;
+
+  weapon.amount = 1;
+  weapon.isEquiped = true;
+  weapon.equipableType = WEAPON;
+  weapon.enumPosition = RightHandEquipment::SWORD;
+  data.equipment.rightHand = SWORD;
+
+  /* Mano izquierda y cabeza quedan en default (nada equipado) */
+  data.equipment.head = DEFAULT_H;
+  data.equipment.leftHand = DEFAULT_L;
+
+  healthPotion.amount = 1;
+  healthPotion.isEquiped = false;
+  healthPotion.equipableType = POTION;
+  healthPotion.enumPosition = Potions::HEALTH;
+
+  manaPotion.amount = 1;
+  manaPotion.isEquiped = false;
+  manaPotion.equipableType = POTION;
+  manaPotion.enumPosition = Potions::MANA;
+
+  weapon2.amount = 1;
+  weapon2.isEquiped = false;
+  weapon2.equipableType = WEAPON;
+  weapon2.enumPosition = RightHandEquipment::SIMPLE_BOW;
+  data.equipment.rightHand = SIMPLE_BOW;  
+
+  data.inventory.push_back(bodyArmour);
+  data.inventory.push_back(weapon);
+  data.inventory.push_back(healthPotion);
+  data.inventory.push_back(manaPotion);
+  data.inventory.push_back(weapon2);
+}
+
+void Player::equip(int inventoryPosition){
+  Equipable type;
+  RightHandEquipment right;
+  LeftHandEquipment left;
+  HeadEquipment head;
+  BodyEquipment body;
+  Potions potion;
+
+  InventoryElementData& i = inventory[inventoryPosition];
+
+  type = i.equipableType;
+
+  switch (type) {
+    case POTION: 
+      potion = static_cast<Potions> (i.enumPosition);
+      equip(potion, inventoryPosition);
+      break;
+    case WEAPON:
+      right = static_cast<RightHandEquipment> (i.enumPosition);
+      equip(right, inventoryPosition);
+      break;
+    case LEFT_HAND_DEFENSE:
+      left = static_cast<LeftHandEquipment> (i.enumPosition);
+      equip(left, inventoryPosition);
+      break;
+    case HEAD_DEFENSE: 
+      head = static_cast<HeadEquipment> (i.enumPosition);
+      equip(head, inventoryPosition);
+      break;
+    case BODY_ARMOUR:
+      body = static_cast<BodyEquipment> (i.enumPosition);
+      equip(body, inventoryPosition);
+      break;
+  }
+}
+
+void Player::equip(Potions potion, int inventoryPosition) {
+  if (potion == HEALTH){
+    health.currentHP = health.totalHP;
+  }else if (potion == MANA){
+    health.currentMP = health.totalMP;
+  }
+
+  inventory[inventoryPosition].amount -= 1;
+
+  if (inventory[inventoryPosition].amount > 0) return;
+  
+  inventory.erase(inventory.begin() + inventoryPosition - 1);
+}
+
+void Player::equip(RightHandEquipment rightHandEquipment, 
+  int inventoryPosition) {
+    inventory[inventoryPosition].isEquiped = true;
+  
+    equipment.rightHand = rightHandEquipment;
+  
+    Player::setRighHandSkills(rightSkills, rightHandEquipment);
+  
+    for (auto& it : inventory){
+      if (it.equipableType != WEAPON) continue;
+      it.isEquiped = false;
+    }
+}
+
+void Player::equip(LeftHandEquipment leftHandEquipment, 
+  int inventoryPosition) {
+    inventory[inventoryPosition].isEquiped = true;
+  
+    equipment.leftHand = leftHandEquipment;
+    
+    Player::setLeftHandSkills(leftSkills, leftHandEquipment);
+    
+    for (auto& it : inventory){
+      if (it.equipableType != LEFT_HAND_DEFENSE) continue;
+      it.isEquiped = false;
+    }
+}
+
+void Player::equip(HeadEquipment headEquipment, 
+  int inventoryPosition) {
+    inventory[inventoryPosition].isEquiped = true;
+  
+    equipment.head = headEquipment;
+    
+    Player::setHeadSkills(headSkills, headEquipment);
+    
+    for (auto& it : inventory){
+      if (it.equipableType != HEAD_DEFENSE) continue;
+      it.isEquiped = false;
+    }
+}
+
+void Player::equip(BodyEquipment bodyEquipment, 
+  int inventoryPosition) {
+    inventory[inventoryPosition].isEquiped = true;
+  
+    equipment.body = bodyEquipment;
+    
+    Player::setBodySkills(bodySkills, bodyEquipment);
+    
+    for (auto& it : inventory){
+      if (it.equipableType != BODY_ARMOUR) continue;
+      it.isEquiped = false;
+    }
 }

@@ -8,6 +8,9 @@
 #include <string>
 #include <vector>
 
+#define PLAYER_WIDTH 25
+#define PLAYER_HEIGHT 48
+
 typedef enum {
   HUMAN,
   ELF,
@@ -25,6 +28,14 @@ typedef enum {
 } PlayerClass;
 
 MSGPACK_ADD_ENUM(PlayerClass)
+
+struct InventoryElementData{
+  size_t amount;
+  bool isEquiped;
+  Equipable equipableType;
+  char enumPosition;
+  MSGPACK_DEFINE(amount, isEquiped, equipableType, enumPosition)
+};
 
 struct SkillsData {
   size_t strength;
@@ -57,11 +68,6 @@ struct PlayerRootData {
   MSGPACK_DEFINE(pclass, prace)
 };
 
-struct Inventory {
-  std::string helmet;
-  MSGPACK_DEFINE(helmet)
-};
-
 struct MainPlayerData {
   std::string nick;
   size_t id;
@@ -70,7 +76,7 @@ struct MainPlayerData {
   ExperienceData experience;
   SkillsData skills;
   PlayerRootData rootd;
-  Inventory inventory;
+  std::vector<InventoryElementData> inventory;
   HealthAndManaData points;
   PositionData position;
   MovementData movement;

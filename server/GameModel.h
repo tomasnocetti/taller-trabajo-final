@@ -43,6 +43,8 @@ class GameModel{
     Chequea colisiones. Si lo puede mover, lo mueve, caso contrario el modelo
     permanece intalterado. */
     void playerSetCoords(size_t playerId, int x, int y);
+    /* Handle equip instruction */
+    void equipPlayer(size_t playerId, int inventoryPosition);
     /* Handle npcSetCoords instruction. */
     void npcSetCoords(size_t playerId, int xPos, int yPos);
     /* Handle npcAttack instruction. */

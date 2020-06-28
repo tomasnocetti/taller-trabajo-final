@@ -5,6 +5,7 @@
 
 #define MAX_LEVEL_EXPERIENCE_CONST 1.8
 #define DEFENSE_CONST 0.001
+#define NPC_DAMAGE_CONST 0.2
 
 Equations::Equations() {}
 
@@ -80,4 +81,8 @@ float Equations::randomFloat(float a, float b) {
   float diff = b - a;
   float r = random * diff;
   return a + r;
+}
+
+int Equations::NPCDamage(int level, size_t npcStrength){
+  return npcStrength * level * NPC_DAMAGE_CONST;
 }

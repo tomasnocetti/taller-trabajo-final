@@ -54,6 +54,7 @@ class ServerProxy{
     void authentificate(std::string& alias);
     void move(int xDir, int yDir);
     void attack(int xPos, int yPos);
+    void equip(int inventoryPosition);
 
     /** Client GETTERS */
     MapData getMapData() const;

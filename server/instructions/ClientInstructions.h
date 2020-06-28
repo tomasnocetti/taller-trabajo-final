@@ -77,4 +77,19 @@ class AttackInstrucion : public Instruction {
     int yPos;
 };
 
+class EquipInstruction : public Instruction {
+  public:
+    EquipInstruction(size_t id, std::string inventoryPosition);
+    EquipInstruction(const EquipInstruction&) = delete;
+    EquipInstruction& operator=(const EquipInstruction&) 
+      = delete;
+    EquipInstruction&& operator=(EquipInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    size_t inventoryPosition;
+};
+
 #endif

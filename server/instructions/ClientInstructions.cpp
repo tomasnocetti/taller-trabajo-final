@@ -52,3 +52,11 @@ AttackInstrucion::AttackInstrucion(size_t id, std::string xPos,
 void AttackInstrucion::run(GameModel& game) {
   game.attack(playerId, xPos, yPos);
 }
+
+EquipInstruction::EquipInstruction(size_t id, std::string inventoryPosition) :
+  playerId(id),
+  inventoryPosition(stoi(inventoryPosition)){}
+  
+void EquipInstruction::run(GameModel& game) {
+  //game.attack(playerId, xPos, yPos);
+}

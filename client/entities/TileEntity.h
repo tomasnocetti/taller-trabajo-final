@@ -20,7 +20,6 @@ class TileEntity: public Entity {
     std::string id);
     void paint(const Camera &camera, double scaleW, double scaleH) override;
     void paint(double scaleW, double scaleH) override {}
-    //void paint(const Camera &camera) override {};
 };
 
 #endif

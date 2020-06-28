@@ -6,7 +6,6 @@
 #include "../view/SpiderAnimation.h"
 #include "../view/ZombieAnimation.h"
 #include <vector>
-#include <map>
 #include <iostream>
 
 EnemyController::EnemyController(

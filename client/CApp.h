@@ -43,11 +43,13 @@ class CApp {
     Map mapViewport;
     LifeViewport lifeViewport;
     ExpViewport expViewport;
+    InventoryViewport inventoryViewport;
     LoginController loginController;
     GlobalController globalController;
     MapController mapController;
     MainPlayerController playerController;
     EnemyController enemyController;
+    InventoryController inventoryController;
     void OnInit();
     void LoadAssets();
     void OnEvent(SDL_Event& Event);
