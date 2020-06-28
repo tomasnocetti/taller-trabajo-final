@@ -55,11 +55,9 @@ void GameCron::runNPCLogic(
   std::vector<EnemyData>& npcs,
   std::vector<OtherPlayersData>& players) {
   for (EnemyData &npc : npcs) {
-    /*
-    if (npc.healthAndManaData.currentHP <= 0)
-      NPCReSpawn(npc.id);
-    */
-   
+    if (npc.healthAndManaData.currentHP <= 0) continue;
+      //NPCReSpawn(npc.id);
+    
     bool hasPlayerInRange = false;
     double minDistanceToPlayer = MIN_DISTANCE_NPC;
 
