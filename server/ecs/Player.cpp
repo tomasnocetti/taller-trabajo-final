@@ -44,7 +44,7 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.points.totalHP = Equations::maxLife(data.skills.classConstitution, 
       data.skills.classHealth, data.skills.raceHealth, 
       data.level);
-    data.points.currentHP = data.points.totalHP - 50;
+    data.points.currentHP = data.points.totalHP - 100;
     
     data.points.totalMP = Equations::maxMana
       (data.skills.inteligence, data.skills.classMana, data.skills.raceMana, 
@@ -324,12 +324,12 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   data.equipment.head = DEFAULT_H;
   data.equipment.leftHand = DEFAULT_L;
 
-  healthPotion.amount = 1;
+  healthPotion.amount = 2;
   healthPotion.isEquiped = false;
   healthPotion.equipableType = POTION;
   healthPotion.enumPosition = Potions::HEALTH;
 
-  manaPotion.amount = 1;
+  manaPotion.amount = 2;
   manaPotion.isEquiped = false;
   manaPotion.equipableType = POTION;
   manaPotion.enumPosition = Potions::MANA;
