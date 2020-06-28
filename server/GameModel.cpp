@@ -165,6 +165,7 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
 }
 
 void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
+  if (players.at(playerId)->health.currentHP <= 0) return;
   players.at(playerId)->equip(inventoryPosition);
 }
 
