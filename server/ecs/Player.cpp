@@ -143,7 +143,7 @@ void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.body = TUNIC;
   equipment.head = HELMET;
   equipment.leftHand = IRON_SHIELD;    
-  equipment.rightHand = ASH_STICK;
+  equipment.rightHand = SIMPLE_BOW;
 }
 
 */

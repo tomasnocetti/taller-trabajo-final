@@ -34,7 +34,7 @@ class MainPlayerController {
     Bar expBar;
 
     void checkRace(PlayerRace race);
-    void checkHealth(int health, PlayerRace race);
+    void checkHealth(int health);
     void checkEquipment(EquipmentData equipment);
 };
 
