@@ -57,7 +57,12 @@ void GameCron::runNPCLogic(
   for (EnemyData &npc : npcs) {
     if (npc.healthAndManaData.currentHP <= 0) continue;
       //NPCReSpawn(npc.id);
-    
+    aliveNPCLogic(players, npc);
+  }
+}
+
+void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players, 
+  EnemyData &npc){
     bool hasPlayerInRange = false;
     double minDistanceToPlayer = MIN_DISTANCE_NPC;
 
@@ -67,21 +72,20 @@ void GameCron::runNPCLogic(
     // Calcula la distancia minima a un jugador
     for (OtherPlayersData &player : players) {
       if (player.otherPlayerHealth <= 0) continue;
-      double distance = Entity::getPositionDistance(
+        double distance = Entity::getPositionDistance(
         npc.position, player.position);
 
       if (distance >= minDistanceToPlayer) continue;
-      minDistanceToPlayer = distance;
-      hasPlayerInRange = true;
-      playerPosition = player.position;
-    }
+        minDistanceToPlayer = distance;
+        hasPlayerInRange = true;
+        playerPosition = player.position;
+      }
 
-    if (!hasPlayerInRange) continue;
-    moveNPC(npc.id, npc.position, playerPosition);    
+      if (!hasPlayerInRange) return;
+      moveNPC(npc.id, npc.position, playerPosition);    
 
-    if (minDistanceToPlayer > minDistanceToAttackPlayer) continue;
-    NPCAttack(npc.id, playerPosition);
-  }
+      if (minDistanceToPlayer > minDistanceToAttackPlayer) return;
+      NPCAttack(npc.id, playerPosition);
 }
 
 void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {

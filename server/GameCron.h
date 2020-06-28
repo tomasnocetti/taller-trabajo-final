@@ -36,6 +36,7 @@ class GameCron: public Thread {
     void runNPCLogic(
       std::vector<EnemyData>& npcs,
       std::vector<OtherPlayersData>& players);
+    void aliveNPCLogic(std::vector<OtherPlayersData>& players, EnemyData &npc);
     void moveNPC(
       size_t id,
       PositionData& npc,
