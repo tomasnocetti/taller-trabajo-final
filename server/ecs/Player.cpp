@@ -44,12 +44,12 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.points.totalHP = Equations::maxLife(data.skills.classConstitution, 
       data.skills.classHealth, data.skills.raceHealth, 
       data.level);
-    data.points.currentHP = data.points.totalHP;
+    data.points.currentHP = data.points.totalHP - 50;
     
     data.points.totalMP = Equations::maxMana
       (data.skills.inteligence, data.skills.classMana, data.skills.raceMana, 
       data.level);
-    data.points.currentMP = data.points.totalMP;
+    data.points.currentMP = data.points.totalMP - 50;
 
     data.movement.xDir = 0;
     data.movement.yDir = 0;
@@ -318,7 +318,7 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   weapon.isEquiped = true;
   weapon.equipableType = WEAPON;
   weapon.enumPosition = RightHandEquipment::SWORD;
-  data.equipment.rightHand = SIMPLE_BOW;
+  data.equipment.rightHand = SWORD;
 
   /* Mano izquierda y cabeza quedan en default (nada equipado) */
   data.equipment.head = DEFAULT_H;
