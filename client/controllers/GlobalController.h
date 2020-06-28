@@ -2,13 +2,13 @@
 #define _GLOBAL_CONTROLLER_H_
 
 #include "../sdl/SdlAssetsManager.h"
-#include "../model/ClientProxy.h"
+#include "../model/ServerProxy.h"
 #include "../../DataDefinitions.h"
 #include "../entities/BackgroundEntity.h"
 
 class GlobalController {
   public:
-  	explicit GlobalController(ClientProxy& model, SdlAssetsManager& manager);
+  	explicit GlobalController(ServerProxy& model, SdlAssetsManager& manager);
     GlobalController(const GlobalController&) = delete;
     GlobalController& operator=(const GlobalController&) = delete;
     void init();
@@ -16,7 +16,7 @@ class GlobalController {
     EntityList &getEntities();
 
   private:
-    ClientProxy& model;
+    ServerProxy& model;
     SdlAssetsManager& manager;
     EntityList screens;
 };

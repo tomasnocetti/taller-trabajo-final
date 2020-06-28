@@ -4,7 +4,7 @@
 #include <string>
 #include "sdl/SdlWindow.h"
 #include "sdl/SdlAssetsManager.h"
-#include "model/ClientProxy.h"
+#include "model/ServerProxy.h"
 #include "viewports/Viewports.h"
 #include "controllers/Controllers.h"
 
@@ -22,7 +22,9 @@ typedef enum {
 
 #define MAIN_SCREEN_PATH "client/assets/main-screen.jpg"
 #define LOGIN_SCREEN_PATH "client/assets/main-screens/login-screen.jpg"
-#define FONT_PATH "client/assets/fonts/arial.ttf"
+
+#define FONT_PATH "client/assets/fonts/ringm.ttf"
+#define ARIAL_PATH "client/assets/fonts/arial.ttf"
 
 class CApp {
   public:
@@ -34,13 +36,15 @@ class CApp {
 
   private:
     bool Running;
-    GameMode mode = GameMode::LOGIN;
-    ClientProxy model;
+    bool Running;
+    GameMode mode = GameMode::RUN;
+    ServerProxy model;
     SdlWindow window;
     SdlAssetsManager manager;
     Global globalViewport;
     Map mapViewport;
     LifeViewport lifeViewport;
+    ExpViewport expViewport;
     LoginController loginController;
     GlobalController globalController;
     MapController mapController;
@@ -48,7 +52,7 @@ class CApp {
     EnemyController enemyController;
     void OnInit();
     void LoadAssets();
-    void OnEvent(const SDL_Event& Event);
+    void OnEvent(SDL_Event& Event);
     void OnLoop();
     void OnRender();
     void OnCleanup();

@@ -4,7 +4,18 @@
 
 #include <string>
 #include <vector>
-//#include <msgpack.hpp>
+#include <msgpack.hpp>
+
+#define MARGIN_LAYER "margenes"
+#define SPIDER_SPAWN_POINTS "spider-spawn"
+#define SKELETON_SPAWN_POINTS "skeleton-spawn"
+#define GOBLIN_SPAWN_POINTS "goblin-spawn"
+#define CITY_LAYER "ciudad"
+
+#define MAIN_SCREEN_BASE_MAP_X 11
+#define MAIN_SCREEN_BASE_MAP_Y 154
+#define MAIN_SCREEN_BASE_MAP_W 542
+#define MAIN_SCREEN_BASE_MAP_H 413
 
 struct ObjectLayerData {
   int id;
@@ -24,12 +35,14 @@ struct TileSetData {
   int firstgid;
   int tilecount;
   std::string image;
+  MSGPACK_DEFINE(columns, firstgid, tilecount, image)
 };
 
 struct TileLayerData {
   int id;
   std::string name;
   std::vector<size_t> data;
+  MSGPACK_DEFINE(id, name, data)
 };
 
 struct MapData {
@@ -39,6 +52,7 @@ struct MapData {
   int tilewidth;
   std::vector<struct TileLayerData> layers;
   std::vector<struct TileSetData> tileSets;
+  MSGPACK_DEFINE(height, width, tileheight, tilewidth, layers, tileSets)
 };
 
 #endif

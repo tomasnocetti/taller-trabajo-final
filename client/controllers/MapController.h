@@ -3,21 +3,20 @@
 
 #include <string>
 #include <vector>
-//#include <memory>
-#include "../model/ClientProxy.h"
+#include "../model/ServerProxy.h"
 #include "../sdl/LTexture.h"
 #include "../sdl/SdlAssetsManager.h"
 #include "../entities/Entity.h"
 
 class MapController {
   public:
-    MapController(ClientProxy& model, SdlAssetsManager& manager);
+    MapController(ServerProxy& model, SdlAssetsManager& manager);
     ~MapController();
     void init();
     EntityList& getEntities();
 
   private:
-    ClientProxy& model;
+    ServerProxy& model;
     SdlAssetsManager& manager;
     EntityList tiles;
     std::string texID;

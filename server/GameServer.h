@@ -6,31 +6,30 @@
 #include <memory>
 #include <map>
 
-#include "Player.h"
-#include "../DataDefinitions.h"
-#include "../common/BlockingQueue.h"
-#include "ActivePlayers.h"
+#include "instructions/Instruction.h"
+#include "responses/Response.h"
+#include "ClientAcceptor.h"
+#include "GameCron.h"
+#include "GameModel.h"
+#include "ClientAcceptor.h"
 
-class ServerProxy;
+class ClientProxy;
 
-using InstructionDataBQ = BlockingQueue<InstructionData>;
-using UpDateClientsBQ = FixedBlockingQueue<GameModelT>;
-
-class GameServer{
-  private: 
-    bool isClose;
-    InstructionDataBQ instructionQueue;
-    ActivePlayers activePlayers;
-    GameModelT gameModel;
+class GameServer : public Thread{
+  private:
+    bool running;
+    InstructionBQ instructionQueue;
+    GameCron cron;
+    GameModel game;
+    ClientAcceptor clientAcceptor;
   public:
-    GameServer();
+    GameServer(char* port, char* mapPath);
     ~GameServer();
     GameServer(const GameServer&) = delete;
     GameServer& operator=(const GameServer&) = delete;
     void init();
-    void start();
-    void handleInstruction(InstructionData &instruction);
-    void close();
+    void run();
+    void stop();
 };
 
 #endif

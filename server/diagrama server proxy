@@ -6,10 +6,10 @@ Main{
 
   GameServer {
     -Se conecte un nuevo cliente.
-    - Despachar una clase ServerProxy
+    - Despachar una clase ClientProxy
     NPC npcs[];
     Jugadores jugadoresActivos[];
-    ClasesServerProxy[];
+    ClasesClientProxy[];
     ObjetosMapa[{
       x, y, h, w
     }, {
@@ -18,12 +18,12 @@ Main{
 
     }]
     run() {
-      despacha un nuevo serverproxy(
+      despacha un nuevo ClientProxy(
         ->this
       );
-      ClasesServerProxy newInsance();
-      ClasesServerProxy newInsance();
-      ClasesServerProxy newInsance();
+      ClasesClientProxy newInsance();
+      ClasesClientProxy newInsance();
+      ClasesClientProxy newInsance();
 
 
     }

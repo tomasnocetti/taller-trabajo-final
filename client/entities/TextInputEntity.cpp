@@ -6,12 +6,10 @@
 TextInputEntity::TextInputEntity(
   LTexture* texture,
   TTF_Font* font,
-  int size,
   int xpos,
   int ypos) :
   texture(texture),
   font(font),
-  size(size),
   xpos(xpos),
   ypos(ypos) {}
 

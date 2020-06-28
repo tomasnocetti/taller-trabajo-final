@@ -3,6 +3,7 @@
 #include <SDL2/SDL_ttf.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
+#include <SDL2/SDL_ttf.h>
 #include "SdlException.h"
 #include "SdlWindow.h"
 #include <iostream>
@@ -46,6 +47,7 @@ SdlWindow::SdlWindow(int width, int height) :
     if (!(IMG_Init(imgFlags) & imgFlags)) {
       throw SdlException("Error en la inicialización IMG", IMG_GetError());
     }
+
     if (TTF_Init() == -1) {
       throw SdlException("Error en la inicialización SDL_TTF", TTF_GetError());
     }
@@ -63,27 +65,38 @@ SdlWindow::~SdlWindow() {
     SDL_DestroyWindow(this->window);
     this->window = nullptr;
   }
-  TTF_Quit();
   IMG_Quit();
+  TTF_Quit();
   SDL_Quit();
 }
 
-void SdlWindow::handleEvent(const SDL_Event& e) {
+void SdlWindow::handleEvent(SDL_Event& e) {
 	//Window event occured
-	if ( e.type != SDL_WINDOWEVENT ) return;
+	if (e.type == SDL_MOUSEBUTTONDOWN &&
+    e.button.button == SDL_BUTTON_LEFT) {
+    SDL_Rect src = {e.button.x, e.button.y, 0, 0};
+    SDL_Rect destRect = sdlDownscaleRect(
+      src,
+      getScaleWidthFactor(),
+      getScaleHeightFactor());
+    e.button.x = destRect.x;
+    e.button.y = destRect.y;
+  }
 
-  switch ( e.window.event ) {
-    //Get new dimensions and repaint on window size change
-    case SDL_WINDOWEVENT_SIZE_CHANGED:
-      width = e.window.data1;
-      height = e.window.data2;
-      render();
-      break;
+  if ( e.type == SDL_WINDOWEVENT ) {
+    switch ( e.window.event ) {
+      //Get new dimensions and repaint on window size change
+      case SDL_WINDOWEVENT_SIZE_CHANGED:
+        width = e.window.data1;
+        height = e.window.data2;
+        render();
+        break;
 
-    //Repaint on exposure
-    case SDL_WINDOWEVENT_EXPOSED:
-      render();
-      break;
+      //Repaint on exposure
+      case SDL_WINDOWEVENT_EXPOSED:
+        render();
+        break;
+    }
   }
 }
 

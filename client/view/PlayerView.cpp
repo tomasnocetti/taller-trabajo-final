@@ -1,58 +1,105 @@
 #include "PlayerView.h"
 #include "AnimationTypes.h"
+#include <iostream>
 
-PlayerView::PlayerView() {}
+PlayerView::PlayerView() : headWear(HeadWear(nullptr, 0, 0, 0, 0)), 
+	shield(Shield(nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)) {}
 
-void PlayerView::init(LTexture* texture, int x, int y){
-	this->x = x;
-	this->y = y;
-	this->speed = 10;
+void PlayerView::init(LTexture* texture) {
+	this->x = 0;
+	this->y = 0;
 	animation = new PlayerAnimation(texture);
   animation->init();
 	animation->set(FORWARD_STAND);
+	headFrame = {0, 0, 16, 16};
+	ghost = false;
 }
 
-void PlayerView::stand(int xOffset, int yOffset){
-	if(xOffset == 0 && yOffset < 0){
-		animation->set(BACK_STAND);
-	} else if (xOffset == 0 && yOffset > 0){
-		animation->set(FORWARD_STAND);
-	} else if (xOffset < 0 && yOffset == 0){
-		animation->set(LEFT_STAND);
-	} else if (xOffset > 0 && yOffset == 0){
-		animation->set(RIGHT_STAND);
-	}
-}
-
-void PlayerView::walk(int xOffset, int yOffset){
-	if(xOffset == 0 && yOffset < 0){
-		this->y += yOffset * speed;
+void PlayerView::move(int x, int y){
+	if(x == this->x && y < this->y){
+		this->y = y;
 		animation->set(BACK_WALK);
-	} else if (xOffset == 0 && yOffset > 0){
-		this->y += yOffset * speed;
-		animation->set(FORWARD_WALK);
-	} else if (xOffset < 0 && yOffset == 0){
-		this->x += xOffset * speed;
-		animation->set(LEFT_WALK);
-	} else if (xOffset > 0 && yOffset == 0){
-		this->x += xOffset * speed;
-		animation->set(RIGHT_WALK);
+		headFrame = {48, 0, 16, 16};
+	} else if (x == this->x && y > this->y){
+			this->y = y;
+			animation->set(FORWARD_WALK);
+			headFrame = {0, 0, 16, 16};
+	} else if (x < this->x && y == this->y){
+			this->x = x;
+			animation->set(LEFT_WALK);
+			headFrame = {32, 0, 16, 16};
+	} else if (x > this->x && y == this->y){
+			this->x = x;
+			animation->set(RIGHT_WALK);
+			headFrame = {16, 0, 16, 16};
+	} else if (x != this->x && y != this->y){
+		this->x = x;
+		this->y = y;
 	}
-
-	if(this->x < 0)
-		this->x = 0;
-	if(this->y < 0)
-		this->y = 0;
-	if(this->x + 25 > 58 * 16)
-		this->x = 58 * 16 - 25;
-	if(this->y + 48 > 47 * 16)
-		this->y = 47 * 16 - 48;
 }
 
-void PlayerView::paint(const Camera &camera){
-	animation->paint(this->x - camera.getX(), this->y - camera.getY());
+void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
+	animation->paint(x - camera.getX(), y - camera.getY(), 
+		scaleW, scaleH);
+
+	if(head == nullptr) return;
+
+	if(headFrame.x == 0 || headFrame.x == 48) {
+		head->paint(x - camera.getX() + 3, y - camera.getY() - 9, 
+			scaleW, scaleH, &headFrame);
+	} else {
+		head->paint(x - camera.getX(), y - camera.getY() - 10, 
+			scaleW, scaleH, &headFrame);
+	}
+
+	headWear.paint(x - camera.getX(), y - camera.getY(), 
+		scaleW, scaleH, &headFrame);
+
+	shield.paint(x - camera.getX(), y - camera.getY(), 
+		scaleW, scaleH, &headFrame);
+}
+
+void PlayerView::setHead(LTexture* head) {
+	this->head = head;
+}
+
+void PlayerView::setHeadWear(HeadWear headWear){
+	this->headWear = headWear;
+}
+
+void PlayerView::setBodyWear(LTexture* texture) {
+	if (ghost) return;
+	
+	animation->changeTexture(texture);
+}
+
+void PlayerView::setShield(Shield shield){
+	this->shield = shield;
+}
+
+void PlayerView::setGhostAnimation(LTexture* texture) {
+	delete animation;
+	this->animation = new GhostAnimation(texture);
+	animation->init();
+	animation->set(FORWARD_STAND);
+	head = nullptr;
+	ghost = true;
+}
+
+void PlayerView::setPlayerAnimation(LTexture* texture) {
+	delete animation;
+	this->animation = new PlayerAnimation(texture);
+	animation->init();
+	animation->set(FORWARD_STAND);
+	ghost = false;
+}
+
+bool PlayerView::ghostState(){
+	return ghost;
 }
 
 PlayerView::~PlayerView() {
-  delete this->animation;
+	if(animation == nullptr) return;
+	
+  delete animation;
 }

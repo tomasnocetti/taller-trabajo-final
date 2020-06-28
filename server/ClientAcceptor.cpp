@@ -1,24 +1,68 @@
 #include "ClientAcceptor.h"
 #include <utility>
+#include <syslog.h>
+#include <iostream>
 
-ClientAcceptor::ClientAcceptor(InstructionDataBQ &instructionQueue, 
-  ActivePlayers &activePlayers) : instructionQueue(instructionQueue),
-  activePlayers(activePlayers){}
+ClientAcceptor::ClientAcceptor(char* port, InstructionBQ &instructionQueue) :
+  instructionQueue(instructionQueue),
+  running(true) {
+    bindedSocket.bind_and_listen(port);
+}
 
 ClientAcceptor::~ClientAcceptor(){}
 
 void ClientAcceptor::run(){
-  /*Esperar nuevas conexiones e ir lanzando serverProxies*/
-  int i = 0;
-  while (i < 2){
-    acceptPlayer();
-    i++;
+  try{
+    /*Esperar nuevas conexiones e ir lanzando ClientProxies*/
+    while (running){
+      acceptClient();
+      cleanCloseClients();
+    }
+  } catch(const std::system_error& e) {
+       /** This error codes gey by-passed. In Linux when a blocking socket.accept
+     * is being called and the bind socket get's closed an errno is thrown with
+     * EINVAL. This is common logic so it shouldn't be handled as an error.
+    */
+    if (e.code().value() != ECONNABORTED && e.code().value() != EINVAL) {
+      syslog(
+        LOG_CRIT,
+        "[Crit] Error!: \n Error Code: %i \n Message: %s",
+        e.code().value(), e.what());
+    }
+  } catch(const std::exception& e) {
+    syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());
+  } catch(...) {
+    syslog(LOG_CRIT, "[Crit] Unknown Error!");
   }
 }
 
-void ClientAcceptor::acceptPlayer(){
-  std::unique_ptr<ServerProxy> p
-    (new ServerProxy(instructionQueue, activePlayers));
+void ClientAcceptor::acceptClient(){
+  std::unique_ptr<ClientProxy> p(
+    new ClientProxy(instructionQueue, bindedSocket.accept()));
   p->start();
-  serverProxies.push_back(std::move(p));
+  clientProxies.push_back(std::move(p));
+}
+
+void ClientAcceptor::cleanCloseClients(){
+  clientProxies.remove_if([](std::unique_ptr<ClientProxy> &i) {
+    if (!i->isClose()) return false;
+
+    i->stop();
+    i->join();
+
+    return true;
+  });
+}
+
+void ClientAcceptor::stop(){
+  running = false;
+  for (auto &i : clientProxies) {
+    i->stop();
+    i->join();
+  }
+  /** Shutdown is needed for Linux */
+  bindedSocket.shutdown();
+  /** Close is needed for OSX */
+  bindedSocket.close();
+  this->join();
 }

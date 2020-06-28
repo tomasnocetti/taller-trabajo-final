@@ -1,4 +1,5 @@
 #include "SdlViewport.h"
+#include "SdlUtils.h"
 
 SdlViewport::SdlViewport(
   SdlWindow& window,
@@ -13,16 +14,7 @@ SdlViewport::SdlViewport(
 void SdlViewport::fit() {
   double hScale = window.getScaleHeightFactor();
   double wScale = window.getScaleWidthFactor();
-  destViewport = {
-    static_cast<int>(
-      round(static_cast<double>(srcViewport.x) * wScale)),
-    static_cast<int>(
-      round(static_cast<double>(srcViewport.y) * hScale)),
-    static_cast<int>(
-      round(static_cast<double>(srcViewport.w) * wScale)),
-    static_cast<int>(
-      round(static_cast<double>(srcViewport.h) * hScale))
-  };
+  destViewport = sdlScaleRect(srcViewport, wScale, hScale);
   SDL_RenderSetViewport(window.getRenderer(), &destViewport);
 }
 

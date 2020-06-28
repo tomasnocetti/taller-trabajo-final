@@ -3,7 +3,7 @@
 #define LOGIN_SCREEN_PATH "client/assets/main-screens/login-screen.jpg"
 
 LoginController::LoginController(
-  ClientProxy& model,
+  ServerProxy& model,
   SdlAssetsManager& manager) :
   model(model),
   manager(manager) {}

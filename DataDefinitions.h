@@ -1,12 +1,10 @@
 #ifndef __DATADEF_H
 #define __DATADEF_H
 
-#include "definitions/MapDefinitions.h"
-#include "definitions/NPCDefinitions.h"
-#include "definitions/PlayerDefinitions.h"
+#include "definitions/CronDefinitions.h"
+#include "server/GameDefinitions.h"
 #include <string>
 #include <vector>
-//#include <msgpack.hpp>
 
 typedef enum {
   MOVE,
@@ -14,23 +12,29 @@ typedef enum {
   DEPOSIT_GOLD,
   DEPOSIT_ITEM,
   ATTACK,
-  CLOSE_SERVER
+  CLOSE_SERVER,
+  LOAD_PLAYER,
+  AUTHENTICATE,
+  STOP_MOVEMENT
 } ActionTypeT;
 
-/*typedef struct ParamData {
+typedef enum {
+  DEFAULT,
+  MAP_MODEL,
+  PLAYER_GAME_MODEL
+} ResponseTypeT;
+
+MSGPACK_ADD_ENUM(ActionTypeT)
+
+typedef struct ParamData {
   std::string value;
   MSGPACK_DEFINE(value)
-} ParamDataT;*/
+} ParamDataT;
 
-typedef struct InstructionData {
-  size_t playerId;
+struct InstructionData {
   ActionTypeT action;
-  //std::vector<ParamData> params;
-  //MSGPACK_DEFINE(playerId, params, action)
-} IntructionDataT;
-
-typedef struct GameModel{
-  std::string action;
-} GameModelT;
+  std::vector<ParamData> params;
+  MSGPACK_DEFINE(action, params)
+};
 
 #endif

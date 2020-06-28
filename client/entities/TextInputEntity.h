@@ -15,7 +15,6 @@ class TextInputEntity: public Entity {
     TextInputEntity(
       LTexture* texture,
       TTF_Font* font,
-      int size,
       int xpos,
       int ypos);
     TextInputEntity(const TextInputEntity&) = delete;
@@ -23,7 +22,8 @@ class TextInputEntity: public Entity {
     TextInputEntity&& operator=(TextInputEntity&& other);
     void handleEvent(const SDL_Event &e);
     void paint(double scaleW, double scaleH) override;
-    void paint(const Camera &camera) override {};
+    void paint(const Camera &camera, 
+      double scaleW, double scaleH) override {}
 
   private:
     LTexture* texture;
