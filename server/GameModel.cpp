@@ -162,6 +162,10 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   }
 }
 
+void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
+  players.at(playerId)->equip(inventoryPosition);
+}
+
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
     NPC& n = *npcMap.at(id);
     int auxXPos = n.position.x;

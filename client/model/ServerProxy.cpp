@@ -63,6 +63,12 @@ void ServerProxy::attack(int xPos, int yPos) {
   writeBQ.push(instruction);
 }
 
+void ServerProxy::equip(int inventoryPosition){
+  ParamData pos = {std::to_string(inventoryPosition)};
+  InstructionData instruction = {EQUIP, {pos}};
+  writeBQ.push(instruction);
+}
+
 MainPlayerData ServerProxy::getMainPlayerData() const {
   return mainPlayer;
 }

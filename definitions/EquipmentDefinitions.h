@@ -48,6 +48,13 @@ typedef enum {
 
 MSGPACK_ADD_ENUM(LeftHandEquipment)
 
+typedef enum {
+  HEALTH,
+  MANA
+} Potions;
+
+MSGPACK_ADD_ENUM(Potions)
+
 struct EquipmentData {
   HeadEquipment head;
   BodyEquipment body;

@@ -305,7 +305,8 @@ int Player::defend(){
 }
 
 void Player::setDefaultEquipment(MainPlayerData &data){
-  InventoryElementData bodyArmour, weapon;
+  InventoryElementData bodyArmour, weapon, healthPotion, manaPotion,
+    weapon2;
   
   bodyArmour.amount = 1;
   bodyArmour.isEquiped = true;
@@ -323,6 +324,131 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   data.equipment.head = DEFAULT_H;
   data.equipment.leftHand = DEFAULT_L;
 
+  healthPotion.amount = 1;
+  healthPotion.isEquiped = false;
+  healthPotion.equipableType = POTION;
+  healthPotion.enumPosition = Potions::HEALTH;
+
+  manaPotion.amount = 1;
+  manaPotion.isEquiped = false;
+  manaPotion.equipableType = POTION;
+  manaPotion.enumPosition = Potions::MANA;
+
+  weapon2.amount = 1;
+  weapon2.isEquiped = false;
+  weapon2.equipableType = WEAPON;
+  weapon2.enumPosition = RightHandEquipment::SIMPLE_BOW;
+  data.equipment.rightHand = SIMPLE_BOW;  
+
   data.inventory.push_back(bodyArmour);
   data.inventory.push_back(weapon);
+  data.inventory.push_back(healthPotion);
+  data.inventory.push_back(manaPotion);
+  data.inventory.push_back(weapon2);
+}
+
+void Player::equip(int inventoryPosition){
+  Equipable type;
+  RightHandEquipment right;
+  LeftHandEquipment left;
+  HeadEquipment head;
+  BodyEquipment body;
+  Potions potion;
+
+  InventoryElementData& i = inventory[inventoryPosition];
+
+  type = i.equipableType;
+
+  switch (type) {
+    case POTION: 
+      potion = static_cast<Potions> (i.enumPosition);
+      equip(potion, inventoryPosition);
+      break;
+    case WEAPON:
+      right = static_cast<RightHandEquipment> (i.enumPosition);
+      equip(right, inventoryPosition);
+      break;
+    case LEFT_HAND_DEFENSE:
+      left = static_cast<LeftHandEquipment> (i.enumPosition);
+      equip(left, inventoryPosition);
+      break;
+    case HEAD_DEFENSE: 
+      head = static_cast<HeadEquipment> (i.enumPosition);
+      equip(head, inventoryPosition);
+      break;
+    case BODY_ARMOUR:
+      body = static_cast<BodyEquipment> (i.enumPosition);
+      equip(body, inventoryPosition);
+      break;
+  }
+}
+
+void Player::equip(Potions potion, int inventoryPosition) {
+  if (potion == HEALTH){
+    health.currentHP = health.totalHP;
+  }else if (potion == MANA){
+    health.currentMP = health.totalMP;
+  }
+
+  inventory[inventoryPosition].amount -= 1;
+
+  if (inventory[inventoryPosition].amount > 0) return;
+  
+  inventory.erase(inventory.begin() + inventoryPosition - 1);
+}
+
+void Player::equip(RightHandEquipment rightHandEquipment, 
+  int inventoryPosition) {
+    inventory[inventoryPosition].isEquiped = true;
+  
+    equipment.rightHand = rightHandEquipment;
+  
+    Player::setRighHandSkills(rightSkills, rightHandEquipment);
+  
+    for (auto& it : inventory){
+      if (it.equipableType != WEAPON) continue;
+      it.isEquiped = false;
+    }
+}
+
+void Player::equip(LeftHandEquipment leftHandEquipment, 
+  int inventoryPosition) {
+    inventory[inventoryPosition].isEquiped = true;
+  
+    equipment.leftHand = leftHandEquipment;
+    
+    Player::setLeftHandSkills(leftSkills, leftHandEquipment);
+    
+    for (auto& it : inventory){
+      if (it.equipableType != LEFT_HAND_DEFENSE) continue;
+      it.isEquiped = false;
+    }
+}
+
+void Player::equip(HeadEquipment headEquipment, 
+  int inventoryPosition) {
+    inventory[inventoryPosition].isEquiped = true;
+  
+    equipment.head = headEquipment;
+    
+    Player::setHeadSkills(headSkills, headEquipment);
+    
+    for (auto& it : inventory){
+      if (it.equipableType != HEAD_DEFENSE) continue;
+      it.isEquiped = false;
+    }
+}
+
+void Player::equip(BodyEquipment bodyEquipment, 
+  int inventoryPosition) {
+    inventory[inventoryPosition].isEquiped = true;
+  
+    equipment.body = bodyEquipment;
+    
+    Player::setBodySkills(bodySkills, bodyEquipment);
+    
+    for (auto& it : inventory){
+      if (it.equipableType != BODY_ARMOUR) continue;
+      it.isEquiped = false;
+    }
 }

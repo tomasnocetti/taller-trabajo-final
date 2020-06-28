@@ -47,6 +47,17 @@ class Player : public LiveEntity{
     stats de la entidad atacada. */
     void addExperience(int &damage, size_t &otherLevel, int &otherHealth,
       int &otherMaxHealth);
+    /* Recibe una posición correspondiente al vector del inventario,
+    y equipa lo que haya en dicha posición. Si es una pócima, la toma,
+    y descuenta en uno la cantidad de pócimas. Si es un arma, de ataque
+    o de defensa, setea el booleano isEquiped en verdadero, y los otros
+    en falso. */
+    void equip(int inventoryPosition);
+    void equip(Potions potion, int inventoryPosition);
+    void equip(RightHandEquipment rightHandEquipment, int inventoryPosition);
+    void equip(LeftHandEquipment leftHandEquipment, int inventoryPosition);
+    void equip(HeadEquipment headEquipment, int inventoryPosition);
+    void equip(BodyEquipment bodyEquipment, int inventoryPosition);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 
