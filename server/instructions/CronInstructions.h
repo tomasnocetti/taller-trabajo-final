@@ -54,4 +54,19 @@ class NPCAttackInstruction: public Instruction {
     int yPos;
 };
 
+class NPCRespawnInstruction: public Instruction {
+  public:
+    NPCRespawnInstruction(size_t id);
+    NPCRespawnInstruction(
+      const NPCRespawnInstruction&) = delete;
+    NPCRespawnInstruction& operator=(
+      const NPCRespawnInstruction&) = delete;
+    NPCRespawnInstruction&& operator=(
+      NPCRespawnInstruction&& other);
+    void run(GameModel& game) override;
+
+  private:
+    size_t npcId;
+};
+
 #endif

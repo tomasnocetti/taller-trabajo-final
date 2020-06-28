@@ -5,7 +5,9 @@ NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
   LiveEntity(npcData.position, npcData.healthAndManaData, skills, level),
   id(npcData.id),
   type(npcData.type),
-  movement(npcData.movement){}
+  movement(npcData.movement){
+    spawnPosition = npcData.position;
+}
 
 bool NPC::checkCollision(Entity& otherEntity) const{
   if (this->health.currentHP <= 0) return false;

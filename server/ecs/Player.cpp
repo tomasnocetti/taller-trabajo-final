@@ -318,7 +318,7 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   weapon.isEquiped = true;
   weapon.equipableType = WEAPON;
   weapon.enumPosition = RightHandEquipment::SWORD;
-  data.equipment.rightHand = SWORD;
+  data.equipment.rightHand = SIMPLE_BOW;
 
   /* Mano izquierda y cabeza quedan en default (nada equipado) */
   data.equipment.head = DEFAULT_H;

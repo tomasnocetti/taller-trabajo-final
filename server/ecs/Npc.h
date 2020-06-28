@@ -24,6 +24,7 @@ class NPC : public LiveEntity {
     size_t id;
     NPCClass type;
     MovementData movement;
+    PositionData spawnPosition;
     static size_t idGenerator;
     friend class GameModel;
 };

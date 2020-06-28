@@ -224,6 +224,11 @@ void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   }
 }
 
+void GameModel::npcRespawn(size_t npcId){
+  npcMap.at(npcId)->position = npcMap.at(npcId)->spawnPosition;
+  npcMap.at(npcId)->health.currentHP = npcMap.at(npcId)->health.totalHP;
+}
+
 void GameModel::eraseClient(size_t playerID){
   players.erase(playerID);
   clientsBQ.erase(playerID);

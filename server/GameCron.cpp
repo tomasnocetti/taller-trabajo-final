@@ -55,6 +55,11 @@ void GameCron::runNPCLogic(
   std::vector<EnemyData>& npcs,
   std::vector<OtherPlayersData>& players) {
   for (EnemyData &npc : npcs) {
+    /*
+    if (npc.healthAndManaData.currentHP <= 0)
+      NPCReSpawn(npc.id);
+    */
+   
     bool hasPlayerInRange = false;
     double minDistanceToPlayer = MIN_DISTANCE_NPC;
 
@@ -95,6 +100,12 @@ void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
 void GameCron::NPCAttack(size_t npcId, PositionData& playerToAttack) {
   std::unique_ptr<Instruction> i(
       new NPCAttackInstruction(npcId, playerToAttack.x, playerToAttack.y));
+    instructionQueue.push(std::move(i));
+}
+
+void GameCron::NPCReSpawn(size_t id){
+  std::unique_ptr<Instruction> i(
+      new NPCRespawnInstruction(id));
     instructionQueue.push(std::move(i));
 }
 
