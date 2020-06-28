@@ -56,7 +56,7 @@ class NPCAttackInstruction: public Instruction {
 
 class NPCRespawnInstruction: public Instruction {
   public:
-    NPCRespawnInstruction(size_t id);
+    explicit NPCRespawnInstruction(size_t id);
     NPCRespawnInstruction(
       const NPCRespawnInstruction&) = delete;
     NPCRespawnInstruction& operator=(

@@ -19,7 +19,7 @@ void InventoryViewport::paint(EntityList& items) {
   
   for (unsigned int i = 0; i < INV_ROW_LEN; i++){
     for (unsigned int j = 0; j < INV_COL_LEN; j++){
-      if((i * INV_ROW_LEN + j + 1) > items.size()) return;
+      if ((i * INV_ROW_LEN + j + 1) > items.size()) return;
 
       items[i * INV_ROW_LEN + j]->setRect(
         INV_SLOT_BASE_X + INV_SLOT_OFFSET_X * j, 

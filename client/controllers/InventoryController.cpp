@@ -1,6 +1,7 @@
 #include "InventoryController.h"
 #include "../../definitions/PlayerDefinitions.h"
 #include "../entities/InventoryEntity.h"
+#include <vector>
 
 #define KEYCODE_OFFSET 48
 #define KEYCODE_1 49
@@ -14,7 +15,7 @@ void InventoryController::update() {
     model.getMainPlayerData().inventory;
 
   items.clear();
-  for(unsigned int i = 0; i < inventory.size(); i++){
+  for (unsigned int i = 0; i < inventory.size(); i++){
     generateImage(inventory[i]);
   }
 }
@@ -31,10 +32,10 @@ void InventoryController::handleEvent(const SDL_Event &e) {
 }
 
 void InventoryController::generateImage(InventoryElementData item) {
-  std::shared_ptr<InventoryEntity> inventoryItem (new InventoryEntity());
-  switch(item.equipableType){
+  std::shared_ptr<InventoryEntity> inventoryItem(new InventoryEntity());
+  switch (item.equipableType){
     case POTION:
-      switch(item.enumPosition){
+      switch (item.enumPosition){
         case HEALTH:
           inventoryItem->setImage(manager.getTexture("health-potion"));
         break;
@@ -44,7 +45,7 @@ void InventoryController::generateImage(InventoryElementData item) {
       }
     break;
     case WEAPON:
-      switch(item.enumPosition){
+      switch (item.enumPosition){
         case SWORD:
           inventoryItem->setImage(manager.getTexture("sword-inv"));
         break;
@@ -56,7 +57,7 @@ void InventoryController::generateImage(InventoryElementData item) {
       }
     break;
     case BODY_ARMOUR:
-      switch(item.enumPosition){
+      switch (item.enumPosition){
         case DEFAULT_B:
           inventoryItem->setImage(manager.getTexture("clothes-inv"));
         break;
