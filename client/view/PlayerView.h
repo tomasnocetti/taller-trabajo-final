@@ -6,6 +6,7 @@
 #include "../entities/Entity.h"
 #include "HeadWear.h"
 #include "Shield.h"
+#include "Weapon.h"
 
 class PlayerView : public Entity {
 	public:
@@ -20,6 +21,7 @@ class PlayerView : public Entity {
 		void setHeadWear(HeadWear headWear);
 		void setBodyWear(LTexture* texture);
 		void setShield(Shield shield);
+		void setWeapon(Weapon weapon);
 		void setGhostAnimation(LTexture* texture);
 		void setPlayerAnimation(LTexture* texture);
 		bool ghostState();
@@ -31,6 +33,7 @@ class PlayerView : public Entity {
 	  LTexture* head = nullptr;
 		HeadWear headWear;
 		Shield shield;
+		Weapon weapon;
 	  SDL_Rect headFrame;
 		bool ghost;
 };

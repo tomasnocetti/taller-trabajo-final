@@ -33,6 +33,7 @@ class EnemyController {
 
     Animation* checkType(NPCClass type);
     LTexture* checkRace(PlayerRace race);
+    void checkHealth(std::shared_ptr<PlayerView> playerView, size_t health);
     void checkEquipment(std::shared_ptr<PlayerView>playerView, 
       EquipmentData equipment);
     void updateNPCs();

@@ -30,6 +30,19 @@ typedef enum {
 
 MSGPACK_ADD_ENUM(PlayerClass)
 
+struct ResurrectionData{
+  std::chrono::system_clock::time_point timeToResurrection;
+  bool resurrect;
+};
+
+struct InventoryElementData{
+  size_t amount;
+  bool isEquiped;
+  Equipable equipableType;
+  char enumPosition;
+  MSGPACK_DEFINE(amount, isEquiped, equipableType, enumPosition)
+};
+
 struct SkillsData {
   size_t strength;
   size_t agility;
@@ -61,11 +74,6 @@ struct PlayerRootData {
   MSGPACK_DEFINE(pclass, prace)
 };
 
-struct Inventory {
-  std::string helmet;
-  MSGPACK_DEFINE(helmet)
-};
-
 struct MainPlayerData {
   std::string nick;
   size_t id;
@@ -75,7 +83,7 @@ struct MainPlayerData {
   ChatData chat;
   SkillsData skills;
   PlayerRootData rootd;
-  Inventory inventory;
+  std::vector<InventoryElementData> inventory;
   HealthAndManaData points;
   PositionData position;
   MovementData movement;
@@ -91,6 +99,7 @@ struct OtherPlayersData {
   PlayerRootData rootd;
   EquipmentData equipment;
   size_t otherPlayerHealth;
+  ResurrectionData resurrection;
   MSGPACK_DEFINE(id, position, rootd, equipment, otherPlayerHealth)
 };
 

@@ -6,15 +6,15 @@
 
 Player::Player(MainPlayerData playerData, size_t id):
   LiveEntity(playerData.position, playerData.points, playerData.skills, 
-  playerData.level),
-  id(id),
+  playerData.level, id),
   nick(playerData.nick),
   gold(playerData.gold),
   experience(playerData.experience),
   rootd(playerData.rootd),
   inventory(playerData.inventory),
   movement(playerData.movement),
-  equipment(playerData.equipment){
+  equipment(playerData.equipment),
+  resurrection({std::chrono::system_clock::now(), false}){
     setRighHandSkills(rightSkills, equipment.rightHand);
     setLeftHandSkills(leftSkills, equipment.leftHand);
     setBodySkills(bodySkills, equipment.body);
@@ -33,25 +33,23 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     Player::setClassSkills(data.skills, data.rootd);
     Player::setRaceSkills(data.skills, data.rootd);
 
+    Player::setDefaultEquipment(data);
+
     data.experience.maxLevelExperience = 0;
     data.experience.currentExperience = 0;
     Player::setExperienceData(data.level, data.experience);
-    
-    data.inventory.helmet = "";
-    
+        
     Player::setPositionData(root, data.position);
 
     data.points.totalHP = Equations::maxLife(data.skills.classConstitution, 
       data.skills.classHealth, data.skills.raceHealth, 
       data.level);
-    data.points.currentHP = data.points.totalHP;
+    data.points.currentHP = data.points.totalHP - 100;
     
     data.points.totalMP = Equations::maxMana
       (data.skills.inteligence, data.skills.classMana, data.skills.raceMana, 
       data.level);
-    data.points.currentMP = data.points.totalMP;
-
-    Player::setInitEquipment(data.equipment, data.rootd);
+    data.points.currentMP = data.points.totalMP - 50;
 
     data.movement.xDir = 0;
     data.movement.yDir = 0;
@@ -139,13 +137,16 @@ void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
   }
 }
 
+/* VER SI TODAVIA SIRVE
+
 void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.body = TUNIC;
   equipment.head = HELMET;
   equipment.leftHand = IRON_SHIELD;    
-  equipment.rightHand = ASH_STICK;
+  equipment.rightHand = SIMPLE_BOW;
 }
 
+*/
 
 void Player::setRighHandSkills(RightHandEquipmentSkills
   &rightSkills, RightHandEquipment &rightEquipment){
@@ -168,6 +169,10 @@ void Player::setRighHandSkills(RightHandEquipmentSkills
         rightSkills.range = ASH_STICK_RANGE;
         rightSkills.mana = ASH_STICK_MANA;
       default:
+        rightSkills.maxDamage = 0;
+        rightSkills.minDamage = 0;
+        rightSkills.range = 0;
+        rightSkills.mana = 0;
         break;
     }
 }
@@ -180,6 +185,8 @@ void Player::setLeftHandSkills(LeftHandEquipmentSkills
         leftSkills.minDefense = IRON_SHIELD_MIN_DEFENSE;
         break;
       default:
+        leftSkills.maxDefense = 0;
+        leftSkills.minDefense = 0;
         break;
     }
 }
@@ -193,6 +200,8 @@ void Player::setBodySkills(BodyEquipmentSkills
       bodySkills.minDefense = TUNIC_MIN_DEFENSE;
       break;
     default:
+      bodySkills.maxDefense = 0;
+      bodySkills.minDefense = 0;
       break;
     }
 }
@@ -206,6 +215,8 @@ void Player::setHeadSkills(HeadEquipmentSkills
       headSkills.minDefense = HELMET_MIN_DEFENSE;
       break;
     default:
+      headSkills.maxDefense = 0;
+      headSkills.minDefense = 0;
       break;
     }
 }
@@ -240,11 +251,10 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   if (distanceAttackZone > rightSkills.range) return false;
 
   if (health.currentMP < rightSkills.mana) return false;
-
   health.currentMP -= rightSkills.mana;
   
-  bool dodged = Equations::dodgeAttack(LiveEntity::skills.agility);
-  if (dodged) return false;
+  bool dodged = Equations::dodgeAttack(entity.skills.agility);
+  if (dodged) return true;
   
   int damage = Equations::damage(skills.strength, rightSkills);
   entity.rcvDamage(damage);
@@ -280,11 +290,9 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
 
 void Player::rcvDamage(int &damage){
   int defensePoints = defend();
-
   if (defensePoints > damage) return;
   
   health.currentHP -= (damage - defensePoints);
-
   if (health.currentHP < 0) health.currentHP = 0;
 }
 
@@ -293,3 +301,200 @@ int Player::defend(){
     leftSkills, headSkills);
 }
 
+void Player::setDefaultEquipment(MainPlayerData &data){
+  InventoryElementData bodyArmour, weapon, healthPotion, manaPotion,
+    weapon2;
+  
+/*
+  leftHandArmour.amount = 1;
+  leftHandArmour.isEquiped = false;
+  leftHandArmour.equipableType = LEFT_HAND_DEFENSE;
+  leftHandArmour.enumPosition = LeftHandEquipment::IRON_SHIELD;
+*/
+/*
+  headArmour.amount = 1;
+  headArmour.isEquiped = false;
+  headArmour.equipableType = HEAD_DEFENSE;
+  headArmour.enumPosition = HeadEquipment::HAT;
+*/
+/*
+  bodyArmour2.amount = 1;
+  bodyArmour2.isEquiped = false;
+  bodyArmour2.equipableType = BODY_ARMOUR;
+  bodyArmour2.enumPosition = BodyEquipment::TUNIC;
+*/
+  bodyArmour.amount = 1;
+  bodyArmour.isEquiped = true;
+  bodyArmour.equipableType = BODY_ARMOUR;
+  bodyArmour.enumPosition = BodyEquipment::DEFAULT_B;
+  data.equipment.body = DEFAULT_B;
+
+  weapon.amount = 1;
+  weapon.isEquiped = true;
+  weapon.equipableType = WEAPON;
+  weapon.enumPosition = RightHandEquipment::SWORD;
+  data.equipment.rightHand = SWORD;
+
+  /* Mano izquierda y cabeza quedan en default (nada equipado) */
+  data.equipment.head = DEFAULT_H;
+  data.equipment.leftHand = DEFAULT_L;
+
+  healthPotion.amount = 2;
+  healthPotion.isEquiped = false;
+  healthPotion.equipableType = POTION;
+  healthPotion.enumPosition = Potions::HEALTH;
+
+  manaPotion.amount = 2;
+  manaPotion.isEquiped = false;
+  manaPotion.equipableType = POTION;
+  manaPotion.enumPosition = Potions::MANA;
+
+  weapon2.amount = 1;
+  weapon2.isEquiped = false;
+  weapon2.equipableType = WEAPON;
+  weapon2.enumPosition = RightHandEquipment::SIMPLE_BOW;
+
+  data.inventory.push_back(bodyArmour);
+  data.inventory.push_back(weapon);
+  data.inventory.push_back(healthPotion);
+  data.inventory.push_back(manaPotion);
+  data.inventory.push_back(weapon2);
+  //data.inventory.push_back(headArmour);
+  //data.inventory.push_back(bodyArmour2);
+  //data.inventory.push_back(leftHandArmour);
+}
+
+void Player::equip(int inventoryPosition){
+  Equipable type;
+  RightHandEquipment right;
+  LeftHandEquipment left;
+  HeadEquipment head;
+  BodyEquipment body;
+  Potions potion;
+
+  InventoryElementData& i = inventory[inventoryPosition];
+
+  type = i.equipableType;
+
+  switch (type) {
+    case POTION: 
+      potion = static_cast<Potions> (i.enumPosition);
+      equip(potion, inventoryPosition);
+      break;
+    case WEAPON:
+      right = static_cast<RightHandEquipment> (i.enumPosition);
+      equip(right, inventoryPosition);
+      break;
+    case LEFT_HAND_DEFENSE:
+      left = static_cast<LeftHandEquipment> (i.enumPosition);
+      equip(left, inventoryPosition);
+      break;
+    case HEAD_DEFENSE: 
+      head = static_cast<HeadEquipment> (i.enumPosition);
+      equip(head, inventoryPosition);
+      break;
+    case BODY_ARMOUR:
+      body = static_cast<BodyEquipment> (i.enumPosition);
+      equip(body, inventoryPosition);
+      break;
+  }
+}
+
+void Player::equip(Potions potion, int inventoryPosition) {
+  if (potion == HEALTH){
+    health.currentHP = health.totalHP;
+  }else if (potion == MANA){
+    health.currentMP = health.totalMP;
+  }
+
+  inventory[inventoryPosition].amount -= 1;
+
+  if (inventory[inventoryPosition].amount > 0) return;
+  
+  inventory.erase(inventory.begin() + inventoryPosition);
+}
+
+void Player::equip(RightHandEquipment rightHandEquipment, 
+  int inventoryPosition) {
+    equipment.rightHand = rightHandEquipment;
+    Player::setRighHandSkills(rightSkills, rightHandEquipment);
+  
+    for (auto& it : inventory){
+      if (it.equipableType != WEAPON) continue;
+      it.isEquiped = false;
+    }
+
+    inventory[inventoryPosition].isEquiped = true;
+}
+
+void Player::equip(LeftHandEquipment leftHandEquipment, 
+  int inventoryPosition) {  
+    equipment.leftHand = leftHandEquipment;
+    Player::setLeftHandSkills(leftSkills, leftHandEquipment);
+    
+    for (auto& it : inventory){
+      if (it.equipableType != LEFT_HAND_DEFENSE) continue;
+      it.isEquiped = false;
+    }
+
+    inventory[inventoryPosition].isEquiped = true;
+}
+
+void Player::equip(HeadEquipment headEquipment, 
+  int inventoryPosition) {
+    equipment.head = headEquipment;
+    Player::setHeadSkills(headSkills, headEquipment);
+    
+    for (auto& it : inventory){
+      if (it.equipableType != HEAD_DEFENSE) continue;
+      it.isEquiped = false;
+    }
+    
+    inventory[inventoryPosition].isEquiped = true;
+}
+
+void Player::equip(BodyEquipment bodyEquipment, 
+  int inventoryPosition) {
+    equipment.body = bodyEquipment;
+    
+    Player::setBodySkills(bodySkills, bodyEquipment);
+    
+    for (auto& it : inventory){
+      if (it.equipableType != BODY_ARMOUR) continue;
+      it.isEquiped = false;
+    }
+
+    inventory[inventoryPosition].isEquiped = true;
+}
+
+void Player::setTimeToResurrect(
+  double minDistanceToPriest){
+  resurrection.resurrect = true;
+  std::chrono::seconds sec(int(minDistanceToPriest*0.01));
+  resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
+}
+
+void Player::setPlayerGameModelData(PlayerGameModelData &modelData){
+  modelData.playerData.nick = nick;
+  modelData.playerData.id = id;
+  modelData.playerData.gold = gold;
+  modelData.playerData.level = level;
+  modelData.playerData.experience = experience;
+  modelData.playerData.skills = skills;
+  modelData.playerData.rootd = rootd;
+  modelData.playerData.inventory = inventory;
+  modelData.playerData.points = health;
+  modelData.playerData.position = position;
+  modelData.playerData.movement = movement;
+  modelData.playerData.equipment = equipment;
+}
+
+void Player::setOtherPlayersData(OtherPlayersData &otherData){
+  otherData.id = id;
+  otherData.position = position;
+  otherData.movement = movement;
+  otherData.rootd = rootd;
+  otherData.equipment = equipment;
+  otherData.otherPlayerHealth = health.currentHP;
+  otherData.resurrection = resurrection;
+}

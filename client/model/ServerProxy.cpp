@@ -27,9 +27,6 @@ void ServerProxy::init() {
   ParamData nick = {"Fer"};
   InstructionData instruction = {AUTHENTICATE, {nick}};
   writeBQ.push(instruction);
-
-  mainPlayer.rootd.pclass = WARRIOR;
-  mainPlayer.rootd.prace = GNOME;
 }
 
 void ServerProxy::update() {
@@ -60,6 +57,12 @@ void ServerProxy::attack(int xPos, int yPos) {
   ParamData width = {std::to_string(mainPlayer.position.w)};
   ParamData height = {std::to_string(mainPlayer.position.h)};
   InstructionData instruction = {ATTACK, {x, y, width, height}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::equip(int inventoryPosition){
+  ParamData pos = {std::to_string(inventoryPosition)};
+  InstructionData instruction = {EQUIP, {pos}};
   writeBQ.push(instruction);
 }
 
@@ -113,4 +116,10 @@ bool ServerProxy::isAuthenticated() const {
 void ServerProxy::close(){
   running = false;
   writeBQ.close();
+}
+
+/* Codigo para mockear comando de resucitar */
+void ServerProxy::resurrect(){
+  InstructionData instruction = {RESURRECT, {}};
+  writeBQ.push(instruction);
 }

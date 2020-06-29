@@ -36,6 +36,8 @@ class GameCron: public Thread {
     void runNPCLogic(
       std::vector<EnemyData>& npcs,
       std::vector<OtherPlayersData>& players);
+    void playerResurrection(OtherPlayersData& player);
+    void aliveNPCLogic(std::vector<OtherPlayersData>& players, EnemyData &npc);
     void moveNPC(
       size_t id,
       PositionData& npc,
@@ -43,6 +45,7 @@ class GameCron: public Thread {
     void NPCAttack(
       size_t npcId,
       PositionData& playerToAttack);
+    void NPCReSpawn(size_t id);
     std::atomic<bool> running;
     InstructionBQ& instructionQueue;
     CronBQ cronBQ;

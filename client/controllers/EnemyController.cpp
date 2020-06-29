@@ -4,8 +4,8 @@
 #include "../view/SkeletonAnimation.h"
 #include "../view/GoblinAnimation.h"
 #include "../view/SpiderAnimation.h"
+#include "../view/ZombieAnimation.h"
 #include <vector>
-#include <map>
 #include <iostream>
 
 EnemyController::EnemyController(
@@ -48,9 +48,10 @@ Animation* EnemyController::checkType(NPCClass type){
 			return new SkeletonAnimation(
         manager.getTexture("skeleton-view"));
 		break;
-		/*case ZOMBIE:
-			return std::move(new ZombieAnimation());
-		break;*/
+		case ZOMBIE:
+			return new ZombieAnimation(
+        manager.getTexture("zombie-view"));
+		break;
 		case GOBLIN:
 			return new GoblinAnimation(
         manager.getTexture("goblin-view"));
@@ -115,7 +116,7 @@ void EnemyController::updateOtherPlayers(){
 				others[i].position.y);
 			std::shared_ptr<PlayerView> player = 
 				std::dynamic_pointer_cast<PlayerView>(otherPlayers.at(others[i].id));
-			//checkHealth(player, others[i].points);
+			checkHealth(player, others[i].otherPlayerHealth);
 			checkEquipment(player, others[i].equipment);
 		}
 	}
@@ -188,6 +189,17 @@ void EnemyController::checkEquipment(std::shared_ptr<PlayerView> playerView,
       playerView->setShield(Shield(nullptr, 
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     break;
+  }
+}
+
+void EnemyController::checkHealth(std::shared_ptr<PlayerView> playerView, 
+  size_t health) {
+  if (health <= 0 && !playerView->ghostState()){
+    playerView->setGhostAnimation(manager.getTexture("ghost"));
+  }
+
+  if (health > 0 && playerView->ghostState()){
+    playerView->setPlayerAnimation(manager.getTexture("clothes"));
   }
 }
 

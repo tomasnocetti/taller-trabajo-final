@@ -39,6 +39,11 @@ CronBQ& GameCron::getBQ() {
 
 void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
   for (OtherPlayersData &player : players) {
+    if (player.resurrection.resurrect == true){
+      playerResurrection(player);
+      return;
+    }
+      
     if (player.movement.xDir == 0 &&
       player.movement.yDir == 0) continue;
 
@@ -51,10 +56,33 @@ void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
   }
 }
 
+void GameCron::playerResurrection(OtherPlayersData &player){
+  if (player.resurrection.timeToResurrection 
+    > std::chrono::system_clock::now()) return;
+
+  std::unique_ptr<Instruction> i(
+      new PlayerResurrecctionInstruction(
+        player.id));
+    instructionQueue.push(std::move(i));  
+}
+
 void GameCron::runNPCLogic(
   std::vector<EnemyData>& npcs,
   std::vector<OtherPlayersData>& players) {
   for (EnemyData &npc : npcs) {
+    if (npc.healthAndManaData.currentHP <= 0){
+      if (npc.healthAndManaData.nextRespawn < std::chrono::system_clock::now())
+        NPCReSpawn(npc.id);
+    }
+    
+    aliveNPCLogic(players, npc);
+  }
+}
+
+void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players, 
+  EnemyData &npc){
+    if (npc.healthAndManaData.currentHP <= 0) return;
+    
     bool hasPlayerInRange = false;
     double minDistanceToPlayer = MIN_DISTANCE_NPC;
 
@@ -73,12 +101,14 @@ void GameCron::runNPCLogic(
       playerPosition = player.position;
     }
 
-    if (!hasPlayerInRange) continue;
+    if (!hasPlayerInRange) return;
     moveNPC(npc.id, npc.position, playerPosition);    
 
-    if (minDistanceToPlayer > minDistanceToAttackPlayer) continue;
+    std::chrono::seconds sec(ATTACK_INTERVAL);
+    if (std::chrono::system_clock::now() < npc.lastAttack + sec) return;
+
+    if (minDistanceToPlayer > minDistanceToAttackPlayer) return;
     NPCAttack(npc.id, playerPosition);
-  }
 }
 
 void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
@@ -95,6 +125,12 @@ void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
 void GameCron::NPCAttack(size_t npcId, PositionData& playerToAttack) {
   std::unique_ptr<Instruction> i(
       new NPCAttackInstruction(npcId, playerToAttack.x, playerToAttack.y));
+    instructionQueue.push(std::move(i));
+}
+
+void GameCron::NPCReSpawn(size_t id){
+  std::unique_ptr<Instruction> i(
+      new NPCRespawnInstruction(id));
     instructionQueue.push(std::move(i));
 }
 

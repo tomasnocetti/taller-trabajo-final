@@ -1,6 +1,7 @@
 #include "MainPlayerController.h"
 #include "../view/HeadWear.h"
 #include "../view/Shield.h"
+#include "../view/Weapon.h"
 #include <iostream>
 #include <vector>
 
@@ -29,7 +30,6 @@ void MainPlayerController::init(){
   LTexture* expText = manager.getTexture("expText");
 
   playerView.init(manager.getTexture("clothes"));
-  checkRace(data.rootd.prace);
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y,
     healthText, font);
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y, manaText, font);
@@ -52,7 +52,8 @@ void MainPlayerController::update() {
     data.experience.maxLevelExperience,
     data.experience.minLevelExperience);
 
-  checkHealth(data.points.currentHP, data.rootd.prace);
+  checkRace(data.rootd.prace);
+  checkHealth(data.points.currentHP);
   checkEquipment(data.equipment);
 }
 
@@ -126,6 +127,8 @@ std::vector<Entity*> MainPlayerController::getExp() {
 }
 
 void MainPlayerController::checkRace(PlayerRace race) {
+  if (playerView.ghostState()) return;
+
   switch (race){
     case DWARF:
       playerView.setHead(manager.getTexture("dwarf-head"));
@@ -192,16 +195,30 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     break;
   }
+
+  switch (equipment.rightHand){
+    case SIMPLE_BOW:
+      playerView.setWeapon(Weapon(manager.getTexture("simple-bow"), 
+        2, 6, 10, 20, 15, 56, 10, 14, 0, 141, 15, 15, 13, 5, 15, 10, 0, 5));
+    break;
+    case SWORD:
+      playerView.setWeapon(Weapon(manager.getTexture("sword"), 
+        34, 18, 17, 15, 44, 67, 4, 12, 9, 158, 13, 20, 17, 13, 20, 15, 2, 15));
+    break;
+    default:
+      playerView.setWeapon(Weapon(nullptr, 
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    break;
+  }
 }
 
-void MainPlayerController::checkHealth(int health, PlayerRace race) {
+void MainPlayerController::checkHealth(int health) {
   if (health <= 0 && !playerView.ghostState()){
     playerView.setGhostAnimation(manager.getTexture("ghost"));
   }
 
   if (health > 0 && playerView.ghostState()){
     playerView.setPlayerAnimation(manager.getTexture("clothes"));
-    checkRace(race);
   }
 }
 

@@ -31,3 +31,16 @@ NPCAttackInstruction::NPCAttackInstruction(size_t id,
 void NPCAttackInstruction::run(GameModel& game) {
   game.npcAttack(npcId, xPos, yPos);
 }
+
+NPCRespawnInstruction::NPCRespawnInstruction(size_t id) :
+  npcId(id) {}
+
+void NPCRespawnInstruction::run(GameModel& game) {
+  game.npcRespawn(npcId);
+}
+
+PlayerResurrecctionInstruction::PlayerResurrecctionInstruction(size_t id) :
+    playerId(id){}
+void PlayerResurrecctionInstruction::run(GameModel& game) {
+  game.resurrectPlayer(playerId);
+}

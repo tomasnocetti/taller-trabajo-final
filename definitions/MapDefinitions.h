@@ -11,6 +11,7 @@
 #define SKELETON_SPAWN_POINTS "skeleton-spawn"
 #define GOBLIN_SPAWN_POINTS "goblin-spawn"
 #define CITY_LAYER "ciudad"
+#define PRIESTS_LAYER "priests"
 
 #define MAIN_SCREEN_BASE_MAP_X 11
 #define MAIN_SCREEN_BASE_MAP_Y 154

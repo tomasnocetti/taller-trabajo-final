@@ -141,6 +141,17 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
         client.playerId));
       client.instructionQueue.push(std::move(i));
       break;
+    case EQUIP:
+      i = std::unique_ptr<Instruction>(new EquipInstruction(
+        client.playerId, instruction.params[0].value));
+      client.instructionQueue.push(std::move(i));
+      break;
+    case RESURRECT:
+      i = std::unique_ptr<Instruction>(new ResurrectInstrucion(
+        client.playerId));
+      client.instructionQueue.push(std::move(i));
+      break;
+      break;
     default:
       std::cout << "El jugador quiere realizar otra accion. " << std::endl;
       break;

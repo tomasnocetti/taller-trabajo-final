@@ -23,7 +23,6 @@ void GameServer::init(){
 void GameServer::run(){
   clientAcceptor.start();
   cron.start();
-  //game.addNPCS();
   while (running){
     std::unique_ptr<Instruction> instruction;
     bool success = instructionQueue.try_front_pop(instruction);

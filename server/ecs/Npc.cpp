@@ -1,14 +1,19 @@
 #include "Npc.h"
 #include <iostream>
+#include <chrono>
+#include <ctime>
 
 NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) : 
-  LiveEntity(npcData.position, npcData.healthAndManaData, skills, level),
-  id(npcData.id),
+  LiveEntity(npcData.position, npcData.healthAndManaData, skills, level,
+    npcData.id),
   type(npcData.type),
-  movement(npcData.movement){}
+  movement(npcData.movement){
+    spawnPosition = npcData.position;
+}
 
 bool NPC::checkCollision(Entity& otherEntity) const{
-  if (this->health.currentHP <= 0) return false;
+  if (health.currentHP <= 0 && 
+    health.nextRespawn >= std::chrono::system_clock::now()) return false;
   return Entity::checkCollision(otherEntity);
 }
 
@@ -28,6 +33,11 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
   bool canAttack = entity.checkCollision(attackZone);
   if (!canAttack) return false;
 
+  lastAttack = std::chrono::system_clock::now();
+
+  bool dodged = Equations::dodgeAttack(entity.skills.agility);
+  if (dodged) return false;
+
   int damage = Equations::NPCDamage(level, skills.strength);
   entity.rcvDamage(damage);
 
@@ -38,6 +48,11 @@ int NPC::drop(unsigned int &seed){
   if (health.currentHP > 0) return 0;
 
   return health.totalHP * Equations::randomFloat(0, NPC_RANDOM_DROP);
+}
+
+void NPC::setNextRespawn(){
+  std::chrono::seconds sec(RESPAWN_TIME_NPC);
+  health.nextRespawn = std::chrono::system_clock::now() + sec;
 }
 
 std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position, 
@@ -52,7 +67,9 @@ std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
       NPC_INIT_HEALTH_POINTS, 
       NPC_INIT_HEALTH_POINTS,
       0, 
-      0};
+      0,
+      std::chrono::system_clock::now()};
+    data.lastAttack = std::chrono::system_clock::now();
     
     SkillsData skills = {NPC_INIT_SKILLS, NPC_INIT_SKILLS, NPC_INIT_SKILLS};
   
@@ -66,4 +83,13 @@ size_t NPC::idGenerator = 0;
 size_t NPC::getNewId(){
   NPC::idGenerator ++;
   return NPC::idGenerator;
+}
+
+void NPC::setEnemyData(EnemyData &enemy){
+  enemy.movement = movement;
+  enemy.position = position;
+  enemy.type = type;
+  enemy.id = id;
+  enemy.healthAndManaData = health;
+  enemy.lastAttack = lastAttack;
 }
