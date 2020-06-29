@@ -76,10 +76,10 @@ void InventoryController::generateImage(InventoryElementData item, int index) {
   std::string name = "invText_" + std::to_string(index + 1);
   inventoryItem->setTextAssetsAndInfo(manager.getTexture(name), 
     manager.getFont("arial"), item.amount);
-  //inventoryItem->setTextInfo(item.amount, item.isEquiped);
+    
   if (item.isEquiped) 
     inventoryItem->setEquipTexture(manager.getTexture("check"));
-    
+
   items.emplace_back(inventoryItem);
 }
 

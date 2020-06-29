@@ -17,7 +17,8 @@ MainPlayerController::MainPlayerController(
   ServerProxy& model,
   SdlAssetsManager& manager) :
   model(model),
-  manager(manager) {}
+  manager(manager),
+  playerView(manager) {}
 
 void MainPlayerController::init(){
   MainPlayerData data = model.getMainPlayerData();
@@ -29,7 +30,7 @@ void MainPlayerController::init(){
   LTexture* levelText = manager.getTexture("levelText");
   LTexture* expText = manager.getTexture("expText");
   
-  playerView.init(manager.getTexture("clothes"));
+  playerView.init();
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y,
     healthText, font);
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y, manaText, font);
@@ -52,9 +53,9 @@ void MainPlayerController::update() {
     data.experience.maxLevelExperience, 
     data.experience.minLevelExperience);
 
-  checkRace(data.rootd.prace);
-  checkHealth(data.points.currentHP);
-  checkEquipment(data.equipment);
+  playerView.checkRace(data.rootd.prace);
+  playerView.checkHealth(data.points.currentHP);
+  playerView.checkEquipment(data.equipment);
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e,
@@ -116,102 +117,6 @@ std::vector<Entity*> MainPlayerController::getExp() {
   v.push_back(&level);
   v.push_back(&expBar);
   return v;
-}
-
-void MainPlayerController::checkRace(PlayerRace race) {
-  if (playerView.ghostState()) return;
-
-  switch (race){
-    case DWARF:
-      playerView.setHead(manager.getTexture("dwarf-head"));
-    break;
-    case ELF:
-      playerView.setHead(manager.getTexture("elf-head"));
-    break;
-    case HUMAN:
-      playerView.setHead(manager.getTexture("human-head"));
-    break;
-    case GNOME:
-      playerView.setHead(manager.getTexture("gnome-head"));
-    break;
-    default:
-    break;
-  }
-}
-
-void MainPlayerController::checkEquipment(EquipmentData equipment){
-  switch (equipment.body){
-    case TUNIC:
-      playerView.setBodyWear(manager.getTexture("blue-tunic"));
-    break;
-    case PLATE_ARMOR:
-      playerView.setBodyWear(manager.getTexture("plate-armor"));
-    break;
-    case LEATHER_ARMOR:
-      playerView.setBodyWear(manager.getTexture("leather-armor"));
-    break;
-    default:
-      playerView.setBodyWear(manager.getTexture("clothes"));
-    break;
-  }
-
-  switch (equipment.head){
-    case HELMET:
-      playerView.setHeadWear(HeadWear(manager.getTexture("helmet"), 
-        3, -9, 0, -10));
-    break;
-    case HAT:
-      playerView.setHeadWear(HeadWear(manager.getTexture("hat"), 
-        3, -25, 0, -25));
-    break;
-    case HOOD:
-      playerView.setHeadWear(HeadWear(manager.getTexture("hood"), 
-        2, -10, -1, -10));
-    break;
-    default:
-      playerView.setHeadWear(HeadWear(nullptr, 0, 0, 0, 0));
-    break;
-  }
-  
-  switch (equipment.leftHand){
-    case TURTLE_SHIELD:
-      playerView.setShield(Shield(manager.getTexture("turtle-shield"), 
-        12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16));
-    break;
-    case IRON_SHIELD:
-      playerView.setShield(Shield(manager.getTexture("iron-shield"), 
-        6, 10, 17, 24, 1, 60, 13, 16, 25, 104, 24, 18));
-    break;
-    default:
-      playerView.setShield(Shield(nullptr, 
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    break;
-  }
-
-  switch (equipment.rightHand){
-    case SIMPLE_BOW:
-      playerView.setWeapon(Weapon(manager.getTexture("simple-bow"), 
-        2, 6, 10, 20, 15, 56, 10, 14, 0, 141, 15, 15, 13, 5, 15, 10, 0, 5));
-    break;
-    case SWORD:
-      playerView.setWeapon(Weapon(manager.getTexture("sword"), 
-        34, 18, 17, 15, 44, 67, 4, 12, 9, 158, 13, 20, 17, 13, 20, 15, 2, 15));
-    break;
-    default:
-      playerView.setWeapon(Weapon(nullptr, 
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    break;
-  }
-}
-
-void MainPlayerController::checkHealth(int health) {
-  if (health <= 0 && !playerView.ghostState()){
-    playerView.setGhostAnimation(manager.getTexture("ghost"));
-  }
-
-  if (health > 0 && playerView.ghostState()){
-    playerView.setPlayerAnimation(manager.getTexture("clothes"));
-  }
 }
 
 MainPlayerController::~MainPlayerController() {}

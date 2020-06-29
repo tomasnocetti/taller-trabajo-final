@@ -455,8 +455,6 @@ void Player::equip(HeadEquipment headEquipment,
 
 void Player::equip(BodyEquipment bodyEquipment, 
   int inventoryPosition) {
-    inventory[inventoryPosition].isEquiped = true;
-  
     equipment.body = bodyEquipment;
     
     Player::setBodySkills(bodySkills, bodyEquipment);
@@ -465,4 +463,6 @@ void Player::equip(BodyEquipment bodyEquipment,
       if (it.equipableType != BODY_ARMOUR) continue;
       it.isEquiped = false;
     }
+
+    inventory[inventoryPosition].isEquiped = true;
 }

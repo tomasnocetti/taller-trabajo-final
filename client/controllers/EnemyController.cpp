@@ -67,26 +67,6 @@ Animation* EnemyController::checkType(NPCClass type){
 	return NULL;
 }
 
-LTexture* EnemyController::checkRace(PlayerRace race) {
-  switch (race){
-    case DWARF:
-      return manager.getTexture("dwarf-head");
-    break;
-    case ELF:
-      return manager.getTexture("elf-head");
-    break;
-    case HUMAN:
-      return manager.getTexture("human-head");
-    break;
-    case GNOME:
-      return manager.getTexture("gnome-head");
-    break;
-    default:
-			return nullptr;
-    break;
-  }
-}
-
 void EnemyController::updateNPCs(){
 	std::vector<EnemyData> npcs = model.getNPCData();
 	for(unsigned int i = 0; i < npcs.size(); i++){
@@ -105,19 +85,17 @@ void EnemyController::updateOtherPlayers(){
 	for(unsigned int i = 0; i < others.size(); i++){
 		if(others[i].id != model.getMainPlayerData().id){
 			if(otherPlayers.count(others[i].id) <= 0){
-				LTexture* texture = manager.getTexture("clothes");
-				std::shared_ptr<PlayerView> player(new PlayerView());
-				player->init(texture);
-				LTexture* head = checkRace(others[i].rootd.prace);
-				player->setHead(head);
+				std::shared_ptr<PlayerView> player(new PlayerView(manager));
+				player->init();
 				otherPlayers.emplace(others[i].id, player);
 			}
 			otherPlayers.at(others[i].id)->move(others[i].position.x, 
 				others[i].position.y);
 			std::shared_ptr<PlayerView> player = 
 				std::dynamic_pointer_cast<PlayerView>(otherPlayers.at(others[i].id));
-			checkHealth(player, others[i].otherPlayerHealth);
-			checkEquipment(player, others[i].equipment);
+      player->checkRace(others[i].rootd.prace);
+      player->checkHealth(others[i].otherPlayerHealth);
+      player->checkEquipment(others[i].equipment);
 		}
 	}
 
@@ -138,68 +116,6 @@ void EnemyController::updateOtherPlayers(){
 
   for (unsigned int i = 0; i < eraseVector.size(); i++){
   	otherPlayers.erase(eraseVector[i]);
-  }
-}
-
-void EnemyController::checkEquipment(std::shared_ptr<PlayerView> playerView, 
-	EquipmentData equipment){
-  switch (equipment.body){
-    case TUNIC:
-      playerView->setBodyWear(manager.getTexture("blue-tunic"));
-    break;
-    case PLATE_ARMOR:
-      playerView->setBodyWear(manager.getTexture("plate-armor"));
-    break;
-    case LEATHER_ARMOR:
-      playerView->setBodyWear(manager.getTexture("leather-armor"));
-    break;
-    default:
-      playerView->setBodyWear(manager.getTexture("clothes"));
-    break;
-  }
-
-  switch (equipment.head){
-    case HELMET:
-      playerView->setHeadWear(HeadWear(manager.getTexture("helmet"), 
-        3, -9, 0, -10));
-    break;
-    case HAT:
-      playerView->setHeadWear(HeadWear(manager.getTexture("hat"), 
-        3, -25, 0, -25));
-    break;
-    case HOOD:
-      playerView->setHeadWear(HeadWear(manager.getTexture("hood"), 
-        2, -10, -1, -10));
-    break;
-    default:
-      playerView->setHeadWear(HeadWear(nullptr, 0, 0, 0, 0));
-    break;
-  }
-
-	switch(equipment.leftHand){
-    case TURTLE_SHIELD:
-      playerView->setShield(Shield(manager.getTexture("turtle-shield"), 
-        12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16));
-    break;
-    case IRON_SHIELD:
-      playerView->setShield(Shield(manager.getTexture("iron-shield"), 
-        6, 10, 17, 24, 1, 60, 13, 16, 25, 104, 24, 18));
-    break;
-    default:
-      playerView->setShield(Shield(nullptr, 
-        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
-    break;
-  }
-}
-
-void EnemyController::checkHealth(std::shared_ptr<PlayerView> playerView, 
-  size_t health) {
-  if (health <= 0 && !playerView->ghostState()){
-    playerView->setGhostAnimation(manager.getTexture("ghost"));
-  }
-
-  if (health > 0 && playerView->ghostState()){
-    playerView->setPlayerAnimation(manager.getTexture("clothes"));
   }
 }
 
