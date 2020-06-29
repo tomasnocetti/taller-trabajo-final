@@ -36,6 +36,7 @@ class Entity {
 class LiveEntity: public Entity {
   protected:
     friend class Player;
+    friend class NPC;
     size_t level;
     HealthAndManaData health;
     SkillsData skills;

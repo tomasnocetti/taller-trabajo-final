@@ -251,10 +251,9 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   if (distanceAttackZone > rightSkills.range) return false;
 
   if (health.currentMP < rightSkills.mana) return false;
-
   health.currentMP -= rightSkills.mana;
   
-  bool dodged = Equations::dodgeAttack(LiveEntity::skills.agility);
+  bool dodged = Equations::dodgeAttack(entity.skills.agility);
   if (dodged) return false;
   
   int damage = Equations::damage(skills.strength, rightSkills);
@@ -291,11 +290,9 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
 
 void Player::rcvDamage(int &damage){
   int defensePoints = defend();
-
   if (defensePoints > damage) return;
   
   health.currentHP -= (damage - defensePoints);
-
   if (health.currentHP < 0) health.currentHP = 0;
 }
 

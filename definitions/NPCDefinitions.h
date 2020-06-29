@@ -18,6 +18,7 @@ struct EnemyData {
   NPCClass type;
   size_t id;
   HealthAndManaData healthAndManaData;
+  std::chrono::system_clock::time_point lastAttack;
   MSGPACK_DEFINE(movement, position, type, id, healthAndManaData)
 };
 

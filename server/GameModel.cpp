@@ -116,14 +116,18 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
   }
 
   for (auto& it : npcMap){
+    NPC& npc = *npcMap.at(it.first);
+
     if (!p.checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
     bool success = p.attack(*it.second, xPos, yPos);
-
     if (!success) continue;
 
-    p.gold += npcMap.at(it.first)->drop(randomSeed);
+    if (npc.health.currentHP <= 0)
+      npc.setNextRespawn();
+
+    p.gold += npc.drop(randomSeed);
     return;
   }
 }
@@ -296,12 +300,14 @@ void GameModel::generateOtherPlayersGameData(){
 void GameModel::generateNPCVector(){
   npcs.clear();
   for (auto& it : npcMap){
+    NPC &npc = *npcMap.at(it.first);
     EnemyData enemy;
-    enemy.movement = npcMap.at(it.first)->movement;
-    enemy.position = npcMap.at(it.first)->position;
-    enemy.type = npcMap.at(it.first)->type;
-    enemy.id = npcMap.at(it.first)->id;
-    enemy.healthAndManaData = npcMap.at(it.first)->health;
+    enemy.movement = npc.movement;
+    enemy.position = npc.position;
+    enemy.type = npc.type;
+    enemy.id = npc.id;
+    enemy.healthAndManaData = npc.health;
+    enemy.lastAttack = npc.lastAttack;
     npcs.push_back(std::move(enemy));
   }
 }

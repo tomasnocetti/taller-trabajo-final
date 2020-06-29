@@ -12,14 +12,18 @@ void EnemyView::move(int x, int y) {
 		this->y = y;
 		animation->set(BACK_WALK);
 	} else if (x == this->x && y > this->y){
-			this->y = y;
-			animation->set(FORWARD_WALK);
+		this->y = y;
+		animation->set(FORWARD_WALK);
 	} else if (x < this->x && y == this->y){
-			this->x = x;
-			animation->set(LEFT_WALK);
+		this->x = x;
+		animation->set(LEFT_WALK);
 	} else if (x > this->x && y == this->y){
-			this->x = x;
-			animation->set(RIGHT_WALK);
+		this->x = x;
+		animation->set(RIGHT_WALK);
+	} else {
+		this->x = x;
+		this->y = y;
+		animation->set(FORWARD_STAND);
 	}
 }
 

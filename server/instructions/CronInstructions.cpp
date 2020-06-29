@@ -36,5 +36,5 @@ NPCRespawnInstruction::NPCRespawnInstruction(size_t id) :
   npcId(id) {}
 
 void NPCRespawnInstruction::run(GameModel& game) {
-  //game.npcRespawn(npcId);
+  game.npcRespawn(npcId);
 }

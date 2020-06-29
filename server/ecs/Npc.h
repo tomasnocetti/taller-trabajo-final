@@ -14,6 +14,7 @@ class NPC : public LiveEntity {
     bool checkInRange(Entity& otherEntity, double distance) const override;
     bool attack(LiveEntity &entity, int xCoord, int yCoord) override;
     int drop(unsigned int &seed);
+    void setNextRespawn();
     static std::unique_ptr<NPC> createNPC(
       size_t id,
       PositionData position,
@@ -25,6 +26,7 @@ class NPC : public LiveEntity {
     NPCClass type;
     MovementData movement;
     PositionData spawnPosition;
+    std::chrono::system_clock::time_point lastAttack;
     static size_t idGenerator;
     friend class GameModel;
 };
