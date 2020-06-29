@@ -298,9 +298,8 @@ void GameModel::propagate() {
   cronGameModelData->otherPlayers = otherPlayers;
   cronBQ.push(std::move(cronGameModelData));
 
+  PlayerGameModelData modelData = {};
   for (auto& it : players){
-    PlayerGameModelData modelData = {};
-
     generatePlayerModel(it.first, modelData);
 
     std::unique_ptr<Response> response(new
@@ -313,21 +312,7 @@ void GameModel::propagate() {
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.npcs = npcs;
   //modelData.map = map;
-
-  modelData.playerData.nick = players.at(id)->nick;
-  modelData.playerData.id = id;
-  modelData.playerData.gold = players.at(id)->gold;
-  modelData.playerData.level = players.at(id)->level;
-  modelData.playerData.experience = 
-    players.at(id)->experience;
-  modelData.playerData.skills = players.at(id)->skills;
-  modelData.playerData.rootd = players.at(id)->rootd;
-  modelData.playerData.inventory = players.at(id)->inventory;
-  modelData.playerData.points = players.at(id)->health;
-  modelData.playerData.position = players.at(id)->position;
-  modelData.playerData.movement = players.at(id)->movement;
-  modelData.playerData.equipment = players.at(id)->equipment;
-
+  players.at(id)->setPlayerGameModelData(modelData);
   modelData.otherPlayers = otherPlayers;
 }
 
@@ -335,13 +320,7 @@ void GameModel::generateOtherPlayersGameData(){
   otherPlayers.clear();
   for (auto& it : players){
     OtherPlayersData otherPlayer;
-    otherPlayer.id = players.at(it.first)->id;
-    otherPlayer.position = players.at(it.first)->position;
-    otherPlayer.movement = players.at(it.first)->movement;
-    otherPlayer.rootd = players.at(it.first)->rootd;
-    otherPlayer.equipment = players.at(it.first)->equipment;
-    otherPlayer.otherPlayerHealth = players.at(it.first)->health.currentHP;
-    otherPlayer.resurrection = players.at(it.first)->resurrection;
+    players.at(it.first)->setOtherPlayersData(otherPlayer);
     otherPlayers.push_back(std::move(otherPlayer));
   }
 }
@@ -349,14 +328,8 @@ void GameModel::generateOtherPlayersGameData(){
 void GameModel::generateNPCVector(){
   npcs.clear();
   for (auto& it : npcMap){
-    NPC &npc = *npcMap.at(it.first);
     EnemyData enemy;
-    enemy.movement = npc.movement;
-    enemy.position = npc.position;
-    enemy.type = npc.type;
-    enemy.id = npc.id;
-    enemy.healthAndManaData = npc.health;
-    enemy.lastAttack = npc.lastAttack;
+    npcMap.at(it.first)->setEnemyData(enemy);
     npcs.push_back(std::move(enemy));
   }
 }

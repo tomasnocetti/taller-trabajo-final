@@ -474,3 +474,28 @@ void Player::setTimeToResurrect(
   std::chrono::seconds sec(int(minDistanceToPriest*0.01));
   resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
 }
+
+void Player::setPlayerGameModelData(PlayerGameModelData &modelData){
+  modelData.playerData.nick = nick;
+  modelData.playerData.id = id;
+  modelData.playerData.gold = gold;
+  modelData.playerData.level = level;
+  modelData.playerData.experience = experience;
+  modelData.playerData.skills = skills;
+  modelData.playerData.rootd = rootd;
+  modelData.playerData.inventory = inventory;
+  modelData.playerData.points = health;
+  modelData.playerData.position = position;
+  modelData.playerData.movement = movement;
+  modelData.playerData.equipment = equipment;
+}
+
+void Player::setOtherPlayersData(OtherPlayersData &otherData){
+  otherData.id = id;
+  otherData.position = position;
+  otherData.movement = movement;
+  otherData.rootd = rootd;
+  otherData.equipment = equipment;
+  otherData.otherPlayerHealth = health.currentHP;
+  otherData.resurrection = resurrection;
+}

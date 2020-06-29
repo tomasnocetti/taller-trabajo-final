@@ -83,3 +83,12 @@ size_t NPC::getNewId(){
   NPC::idGenerator ++;
   return NPC::idGenerator;
 }
+
+void NPC::setEnemyData(EnemyData &enemy){
+  enemy.movement = movement;
+  enemy.position = position;
+  enemy.type = type;
+  enemy.id = id;
+  enemy.healthAndManaData = health;
+  enemy.lastAttack = lastAttack;
+}
