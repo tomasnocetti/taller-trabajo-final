@@ -146,44 +146,39 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   p.position.x = x;
   p.position.y = y;
 
-  bool collision = checkPlayerCollissions(playerId);
+  bool collision = checkEntityCollisions(p);
   if (collision){
     p.position.x = auxXPos;
     p.position.y = auxYPos;
     return;
   }
-
-  for (auto &it : margins){
-    bool collision = p.checkCollision(*it);
-    if (collision){
-      p.position.x = auxXPos;
-      p.position.y = auxYPos;
-      return;
-    }
-  }
 }
 
-bool GameModel::checkPlayerCollissions(
-  size_t playerId){
-    Player& p = *players.at(playerId); 
+bool GameModel::checkEntityCollisions(LiveEntity &entity){
+  bool collission = true;
+  for (auto& it : players){
+    if (entity.id == players.at(it.first)->id) continue;
+    collission = entity.checkCollision(*it.second);
+    if (collission) return true;
+  }
 
-    for (auto& it : players){
-      if (players.at(it.first)->id == playerId) continue;
-      bool collision = p.checkCollision(*it.second);
-      if (collision) return true;
-    }
+  for (auto& it : npcMap){
+    if (entity.id == npcMap.at(it.first)->id) continue;
+    collission = npcMap.at(it.first)->checkCollision(entity);
+    if (collission) return true;
+  }
 
-    for (auto& it : npcMap){
-      bool collision = npcMap.at(it.first)->checkCollision(*players[playerId]);
-      if (collision) return true;
-    }
+  for (auto &it : priests){
+    collission = entity.checkCollision(*it);
+    if (collission) return true;
+  }
 
-    for (auto &it : priests){
-      bool collission = p.checkCollision(*it);
-      if (collission) return true;
-    }
+  for (auto &it : margins){
+    collission = entity.checkCollision(*it);
+    if (collission) return true;
+  }
 
-    return false;
+  return false;
 }
 
 void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
@@ -204,16 +199,35 @@ void GameModel::resurrect(size_t playerId){
       minDistanceToPriest = distance;
       resurrectionPos = it->position;
   } 
-  
-  bool collision = true;
-  while (collision){
-    p.position.x = resurrectionPos.x + Equations::random(50, 80);
-    p.position.y = resurrectionPos.y + Equations::random(50, 80);
-    collision = checkPlayerCollissions(playerId);
-  }
-
+  getRespawnPosition(resurrectionPos, p);
+  p.position = resurrectionPos;
   p.setTimeToResurrect(minDistanceToPriest);
 }
+
+void GameModel::getRespawnPosition(
+  PositionData &positionToRes,
+  LiveEntity &entity){
+    bool collision = true;
+    entity.position = positionToRes;
+
+    for (int i = 0;; i++){
+      entity.position.x = positionToRes.x + OFFSET_TO_RESPAWN * i;
+      entity.position.y = positionToRes.y;
+      collision = checkEntityCollisions(entity);
+      if (!collision){
+        positionToRes = entity.position;
+        break;   
+      }
+      entity.position.x = positionToRes.x;
+      entity.position.y = positionToRes.y + OFFSET_TO_RESPAWN * i;
+      collision = checkEntityCollisions(entity);
+      if (!collision){
+        positionToRes = entity.position;
+        break;   
+      }
+    }
+}
+
 
 void GameModel::resurrectPlayer(size_t playerId){
   players.at(playerId)->resurrection.resurrect = false;
@@ -225,44 +239,22 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
     NPC& n = *npcMap.at(id);
     int auxXPos = n.position.x;
     int auxYPos = n.position.y;
-    
     n.position.x = xPos;
     n.position.y = yPos;
 
-    for (auto& it : players){
-      bool collision = n.checkCollision(*players[it.first]);
-      if (collision){
-          n.position.x = auxXPos;
-          n.position.y = auxYPos;
-          return;
-      }
+    bool collision = checkEntityCollisions(n);
+    if (collision){
+      n.position.x = auxXPos;
+      n.position.y = auxYPos;
+      return;
     }
 
     for (auto &it : cities){
-      bool collision = n.checkCollision(*it);
+      collision = n.checkCollision(*it);
       if (collision){
         n.position.x = auxXPos;
         n.position.y = auxYPos;
         return;
-      }
-    }
-
-    for (auto &it : margins){
-      bool collision = n.checkCollision(*it);
-      if (collision){
-        n.position.x = auxXPos;
-        n.position.y = auxYPos;
-        return;
-      }
-    }
-
-    for (auto& it : npcMap){
-      if (n.id == id) continue;
-      bool collision = npcMap.at(it.first)->checkCollision(*npcMap[id]);
-      if (collision){
-          n.position.x = auxXPos;
-          n.position.y = auxYPos;
-          return;
       }
     }
 }
@@ -280,8 +272,12 @@ void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
 }
 
 void GameModel::npcRespawn(size_t npcId){
-  npcMap.at(npcId)->position = npcMap.at(npcId)->spawnPosition;
-  npcMap.at(npcId)->health.currentHP = npcMap.at(npcId)->health.totalHP;
+  NPC &n = *npcMap.at(npcId);
+  PositionData aux(n.spawnPosition);
+  getRespawnPosition(n.spawnPosition, n);
+  n.position = n.spawnPosition;
+  n.health.currentHP = n.health.totalHP;
+  n.spawnPosition = aux;
 }
 
 void GameModel::eraseClient(size_t playerID){

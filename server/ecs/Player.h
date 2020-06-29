@@ -11,7 +11,6 @@ class Equation;
 
 class Player : public LiveEntity{
   private:
-    size_t id;
     std::string nick;
     size_t gold;
     ExperienceData experience;

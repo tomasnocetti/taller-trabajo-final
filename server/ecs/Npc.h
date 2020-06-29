@@ -24,7 +24,6 @@ class NPC : public LiveEntity {
     static size_t getNewId();
     
   private:
-    size_t id;
     NPCClass type;
     MovementData movement;
     PositionData spawnPosition;

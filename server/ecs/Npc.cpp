@@ -4,8 +4,8 @@
 #include <ctime>
 
 NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) : 
-  LiveEntity(npcData.position, npcData.healthAndManaData, skills, level),
-  id(npcData.id),
+  LiveEntity(npcData.position, npcData.healthAndManaData, skills, level,
+    npcData.id),
   type(npcData.type),
   movement(npcData.movement){
     spawnPosition = npcData.position;

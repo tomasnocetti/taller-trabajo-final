@@ -6,8 +6,7 @@
 
 Player::Player(MainPlayerData playerData, size_t id):
   LiveEntity(playerData.position, playerData.points, playerData.skills, 
-  playerData.level),
-  id(id),
+  playerData.level, id),
   nick(playerData.nick),
   gold(playerData.gold),
   experience(playerData.experience),

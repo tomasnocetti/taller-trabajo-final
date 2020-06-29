@@ -39,12 +39,14 @@ class LiveEntity: public Entity {
   protected:
     friend class Player;
     friend class NPC;
+    friend class GameModel;
     size_t level;
     HealthAndManaData health;
     SkillsData skills;
+    size_t id;
   public:
     LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s, 
-      size_t level);
+      size_t level, size_t id);
     virtual void rcvDamage(int &damage);
     virtual bool attack(LiveEntity &entity, int xCoord, int yCoord) = 0;
 };
