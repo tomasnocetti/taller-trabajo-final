@@ -2,6 +2,9 @@
 #include "../../definitions/PlayerDefinitions.h"
 #include "../entities/InventoryEntity.h"
 #include <iostream>
+#include <string>
+#include <vector>
+
 #define KEYCODE_OFFSET 48
 #define KEYCODE_1 49
 #define KEYCODE_9 57
@@ -14,7 +17,7 @@ void InventoryController::update() {
     model.getMainPlayerData().inventory;
 
   items.clear();
-  for(unsigned int i = 0; i < inventory.size(); i++){
+  for (unsigned int i = 0; i < inventory.size(); i++){
     generateImage(inventory[i], i);
   }
 }
@@ -31,8 +34,8 @@ void InventoryController::handleEvent(const SDL_Event &e) {
 }
 
 void InventoryController::generateImage(InventoryElementData item, int index) {
-  std::shared_ptr<InventoryEntity> inventoryItem (new InventoryEntity());
-  switch(item.equipableType){
+  std::shared_ptr<InventoryEntity> inventoryItem(new InventoryEntity());
+  switch (item.equipableType){
     case POTION:
       switch (item.enumPosition){
         case HEALTH:
@@ -74,7 +77,7 @@ void InventoryController::generateImage(InventoryElementData item, int index) {
   inventoryItem->setTextAssetsAndInfo(manager.getTexture(name), 
     manager.getFont("arial"), item.amount);
   //inventoryItem->setTextInfo(item.amount, item.isEquiped);
-  if(item.isEquiped) 
+  if (item.isEquiped) 
     inventoryItem->setEquipTexture(manager.getTexture("check"));
     
   items.emplace_back(inventoryItem);

@@ -27,7 +27,7 @@ void InventoryEntity::paint(double scaleW, double scaleH){
   amountText.update(std::to_string(amount));
   amountText.paint(scaleW, scaleH);
   
-  if(equipTexture == nullptr) return;
+  if (equipTexture == nullptr) return;
   SDL_Rect equipRect = {destRect.x + 50, destRect.y - 15, 10, 10};
   equipTexture->paint(equipRect, scaleW, scaleH);
 }
