@@ -83,17 +83,23 @@ void ChatArea::paint(double wScale, double hScale) {
 }
 
 SDL_Color ChatArea::getColor(MessageType t) {
+  SDL_Color s = {};
   switch (t) {
     case MessageType::INFO:
-      return { 255, 255, 0, 0xFF };
+      s = { 255, 255, 0, 0xFF };
+      return s;
     case MessageType::DANGER:
-      return { 255, 0, 0, 0xFF };
+      s = { 255, 0, 0, 0xFF };
+      return s;
     case MessageType::SUCCESS:
-      return { 0, 70, 255, 0xFF };
+      s = { 0, 70, 255, 0xFF };
+      return s;
     case MessageType::NORMAL:
-      return { 255, 255, 255, 0xFF };
+      s = { 255, 255, 255, 0xFF };
+      return s;
   default:
-    return { 255, 255, 255, 0xFF };
+    s = { 255, 255, 255, 0xFF };
+    return s;
   }
 }
 

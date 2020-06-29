@@ -27,7 +27,7 @@ class ButtonEntity: public Entity {
     void handleClickClear();
     void paint(double scaleW, double scaleH) override;
     virtual void paint(
-      const Camera &camera, double scaleW, double scaleH) override {};
+      const Camera &camera, double scaleW, double scaleH) override {}
 
   private:
     LTexture* mainT;
