@@ -137,6 +137,16 @@ void CApp::LoadAssets() {
   manager.addTexture("iron-shield", "client/assets/iron_shield.png");
   manager.addTexture("simple-bow", "client/assets/simpleBow.png");
   manager.addTexture("sword", "client/assets/sword.png");
+  manager.addTexture("invText_1", "client/assets/health.png");
+  manager.addTexture("invText_2", "client/assets/health.png");
+  manager.addTexture("invText_3", "client/assets/health.png");
+  manager.addTexture("invText_4", "client/assets/health.png");
+  manager.addTexture("invText_5", "client/assets/health.png");
+  manager.addTexture("invText_6", "client/assets/health.png");
+  manager.addTexture("invText_7", "client/assets/health.png");
+  manager.addTexture("invText_8", "client/assets/health.png");
+  manager.addTexture("invText_9", "client/assets/health.png");
+  manager.addTexture("check", "client/assets/check.png");
   manager.addTexture("health-potion", "client/assets/health_potion.png");
   manager.addTexture("mana-potion", "client/assets/mana_potion.png");
   manager.addTexture("sword-inv", "client/assets/sword_inv.png");
