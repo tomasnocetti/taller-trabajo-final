@@ -75,7 +75,7 @@ void ChatController::handleCommand() {
   std::string action = command.substr(0, pos);
   command.erase(0, pos + delimiter.length());
   if (action == "/resucitar") {
-    std::cout << "ACTION: " <<  action << std::endl;
+    model.resurrect();
   }
 }
 

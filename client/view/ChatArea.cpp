@@ -75,7 +75,7 @@ void ChatArea::paint(double wScale, double hScale) {
   scrollup->paint(wScale, hScale);
   scrolldown->paint(wScale, hScale);
 
-  if (lineHeight * inputs.size() > (maxHeight - paddingV * 2)) {
+  if (lineHeight * inputs.size() > (unsigned int)(maxHeight - paddingV * 2)) {
     renderBottomUp(wScale, hScale);
   } else {
     renderTopDown(wScale, hScale);
@@ -140,7 +140,7 @@ void ChatArea::renderTopDown(
 
   int height = paddingV;
 
-  for (int i = 0; i < inputs.size(); i++) {
+  for (size_t i = 0; i < inputs.size(); i++) {
     // We cannot render empty text.
     if (inputs[i].value.size() == 0) {
       inputs[i].value += " ";
