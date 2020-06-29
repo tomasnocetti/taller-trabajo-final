@@ -11,7 +11,7 @@ class InventoryController {
     SdlAssetsManager& manager;
     EntityList items;
 
-    void generateImage(InventoryElementData item);
+    void generateImage(InventoryElementData item, int index);
 
   public:
     InventoryController(ServerProxy& model, SdlAssetsManager& manager);

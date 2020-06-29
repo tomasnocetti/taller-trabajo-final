@@ -1,7 +1,7 @@
 #include "InventoryController.h"
 #include "../../definitions/PlayerDefinitions.h"
 #include "../entities/InventoryEntity.h"
-
+#include <iostream>
 #define KEYCODE_OFFSET 48
 #define KEYCODE_1 49
 #define KEYCODE_9 57
@@ -15,7 +15,7 @@ void InventoryController::update() {
 
   items.clear();
   for(unsigned int i = 0; i < inventory.size(); i++){
-    generateImage(inventory[i]);
+    generateImage(inventory[i], i);
   }
 }
 
@@ -30,7 +30,7 @@ void InventoryController::handleEvent(const SDL_Event &e) {
   model.equip(keyCode - KEYCODE_OFFSET - 1);
 }
 
-void InventoryController::generateImage(InventoryElementData item) {
+void InventoryController::generateImage(InventoryElementData item, int index) {
   std::shared_ptr<InventoryEntity> inventoryItem (new InventoryEntity());
   switch(item.equipableType){
     case POTION:
@@ -70,9 +70,13 @@ void InventoryController::generateImage(InventoryElementData item) {
     default:
     break;
   }
-  /*inventoryItem->setTextAssets(manager.getTexture("expText"), 
-    manager.getFont("arial"));
-  inventoryItem->setTextInfo(item.amount, item.isEquiped);*/
+  std::string name = "invText_" + std::to_string(index + 1);
+  inventoryItem->setTextAssetsAndInfo(manager.getTexture(name), 
+    manager.getFont("arial"), item.amount);
+  //inventoryItem->setTextInfo(item.amount, item.isEquiped);
+  if(item.isEquiped) 
+    inventoryItem->setEquipTexture(manager.getTexture("check"));
+    
   items.emplace_back(inventoryItem);
 }
 
