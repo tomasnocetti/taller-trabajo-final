@@ -416,44 +416,41 @@ void Player::equip(Potions potion, int inventoryPosition) {
 
 void Player::equip(RightHandEquipment rightHandEquipment, 
   int inventoryPosition) {
-    inventory[inventoryPosition].isEquiped = true;
-  
     equipment.rightHand = rightHandEquipment;
-  
     Player::setRighHandSkills(rightSkills, rightHandEquipment);
   
     for (auto& it : inventory){
       if (it.equipableType != WEAPON) continue;
       it.isEquiped = false;
     }
+
+    inventory[inventoryPosition].isEquiped = true;
 }
 
 void Player::equip(LeftHandEquipment leftHandEquipment, 
-  int inventoryPosition) {
-    inventory[inventoryPosition].isEquiped = true;
-  
+  int inventoryPosition) {  
     equipment.leftHand = leftHandEquipment;
-    
     Player::setLeftHandSkills(leftSkills, leftHandEquipment);
     
     for (auto& it : inventory){
       if (it.equipableType != LEFT_HAND_DEFENSE) continue;
       it.isEquiped = false;
     }
+
+    inventory[inventoryPosition].isEquiped = true;
 }
 
 void Player::equip(HeadEquipment headEquipment, 
   int inventoryPosition) {
-    inventory[inventoryPosition].isEquiped = true;
-  
     equipment.head = headEquipment;
-    
     Player::setHeadSkills(headSkills, headEquipment);
     
     for (auto& it : inventory){
       if (it.equipableType != HEAD_DEFENSE) continue;
       it.isEquiped = false;
     }
+    
+    inventory[inventoryPosition].isEquiped = true;
 }
 
 void Player::equip(BodyEquipment bodyEquipment, 
