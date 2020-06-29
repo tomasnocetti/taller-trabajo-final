@@ -89,7 +89,7 @@ void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players,
       if (!hasPlayerInRange) return;
       moveNPC(npc.id, npc.position, playerPosition);    
 
-      std::chrono::seconds sec(2);
+      std::chrono::seconds sec(ATTACK_INTERVAL);
       if (std::chrono::system_clock::now() < npc.lastAttack + sec) return;
 
       if (minDistanceToPlayer > minDistanceToAttackPlayer) return;
