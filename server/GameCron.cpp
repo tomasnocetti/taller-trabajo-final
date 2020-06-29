@@ -39,8 +39,10 @@ CronBQ& GameCron::getBQ() {
 
 void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
   for (OtherPlayersData &player : players) {
-    if (player.resurrection.resurrect == true)
+    if (player.resurrection.resurrect == true){
       playerResurrection(player);
+      return;
+    }
       
     if (player.movement.xDir == 0 &&
       player.movement.yDir == 0) continue;

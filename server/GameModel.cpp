@@ -140,7 +140,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
-  Player& p = *players.at(playerId);
+  Player& p = *players.at(playerId);  
   int auxXPos = p.position.x;
   int auxYPos = p.position.y;
   p.position.x = x;
