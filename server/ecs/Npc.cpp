@@ -12,7 +12,8 @@ NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
 }
 
 bool NPC::checkCollision(Entity& otherEntity) const{
-  if (this->health.currentHP <= 0) return false;
+  if (health.currentHP <= 0 && 
+    health.nextRespawn >= std::chrono::system_clock::now()) return false;
   return Entity::checkCollision(otherEntity);
 }
 
