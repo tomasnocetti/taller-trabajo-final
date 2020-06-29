@@ -20,8 +20,9 @@ typedef enum {
   RUN
 } GameMode;
 
-#define MAIN_SCREEN_PATH "client/assets/main-screen.jpg"
+#define MAIN_SCREEN_PATH "client/assets/main-screens/game-screen.jpg"
 #define LOGIN_SCREEN_PATH "client/assets/main-screens/login-screen.jpg"
+
 #define FONT_PATH "client/assets/fonts/ringm.ttf"
 #define ARIAL_PATH "client/assets/fonts/arial.ttf"
 
@@ -43,7 +44,9 @@ class CApp {
     Map mapViewport;
     LifeViewport lifeViewport;
     ExpViewport expViewport;
+    ChatViewport chatViewport;
     LoginController loginController;
+    ChatController chatController;
     GlobalController globalController;
     MapController mapController;
     MainPlayerController playerController;

@@ -10,6 +10,11 @@ void SdlAssetsManager::addTexture(std::string id, const char* path) {
   textures.emplace(id, t);
 }
 
+void SdlAssetsManager::addTextTexture(std::string id) {
+  LTexture* t = window.createTexture();
+  textures.emplace(id, t);
+}
+
 LTexture* SdlAssetsManager::getTexture(std::string id) {
 	return textures[id];
 }

@@ -2,3 +2,4 @@
 #include "Map.h"
 #include "LifeViewport.h"
 #include "ExpViewport.h"
+#include "ChatViewport.h"

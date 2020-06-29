@@ -9,7 +9,9 @@ CApp::CApp(std::string& host, std::string& port) :
   mapViewport(window),
   lifeViewport(window),
   expViewport(window),
+  chatViewport(window),
   loginController(model, manager),
+  chatController(model, manager),
   globalController(model, manager),
   mapController(model, manager),
   playerController(model, manager),
@@ -43,13 +45,14 @@ void CApp::OnEvent(SDL_Event& e) {
   window.handleEvent(e);
   switch (mode) {
     case GameMode::LOGIN:
-      // loginController.handleEvent(e);
+      loginController.handleEvent(e);
       break;
     case GameMode::CREATE:
       break;
     case GameMode::RUN:
-      playerController.handleEvent(e, 
+      playerController.handleEvent(e,
         mapViewport.getCameraX(), mapViewport.getCameraY());
+      chatController.handleEvent(e);
       break;
   }
 }
@@ -57,6 +60,7 @@ void CApp::OnEvent(SDL_Event& e) {
 void CApp::OnLoop() {
   model.update();
   playerController.update();
+  chatController.update();
   enemyController.update();
 }
 
@@ -76,6 +80,7 @@ void CApp::OnRender() {
         enemyController.getOtherPlayers());
       lifeViewport.paint(playerController.getBars());
       expViewport.paint(playerController.getExp());
+      chatViewport.paint(chatController.getEntities());
       break;
   }
   window.render();
@@ -87,6 +92,7 @@ void CApp::OnInit() {
   model.init();
 
   loginController.init();
+  chatController.init();
   globalController.init();
   mapController.init();
   playerController.init();
@@ -104,6 +110,15 @@ void CApp::LoadAssets() {
   manager.addFont("arial", ARIAL_PATH, 12);
   manager.addTexture("main-screen-path", MAIN_SCREEN_PATH);
   manager.addTexture("login-screen-path", LOGIN_SCREEN_PATH);
+  manager.addTextTexture("user-input");
+  manager.addTexture("scroll-button",
+    "client/assets/buttons/scroll-button.png");
+  manager.addTexture("scroll-button-active",
+    "client/assets/buttons/scroll-button-active.png");
+    manager.addTexture("scroll-button-down",
+    "client/assets/buttons/button-scroll-down.png");
+  manager.addTexture("scroll-button-down-active",
+    "client/assets/buttons/button-scroll-down-active.png");
   manager.addTexture("healthText", "client/assets/health.png");
   manager.addTexture("manaText", "client/assets/health.png");
   manager.addTexture("goldText", "client/assets/health.png");

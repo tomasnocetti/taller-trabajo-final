@@ -11,7 +11,7 @@ HeadWear::HeadWear(LTexture* texture, int xOffsetYAxis, int yOffsetYAxis,
 
 void HeadWear::paint(int x, int y, double scaleW, double scaleH, 
 	SDL_Rect* headFrame){
-	if(texture == nullptr) return;
+	if (texture == nullptr) return;
 
 	/*
 	headFrame.x == 0 -> camino para adelante
@@ -20,7 +20,7 @@ void HeadWear::paint(int x, int y, double scaleW, double scaleH,
 	headFrame.x == 48 -> camino para atras
 	*/
 
-	if(headFrame->x == 0 || headFrame->x == 48)
+	if (headFrame->x == 0 || headFrame->x == 48)
 		texture->paint(x + xOffsetYAxis, y + yOffsetYAxis, 
 		scaleW, scaleH, headFrame);
 	else
