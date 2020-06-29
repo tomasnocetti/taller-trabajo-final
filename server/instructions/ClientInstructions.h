@@ -94,7 +94,7 @@ class EquipInstruction : public Instruction {
 
 class ResurrectInstrucion : public Instruction {
   public:
-    ResurrectInstrucion(size_t id);
+    explicit ResurrectInstrucion(size_t id);
     ResurrectInstrucion(const ResurrectInstrucion&) = delete;
     ResurrectInstrucion& operator=(const ResurrectInstrucion&) 
       = delete;
