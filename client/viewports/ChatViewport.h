@@ -4,7 +4,7 @@
 #include <vector>
 #include "../sdl/SdlWindow.h"
 #include "../sdl/SdlViewport.h"
-#include "../../definitions/MapDefinitions.h"
+#include "../../definitions/ChatDefinitions.h"
 #include "../entities/Entity.h"
 
 class ChatViewport : public SdlViewport {
@@ -17,7 +17,7 @@ class ChatViewport : public SdlViewport {
       int h = CHAT_BASE_H);
     ChatViewport(const ChatViewport&) = delete;
     ChatViewport& operator=(const ChatViewport&) = delete;
-    void paint(std::vector<Entity*> values);
+    void paint(EntityList& entities);
 		~ChatViewport();
 };
 

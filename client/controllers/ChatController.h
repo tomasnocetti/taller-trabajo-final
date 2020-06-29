@@ -2,10 +2,12 @@
 #define _CHAT_CONTROLLER_H_
 
 #include <SDL2/SDL_ttf.h>
+#include <memory>
 #include "../sdl/SdlAssetsManager.h"
 #include "../model/ServerProxy.h"
 #include "../../DataDefinitions.h"
 #include "../entities/TextInputEntity.h"
+#include "../view/ChatArea.h"
 
 class ChatController {
   public:
@@ -15,8 +17,8 @@ class ChatController {
     void init();
     void handleEvent(const SDL_Event &e);
     void handleCommand();
-    std::vector<Entity*> getEntities();
-
+    void update();
+    EntityList& getEntities();
   private:
     ServerProxy& model;
     bool active = false;
@@ -25,9 +27,10 @@ class ChatController {
       CHAT_BASE_Y,
       CHAT_BASE_W,
       CHAT_BASE_H};
-    TextInputEntity* userInputField;
     SdlAssetsManager& manager;
-    std::vector<Entity*> entities;
+    std::shared_ptr<TextInputEntity> userInputField;
+    std::shared_ptr<ChatArea> userChatArea;
+    EntityList entities;
 };
 
 #endif

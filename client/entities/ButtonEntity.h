@@ -16,12 +16,15 @@ class ButtonEntity: public Entity {
       LTexture* mainT,
       int xpos,
       int ypos,
-      LTexture* activeT = nullptr,
-      LTexture* hoverT = nullptr);
+      int w,
+      int h,
+      LTexture* activeT = nullptr);
     ButtonEntity(const ButtonEntity&) = delete;
     ButtonEntity& operator=(const ButtonEntity&) = delete;
     ButtonEntity&& operator=(ButtonEntity&& other);
-    void handleEvent(const SDL_Event &e);
+    bool isActive();
+    void handleClick(int xCoord, int yCoord);
+    void handleClickClear();
     void paint(double scaleW, double scaleH) override;
     virtual void paint(const Camera &camera, double scaleW, double scaleH) override {};
 
@@ -31,10 +34,10 @@ class ButtonEntity: public Entity {
     LTexture* hoverT = nullptr;
     bool inside = false;
     bool click = false;
-    double lWScale = 1;
-    double lHScale = 1;
     int xpos;
     int ypos;
+    int w;
+    int h;
 };
 
 #endif

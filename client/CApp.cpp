@@ -50,7 +50,7 @@ void CApp::OnEvent(SDL_Event& e) {
     case GameMode::CREATE:
       break;
     case GameMode::RUN:
-      playerController.handleEvent(e, 
+      playerController.handleEvent(e,
         mapViewport.getCameraX(), mapViewport.getCameraY());
       chatController.handleEvent(e);
       break;
@@ -60,6 +60,7 @@ void CApp::OnEvent(SDL_Event& e) {
 void CApp::OnLoop() {
   model.update();
   playerController.update();
+  chatController.update();
   enemyController.update();
 }
 
@@ -110,6 +111,14 @@ void CApp::LoadAssets() {
   manager.addTexture("main-screen-path", MAIN_SCREEN_PATH);
   manager.addTexture("login-screen-path", LOGIN_SCREEN_PATH);
   manager.addTextTexture("user-input");
+  manager.addTexture("scroll-button",
+    "client/assets/buttons/scroll-button.png");
+  manager.addTexture("scroll-button-active",
+    "client/assets/buttons/scroll-button-active.png");
+    manager.addTexture("scroll-button-down",
+    "client/assets/buttons/button-scroll-down.png");
+  manager.addTexture("scroll-button-down-active",
+    "client/assets/buttons/button-scroll-down-active.png");
   manager.addTexture("healthText", "client/assets/health.png");
   manager.addTexture("manaText", "client/assets/health.png");
   manager.addTexture("goldText", "client/assets/health.png");
