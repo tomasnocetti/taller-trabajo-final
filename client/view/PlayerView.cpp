@@ -16,7 +16,6 @@ void PlayerView::init() {
 	this->y = 0;
 	LTexture* texture = manager.getTexture("clothes");
 	animation.reset(new PlayerAnimation(texture));
-  animation->init();
 	animation->set(FORWARD_STAND);
 	headFrame = {0, 0, 16, 16};
 	ghost = false;
@@ -85,15 +84,12 @@ void PlayerView::checkRace(PlayerRace race) {
     case GNOME:
 			head = manager.getTexture("gnome-head");
     break;
-    default:
-    break;
   }
 }
 
 void PlayerView::checkHealth(int health) {
   if (health <= 0 && !ghost) {
 		animation.reset(new GhostAnimation(manager.getTexture("ghost")));
-		animation->init();
 		animation->set(FORWARD_STAND);
 		head = nullptr;
 		ghost = true;
@@ -101,7 +97,6 @@ void PlayerView::checkHealth(int health) {
 
   if (health > 0 && ghost) {
 		animation.reset(new PlayerAnimation(manager.getTexture("clothes")));
-		animation->init();
 		animation->set(FORWARD_STAND);
 		ghost = false;
   }
@@ -131,7 +126,7 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
 			headWear = HeadWear(manager.getTexture("hat"), 3, -25, 0, -25);
     break;
     case HOOD:
-			headWear = HeadWear(manager.getTexture("hat"), 2, -10, -1, -10);
+			headWear = HeadWear(manager.getTexture("hood"), 2, -10, -1, -10);
     break;
     default:
 			headWear = HeadWear(nullptr, 0, 0, 0, 0);
@@ -155,11 +150,13 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
   switch (equipment.rightHand) {
     case SIMPLE_BOW:
 			weapon = Weapon(manager.getTexture("simple-bow"), 
-        2, 6, 10, 20, 15, 56, 10, 14, 0, 141, 15, 15, 13, 5, 15, 10, 0, 5);
+        2, 6, 10, 20, 15, 56, 10, 14, 101, 139, 11, 29, 13, 5, 15, 10, 0, 0);
     break;
     case SWORD:
-			weapon = Weapon(manager.getTexture("sword"), 
-        34, 18, 17, 15, 44, 67, 4, 12, 9, 158, 13, 20, 17, 13, 20, 15, 2, 15);
+			/*weapon = Weapon(manager.getTexture("sword"), 
+        34, 18, 17, 15, 18, 67, 6, 21, 9, 158, 13, 20, 17, 13, 18, 18, 2, 15);*/
+				weapon = Weapon(manager.getTexture("sword"), 
+        34, 18, 17, 15, 0, 0, 0, 0, 9, 158, 13, 20, 17, 13, 18, 18, 2, 15);
     break;
     default:
 			weapon = Weapon(nullptr, 

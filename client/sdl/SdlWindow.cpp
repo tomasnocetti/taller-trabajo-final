@@ -8,6 +8,8 @@
 #include "SdlWindow.h"
 #include <iostream>
 
+#define GAME_TITLE "Argentum" 
+
 SdlWindow::SdlWindow(int width, int height) :
   baseWidth(width),
   baseHeight(height),
@@ -19,7 +21,7 @@ SdlWindow::SdlWindow(int width, int height) :
     }
 
     window = SDL_CreateWindow(
-      "GAME_TITLE",
+      GAME_TITLE,
       SDL_WINDOWPOS_UNDEFINED,
       SDL_WINDOWPOS_UNDEFINED,
       width,

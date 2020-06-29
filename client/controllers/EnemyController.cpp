@@ -13,8 +13,6 @@ EnemyController::EnemyController(
   SdlAssetsManager& manager) : 
   model(model), manager(manager) {}
 
-void EnemyController::init() {} 
-
 void EnemyController::update() {
 	updateNPCs();
 	updateOtherPlayers();
@@ -42,6 +40,18 @@ EntityList& EnemyController::getOtherPlayers(){
   return otherPlayersVector;
 }
 
+void EnemyController::updateNPCs(){
+	std::vector<EnemyData> npcs = model.getNPCData();
+	for(unsigned int i = 0; i < npcs.size(); i++){
+		if(enemies.count(npcs[i].id) <= 0){
+		std::shared_ptr<EnemyView> enemy(new EnemyView(
+			npcs[i].position.x, npcs[i].position.y, checkType(npcs[i].type)));
+		enemies.emplace(npcs[i].id, enemy);
+		}
+		enemies.at(npcs[i].id)->move(npcs[i].position.x, npcs[i].position.y);
+	}
+}
+
 Animation* EnemyController::checkType(NPCClass type){
 	switch(type){
 		case SKELETON:
@@ -65,19 +75,6 @@ Animation* EnemyController::checkType(NPCClass type){
 		break;
 	}
 	return NULL;
-}
-
-void EnemyController::updateNPCs(){
-	std::vector<EnemyData> npcs = model.getNPCData();
-	for(unsigned int i = 0; i < npcs.size(); i++){
-		if(enemies.count(npcs[i].id) <= 0){
-		Animation* animation = checkType(npcs[i].type);
-		std::shared_ptr<EnemyView> enemy(new EnemyView(
-			npcs[i].position.x, npcs[i].position.y, animation));
-		enemies.emplace(npcs[i].id, enemy);
-		}
-		enemies.at(npcs[i].id)->move(npcs[i].position.x, npcs[i].position.y);
-	}
 }
 
 void EnemyController::updateOtherPlayers(){

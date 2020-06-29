@@ -6,6 +6,7 @@ SkeletonAnimation::SkeletonAnimation(LTexture* texture) :
 	backwardFrames = 5;
 	leftFrames = 5;
 	rightFrames = 5;
+	index = 0;
   cropAnimationFrames();
 }
 

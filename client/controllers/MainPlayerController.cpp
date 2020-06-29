@@ -1,7 +1,4 @@
 #include "MainPlayerController.h"
-#include "../view/HeadWear.h"
-#include "../view/Shield.h"
-#include "../view/Weapon.h"
 #include <iostream>
 #include <vector>
 
@@ -12,6 +9,10 @@
 #define GOLD_X 105
 #define LEVEL_X 50
 #define LEVEL_Y 24
+
+#define KEYCODE_OFFSET 48
+#define KEYCODE_1 49
+#define KEYCODE_9 57
 
 MainPlayerController::MainPlayerController(
   ServerProxy& model,
@@ -71,6 +72,12 @@ void MainPlayerController::handleEvent(const SDL_Event &e,
   }
 
   if (e.type == SDL_KEYDOWN) {
+    if(e.key.keysym.sym >= KEYCODE_1 && e.key.keysym.sym <= KEYCODE_9) {
+      const char* keyName = SDL_GetKeyName(e.key.keysym.sym);
+      int keyCode = static_cast<int>(*keyName);
+      model.equip(keyCode - KEYCODE_OFFSET - 1);
+      return;
+    }
     switch (e.key.keysym.sym) {
 			case SDLK_w:
 				model.move(0, -1);

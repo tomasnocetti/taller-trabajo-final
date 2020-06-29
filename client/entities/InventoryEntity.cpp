@@ -1,5 +1,9 @@
 #include "InventoryEntity.h"
 #include <iostream>
+
+#define INV_SLOT_W 62
+#define INV_SLOT_H 71
+
 InventoryEntity::InventoryEntity() {}
 
 void InventoryEntity::setImage(LTexture* background) {
@@ -17,8 +21,8 @@ void InventoryEntity::setEquipTexture(LTexture* texture){
   equipTexture = texture;
 }
 
-void InventoryEntity::setRect(int x, int y, int w, int h) {
-  destRect = {x, y, w, h};
+void InventoryEntity::move(int x, int y) {
+  destRect = {x, y, INV_SLOT_W, INV_SLOT_H};
 }
 
 void InventoryEntity::paint(double scaleW, double scaleH){

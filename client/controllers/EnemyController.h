@@ -16,7 +16,6 @@ class EnemyController {
     EnemyController(const EnemyController&) = delete;
     EnemyController& operator=(const EnemyController&) = delete;
     EnemyController&& operator=(EnemyController&& other);
-  	void init();
     void update();
     EntityList& getNPCs();
     EntityList& getOtherPlayers();

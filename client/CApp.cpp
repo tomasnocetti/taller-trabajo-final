@@ -52,7 +52,6 @@ void CApp::OnEvent(SDL_Event& e) {
     case GameMode::RUN:
       playerController.handleEvent(e, 
         mapViewport.getCameraX(), mapViewport.getCameraY());
-      inventoryController.handleEvent(e);
       break;
   }
 }
@@ -95,7 +94,6 @@ void CApp::OnInit() {
   globalController.init();
   mapController.init();
   playerController.init();
-  enemyController.init();
 
   mapViewport.init();
   MapData data = model.getMapData();
@@ -150,8 +148,16 @@ void CApp::LoadAssets() {
   manager.addTexture("health-potion", "client/assets/health_potion.png");
   manager.addTexture("mana-potion", "client/assets/mana_potion.png");
   manager.addTexture("sword-inv", "client/assets/sword_inv.png");
-  manager.addTexture("clothes-inv", "client/assets/clothes_inv.png");
   manager.addTexture("bow-inv", "client/assets/bow_inv.png");
+  manager.addTexture("clothes-inv", "client/assets/clothes_inv.png");
+  manager.addTexture("leather-inv", "client/assets/leather_armor_inv.png");
+  manager.addTexture("plate-armor-inv", "client/assets/plate_armor_inv.png");
+  manager.addTexture("blue-tunic-inv", "client/assets/blue_tunic_inv.png");
+  manager.addTexture("turtle-inv", "client/assets/turtle_shield_inv.png");
+  manager.addTexture("iron-shield-inv", "client/assets/iron_shield_inv.png");
+  manager.addTexture("iron-helm-inv", "client/assets/iron_helm_inv.png");
+  manager.addTexture("hat-inv", "client/assets/hat_inv.png");
+  //manager.addTexture("hood-inv", "client/assets/hood_inv.png");
 }
 
 CApp::~CApp() {}
