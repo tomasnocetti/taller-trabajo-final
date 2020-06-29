@@ -146,14 +146,11 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   p.position.x = x;
   p.position.y = y;
 
-  for (auto& it : players){
-    if (players.at(it.first)->id == playerId) continue;
-    bool collision = p.checkCollision(*it.second);
-    if (collision){
-        p.position.x = auxXPos;
-        p.position.y = auxYPos;
-        return;
-    }
+  bool collision = checkPlayerCollissions(playerId);
+  if (collision){
+    p.position.x = auxXPos;
+    p.position.y = auxYPos;
+    return;
   }
 
   for (auto &it : margins){
@@ -164,15 +161,29 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
       return;
     }
   }
+}
 
-  for (auto& it : npcMap){
-    bool collision = npcMap.at(it.first)->checkCollision(*players[playerId]);
-    if (collision){
-        p.position.x = auxXPos;
-        p.position.y = auxYPos;
-        return;
+bool GameModel::checkPlayerCollissions(
+  size_t playerId){
+    Player& p = *players.at(playerId); 
+
+    for (auto& it : players){
+      if (players.at(it.first)->id == playerId) continue;
+      bool collision = p.checkCollision(*it.second);
+      if (collision) return true;
     }
-  }
+
+    for (auto& it : npcMap){
+      bool collision = npcMap.at(it.first)->checkCollision(*players[playerId]);
+      if (collision) return true;
+    }
+
+    for (auto &it : priests){
+      bool collission = p.checkCollision(*it);
+      if (collission) return true;
+    }
+
+    return false;
 }
 
 void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
@@ -194,8 +205,13 @@ void GameModel::resurrect(size_t playerId){
       resurrectionPos = it->position;
   } 
   
-  p.position.x = resurrectionPos.x + 50;
-  p.position.y = resurrectionPos.y;
+  bool collision = true;
+  while (collision){
+    p.position.x = resurrectionPos.x + Equations::random(50, 80);
+    p.position.y = resurrectionPos.y + Equations::random(50, 80);
+    collision = checkPlayerCollissions(playerId);
+  }
+
   p.setTimeToResurrect(minDistanceToPriest);
 }
 

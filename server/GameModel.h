@@ -74,6 +74,7 @@ class GameModel{
     void eraseClient(size_t playerId);
     /* Handle attack instruction */
     void attack(size_t playerId, int xPos, int yPos);
+    bool checkPlayerCollissions(size_t playerId);
 };
 
 #endif
