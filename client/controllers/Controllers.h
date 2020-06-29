@@ -3,4 +3,4 @@
 #include "MapController.h"
 #include "EnemyController.h"
 #include "LoginController.h"
-#include "InventoryController.h"
+#include "ChatController.h"

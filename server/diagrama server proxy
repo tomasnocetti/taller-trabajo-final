@@ -53,7 +53,7 @@ Main{
   run() {
     Jugador = autentificarJugador();
     
-    if(!AABB.collision(jugador)) {
+    if (!AABB.collision(jugador)) {
       jugador.mover(); 
     }
 

@@ -2,4 +2,4 @@
 #include "Map.h"
 #include "LifeViewport.h"
 #include "ExpViewport.h"
-#include "InventoryViewport.h"
+#include "ChatViewport.h"

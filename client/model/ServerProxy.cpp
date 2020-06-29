@@ -74,7 +74,27 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
-  //map = gameModelData.map;
+  mainPlayer.chat.entries.push_back({INFO, "Bienvenido Tomas"});
+  mainPlayer.chat.entries.push_back({DANGER, "Te atacaron por 100 puntos"});
+  mainPlayer.chat.entries.push_back({SUCCESS, "Atacaste por 100 puntos"});
+  mainPlayer.chat.entries.push_back({NORMAL, "Lista de items a comprar:"});
+  mainPlayer.chat.entries.push_back({NORMAL, "    Baculo"});
+  mainPlayer.chat.entries.push_back({NORMAL, "    Espada"});
+  mainPlayer.chat.entries.push_back({NORMAL, "    Espada2"});
+  mainPlayer.chat.entries.push_back({NORMAL, "    Espada3"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Espada4"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "Lista de items a comprar:"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Baculo"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Espada"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Espada2"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Espada3"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Espada4"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "Lista de items a comprar:"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Baculo"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Espada"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Espada2"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Espada3"});
+  // mainPlayer.chat.entries.push_back({NORMAL, "    Espada4"});
 }
 
 MapData ServerProxy::getMapData() const {

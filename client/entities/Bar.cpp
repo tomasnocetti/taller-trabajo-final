@@ -13,7 +13,7 @@ void Bar::update(int value, int maxValue, int minValue) {
 	if (maxValue == 0) {
 		destRect.w = 0;
 	} else {
-		if(value < 0) value = 0;
+		if (value < 0) value = 0;
 		destRect.w = (value - minValue) * BAR_W / (maxValue - minValue);
 	}
 	text.update(std::to_string(value) + "/" + std::to_string(maxValue));

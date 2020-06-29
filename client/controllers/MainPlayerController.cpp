@@ -28,7 +28,7 @@ void MainPlayerController::init(){
   LTexture* goldText = manager.getTexture("goldText");
   LTexture* levelText = manager.getTexture("levelText");
   LTexture* expText = manager.getTexture("expText");
-  
+
   playerView.init(manager.getTexture("clothes"));
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y,
     healthText, font);
@@ -46,10 +46,10 @@ void MainPlayerController::update() {
   manaBar.update(data.points.currentMP, data.points.totalMP, 0);
   gold.update(std::to_string(data.gold));
 
-  level.update(data.nick + " - nivel: " + 
+  level.update(data.nick + " - nivel: " +
     std::to_string(data.level));
-  expBar.update(data.experience.currentExperience, 
-    data.experience.maxLevelExperience, 
+  expBar.update(data.experience.currentExperience,
+    data.experience.maxLevelExperience,
     data.experience.minLevelExperience);
 
   checkRace(data.rootd.prace);
@@ -63,11 +63,30 @@ void MainPlayerController::handleEvent(const SDL_Event &e,
 
   if (e.type == SDL_MOUSEBUTTONDOWN){
     if (e.button.button == SDL_BUTTON_LEFT){
+      if (!active) {
+        active = inRect(src, e.button.x, e.button.y);
+        return;
+      }
+
+      active = inRect(src, e.button.x, e.button.y);
       model.attack(
-        e.button.x + cameraX - MAIN_SCREEN_BASE_MAP_X,
-        e.button.y + cameraY - MAIN_SCREEN_BASE_MAP_Y);
+        e.button.x + cameraX - src.x,
+        e.button.y + cameraY - src.y);
     }
   }
+
+  if (e.type == SDL_KEYUP) {
+    const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+    if (!currentKeyStates[SDL_SCANCODE_W] &&
+      !currentKeyStates[SDL_SCANCODE_S] &&
+      !currentKeyStates[SDL_SCANCODE_A] &&
+      !currentKeyStates[SDL_SCANCODE_D]) {
+      model.move(0, 0);
+    }
+    return;
+  }
+
+  if (!active) return;
 
   if (e.type == SDL_KEYDOWN) {
     switch (e.key.keysym.sym) {
@@ -84,17 +103,6 @@ void MainPlayerController::handleEvent(const SDL_Event &e,
         model.move(1, 0);
 				break;
 		}
-    return;
-  }
-
-  if (e.type == SDL_KEYUP) {
-    const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-    if (!currentKeyStates[SDL_SCANCODE_W] &&
-      !currentKeyStates[SDL_SCANCODE_S] &&
-      !currentKeyStates[SDL_SCANCODE_A] &&
-      !currentKeyStates[SDL_SCANCODE_D]) {
-      model.move(0, 0);
-    }
     return;
   }
 }
@@ -157,33 +165,33 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
 
   switch (equipment.head){
     case HELMET:
-      playerView.setHeadWear(HeadWear(manager.getTexture("helmet"), 
+      playerView.setHeadWear(HeadWear(manager.getTexture("helmet"),
         3, -9, 0, -10));
     break;
     case HAT:
-      playerView.setHeadWear(HeadWear(manager.getTexture("hat"), 
+      playerView.setHeadWear(HeadWear(manager.getTexture("hat"),
         3, -25, 0, -25));
     break;
     case HOOD:
-      playerView.setHeadWear(HeadWear(manager.getTexture("hood"), 
+      playerView.setHeadWear(HeadWear(manager.getTexture("hood"),
         2, -10, -1, -10));
     break;
     default:
       playerView.setHeadWear(HeadWear(nullptr, 0, 0, 0, 0));
     break;
   }
-  
+
   switch (equipment.leftHand){
     case TURTLE_SHIELD:
-      playerView.setShield(Shield(manager.getTexture("turtle-shield"), 
+      playerView.setShield(Shield(manager.getTexture("turtle-shield"),
         12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16));
     break;
     case IRON_SHIELD:
-      playerView.setShield(Shield(manager.getTexture("iron-shield"), 
+      playerView.setShield(Shield(manager.getTexture("iron-shield"),
         6, 10, 17, 24, 1, 60, 13, 16, 25, 104, 24, 18));
     break;
     default:
-      playerView.setShield(Shield(nullptr, 
+      playerView.setShield(Shield(nullptr,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     break;
   }

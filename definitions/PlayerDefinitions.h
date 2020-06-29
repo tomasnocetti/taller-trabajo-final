@@ -5,6 +5,7 @@
 #include "MapDefinitions.h"
 #include "EntityDefinitions.h"
 #include "EquipmentDefinitions.h"
+#include "ChatDefinitions.h"
 #include <string>
 #include <vector>
 
@@ -79,6 +80,7 @@ struct MainPlayerData {
   size_t gold;
   size_t level;
   ExperienceData experience;
+  ChatData chat;
   SkillsData skills;
   PlayerRootData rootd;
   std::vector<InventoryElementData> inventory;
