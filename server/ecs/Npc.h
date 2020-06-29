@@ -22,6 +22,7 @@ class NPC : public LiveEntity {
       size_t level,
       NPCClass npcType);
     static size_t getNewId();
+    
   private:
     size_t id;
     NPCClass type;
