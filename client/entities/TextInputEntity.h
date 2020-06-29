@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include <SDL2/SDL.h>
+#include <string>
 #include <SDL2/SDL_ttf.h>
 #include "../sdl/SdlUtils.h"
 #include "../sdl/LTexture.h"

@@ -2,6 +2,7 @@
 #define _CHAT_AREA_ENTITY_H_
 
 #include <string>
+#include <vector>
 #include <SDL2/SDL.h>
 #include "../entities/Entity.h"
 #include "../entities/ButtonEntity.h"
@@ -31,6 +32,7 @@ class ChatArea : public Entity {
     void renderBottomUp(double& wScale, double& hScale);
     void renderTopDown(double& wScale, double& hScale);
     SDL_Color getColor(MessageType t);
+
 	public:
     ChatArea(
       SdlAssetsManager& manager,

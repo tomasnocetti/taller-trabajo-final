@@ -29,12 +29,12 @@ void ButtonEntity::paint(double wScale, double hScale) {
 void ButtonEntity::handleClick(int xCoord, int yCoord) {
   SDL_Rect src = { this->xpos, this->ypos, w, h };
   click = inRect(src, xCoord, yCoord);
-};
+}
 
 void ButtonEntity::handleClickClear() {
   click = false;
-};
+}
 
 bool ButtonEntity::isActive() {
   return click;
-};
+}

@@ -25,16 +25,14 @@ ChatArea::ChatArea(
       0,
       SCROLL_BUTTON_S,
       SCROLL_BUTTON_S,
-      manager.getTexture("scroll-button-active")
-    ));
+      manager.getTexture("scroll-button-active")));
     scrolldown = std::unique_ptr<ButtonEntity> (new ButtonEntity(
       manager.getTexture("scroll-button-down"),
       maxWidth - SCROLL_BUTTON_S,
       maxHeight - SCROLL_BUTTON_S,
       SCROLL_BUTTON_S,
       SCROLL_BUTTON_S,
-      manager.getTexture("scroll-button-down-active")
-    ));
+      manager.getTexture("scroll-button-down-active")));
     currentIndex = -1;
   }
 
@@ -53,17 +51,16 @@ void ChatArea::update(ChatData& chat) {
 void ChatArea::handleClick(int xCoord, int yCoord) {
   scrollup->handleClick(xCoord, yCoord);
   scrolldown->handleClick(xCoord, yCoord);
-};
+}
 
 void ChatArea::handleClickClear() {
   scrollup->handleClickClear();
   scrolldown->handleClickClear();
-};
+}
 
 void ChatArea::paint(double wScale, double hScale) {
-
   int currentTime = SDL_GetTicks();
-  if((currentTime - lastRenderTime) >= SCROLL_LAPSE) {
+  if ((currentTime - lastRenderTime) >= SCROLL_LAPSE) {
     if (scrollup->isActive()
       && currentIndex > 0
       && (currentIndex + 1) * lineHeight > (maxHeight - paddingV * 2))
@@ -134,15 +131,12 @@ void ChatArea::renderBottomUp(
   }
 }
 
-
 void ChatArea::renderTopDown(
   double& wScale,
   double& hScale
 ) {
-
   TTF_Font* font = manager.getFont("arial");
   LTexture* tex1 = manager.getTexture("area-line1");
-
 
   int height = paddingV;
 

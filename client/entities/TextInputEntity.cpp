@@ -23,11 +23,11 @@ void TextInputEntity::paint(double wScale, double hScale) {
 
   std::string showInput = input;
   int currentTime = SDL_GetTicks();
-  if((currentTime - lastRenderTime) >= CURSOR_ANIM_LAPSE && inside) {
+  if ((currentTime - lastRenderTime) >= CURSOR_ANIM_LAPSE && inside) {
     showInput += "|";
-    if((currentTime - lastRenderTime) >= CURSOR_ANIM_LAPSE * 2) {
+    if ((currentTime - lastRenderTime) >= CURSOR_ANIM_LAPSE * 2) {
       lastRenderTime = currentTime;
-    };
+    }
   }
   if (showInput.length() <= 0) return;
 
@@ -44,18 +44,17 @@ void TextInputEntity::paint(double wScale, double hScale) {
 }
 
 void TextInputEntity::handleClick(int xCoord, int yCoord) {
-
   SDL_Rect src = { this->xpos, this->ypos, maxWidth, maxHeight };
   //Check if mouse is in button
   inside = inRect(src, xCoord, yCoord);
 
-  if(inside) {
+  if (inside) {
     SDL_StartTextInput();
     lastRenderTime = SDL_GetTicks();
   } else {
     SDL_StopTextInput();
   }
-};
+}
 
 void TextInputEntity::handleInput(const SDL_Event& e) {
   switch (e.type) {
@@ -65,23 +64,26 @@ void TextInputEntity::handleInput(const SDL_Event& e) {
 
       break;
     case SDL_KEYDOWN:
-      if( e.key.keysym.sym == SDLK_BACKSPACE && input.length() > 0 ) {
+      if (e.key.keysym.sym == SDLK_BACKSPACE && input.length() > 0) {
         //lop off character
         input.pop_back();
-      } else if( e.key.keysym.sym == SDLK_c && SDL_GetModState() & KMOD_CTRL ) {
-        SDL_SetClipboardText( input.c_str() );
-      } else if( e.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL ) {
+      } else if (
+        e.key.keysym.sym == SDLK_c
+        && SDL_GetModState() & KMOD_CTRL ) {
+        SDL_SetClipboardText(input.c_str());
+      } else if (
+        e.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL) {
         input = SDL_GetClipboardText();
       }
       break;
     default:
       break;
   }
-};
+}
 
 void TextInputEntity::clearInput() {
   input.clear();
-};
+}
 
 std::string TextInputEntity::getInput() {
   return input;

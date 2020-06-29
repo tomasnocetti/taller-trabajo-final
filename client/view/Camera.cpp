@@ -17,7 +17,7 @@ void Camera::setMaxDimensions(int width, int height){
 }
 
 bool Camera::isInCameraRange(int x, int y) const {
-	if(x >= renderRect.x - TILE_SIZE && 
+	if (x >= renderRect.x - TILE_SIZE && 
 		y >= renderRect.y - TILE_SIZE && 
 		x <= renderRect.x + renderRect.w + TILE_SIZE &&
 		y <= renderRect.y + renderRect.h + TILE_SIZE){

@@ -1,6 +1,7 @@
 #include "ChatController.h"
 
 #include <iostream>
+#include <string>
 
 ChatController::ChatController(
   ServerProxy& model,
