@@ -14,7 +14,8 @@ Player::Player(MainPlayerData playerData, size_t id):
   rootd(playerData.rootd),
   inventory(playerData.inventory),
   movement(playerData.movement),
-  equipment(playerData.equipment){
+  equipment(playerData.equipment),
+  resurrection({std::chrono::system_clock::now(), false, {}}){
     setRighHandSkills(rightSkills, equipment.rightHand);
     setLeftHandSkills(leftSkills, equipment.leftHand);
     setBodySkills(bodySkills, equipment.body);
@@ -254,7 +255,7 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   health.currentMP -= rightSkills.mana;
   
   bool dodged = Equations::dodgeAttack(entity.skills.agility);
-  if (dodged) return false;
+  if (dodged) return true;
   
   int damage = Equations::damage(skills.strength, rightSkills);
   entity.rcvDamage(damage);
@@ -455,8 +456,6 @@ void Player::equip(HeadEquipment headEquipment,
 
 void Player::equip(BodyEquipment bodyEquipment, 
   int inventoryPosition) {
-    inventory[inventoryPosition].isEquiped = true;
-  
     equipment.body = bodyEquipment;
     
     Player::setBodySkills(bodySkills, bodyEquipment);
@@ -465,4 +464,19 @@ void Player::equip(BodyEquipment bodyEquipment,
       if (it.equipableType != BODY_ARMOUR) continue;
       it.isEquiped = false;
     }
+
+    inventory[inventoryPosition].isEquiped = true;
+}
+
+void Player::setTimeToResurrect(
+  PositionData &resurrectionPos,
+  double minDistanceToPriest){
+  resurrection.position = resurrectionPos;
+  resurrection.resurrect = true;
+
+  //std::chrono::seconds sec(int(minDistanceToPriest*0.01));
+
+  std::chrono::seconds sec(2);
+
+  resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
 }

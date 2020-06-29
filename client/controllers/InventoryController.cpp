@@ -31,6 +31,10 @@ void InventoryController::handleEvent(const SDL_Event &e) {
   int keyCode = static_cast<int>(*keyName);
   
   model.equip(keyCode - KEYCODE_OFFSET - 1);
+
+  if (e.key.keysym.sym == KEYCODE_9){
+    model.resurrect();
+  }
 }
 
 void InventoryController::generateImage(InventoryElementData item, int index) {

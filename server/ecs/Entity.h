@@ -11,6 +11,7 @@
  */
 class Entity {
   protected:
+    friend class GameModel;
     PositionData position;
   public:
     explicit Entity(PositionData& p);
@@ -45,6 +46,9 @@ class LiveEntity: public Entity {
       size_t level);
     virtual void rcvDamage(int &damage);
     virtual bool attack(LiveEntity &entity, int xCoord, int yCoord) = 0;
+    virtual double getPositionDistance(
+      const PositionData& p1,
+      const PositionData&p2);
 };
 
 #endif

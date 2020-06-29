@@ -16,7 +16,8 @@ typedef enum {
   LOAD_PLAYER,
   AUTHENTICATE,
   STOP_MOVEMENT,
-  EQUIP
+  EQUIP,
+  RESURRECT
 } ActionTypeT;
 
 typedef enum {

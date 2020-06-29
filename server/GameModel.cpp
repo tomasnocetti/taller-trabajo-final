@@ -118,6 +118,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
       continue;
 
     bool success = p.attack(*it.second, xPos, yPos);
+
     if (success) break;
   }
 
@@ -177,6 +178,31 @@ void GameModel::playerSetCoords(size_t playerId, int x, int y) {
 void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
   if (players.at(playerId)->health.currentHP <= 0) return;
   players.at(playerId)->equip(inventoryPosition);
+}
+
+void GameModel::resurrect(size_t playerId){
+  Player &p = *players.at(playerId);
+  if (p.health.currentHP > 0) return;
+
+  double minDistanceToPriest = 100000;
+  PositionData resurrectionPos = {};
+
+  for (auto& it : priests){
+    double distance = p.getPositionDistance(
+      it->position, p.position);
+
+      if (distance >= minDistanceToPriest) continue;
+        minDistanceToPriest = distance;
+        resurrectionPos = it->position;
+      } 
+  
+  p.setTimeToResurrect(resurrectionPos, minDistanceToPriest);
+}
+
+void GameModel::resurrectPlayer(size_t playerId, int xPos, int yPos){
+  players.at(playerId)->position.x = xPos;
+  players.at(playerId)->position.y = yPos;
+  players.at(playerId)->resurrection.resurrect = false;
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
@@ -299,6 +325,7 @@ void GameModel::generateOtherPlayersGameData(){
     otherPlayer.rootd = players.at(it.first)->rootd;
     otherPlayer.equipment = players.at(it.first)->equipment;
     otherPlayer.otherPlayerHealth = players.at(it.first)->health.currentHP;
+    otherPlayer.resurrection = players.at(it.first)->resurrection;
     otherPlayers.push_back(std::move(otherPlayer));
   }
 }

@@ -29,6 +29,12 @@ typedef enum {
 
 MSGPACK_ADD_ENUM(PlayerClass)
 
+struct ResurrectionData{
+  std::chrono::system_clock::time_point timeToResurrection;
+  bool resurrect;
+  PositionData position;
+};
+
 struct InventoryElementData{
   size_t amount;
   bool isEquiped;
@@ -92,6 +98,7 @@ struct OtherPlayersData {
   PlayerRootData rootd;
   EquipmentData equipment;
   size_t otherPlayerHealth;
+  ResurrectionData resurrection;
   MSGPACK_DEFINE(id, position, rootd, equipment, otherPlayerHealth)
 };
 

@@ -69,4 +69,21 @@ class NPCRespawnInstruction: public Instruction {
     size_t npcId;
 };
 
+class PlayerResurrecctionInstruction : public Instruction {
+  public:
+    PlayerResurrecctionInstruction(size_t id, int xPos, int yPos);
+    PlayerResurrecctionInstruction(
+      const PlayerResurrecctionInstruction&) = delete;
+    PlayerResurrecctionInstruction& operator=(
+      const PlayerResurrecctionInstruction&) = delete;
+    PlayerResurrecctionInstruction&& operator=(
+      PlayerResurrecctionInstruction&& other);
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    int xPos;
+    int yPos;
+};
+
 #endif

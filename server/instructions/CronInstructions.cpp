@@ -38,3 +38,13 @@ NPCRespawnInstruction::NPCRespawnInstruction(size_t id) :
 void NPCRespawnInstruction::run(GameModel& game) {
   game.npcRespawn(npcId);
 }
+
+PlayerResurrecctionInstruction::PlayerResurrecctionInstruction(size_t id,
+  int xPos, int yPos) :
+    playerId(id),
+    xPos(xPos),
+    yPos(yPos) {}
+
+void PlayerResurrecctionInstruction::run(GameModel& game) {
+  game.resurrectPlayer(playerId, xPos, yPos);
+}

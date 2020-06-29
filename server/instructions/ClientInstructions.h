@@ -92,4 +92,18 @@ class EquipInstruction : public Instruction {
     size_t inventoryPosition;
 };
 
+class ResurrectInstrucion : public Instruction {
+  public:
+    ResurrectInstrucion(size_t id);
+    ResurrectInstrucion(const ResurrectInstrucion&) = delete;
+    ResurrectInstrucion& operator=(const ResurrectInstrucion&) 
+      = delete;
+    ResurrectInstrucion&& operator=(ResurrectInstrucion&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+};
+
 #endif
