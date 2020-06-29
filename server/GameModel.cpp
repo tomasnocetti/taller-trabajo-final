@@ -58,6 +58,12 @@ void GameModel::parseMapData() {
           new Entity(p));
         cities.push_back(std::move(city));
       }
+
+      if (layer.name == PRIESTS_LAYER){
+        std::unique_ptr<Entity> priest(
+          new Entity(p));
+        priests.push_back(std::move(priest));
+      }
     }
   }
 }

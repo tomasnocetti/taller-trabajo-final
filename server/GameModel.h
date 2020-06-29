@@ -25,6 +25,7 @@ class GameModel{
     std::map<size_t, ResponseBQ&> clientsBQ;
     std::map<size_t, std::unique_ptr<Player>> players;
     std::vector<OtherPlayersData> otherPlayers;
+    std::vector<std::unique_ptr<Entity>> priests;
     MapParser m;
     CronBQ& cronBQ;
     void parseMapData();
