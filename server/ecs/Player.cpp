@@ -15,7 +15,7 @@ Player::Player(MainPlayerData playerData, size_t id):
   inventory(playerData.inventory),
   movement(playerData.movement),
   equipment(playerData.equipment),
-  resurrection({std::chrono::system_clock::now(), false, {}}){
+  resurrection({std::chrono::system_clock::now(), false}){
     setRighHandSkills(rightSkills, equipment.rightHand);
     setLeftHandSkills(leftSkills, equipment.leftHand);
     setBodySkills(bodySkills, equipment.body);
@@ -469,14 +469,8 @@ void Player::equip(BodyEquipment bodyEquipment,
 }
 
 void Player::setTimeToResurrect(
-  PositionData &resurrectionPos,
   double minDistanceToPriest){
-  resurrection.position = resurrectionPos;
   resurrection.resurrect = true;
-
-  //std::chrono::seconds sec(int(minDistanceToPriest*0.01));
-
-  std::chrono::seconds sec(2);
-
+  std::chrono::seconds sec(int(minDistanceToPriest*0.01));
   resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
 }

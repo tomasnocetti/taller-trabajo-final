@@ -39,12 +39,8 @@ void NPCRespawnInstruction::run(GameModel& game) {
   game.npcRespawn(npcId);
 }
 
-PlayerResurrecctionInstruction::PlayerResurrecctionInstruction(size_t id,
-  int xPos, int yPos) :
-    playerId(id),
-    xPos(xPos),
-    yPos(yPos) {}
-
+PlayerResurrecctionInstruction::PlayerResurrecctionInstruction(size_t id) :
+    playerId(id){}
 void PlayerResurrecctionInstruction::run(GameModel& game) {
-  game.resurrectPlayer(playerId, xPos, yPos);
+  game.resurrectPlayer(playerId);
 }

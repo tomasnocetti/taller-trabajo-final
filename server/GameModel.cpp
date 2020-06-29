@@ -184,25 +184,25 @@ void GameModel::resurrect(size_t playerId){
   Player &p = *players.at(playerId);
   if (p.health.currentHP > 0) return;
 
-  double minDistanceToPriest = 100000;
+  double minDistanceToPriest = 0;
   PositionData resurrectionPos = {};
 
   for (auto& it : priests){
-    double distance = p.getPositionDistance(
-      it->position, p.position);
-
-      if (distance >= minDistanceToPriest) continue;
-        minDistanceToPriest = distance;
-        resurrectionPos = it->position;
-      } 
+    double distance = p.getPositionDistance(it->position, p.position);
+    if (distance >= minDistanceToPriest && minDistanceToPriest != 0) continue;
+      minDistanceToPriest = distance;
+      resurrectionPos = it->position;
+  } 
   
-  p.setTimeToResurrect(resurrectionPos, minDistanceToPriest);
+  p.position.x = resurrectionPos.x + 50;
+  p.position.y = resurrectionPos.y;
+  p.setTimeToResurrect(minDistanceToPriest);
 }
 
-void GameModel::resurrectPlayer(size_t playerId, int xPos, int yPos){
-  players.at(playerId)->position.x = xPos;
-  players.at(playerId)->position.y = yPos;
+void GameModel::resurrectPlayer(size_t playerId){
   players.at(playerId)->resurrection.resurrect = false;
+  players.at(playerId)->health.currentHP = 
+    players.at(playerId)->health.totalHP;
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  

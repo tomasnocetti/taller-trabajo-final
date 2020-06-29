@@ -58,6 +58,11 @@ bool Entity::checkInRange(Entity& otherEntity, double distance) const{
   return Entity::checkPositionInRange(position, otherEntity.position, distance);
 }
 
+double Entity::getPositionDistance(
+  const Entity &entity){
+    return Entity::getPositionDistance(position, entity.position);
+}
+
 Entity::~Entity(){}
 
 LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s,
@@ -69,10 +74,4 @@ LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s,
 
 void LiveEntity::rcvDamage(int &damage){
   health.currentHP -= damage;
-}
-
-double LiveEntity::getPositionDistance(
-  const PositionData& p1,
-  const PositionData&p2){
-    return Entity::getPositionDistance(p1, p2);
 }

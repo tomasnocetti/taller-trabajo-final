@@ -62,9 +62,7 @@ void GameCron::playerResurrection(OtherPlayersData &player){
 
   std::unique_ptr<Instruction> i(
       new PlayerResurrecctionInstruction(
-        player.id,
-        player.resurrection.position.x + 50,
-        player.resurrection.position.y));
+        player.id));
     instructionQueue.push(std::move(i));  
 }
 

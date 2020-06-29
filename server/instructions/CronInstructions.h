@@ -71,7 +71,7 @@ class NPCRespawnInstruction: public Instruction {
 
 class PlayerResurrecctionInstruction : public Instruction {
   public:
-    PlayerResurrecctionInstruction(size_t id, int xPos, int yPos);
+    explicit PlayerResurrecctionInstruction(size_t id);
     PlayerResurrecctionInstruction(
       const PlayerResurrecctionInstruction&) = delete;
     PlayerResurrecctionInstruction& operator=(
@@ -82,8 +82,6 @@ class PlayerResurrecctionInstruction : public Instruction {
 
   private:
     size_t playerId;
-    int xPos;
-    int yPos;
 };
 
 #endif

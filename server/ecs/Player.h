@@ -59,9 +59,7 @@ class Player : public LiveEntity{
     void equip(LeftHandEquipment leftHandEquipment, int inventoryPosition);
     void equip(HeadEquipment headEquipment, int inventoryPosition);
     void equip(BodyEquipment bodyEquipment, int inventoryPosition);
-    void setTimeToResurrect(
-      PositionData &resurrectionPos,
-      double minDistanceToPriest);
+    void setTimeToResurrect(double minDistanceToPriest);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

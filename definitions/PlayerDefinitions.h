@@ -32,7 +32,6 @@ MSGPACK_ADD_ENUM(PlayerClass)
 struct ResurrectionData{
   std::chrono::system_clock::time_point timeToResurrection;
   bool resurrect;
-  PositionData position;
 };
 
 struct InventoryElementData{
