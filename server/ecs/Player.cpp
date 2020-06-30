@@ -51,7 +51,7 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.points.totalMP = Equations::maxMana
       (data.skills.inteligence, data.skills.classMana, data.skills.raceMana, 
       data.level);
-    data.points.currentMP = data.points.totalMP - 50;
+    data.points.currentMP = data.points.totalMP;
 
     data.movement.xDir = 0;
     data.movement.yDir = 0;
@@ -273,13 +273,17 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
 }
 
 void Player::rcvDamage(int &damage){
-  bool dodged = Equations::dodgeAttack(skills.agility);
-  if (dodged){
-    ChatManager::attackDodged(chat);
-    damage = -1;
-    return;
+  bool critickAttack = Equations::criticAttack();
+  if (!critickAttack){
+    bool dodged = Equations::dodgeAttack(skills.agility);
+    if (dodged){
+      ChatManager::attackDodged(chat);
+      damage = -1;
+      return;
+    }
   }
-  
+  if (critickAttack) damage = damage * 2; // critic attack
+
   int defensePoints = defend();
   if (defensePoints > damage){
     damage = 0;

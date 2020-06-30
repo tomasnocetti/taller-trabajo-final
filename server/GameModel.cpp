@@ -80,7 +80,7 @@ bool GameModel::authenticate(
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
 
-  PlayerRootData root = {CLERIC, HUMAN};
+  PlayerRootData root = {WARRIOR, HUMAN};
 
   std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root));
   players.insert(std::pair<size_t,
@@ -233,6 +233,8 @@ void GameModel::resurrectPlayer(size_t playerId){
   players.at(playerId)->resurrection.resurrect = false;
   players.at(playerId)->health.currentHP = 
     players.at(playerId)->health.totalHP;
+  players.at(playerId)->health.currentMP = 
+    players.at(playerId)->health.totalMP;
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
