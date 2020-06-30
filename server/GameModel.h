@@ -56,6 +56,10 @@ class GameModel{
     void resurrect(size_t playerId);
     /* Handle resurrectPlayer instruction - GameCron Instruction */
     void resurrectPlayer(size_t playerId);
+    /* Handle increasePlayerMana instruction */
+    void increasePlayerHealth(size_t playerId);
+    /* Handle increasePlayerHealth instruction */
+    void increasePlayerMana(size_t playerId);
     /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
       Devuelve true si pudo o es valido, false de lo contrario. */
     bool authenticate(

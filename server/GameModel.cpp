@@ -80,7 +80,7 @@ bool GameModel::authenticate(
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
 
-  PlayerRootData root = {WARRIOR, HUMAN};
+  PlayerRootData root = {CLERIC, HUMAN};
 
   std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root));
   players.insert(std::pair<size_t,
@@ -235,7 +235,6 @@ void GameModel::getRespawnPosition(
     }
 }
 
-
 void GameModel::resurrectPlayer(size_t playerId){
   players.at(playerId)->resurrection.resurrect = false;
   players.at(playerId)->health.currentHP = 
@@ -243,6 +242,26 @@ void GameModel::resurrectPlayer(size_t playerId){
   players.at(playerId)->health.currentMP = 
     players.at(playerId)->health.totalMP;
 }
+
+void GameModel::increasePlayerHealth(size_t playerId){
+  Player &p = *players.at(playerId);
+  p.health.currentHP += p.skills.raceRecovery;
+  p.health.lastHealthIncrease = std::chrono::system_clock::now();
+  
+  if (p.health.currentHP <= p.health.totalHP) return;
+  p.health.currentHP = p.health.totalHP;
+}
+
+void GameModel::increasePlayerMana(size_t playerId){
+  Player &p = *players.at(playerId);
+  p.health.currentMP += p.skills.raceRecovery;
+  p.health.lastManaIncrease = std::chrono::system_clock::now();
+  
+  if (p.health.currentMP <= p.health.totalMP) return;
+  p.health.currentHP = p.health.totalHP;
+}
+
+
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
     NPC& n = *npcMap.at(id);

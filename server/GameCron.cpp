@@ -18,6 +18,7 @@ void GameCron::run() {
 
       runPlayersMovement(d->otherPlayers);
       runNPCLogic(d->npcs, d->otherPlayers);
+      runPlayerHealthAndMana(d->otherPlayers);
 
       std::this_thread::sleep_for(std::chrono::milliseconds(60));
     }
@@ -64,6 +65,27 @@ void GameCron::playerResurrection(OtherPlayersData &player){
       new PlayerResurrecctionInstruction(
         player.id));
     instructionQueue.push(std::move(i));  
+}
+
+void GameCron::runPlayerHealthAndMana(std::vector<OtherPlayersData>& players){
+  std::chrono::seconds sec(3);
+  for (auto& it : players){
+    if ((it.healthAndMana.currentHP == it.healthAndMana.totalHP)
+      || (it.healthAndMana.lastHealthIncrease + sec >
+        std::chrono::system_clock::now())) continue;
+      
+      std::unique_ptr<Instruction> i(
+        new PlayerIncreaseHealthInstruction(it.id));
+        instructionQueue.push(std::move(i));
+
+    if ((it.healthAndMana.currentMP == it.healthAndMana.totalMP)
+      || (it.healthAndMana.lastManaIncrease + sec >
+        std::chrono::system_clock::now())) continue;
+      
+      std::unique_ptr<Instruction> ins(
+        new PlayerIncreaseManaInstruction(it.id));
+        instructionQueue.push(std::move(ins));
+  }
 }
 
 void GameCron::runNPCLogic(
