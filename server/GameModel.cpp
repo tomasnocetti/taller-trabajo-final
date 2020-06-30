@@ -108,18 +108,25 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     if (p.checkCollision(*it)) return;
 
   for (auto& it : players){
+    if (p.level <= c.newbieLevel) break;
+
+    Player& auxp = *players.at(it.first); 
+
     for (auto &itCities : cities)
-      if (players.at(it.first)->checkCollision(*itCities)) return;
+      if (auxp.checkCollision(*itCities)) return;
 
-    if (players.at(it.first)->health.currentHP <= 0) continue;
+    if (abs((int)(p.level - auxp.level)) > (int)c.fairPlayLevel) continue;
 
-    if (players.at(it.first)->id == playerId) continue;
+    if (auxp.level <= c.newbieLevel) continue;
+
+    if (auxp.health.currentHP <= 0) continue;
+
+    if (auxp.id == playerId) continue;
 
     if (!p.checkInRange(*it.second, c.maxRangeZone))
       continue;
 
     bool success = p.attack(*it.second, xPos, yPos);
-
     if (success) break;
   }
 
@@ -230,14 +237,33 @@ void GameModel::getRespawnPosition(
     }
 }
 
-
 void GameModel::resurrectPlayer(size_t playerId){
   players.at(playerId)->resurrection.resurrect = false;
   players.at(playerId)->health.currentHP =
     players.at(playerId)->health.totalHP;
+  players.at(playerId)->health.currentMP = 
+    players.at(playerId)->health.totalMP;
 }
 
-void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
+void GameModel::increasePlayerHealth(size_t playerId){
+  Player &p = *players.at(playerId);
+  p.health.currentHP += p.skills.raceRecovery;
+  p.health.lastHealthIncrease = std::chrono::system_clock::now();
+  
+  if (p.health.currentHP <= p.health.totalHP) return;
+  p.health.currentHP = p.health.totalHP;
+}
+
+void GameModel::increasePlayerMana(size_t playerId){
+  Player &p = *players.at(playerId);
+  p.health.currentMP += p.skills.raceRecovery;
+  p.health.lastManaIncrease = std::chrono::system_clock::now();
+  
+  if (p.health.currentMP <= p.health.totalMP) return;
+  p.health.currentHP = p.health.totalHP;
+}
+
+void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
     NPC& n = *npcMap.at(id);
     int auxXPos = n.position.x;
     int auxYPos = n.position.y;

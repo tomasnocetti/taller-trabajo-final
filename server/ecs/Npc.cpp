@@ -50,6 +50,13 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
 }
 
 void NPC::rcvDamage(int &damage) {
+  bool critickAttack = Equations::criticAttack();
+  if (critickAttack){
+    damage = damage * 2;
+    health.currentHP -= damage;
+    return;
+  }
+
   bool dodged = Equations::dodgeAttack(skills.agility);
   if (dodged){
     damage = -1;
@@ -96,7 +103,7 @@ std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
     return npc;
 }
 
-size_t NPC::idGenerator = 0;
+size_t NPC::idGenerator = 5000;
 
 size_t NPC::getNewId(){
   NPC::idGenerator ++;

@@ -39,6 +39,8 @@ void GC::load(const char* src) {
   instance->g.npcInitHealthPoints = gameConfig["npcInitHealthPoints"].asInt();
   instance->g.npcInitSkills = gameConfig["npcInitSkills"].asInt();
   instance->g.playerInitialLevel = gameConfig["playerInitialLevel"].asInt();
+  instance->g.newbieLevel = gameConfig["newbieLevel"].asInt();
+  instance->g.fairPlayLevel = gameConfig["fairPlayLevel"].asInt();
 
   /** PARSE ITEMS */
   for(const Json::Value &item : items) {

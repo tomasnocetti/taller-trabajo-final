@@ -1,9 +1,10 @@
 #ifndef _GAME_CONFIG_H_
 #define _GAME_CONFIG_H_
 
+
 #if __APPLE__
 #include <json/json.h>
-#elif
+#else
 #include <jsoncpp/json/json.h>
 #endif
 
@@ -43,6 +44,8 @@ struct GlobalConfig {
   int npcInitHealthPoints;
   size_t npcInitSkills;
   int playerInitialLevel;
+  size_t newbieLevel;
+  size_t fairPlayLevel;
   std::map<int, Item> items;
   std::vector<TraderItem> traderItems;
 };
@@ -60,7 +63,7 @@ struct RaceSkillsData {
 
 class GC {
   public:
-    GC() {};
+    GC() {}
     GC(const GC&) = delete;
     GC& operator=(const GC&) = delete;
     GC&& operator=(GC&& other) = delete;

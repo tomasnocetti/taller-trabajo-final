@@ -84,4 +84,34 @@ class PlayerResurrecctionInstruction : public Instruction {
     size_t playerId;
 };
 
+class PlayerIncreaseHealthInstruction : public Instruction {
+  public:
+    explicit PlayerIncreaseHealthInstruction(size_t id);
+    PlayerIncreaseHealthInstruction(
+      const PlayerIncreaseHealthInstruction&) = delete;
+    PlayerIncreaseHealthInstruction& operator=(
+      const PlayerIncreaseHealthInstruction&) = delete;
+    PlayerIncreaseHealthInstruction&& operator=(
+      PlayerIncreaseHealthInstruction&& other);
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+};
+
+class PlayerIncreaseManaInstruction : public Instruction {
+  public:
+    explicit PlayerIncreaseManaInstruction(size_t id);
+    PlayerIncreaseManaInstruction(
+      const PlayerIncreaseManaInstruction&) = delete;
+    PlayerIncreaseManaInstruction& operator=(
+      const PlayerIncreaseManaInstruction&) = delete;
+    PlayerIncreaseManaInstruction&& operator=(
+      PlayerIncreaseManaInstruction&& other);
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+};
+
 #endif

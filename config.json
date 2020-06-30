@@ -17,6 +17,8 @@
     "npcInitHealthPoints": 100,
     "npcInitSkills": 10,
     "playerInitialLevel": 1,
+    "newbieLevel": 2,
+    "fairPlayLevel": 3,
     "races": [{
       "type": "human",
       "recovery": 5,
