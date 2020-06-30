@@ -1,8 +1,11 @@
 #ifndef _MAP_PARSER_H_
 #define _MAP_PARSER_H_
 
-//#include <json/json.h>
+#if __APPLE__
+#include <json/json.h>
+#elif
 #include <jsoncpp/json/json.h>
+#endif
 #include <vector>
 #include <string>
 #include "../DataDefinitions.h"
