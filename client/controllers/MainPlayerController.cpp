@@ -91,7 +91,7 @@ void MainPlayerController::handleEvent(const SDL_Event &e,
   if (!active) return;
 
   if (e.type == SDL_KEYDOWN) {
-    if(e.key.keysym.sym >= KEYCODE_1 && e.key.keysym.sym <= KEYCODE_9) {
+    if (e.key.keysym.sym >= KEYCODE_1 && e.key.keysym.sym <= KEYCODE_9) {
       const char* keyName = SDL_GetKeyName(e.key.keysym.sym);
       int keyCode = static_cast<int>(*keyName);
       model.equip(keyCode - KEYCODE_OFFSET - 1);
