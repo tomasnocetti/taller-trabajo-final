@@ -45,7 +45,7 @@ struct RaceSkillsData {
 
 class GC {
   public:
-    GC() {};
+    GC() {}
     GC(const GC&) = delete;
     GC& operator=(const GC&) = delete;
     GC&& operator=(GC&& other) = delete;

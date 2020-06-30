@@ -45,7 +45,7 @@ int Equations::attackExperience(
   int damage,
   int otherLevel,
   int level) {
-    return damage * std::max(otherLevel - level + 10, 0)*10;
+    return damage * std::max(otherLevel - level + 10, 0);
 }
 
 int Equations::killExperience(
