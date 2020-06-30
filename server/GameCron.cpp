@@ -74,7 +74,8 @@ void GameCron::runPlayerHealthAndMana(std::vector<OtherPlayersData>& players){
   for (auto& it : players){
     if ((it.healthAndMana.currentHP == it.healthAndMana.totalHP)
       || (it.healthAndMana.lastHealthIncrease + sec >
-        std::chrono::system_clock::now())) continue;
+      std::chrono::system_clock::now()) || 
+      (it.healthAndMana.currentHP <= 0)) continue;
       
       std::unique_ptr<Instruction> i(
         new PlayerIncreaseHealthInstruction(it.id));
@@ -82,7 +83,8 @@ void GameCron::runPlayerHealthAndMana(std::vector<OtherPlayersData>& players){
 
     if ((it.healthAndMana.currentMP == it.healthAndMana.totalMP)
       || (it.healthAndMana.lastManaIncrease + sec >
-        std::chrono::system_clock::now())) continue;
+        std::chrono::system_clock::now()) || 
+        (it.healthAndMana.currentMP <= 0)) continue;
       
       std::unique_ptr<Instruction> ins(
         new PlayerIncreaseManaInstruction(it.id));

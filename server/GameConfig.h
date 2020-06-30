@@ -1,8 +1,8 @@
 #ifndef _GAME_CONFIG_H_
 #define _GAME_CONFIG_H_
 
-#include <json/json.h>
-// #include <jsoncpp/json/json.h>
+//#include <json/json.h>
+#include <jsoncpp/json/json.h>
 #include <vector>
 #include <map>
 #include <string>
@@ -28,6 +28,8 @@ struct GlobalConfig {
   int npcInitHealthPoints;
   size_t npcInitSkills;
   int playerInitialLevel;
+  size_t newbieLevel;
+  size_t fairPlayLevel;
 };
 
 struct RaceSkillsData {
