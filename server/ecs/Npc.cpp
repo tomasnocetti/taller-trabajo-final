@@ -90,7 +90,7 @@ std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
     return npc;
 }
 
-size_t NPC::idGenerator = 0;
+size_t NPC::idGenerator = 5000;
 
 size_t NPC::getNewId(){
   NPC::idGenerator ++;
