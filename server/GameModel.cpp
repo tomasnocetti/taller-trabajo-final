@@ -101,6 +101,7 @@ void GameModel::stopMovement(size_t playerId){
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
+  p.health.meditating = false;
   GlobalConfig& c = GC::get();
   if (p.health.currentHP <= 0) return;
 
@@ -149,6 +150,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   Player& p = *players.at(playerId);
+  p.health.meditating = false;
   int auxXPos = p.position.x;
   int auxYPos = p.position.y;
   p.position.x = x;
@@ -185,13 +187,14 @@ bool GameModel::checkEntityCollisions(LiveEntity &entity){
     collission = entity.checkCollision(*it);
     if (collission) return true;
   }
-
   return false;
 }
 
 void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
-  if (players.at(playerId)->health.currentHP <= 0) return;
-  players.at(playerId)->equip(inventoryPosition);
+  Player &p = *players.at(playerId);
+  p.health.meditating = false;
+  if (p.health.currentHP <= 0) return;
+  p.equip(inventoryPosition);
 }
 
 void GameModel::resurrect(size_t playerId){
