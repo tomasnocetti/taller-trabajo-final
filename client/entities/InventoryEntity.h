@@ -22,7 +22,7 @@ class InventoryEntity: public Entity {
     void setTextAssetsAndInfo(LTexture* texture, 
       TTF_Font* font, size_t amount);
     void setEquipTexture(LTexture* texture);
-    void move(int x, int y);
+    void move(int x, int y) override;
     void paint(double scaleW, double scaleH) override;
     void paint(const Camera &camera, 
     	double scaleW, double scaleH) override {}
