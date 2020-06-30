@@ -1,5 +1,5 @@
 #include "GameModel.h"
-
+#include "services/GameConfig.h"
 #include <iostream>
 #include <string> // TODO - Lo pide el parser
 #include <utility>
@@ -34,7 +34,7 @@ void GameModel::parseMapData() {
           NPC::getNewId(), p, 10, SPIDER));
         npcMap.insert(std::pair<size_t,
 
-          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
+          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
       if (layer.name == GOBLIN_SPAWN_POINTS){
@@ -42,7 +42,7 @@ void GameModel::parseMapData() {
           NPC::getNewId(), p, 15, GOBLIN));
         npcMap.insert(std::pair<size_t,
 
-          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
+          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
       if (layer.name == SKELETON_SPAWN_POINTS){
@@ -50,7 +50,7 @@ void GameModel::parseMapData() {
           NPC::getNewId(), p, 8, SKELETON));
         npcMap.insert(std::pair<size_t,
 
-          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));  
+          std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
       if (layer.name == CITY_LAYER){
@@ -101,6 +101,7 @@ void GameModel::stopMovement(size_t playerId){
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
+  GlobalConfig& c = GC::get();
   if (p.health.currentHP <= 0) return;
 
   for (auto &it : cities)
@@ -114,7 +115,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     if (players.at(it.first)->id == playerId) continue;
 
-    if (!p.checkInRange(*it.second, MAX_RANGE_ZONE))
+    if (!p.checkInRange(*it.second, c.maxRangeZone))
       continue;
 
     bool success = p.attack(*it.second, xPos, yPos);
@@ -125,7 +126,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
   for (auto& it : npcMap){
     NPC& npc = *npcMap.at(it.first);
 
-    if (!p.checkInRange(*it.second, MAX_RANGE_ZONE))
+    if (!p.checkInRange(*it.second, c.maxRangeZone))
       continue;
 
     bool success = p.attack(*it.second, xPos, yPos);
@@ -140,7 +141,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
-  Player& p = *players.at(playerId);  
+  Player& p = *players.at(playerId);
   int auxXPos = p.position.x;
   int auxYPos = p.position.y;
   p.position.x = x;
@@ -198,7 +199,7 @@ void GameModel::resurrect(size_t playerId){
     if (distance >= minDistanceToPriest && minDistanceToPriest != 0) continue;
       minDistanceToPriest = distance;
       resurrectionPos = it->position;
-  } 
+  }
   getRespawnPosition(resurrectionPos, p);
   p.position = resurrectionPos;
   p.setTimeToResurrect(minDistanceToPriest);
@@ -209,21 +210,22 @@ void GameModel::getRespawnPosition(
   LiveEntity &entity){
     bool collision = true;
     entity.position = positionToRes;
+    GlobalConfig& c = GC::get();
 
     for (int i = 0;; i++){
-      entity.position.x = positionToRes.x + OFFSET_TO_RESPAWN * i;
+      entity.position.x = positionToRes.x + c.offsetToRespawn * i;
       entity.position.y = positionToRes.y;
       collision = checkEntityCollisions(entity);
       if (!collision){
         positionToRes = entity.position;
-        break;   
+        break;
       }
       entity.position.x = positionToRes.x;
-      entity.position.y = positionToRes.y + OFFSET_TO_RESPAWN * i;
+      entity.position.y = positionToRes.y + c.offsetToRespawn * i;
       collision = checkEntityCollisions(entity);
       if (!collision){
         positionToRes = entity.position;
-        break;   
+        break;
       }
     }
 }
@@ -231,11 +233,11 @@ void GameModel::getRespawnPosition(
 
 void GameModel::resurrectPlayer(size_t playerId){
   players.at(playerId)->resurrection.resurrect = false;
-  players.at(playerId)->health.currentHP = 
+  players.at(playerId)->health.currentHP =
     players.at(playerId)->health.totalHP;
 }
 
-void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
+void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
     NPC& n = *npcMap.at(id);
     int auxXPos = n.position.x;
     int auxYPos = n.position.y;
@@ -261,11 +263,12 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
 
 void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   NPC& n = *npcMap.at(npcId);
+  GlobalConfig& c = GC::get();
   for (auto& it : players){
     for (auto &itCities : cities)
       if (players.at(it.first)->checkCollision(*itCities)) return;
 
-    if (!n.checkInRange(*it.second, MAX_RANGE_ZONE))
+    if (!n.checkInRange(*it.second, c.maxRangeZone))
         return;
     n.attack(*it.second, xPos, yPos);
   }

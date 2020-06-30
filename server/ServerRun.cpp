@@ -1,5 +1,6 @@
 #include "ServerRun.h"
 #include "GameServer.h"
+#include "services/GameConfig.h"
 #include <iostream>
 #include <string>
 
@@ -14,6 +15,7 @@ void waitToFinish() {
 }
 
 void serverRun(char *port, char *mapPath) {
+  GC::load("config.json");
   GameServer game(port, mapPath);
   game.start();
 
