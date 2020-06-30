@@ -39,7 +39,7 @@ CronBQ& GameCron::getBQ() {
 }
 
 void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
-  GlobalConfig& c = GC::get();
+  const GlobalConfig& c = GC::get();
   for (OtherPlayersData &player : players) {
     if (player.resurrection.resurrect == true){
       playerResurrection(player);
@@ -84,7 +84,7 @@ void GameCron::runNPCLogic(
 void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players, 
   EnemyData &npc){
     if (npc.healthAndManaData.currentHP <= 0) return;
-    GlobalConfig& c = GC::get();
+    const GlobalConfig& c = GC::get();
     
     bool hasPlayerInRange = false;
     double minDistanceToPlayer = c.minDistanceNpc;
@@ -116,7 +116,7 @@ void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players,
 
 void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
   MovementData d = Entity::getPositionDirection(npc, follow);
-  GlobalConfig& c = GC::get();
+  const GlobalConfig& c = GC::get();
 
   int x = npc.x + d.xDir * c.speedNpc;
   int y = npc.y + d.yDir * c.speedNpc;

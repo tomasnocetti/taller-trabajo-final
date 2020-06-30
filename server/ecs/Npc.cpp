@@ -25,7 +25,7 @@ bool NPC::checkInRange(Entity& otherEntity, double distance) const{
 }
 
 bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
-  GlobalConfig& c = GC::get();
+  const GlobalConfig& c = GC::get();
   PositionData attackZoneData = {
     xCoord - c.attackNpcZoneWidth / 2,
     yCoord - c.attackNpcZoneHeight / 2,
@@ -60,13 +60,13 @@ void NPC::rcvDamage(int &damage) {
 
 int NPC::drop(unsigned int &seed){
   if (health.currentHP > 0) return 0;
-  GlobalConfig& c = GC::get();
+  const GlobalConfig& c = GC::get();
 
   return health.totalHP * Equations::randomFloat(0, c.npcRandomDrop);
 }
 
 void NPC::setNextRespawn(){
-  GlobalConfig& c = GC::get();
+  const GlobalConfig& c = GC::get();
   std::chrono::seconds sec(c.respawnTimeNpc);
   health.nextRespawn = std::chrono::system_clock::now() + sec;
 }
@@ -74,7 +74,7 @@ void NPC::setNextRespawn(){
 std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
   size_t level, NPCClass npcType) {
     EnemyData data;
-    GlobalConfig& c = GC::get();
+    const GlobalConfig& c = GC::get();
     data.id = id;
     data.position = position;
     data.movement.xDir = 0;
