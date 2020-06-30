@@ -25,7 +25,7 @@ class Player : public LiveEntity{
     ResurrectionData resurrection;
     ChatData chat;
     friend class GameModel;
-
+    friend class Trader;
   public:
     Player(MainPlayerData playerData, size_t id);
     Player(const Player&) = delete;

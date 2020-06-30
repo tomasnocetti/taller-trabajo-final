@@ -19,6 +19,15 @@
     "playerInitialLevel": 1,
     "newbieLevel": 2,
     "fairPlayLevel": 3,
+    "chatMessages": {
+      "initialMsg": "Bienvenido a las tierras de ARGENTUM",
+      "damageRcvMsg": "Nos estan atacando! Daño recibido: ",
+      "enemyDodgedAttack": "El enemigo ha esquivado el ataque!",
+      "attackDodged": "Ataque esquivado!",
+      "damageCaused": "Ataque exitoso! Daño provocado: ",
+      "insufficientFunds": "Tu oro es insuficiente",
+      "noInventorySpace": "No hay espaio en tu inventario"
+    },
     "races": [{
       "type": "human",
       "recovery": 5,

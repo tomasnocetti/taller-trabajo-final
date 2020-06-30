@@ -25,12 +25,6 @@
 #define CHAT_PADDING_V 4
 #define CHAT_LINE_HEIGHT 14
 
-#define INITIAL_MSG "Bienvenido a las tierras de ARGENTUM"
-#define DAMAGE_RCV_MSG "Nos estan atacando! Daño recibido: "
-#define ENEMY_DODGED_ATTACK "El enemigo ha esquivado el ataque!"
-#define ATTACK_DODGED "Ataque esquivado!"
-#define DAMAGE_CAUSED "Ataque exitoso! Daño provocado: "
-
 typedef enum{
   INFO,
   DANGER,

@@ -27,6 +27,16 @@ struct TraderItem {
   int value;
 };
 
+struct ChatMessages {
+  std::string initialMsg;
+  std::string damageRcvMsg;
+  std::string enemyDodgedAttack;
+  std::string attackDodged;
+  std::string damageCaused;
+  std::string insufficientFunds;
+  std::string noInventorySpace;
+};
+
 struct GlobalConfig {
   int attackZoneWidth;
   int attackZoneHeight;
@@ -48,6 +58,7 @@ struct GlobalConfig {
   size_t fairPlayLevel;
   std::map<int, Item> items;
   std::vector<TraderItem> traderItems;
+  ChatMessages chatMessages;
 };
 
 struct RaceSkillsData {

@@ -1,26 +1,41 @@
 #include "ChatManager.h"
 
+#include "../GameConfig.h"
+
 void ChatManager::initialMessage(ChatData &chat){
-  chat.entries.push_back({INFO, INITIAL_MSG});
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO, c.chatMessages.initialMsg});
 }
 
 void ChatManager::damageReceived(ChatData &chat, int damage){
-  chat.entries.push_back({DANGER, 
-      DAMAGE_RCV_MSG + std::to_string(damage)});
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({DANGER,
+      c.chatMessages.damageRcvMsg + std::to_string(damage)});
 }
 
 void ChatManager::enemyDodgedTheAttack(ChatData &chat){
-  chat.entries.push_back({INFO, ENEMY_DODGED_ATTACK});
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO, c.chatMessages.enemyDodgedAttack});
 }
 
 void ChatManager::attackDodged(ChatData &chat){
-  chat.entries.push_back({SUCCESS, ATTACK_DODGED});
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({SUCCESS, c.chatMessages.attackDodged});
 }
 
 void ChatManager::damageCaused(ChatData &chat, int damage){
-  chat.entries.push_back({SUCCESS, DAMAGE_CAUSED + std::to_string(damage)});
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({SUCCESS,
+    c.chatMessages.damageCaused + std::to_string(damage)});
 }
 
+void insufficientFunds(ChatData &chat) {
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+    c.chatMessages.insufficientFunds});
+}
+
+void insufficientInventorySpace(ChatData &chat) {}
 /*
   mainPlayer.chat.entries.push_back({INFO, "Bienvenido Tomas"});
   mainPlayer.chat.entries.push_back({DANGER, "Te atacaron por 100 puntos"});

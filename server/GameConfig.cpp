@@ -22,6 +22,7 @@ void GC::load(const char* src) {
   const Json::Value races = gameConfig["races"];
   const Json::Value items = gameConfig["items"];
   const Json::Value traderItems = gameConfig["traderItems"];
+  const Json::Value chatMessages = gameConfig["chatMessages"];
 
   instance->g.attackZoneWidth = gameConfig["attackZoneWidth"].asInt();
   instance->g.attackZoneHeight = gameConfig["attackZoneHeight"].asInt();
@@ -42,6 +43,21 @@ void GC::load(const char* src) {
   instance->g.playerInitialLevel = gameConfig["playerInitialLevel"].asInt();
   instance->g.newbieLevel = gameConfig["newbieLevel"].asInt();
   instance->g.fairPlayLevel = gameConfig["fairPlayLevel"].asInt();
+
+  instance->g.chatMessages.initialMsg =
+    chatMessages["initialMsg"].asString();
+  instance->g.chatMessages.damageRcvMsg =
+    chatMessages["damageRcvMsg"].asString();
+  instance->g.chatMessages.enemyDodgedAttack =
+    chatMessages["enemyDodgedAttack"].asString();
+  instance->g.chatMessages.attackDodged =
+    chatMessages["attackDodged"].asString();
+  instance->g.chatMessages.damageCaused =
+    chatMessages["damageCaused"].asString();
+  instance->g.chatMessages.insufficientFunds =
+    chatMessages["insufficientFunds"].asString();
+  instance->g.chatMessages.noInventorySpace =
+    chatMessages["noInventorySpace"].asString();
 
   /** PARSE ITEMS */
   for (const Json::Value &item : items) {
