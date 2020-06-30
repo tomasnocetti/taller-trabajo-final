@@ -292,7 +292,7 @@ void Player::rcvDamage(int &damage){
 
   damage -= defensePoints;
 
-  ChatManager::damageReceived(chat, damage - defensePoints);
+  ChatManager::damageReceived(chat, damage);
 }
 
 void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
