@@ -66,25 +66,56 @@ void GC::load(const char* src) {
     std::string t = item["type"].asString();
     Equipable type =
       static_cast<Equipable> (t[0]);
+    int id = item["id"].asInt();
+    std::string name = item["name"].asString();
     switch (type) {
       case Equipable::BODY_ARMOUR:
+      instance->g.items.insert(
+        std::pair<int, Item>(
+          id, BodyItem(
+          id,
+          type,
+          name,
+          item["minDefense"].asInt(),
+          item["maxDefense"].asInt())));
+        break;
       case Equipable::POTION:
+        break;
       case Equipable::WEAPON:
+          instance->g.items.insert(
+            std::pair<int, Item>(
+              id, RightHandItem(
+                id,
+                type,
+                name,
+                item["minDamage"].asInt(),
+                item["maxDamage"].asInt(),
+                item["mana"].asInt(),
+                item["range"].asInt())));
+        break;
       case Equipable::LEFT_HAND_DEFENSE:
+        instance->g.items.insert(
+          std::pair<int, Item>(
+            id, LeftHandItem(
+          id,
+          type,
+          name,
+          item["minDefense"].asInt(),
+          item["maxDefense"].asInt())));
+        break;
       case Equipable::HEAD_DEFENSE:
+        instance->g.items.insert(
+          std::pair<int, Item>(
+            id, HeadItem(
+          id,
+          type,
+          name,
+          item["minDefense"].asInt(),
+          item["maxDefense"].asInt())));
         break;
     default:
       return;
     }
-
-    Item dataItem = {
-      item["id"].asInt(),
-      type,
-      item["name"].asString()
-    };
-    instance->g.items.insert(
-      std::pair<int, Item>(
-        dataItem.id, dataItem));
   }
 
   // PARSE TRADER ITEMS

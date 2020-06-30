@@ -98,11 +98,31 @@
     "items": [{
       "id": 0,
       "type": "W",
-      "name": "Arco compuesto"
+      "name": "Arco simple",
+      "minDamage": 1,
+      "maxDamage": 4,
+      "range": 300,
+      "mana": 0
     }, {
       "id": 1,
       "type": "W",
-      "name": "Arco simple"
+      "name": "Espada",
+      "minDamage": 2,
+      "maxDamage": 5,
+      "range": 100,
+      "mana": 0
+    }, {
+      "id": 2,
+      "type": "H",
+      "name": "Casco",
+      "minDefense": 2,
+      "maxDefense": 5
+    }, {
+      "id": 3,
+      "type": "L",
+      "name": "Escudo de Hierro",
+      "minDefense": 2,
+      "maxDefense": 5
     }],
     "traderItems": [{
       "itemId": 0,

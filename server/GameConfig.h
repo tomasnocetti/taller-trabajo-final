@@ -11,16 +11,12 @@
 #include <vector>
 #include <map>
 #include <string>
+#include "definitions/Items.h"
 #include "../DataDefinitions.h"
 
 #define ERROR_MSG "No valid instance"
 #define INVALID_CONFIG_FILE "Invalid config file"
 
-struct Item {
-  int id;
-  Equipable type;
-  std::string name;
-};
 
 struct TraderItem {
   int itemId;

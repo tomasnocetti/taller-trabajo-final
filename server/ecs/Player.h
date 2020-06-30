@@ -3,6 +3,7 @@
 
 #include "Entity.h"
 #include "../definitions/EquationDefinitions.h"
+#include "../definitions/Items.h"
 #include "../GameModel.h"
 #include <string>
 #include <vector>
@@ -24,6 +25,10 @@ class Player : public LiveEntity{
     HeadEquipmentSkills headSkills;
     ResurrectionData resurrection;
     ChatData chat;
+    friend struct RightHandItem;
+    friend struct LeftHandItem;
+    friend struct BodyItem;
+    friend struct HeadItem;
     friend class GameModel;
     friend class Trader;
   public:
