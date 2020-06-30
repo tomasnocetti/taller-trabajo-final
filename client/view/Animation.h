@@ -13,7 +13,6 @@ class Animation {
 	  Animation& operator=(const Animation&) = delete;
 	  Animation(Animation&& other);
     Animation& operator=(Animation&& other);
-		void init();
 		void set(int currentAnim);
 		void paint(int x, int y, double scaleW, double scaleH);
 		virtual void changeTexture(LTexture* texture) {}
@@ -28,7 +27,8 @@ class Animation {
 		std::vector<SDL_Rect> rightAnim;
 		int forwardFrames, backwardFrames, leftFrames, rightFrames;
 		SDL_Rect lastFrame;
-		virtual void cropAnimationFrames();
+		
+		virtual void cropAnimationFrames() = 0;
 };
 
 #endif

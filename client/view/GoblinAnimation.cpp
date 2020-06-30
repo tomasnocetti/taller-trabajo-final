@@ -6,6 +6,7 @@ GoblinAnimation::GoblinAnimation(LTexture* texture) :
 	backwardFrames = 8;
 	leftFrames = 8;
 	rightFrames = 8;
+	index = 0;
   cropAnimationFrames();
 }
 

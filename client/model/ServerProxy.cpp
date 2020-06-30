@@ -18,7 +18,8 @@ void ServerProxy::authentificate(std::string& alias) {
 
 void ServerProxy::init() {
   MapParser m;
-  m.loadMap("client/assets/map/gameMap.json");
+  //m.loadMap("client/assets/map/gameMap.json");
+  m.loadMap("client/assets/map/game_map.json");
   map = m.getMapData();
 
   serverProxyWrite.start();

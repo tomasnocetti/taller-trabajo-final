@@ -18,7 +18,6 @@ class InventoryController {
     InventoryController(const InventoryController&) = delete;
     InventoryController& operator=(const InventoryController&) = delete;
     void update();
-    void handleEvent(const SDL_Event& e);
     EntityList& getItems();
 };
 

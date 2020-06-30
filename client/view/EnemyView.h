@@ -15,8 +15,9 @@ class EnemyView : public Entity {
 		EnemyView(const EnemyView&) = delete;
     EnemyView& operator=(const EnemyView&) = delete;
     ~EnemyView();
+		
 	private:
-	  Animation* animation = nullptr;
+		std::unique_ptr<Animation> animation;
 };
 
 #endif
