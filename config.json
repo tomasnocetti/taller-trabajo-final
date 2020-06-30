@@ -26,7 +26,8 @@
       "attackDodged": "Ataque esquivado!",
       "damageCaused": "Ataque exitoso! Daño provocado: ",
       "insufficientFunds": "Tu oro es insuficiente",
-      "noInventorySpace": "No hay espaio en tu inventario"
+      "noInventorySpace": "No hay espaio en tu inventario",
+      "invalidOption": "La opcion selecionada es invalida"
     },
     "races": [{
       "type": "human",

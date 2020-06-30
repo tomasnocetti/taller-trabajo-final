@@ -35,6 +35,7 @@ struct ChatMessages {
   std::string damageCaused;
   std::string insufficientFunds;
   std::string noInventorySpace;
+  std::string invalidOption;
 };
 
 struct GlobalConfig {

@@ -58,6 +58,8 @@ void GC::load(const char* src) {
     chatMessages["insufficientFunds"].asString();
   instance->g.chatMessages.noInventorySpace =
     chatMessages["noInventorySpace"].asString();
+  instance->g.chatMessages.invalidOption =
+    chatMessages["invalidOption"].asString();
 
   /** PARSE ITEMS */
   for (const Json::Value &item : items) {

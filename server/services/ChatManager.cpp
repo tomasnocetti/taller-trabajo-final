@@ -29,13 +29,23 @@ void ChatManager::damageCaused(ChatData &chat, int damage){
     c.chatMessages.damageCaused + std::to_string(damage)});
 }
 
-void insufficientFunds(ChatData &chat) {
+void ChatManager::insufficientFunds(ChatData &chat) {
   const GlobalConfig& c = GC::get();
   chat.entries.push_back({INFO,
     c.chatMessages.insufficientFunds});
 }
 
-void insufficientInventorySpace(ChatData &chat) {}
+void ChatManager::noInventorySpace(ChatData &chat) {
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+    c.chatMessages.noInventorySpace});
+}
+
+void ChatManager::invalidOption(ChatData &chat) {
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+    c.chatMessages.invalidOption});
+}
 /*
   mainPlayer.chat.entries.push_back({INFO, "Bienvenido Tomas"});
   mainPlayer.chat.entries.push_back({DANGER, "Te atacaron por 100 puntos"});

@@ -1,6 +1,7 @@
 #include "Trader.h"
 
 #include "../GameConfig.h"
+#include "../services/ChatManager.h"
 #include <iostream>
 #include <vector>
 #include <sstream>
@@ -24,12 +25,22 @@ Trader::Trader(PositionData position) :
 void Trader::buy(Player& p, size_t option) {
   const GlobalConfig& c = GC::get();
   if (option >= c.traderItems.size()) {
-    std::cout << "Elemento no valido: " << option << std::endl;
+    ChatManager::invalidOption(p.chat);
     return;
   }
-  // TraderItem& item = c.traderItems[option];
+  if (p.inventory.size() >= INVENTORY_MAX_SIZE) {
+    ChatManager::noInventorySpace(p.chat);
+    return;
+  }
 
+  const TraderItem& item = c.traderItems[option];
+  if (item.value > p.gold) {
+    ChatManager::insufficientFunds(p.chat);
+    return;
+  }
+  p.gold -= item.value;
 
+  // p.inventory.push_back();
 
   std::cout << "Elemento no valido" << option << std::endl;
 }
