@@ -21,6 +21,7 @@ class TextEntity : public Entity {
     TextEntity& operator=(const TextEntity&) = delete;
 		void init(int x, int y, LTexture* texture, TTF_Font* font);
 		void update(std::string text);
+		void center(int xPos);
 		void paint(const Camera &camera, 
 			double scaleW, double scaleH) override {}
 		void paint(double scaleW, double scaleH) override;

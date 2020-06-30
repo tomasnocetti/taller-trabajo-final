@@ -1,5 +1,6 @@
 #include "GameServer.h"
 
+#include "GameConfig.h"
 #include <utility>
 #include <iostream>
 #include <vector>

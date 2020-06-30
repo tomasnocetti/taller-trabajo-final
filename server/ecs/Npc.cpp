@@ -1,10 +1,11 @@
 #include "Npc.h"
+#include "../GameConfig.h"
 #include <iostream>
 #include <chrono>
 #include <ctime>
 #include "../services/ChatManager.h"
 
-NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) : 
+NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
   LiveEntity(npcData.position, npcData.healthAndManaData, skills, level,
     npcData.id),
   type(npcData.type),
@@ -13,7 +14,7 @@ NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
 }
 
 bool NPC::checkCollision(Entity& otherEntity) const{
-  if (health.currentHP <= 0 && 
+  if (health.currentHP <= 0 &&
     health.nextRespawn >= std::chrono::system_clock::now()) return false;
   return Entity::checkCollision(otherEntity);
 }
@@ -24,11 +25,12 @@ bool NPC::checkInRange(Entity& otherEntity, double distance) const{
 }
 
 bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
+  GlobalConfig& c = GC::get();
   PositionData attackZoneData = {
-    xCoord - ATTACK_NPC_ZONE_WIDTH / 2,
-    yCoord - ATTACK_NPC_ZONE_HEIGHT / 2,
-    ATTACK_NPC_ZONE_WIDTH,
-    ATTACK_NPC_ZONE_HEIGHT};
+    xCoord - c.attackNpcZoneWidth / 2,
+    yCoord - c.attackNpcZoneHeight / 2,
+    c.attackNpcZoneWidth,
+    c.attackNpcZoneHeight};
   Entity attackZone(attackZoneData);
 
   bool canAttack = entity.checkCollision(attackZone);
@@ -37,9 +39,9 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
   lastAttack = std::chrono::system_clock::now();
 
   bool dodged = Equations::dodgeAttack(entity.skills.agility);
-  if (dodged){  
+  if (dodged){
     return true;
-  } 
+  }
 
   int damage = Equations::NPCDamage(level, skills.strength);
   entity.rcvDamage(damage);
@@ -48,49 +50,60 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
 }
 
 void NPC::rcvDamage(int &damage) {
+  bool critickAttack = Equations::criticAttack();
+  if (critickAttack){
+    damage = damage * 2;
+    health.currentHP -= damage;
+    return;
+  }
+
   bool dodged = Equations::dodgeAttack(skills.agility);
-  if (dodged){  
+  if (dodged){
     damage = -1;
     return;
-  } 
+  }
   health.currentHP -= damage;
 }
 
 int NPC::drop(unsigned int &seed){
   if (health.currentHP > 0) return 0;
+  GlobalConfig& c = GC::get();
 
-  return health.totalHP * Equations::randomFloat(0, NPC_RANDOM_DROP);
+  return health.totalHP * Equations::randomFloat(0, c.npcRandomDrop);
 }
 
 void NPC::setNextRespawn(){
-  std::chrono::seconds sec(RESPAWN_TIME_NPC);
+  GlobalConfig& c = GC::get();
+  std::chrono::seconds sec(c.respawnTimeNpc);
   health.nextRespawn = std::chrono::system_clock::now() + sec;
 }
 
-std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position, 
+std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
   size_t level, NPCClass npcType) {
     EnemyData data;
+    GlobalConfig& c = GC::get();
     data.id = id;
     data.position = position;
     data.movement.xDir = 0;
     data.movement.yDir = 0;
     data.type = npcType;
-    data.healthAndManaData = {  
-      NPC_INIT_HEALTH_POINTS, 
-      NPC_INIT_HEALTH_POINTS,
-      0, 
+    data.healthAndManaData = {
+      c.npcInitHealthPoints,
+      c.npcInitHealthPoints,
+      0,
       0,
       std::chrono::system_clock::now()};
     data.lastAttack = std::chrono::system_clock::now();
-    
-    SkillsData skills = {NPC_INIT_SKILLS, NPC_INIT_SKILLS, NPC_INIT_SKILLS};
-  
+
+    SkillsData skills = {
+      c.npcInitSkills, c.npcInitSkills, c.npcInitSkills};
+
     std::unique_ptr<NPC> npc(new NPC(data, skills, level));
 
     return npc;
 }
 
-size_t NPC::idGenerator = 0;
+size_t NPC::idGenerator = 5000;
 
 size_t NPC::getNewId(){
   NPC::idGenerator ++;

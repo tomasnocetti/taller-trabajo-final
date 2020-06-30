@@ -21,10 +21,9 @@ void EnemyView::move(int x, int y) {
 		this->x = x;
 		animation->set(RIGHT_WALK);
 	} else {
-		this->x = x;
-		this->y = y;
-		animation->set(FORWARD_STAND);
-	}
+    this->x = x;
+    this->y = y;
+  }
 }
 
 void EnemyView::paint(const Camera &camera, double scaleW, double scaleH){

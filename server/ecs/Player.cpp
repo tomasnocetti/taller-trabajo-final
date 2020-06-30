@@ -4,9 +4,10 @@
 #include <string>
 #include <utility>
 #include "../services/ChatManager.h"
+#include "../GameConfig.h"
 
 Player::Player(MainPlayerData playerData, size_t id):
-  LiveEntity(playerData.position, playerData.points, playerData.skills, 
+  LiveEntity(playerData.position, playerData.points, playerData.skills,
   playerData.level, id),
   nick(playerData.nick),
   gold(playerData.gold),
@@ -23,14 +24,15 @@ Player::Player(MainPlayerData playerData, size_t id):
     setHeadSkills(headSkills, equipment.head);
 }
 
-std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick, 
+std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
   PlayerRootData root) {
     MainPlayerData data;
-  
+    GlobalConfig& c = GC::get();
+
     data.rootd = root;
     data.nick = nick;
     data.gold = 0;
-    data.level = PLAYER_INITIAL_LEVEL;
+    data.level = c.playerInitialLevel;
 
     Player::setClassSkills(data.skills, data.rootd);
     Player::setRaceSkills(data.skills, data.rootd);
@@ -40,18 +42,20 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.experience.maxLevelExperience = 0;
     data.experience.currentExperience = 0;
     Player::setExperienceData(data.level, data.experience);
-        
+
     Player::setPositionData(root, data.position);
 
-    data.points.totalHP = Equations::maxLife(data.skills.classConstitution, 
-      data.skills.classHealth, data.skills.raceHealth, 
+    data.points.totalHP = Equations::maxLife(data.skills.classConstitution,
+      data.skills.classHealth, data.skills.raceHealth,
       data.level);
-    data.points.currentHP = data.points.totalHP - 100;
+    data.points.currentHP = data.points.totalHP;
     
     data.points.totalMP = Equations::maxMana
-      (data.skills.inteligence, data.skills.classMana, data.skills.raceMana, 
+      (data.skills.inteligence, data.skills.classMana, data.skills.raceMana,
       data.level);
-    data.points.currentMP = data.points.totalMP - 50;
+    data.points.currentMP = data.points.totalMP;
+    data.points.lastHealthIncrease = std::chrono::system_clock::now();
+    data.points.lastManaIncrease = std::chrono::system_clock::now();
 
     data.movement.xDir = 0;
     data.movement.yDir = 0;
@@ -146,7 +150,7 @@ void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
 void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
   equipment.body = TUNIC;
   equipment.head = HELMET;
-  equipment.leftHand = IRON_SHIELD;    
+  equipment.leftHand = IRON_SHIELD;
   equipment.rightHand = SIMPLE_BOW;
 }
 
@@ -227,7 +231,7 @@ void Player::setHeadSkills(HeadEquipmentSkills
 
 void Player::setExperienceData(size_t &level, ExperienceData &experience){
     experience.minLevelExperience = experience.maxLevelExperience;
-    experience.maxLevelExperience = 
+    experience.maxLevelExperience =
       Equations::maxLevelExperience(level);
 }
 
@@ -240,23 +244,24 @@ void Player::setPositionData(PlayerRootData &root, PositionData &position){
 
 
 bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
+  GlobalConfig& c = GC::get();
   PositionData attackZoneData = {
-    xCoord - ATTACK_NPC_ZONE_WIDTH / 2,
-    yCoord - ATTACK_ZONE_HEIGHT / 2,
-    ATTACK_ZONE_WIDTH,
-    ATTACK_ZONE_HEIGHT};
+    xCoord - c.attackZoneWidth / 2,
+    yCoord - c.attackZoneHeight / 2,
+    c.attackZoneWidth,
+    c.attackZoneHeight};
   Entity attackZone(attackZoneData);
-  
+
   bool canAttack = entity.checkCollision(attackZone);
   if (!canAttack) return false;
-  
+
   double distanceAttackZone =  Entity::getPositionDistance(
     attackZoneData , position);
   if (distanceAttackZone > rightSkills.range) return false;
 
   if (health.currentMP < rightSkills.mana) return false;
   health.currentMP -= rightSkills.mana;
-  
+
   int damage = Equations::damage(skills.strength, rightSkills);
   entity.rcvDamage(damage);
   if (damage == -1){
@@ -266,26 +271,30 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
 
   ChatManager::damageCaused(chat, damage);
 
-  addExperience(damage, entity.level, entity.health.currentHP, 
+  addExperience(damage, entity.level, entity.health.currentHP,
     entity.health.totalHP);
 
   return true;
 }
 
 void Player::rcvDamage(int &damage){
-  bool dodged = Equations::dodgeAttack(skills.agility);
-  if (dodged){
-    ChatManager::attackDodged(chat);
-    damage = -1;
-    return;
+  bool critickAttack = Equations::criticAttack();
+  if (!critickAttack){
+    bool dodged = Equations::dodgeAttack(skills.agility);
+    if (dodged){
+      ChatManager::attackDodged(chat);
+      damage = -1;
+      return;
+    }
   }
-  
+  if (critickAttack) damage = damage * 2; // critic attack
+
   int defensePoints = defend();
   if (defensePoints > damage){
     damage = 0;
     return;
-  };
-  
+  }
+
   health.currentHP -= (damage - defensePoints);
   if (health.currentHP < 0) health.currentHP = 0;
 
@@ -294,7 +303,7 @@ void Player::rcvDamage(int &damage){
   ChatManager::damageReceived(chat, damage - defensePoints);
 }
 
-void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth, 
+void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
   int &otherMaxHEalth){
     if (otherHealth <= 0){
       experience.currentExperience += Equations::killExperience(
@@ -308,24 +317,24 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
       level += 1;
       Player::setExperienceData(level, experience);
 
-      health.totalHP = Equations::maxLife(skills.classConstitution, 
-      skills.classHealth, skills.raceHealth, 
+      health.totalHP = Equations::maxLife(skills.classConstitution,
+      skills.classHealth, skills.raceHealth,
       level);
-    
+
       health.totalMP = Equations::maxMana
       (skills.inteligence, skills.classMana, skills.raceMana, level);
     }
 }
 
 int Player::defend(){
-  return Equations::defend(skills.agility, bodySkills, 
+  return Equations::defend(skills.agility, bodySkills,
     leftSkills, headSkills);
 }
 
 void Player::setDefaultEquipment(MainPlayerData &data){
   InventoryElementData bodyArmour, weapon, healthPotion, manaPotion,
     weapon2;
-  
+
 /*
   leftHandArmour.amount = 1;
   leftHandArmour.isEquiped = false;
@@ -398,7 +407,7 @@ void Player::equip(int inventoryPosition){
   type = i.equipableType;
 
   switch (type) {
-    case POTION: 
+    case POTION:
       potion = static_cast<Potions> (i.enumPosition);
       equip(potion, inventoryPosition);
       break;
@@ -410,7 +419,7 @@ void Player::equip(int inventoryPosition){
       left = static_cast<LeftHandEquipment> (i.enumPosition);
       equip(left, inventoryPosition);
       break;
-    case HEAD_DEFENSE: 
+    case HEAD_DEFENSE:
       head = static_cast<HeadEquipment> (i.enumPosition);
       equip(head, inventoryPosition);
       break;
@@ -431,15 +440,15 @@ void Player::equip(Potions potion, int inventoryPosition) {
   inventory[inventoryPosition].amount -= 1;
 
   if (inventory[inventoryPosition].amount > 0) return;
-  
+
   inventory.erase(inventory.begin() + inventoryPosition);
 }
 
-void Player::equip(RightHandEquipment rightHandEquipment, 
+void Player::equip(RightHandEquipment rightHandEquipment,
   int inventoryPosition) {
     equipment.rightHand = rightHandEquipment;
     Player::setRighHandSkills(rightSkills, rightHandEquipment);
-  
+
     for (auto& it : inventory){
       if (it.equipableType != WEAPON) continue;
       it.isEquiped = false;
@@ -448,11 +457,11 @@ void Player::equip(RightHandEquipment rightHandEquipment,
     inventory[inventoryPosition].isEquiped = true;
 }
 
-void Player::equip(LeftHandEquipment leftHandEquipment, 
-  int inventoryPosition) {  
+void Player::equip(LeftHandEquipment leftHandEquipment,
+  int inventoryPosition) {
     equipment.leftHand = leftHandEquipment;
     Player::setLeftHandSkills(leftSkills, leftHandEquipment);
-    
+
     for (auto& it : inventory){
       if (it.equipableType != LEFT_HAND_DEFENSE) continue;
       it.isEquiped = false;
@@ -461,25 +470,25 @@ void Player::equip(LeftHandEquipment leftHandEquipment,
     inventory[inventoryPosition].isEquiped = true;
 }
 
-void Player::equip(HeadEquipment headEquipment, 
+void Player::equip(HeadEquipment headEquipment,
   int inventoryPosition) {
     equipment.head = headEquipment;
     Player::setHeadSkills(headSkills, headEquipment);
-    
+
     for (auto& it : inventory){
       if (it.equipableType != HEAD_DEFENSE) continue;
       it.isEquiped = false;
     }
-    
+
     inventory[inventoryPosition].isEquiped = true;
 }
 
-void Player::equip(BodyEquipment bodyEquipment, 
+void Player::equip(BodyEquipment bodyEquipment,
   int inventoryPosition) {
     equipment.body = bodyEquipment;
-    
+
     Player::setBodySkills(bodySkills, bodyEquipment);
-    
+
     for (auto& it : inventory){
       if (it.equipableType != BODY_ARMOUR) continue;
       it.isEquiped = false;
@@ -519,4 +528,5 @@ void Player::setOtherPlayersData(OtherPlayersData &otherData){
   otherData.equipment = equipment;
   otherData.otherPlayerHealth = health.currentHP;
   otherData.resurrection = resurrection;
+  otherData.healthAndMana = health;
 }

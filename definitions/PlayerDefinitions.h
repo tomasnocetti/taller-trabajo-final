@@ -99,8 +99,10 @@ struct OtherPlayersData {
   PlayerRootData rootd;
   EquipmentData equipment;
   size_t otherPlayerHealth;
+  HealthAndManaData healthAndMana;
   ResurrectionData resurrection;
-  MSGPACK_DEFINE(id, position, rootd, equipment, otherPlayerHealth)
+  MSGPACK_DEFINE(id, position, rootd, equipment, 
+    otherPlayerHealth, healthAndMana)
 };
 
 struct PlayerGameModelData {
