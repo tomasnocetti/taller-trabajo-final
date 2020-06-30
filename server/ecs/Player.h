@@ -11,7 +11,6 @@ class Equation;
 
 class Player : public LiveEntity{
   private:
-    size_t id;
     std::string nick;
     size_t gold;
     ExperienceData experience;
@@ -23,6 +22,8 @@ class Player : public LiveEntity{
     LeftHandEquipmentSkills leftSkills;
     BodyEquipmentSkills bodySkills;
     HeadEquipmentSkills headSkills;
+    ResurrectionData resurrection;
+    ChatData chat;
     friend class GameModel;
 
   public:
@@ -58,6 +59,9 @@ class Player : public LiveEntity{
     void equip(LeftHandEquipment leftHandEquipment, int inventoryPosition);
     void equip(HeadEquipment headEquipment, int inventoryPosition);
     void equip(BodyEquipment bodyEquipment, int inventoryPosition);
+    void setTimeToResurrect(double minDistanceToPriest);
+    void setPlayerGameModelData(PlayerGameModelData &modelData);
+    void setOtherPlayersData(OtherPlayersData &otherData);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

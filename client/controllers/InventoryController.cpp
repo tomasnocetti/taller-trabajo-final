@@ -39,6 +39,12 @@ void InventoryController::generateImage(InventoryElementData item, int index) {
         case SIMPLE_BOW:
           inventoryItem->setImage(manager.getTexture("bow-inv"));
         break;
+        case ASH_STICK:
+          inventoryItem->setImage(manager.getTexture("ash-stick-inv"));
+        break;
+        case GNARLED_STAFF:
+          inventoryItem->setImage(manager.getTexture("gnarled-inv"));
+        break;
       }
     break;
     case BODY_ARMOUR:

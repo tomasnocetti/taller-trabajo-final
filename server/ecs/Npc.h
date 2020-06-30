@@ -15,14 +15,16 @@ class NPC : public LiveEntity {
     bool attack(LiveEntity &entity, int xCoord, int yCoord) override;
     int drop(unsigned int &seed);
     void setNextRespawn();
+    void setEnemyData(EnemyData &enemy);
+    void rcvDamage(int &damage) override;
     static std::unique_ptr<NPC> createNPC(
       size_t id,
       PositionData position,
       size_t level,
       NPCClass npcType);
     static size_t getNewId();
+    
   private:
-    size_t id;
     NPCClass type;
     MovementData movement;
     PositionData spawnPosition;

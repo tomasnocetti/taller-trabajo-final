@@ -22,7 +22,7 @@ void PlayerView::init() {
 }
 
 void PlayerView::move(int x, int y){
-	if(x == this->x && y < this->y){
+	if (x == this->x && y < this->y){
 		this->y = y;
 		animation->set(BACK_WALK);
 		headFrame = {48, 0, 16, 16};
@@ -48,9 +48,9 @@ void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
 	animation->paint(x - camera.getX(), y - camera.getY(), 
 		scaleW, scaleH);
 
-	if(head == nullptr) return;
+	if (head == nullptr) return;
 
-	if(headFrame.x == 0 || headFrame.x == 48) {
+	if (headFrame.x == 0 || headFrame.x == 48) {
 		head->paint(x - camera.getX() + 3, y - camera.getY() - 9, 
 			scaleW, scaleH, &headFrame);
 	} else {
@@ -157,6 +157,14 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
         34, 18, 17, 15, 18, 67, 6, 21, 9, 158, 13, 20, 17, 13, 18, 18, 2, 15);*/
 				weapon = Weapon(manager.getTexture("sword"), 
         34, 18, 17, 15, 0, 0, 0, 0, 9, 158, 13, 20, 17, 13, 18, 18, 2, 15);
+    break;
+		case ASH_STICK:
+			weapon = Weapon(manager.getTexture("ash-stick"), 
+        4, 4, 4, 37, 17, 50, 4, 39, 51, 143, 20, 30, 16, 0, 18, 0, 0, 3);
+    break;
+		case GNARLED_STAFF:
+			weapon = Weapon(manager.getTexture("gnarled-staff"), 
+        4, 4, 4, 37, 17, 50, 4, 39, 51, 143, 20, 30, 16, 0, 18, 0, 0, 3);
     break;
     default:
 			weapon = Weapon(nullptr, 

@@ -46,12 +46,16 @@ class GameModel{
     void playerSetCoords(size_t playerId, int x, int y);
     /* Handle equip instruction */
     void equipPlayer(size_t playerId, int inventoryPosition);
-    /* Handle npcSetCoords instruction. */
+    /* Handle npcSetCoords instruction */
     void npcSetCoords(size_t playerId, int xPos, int yPos);
-    /* Handle npcAttack instruction. */
+    /* Handle npcAttack instruction */
     void npcAttack(size_t npcId, int xPos, int yPos);
-    /* Handle npcRespawn instruction. */
+    /* Handle npcRespawn instruction */
     void npcRespawn(size_t npcId);
+    /* Handle resurrect instruction */
+    void resurrect(size_t playerId);
+    /* Handle resurrectPlayer instruction - GameCron Instruction */
+    void resurrectPlayer(size_t playerId);
     /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
       Devuelve true si pudo o es valido, false de lo contrario. */
     bool authenticate(
@@ -70,6 +74,8 @@ class GameModel{
     void eraseClient(size_t playerId);
     /* Handle attack instruction */
     void attack(size_t playerId, int xPos, int yPos);
+    bool checkEntityCollisions(LiveEntity &entity);
+    void getRespawnPosition(PositionData &positionToRes, LiveEntity &entity);
 };
 
 #endif

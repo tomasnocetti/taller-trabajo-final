@@ -22,7 +22,7 @@ EntityList& EnemyController::getNPCs(){
 	enemyVector.clear();
 	std::vector<EnemyData> npcs = model.getNPCData();
 	for(unsigned int i = 0; i < npcs.size(); i++){
-		if(npcs[i].healthAndManaData.currentHP > 0){
+		if (npcs[i].healthAndManaData.currentHP > 0){
 			enemyVector.emplace_back(enemies.at(npcs[i].id));
 		}
 	}
@@ -101,7 +101,7 @@ void EnemyController::updateOtherPlayers(){
 	for(it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
 		bool erase = true;
     for (unsigned int i = 0; i < others.size(); i++){
-    	if(it->first == others[i].id){
+    	if (it->first == others[i].id){
     		erase = false;
     		break;
     	}

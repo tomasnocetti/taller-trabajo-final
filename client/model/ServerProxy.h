@@ -55,6 +55,7 @@ class ServerProxy{
     void move(int xDir, int yDir);
     void attack(int xPos, int yPos);
     void equip(int inventoryPosition);
+    void resurrect(); // Mockea comando de resucitar
 
     /** Client GETTERS */
     MapData getMapData() const;

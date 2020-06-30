@@ -5,6 +5,7 @@
 #include "MapDefinitions.h"
 #include "EntityDefinitions.h"
 #include "EquipmentDefinitions.h"
+#include "ChatDefinitions.h"
 #include <string>
 #include <vector>
 
@@ -28,6 +29,11 @@ typedef enum {
 } PlayerClass;
 
 MSGPACK_ADD_ENUM(PlayerClass)
+
+struct ResurrectionData{
+  std::chrono::system_clock::time_point timeToResurrection;
+  bool resurrect;
+};
 
 struct InventoryElementData{
   size_t amount;
@@ -81,8 +87,9 @@ struct MainPlayerData {
   PositionData position;
   MovementData movement;
   EquipmentData equipment;
+  ChatData chat;
   MSGPACK_DEFINE(nick, id, gold, level, experience, skills, rootd, inventory, 
-    points, position, movement, equipment)
+    points, position, movement, equipment, chat)
 };
 
 struct OtherPlayersData {
@@ -92,6 +99,7 @@ struct OtherPlayersData {
   PlayerRootData rootd;
   EquipmentData equipment;
   size_t otherPlayerHealth;
+  ResurrectionData resurrection;
   MSGPACK_DEFINE(id, position, rootd, equipment, otherPlayerHealth)
 };
 

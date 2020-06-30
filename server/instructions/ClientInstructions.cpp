@@ -60,3 +60,10 @@ EquipInstruction::EquipInstruction(size_t id, std::string inventoryPosition) :
 void EquipInstruction::run(GameModel& game) {
   game.equipPlayer(playerId, inventoryPosition);
 }
+
+ResurrectInstrucion::ResurrectInstrucion(size_t id) :
+  playerId(id){}
+
+void ResurrectInstrucion::run(GameModel& game) {
+  game.resurrect(playerId);
+}

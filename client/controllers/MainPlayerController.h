@@ -3,6 +3,7 @@
 
 #include "../model/ServerProxy.h"
 #include "../sdl/SdlAssetsManager.h"
+#include "../sdl/SdlUtils.h"
 #include "../view/PlayerView.h"
 #include "../../DataDefinitions.h"
 #include "../entities/Bar.h"
@@ -24,7 +25,13 @@ class MainPlayerController {
     ~MainPlayerController();
 
   private:
+    bool active = true;
     ServerProxy& model;
+    SDL_Rect src = {
+      MAIN_SCREEN_BASE_MAP_X,
+      MAIN_SCREEN_BASE_MAP_Y,
+      MAIN_SCREEN_BASE_MAP_W,
+      MAIN_SCREEN_BASE_MAP_H};
     SdlAssetsManager& manager;
     PlayerView playerView;
     Bar healthBar;

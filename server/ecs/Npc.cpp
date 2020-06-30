@@ -2,17 +2,19 @@
 #include <iostream>
 #include <chrono>
 #include <ctime>
+#include "../services/ChatManager.h"
 
 NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) : 
-  LiveEntity(npcData.position, npcData.healthAndManaData, skills, level),
-  id(npcData.id),
+  LiveEntity(npcData.position, npcData.healthAndManaData, skills, level,
+    npcData.id),
   type(npcData.type),
   movement(npcData.movement){
     spawnPosition = npcData.position;
 }
 
 bool NPC::checkCollision(Entity& otherEntity) const{
-  if (this->health.currentHP <= 0) return false;
+  if (health.currentHP <= 0 && 
+    health.nextRespawn >= std::chrono::system_clock::now()) return false;
   return Entity::checkCollision(otherEntity);
 }
 
@@ -35,12 +37,23 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
   lastAttack = std::chrono::system_clock::now();
 
   bool dodged = Equations::dodgeAttack(entity.skills.agility);
-  if (dodged) return false;
+  if (dodged){  
+    return true;
+  } 
 
   int damage = Equations::NPCDamage(level, skills.strength);
   entity.rcvDamage(damage);
 
   return true;
+}
+
+void NPC::rcvDamage(int &damage) {
+  bool dodged = Equations::dodgeAttack(skills.agility);
+  if (dodged){  
+    damage = -1;
+    return;
+  } 
+  health.currentHP -= damage;
 }
 
 int NPC::drop(unsigned int &seed){
@@ -82,4 +95,13 @@ size_t NPC::idGenerator = 0;
 size_t NPC::getNewId(){
   NPC::idGenerator ++;
   return NPC::idGenerator;
+}
+
+void NPC::setEnemyData(EnemyData &enemy){
+  enemy.movement = movement;
+  enemy.position = position;
+  enemy.type = type;
+  enemy.id = id;
+  enemy.healthAndManaData = health;
+  enemy.lastAttack = lastAttack;
 }

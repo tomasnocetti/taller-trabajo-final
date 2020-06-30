@@ -18,7 +18,8 @@ void ServerProxy::authentificate(std::string& alias) {
 
 void ServerProxy::init() {
   MapParser m;
-  m.loadMap("client/assets/map/gameMap.json");
+  //m.loadMap("client/assets/map/gameMap.json");
+  m.loadMap("client/assets/map/game_map.json");
   map = m.getMapData();
 
   serverProxyWrite.start();
@@ -74,7 +75,6 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
-  //map = gameModelData.map;
 }
 
 MapData ServerProxy::getMapData() const {
@@ -96,4 +96,10 @@ bool ServerProxy::isAuthenticated() const {
 void ServerProxy::close(){
   running = false;
   writeBQ.close();
+}
+
+/* Codigo para mockear comando de resucitar */
+void ServerProxy::resurrect(){
+  InstructionData instruction = {RESURRECT, {}};
+  writeBQ.push(instruction);
 }

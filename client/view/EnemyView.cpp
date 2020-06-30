@@ -8,7 +8,7 @@ EnemyView::EnemyView(int x, int y, Animation *animation) {
 }
 
 void EnemyView::move(int x, int y) {
-	if(x == this->x && y < this->y){
+	if (x == this->x && y < this->y){
 		this->y = y;
 		animation->set(BACK_WALK);
 	} else if (x == this->x && y > this->y){

@@ -3,18 +3,20 @@
 #include <vector>
 #include <string>
 #include <utility>
+#include "../services/ChatManager.h"
 
 Player::Player(MainPlayerData playerData, size_t id):
   LiveEntity(playerData.position, playerData.points, playerData.skills, 
-  playerData.level),
-  id(id),
+  playerData.level, id),
   nick(playerData.nick),
   gold(playerData.gold),
   experience(playerData.experience),
   rootd(playerData.rootd),
   inventory(playerData.inventory),
   movement(playerData.movement),
-  equipment(playerData.equipment){
+  equipment(playerData.equipment),
+  resurrection({std::chrono::system_clock::now(), false}),
+  chat(playerData.chat){
     setRighHandSkills(rightSkills, equipment.rightHand);
     setLeftHandSkills(leftSkills, equipment.leftHand);
     setBodySkills(bodySkills, equipment.body);
@@ -53,6 +55,8 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
 
     data.movement.xDir = 0;
     data.movement.yDir = 0;
+
+    ChatManager::initialMessage(data.chat);
 
     std::unique_ptr<Player> player(new Player(data, id));
 
@@ -253,16 +257,41 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   if (health.currentMP < rightSkills.mana) return false;
   health.currentMP -= rightSkills.mana;
   
-  bool dodged = Equations::dodgeAttack(entity.skills.agility);
-  if (dodged) return false;
-  
   int damage = Equations::damage(skills.strength, rightSkills);
   entity.rcvDamage(damage);
+  if (damage == -1){
+    ChatManager::enemyDodgedTheAttack(chat);
+    return true;
+  }
+
+  ChatManager::damageCaused(chat, damage);
 
   addExperience(damage, entity.level, entity.health.currentHP, 
     entity.health.totalHP);
 
   return true;
+}
+
+void Player::rcvDamage(int &damage){
+  bool dodged = Equations::dodgeAttack(skills.agility);
+  if (dodged){
+    ChatManager::attackDodged(chat);
+    damage = -1;
+    return;
+  }
+  
+  int defensePoints = defend();
+  if (defensePoints > damage){
+    damage = 0;
+    return;
+  };
+  
+  health.currentHP -= (damage - defensePoints);
+  if (health.currentHP < 0) health.currentHP = 0;
+
+  damage -= defensePoints;
+
+  ChatManager::damageReceived(chat, damage - defensePoints);
 }
 
 void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth, 
@@ -286,14 +315,6 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
       health.totalMP = Equations::maxMana
       (skills.inteligence, skills.classMana, skills.raceMana, level);
     }
-}
-
-void Player::rcvDamage(int &damage){
-  int defensePoints = defend();
-  if (defensePoints > damage) return;
-  
-  health.currentHP -= (damage - defensePoints);
-  if (health.currentHP < 0) health.currentHP = 0;
 }
 
 int Player::defend(){
@@ -465,4 +486,37 @@ void Player::equip(BodyEquipment bodyEquipment,
     }
 
     inventory[inventoryPosition].isEquiped = true;
+}
+
+void Player::setTimeToResurrect(
+  double minDistanceToPriest){
+  resurrection.resurrect = true;
+  std::chrono::seconds sec(int(minDistanceToPriest*0.01));
+  resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
+}
+
+void Player::setPlayerGameModelData(PlayerGameModelData &modelData){
+  modelData.playerData.nick = nick;
+  modelData.playerData.id = id;
+  modelData.playerData.gold = gold;
+  modelData.playerData.level = level;
+  modelData.playerData.experience = experience;
+  modelData.playerData.skills = skills;
+  modelData.playerData.rootd = rootd;
+  modelData.playerData.inventory = inventory;
+  modelData.playerData.points = health;
+  modelData.playerData.position = position;
+  modelData.playerData.movement = movement;
+  modelData.playerData.equipment = equipment;
+  modelData.playerData.chat = chat;
+}
+
+void Player::setOtherPlayersData(OtherPlayersData &otherData){
+  otherData.id = id;
+  otherData.position = position;
+  otherData.movement = movement;
+  otherData.rootd = rootd;
+  otherData.equipment = equipment;
+  otherData.otherPlayerHealth = health.currentHP;
+  otherData.resurrection = resurrection;
 }

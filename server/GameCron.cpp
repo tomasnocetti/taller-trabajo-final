@@ -39,6 +39,11 @@ CronBQ& GameCron::getBQ() {
 
 void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
   for (OtherPlayersData &player : players) {
+    if (player.resurrection.resurrect == true){
+      playerResurrection(player);
+      return;
+    }
+      
     if (player.movement.xDir == 0 &&
       player.movement.yDir == 0) continue;
 
@@ -49,6 +54,16 @@ void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
       new PlayerSetCoordsInstruction(player.id, x, y));
     instructionQueue.push(std::move(i));
   }
+}
+
+void GameCron::playerResurrection(OtherPlayersData &player){
+  if (player.resurrection.timeToResurrection 
+    > std::chrono::system_clock::now()) return;
+
+  std::unique_ptr<Instruction> i(
+      new PlayerResurrecctionInstruction(
+        player.id));
+    instructionQueue.push(std::move(i));  
 }
 
 void GameCron::runNPCLogic(
@@ -77,23 +92,23 @@ void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players,
     // Calcula la distancia minima a un jugador
     for (OtherPlayersData &player : players) {
       if (player.otherPlayerHealth <= 0) continue;
-        double distance = Entity::getPositionDistance(
+      double distance = Entity::getPositionDistance(
         npc.position, player.position);
 
       if (distance >= minDistanceToPlayer) continue;
-        minDistanceToPlayer = distance;
-        hasPlayerInRange = true;
-        playerPosition = player.position;
-      }
+      minDistanceToPlayer = distance;
+      hasPlayerInRange = true;
+      playerPosition = player.position;
+    }
 
-      if (!hasPlayerInRange) return;
-      moveNPC(npc.id, npc.position, playerPosition);    
+    if (!hasPlayerInRange) return;
+    moveNPC(npc.id, npc.position, playerPosition);    
 
-      std::chrono::seconds sec(ATTACK_INTERVAL);
-      if (std::chrono::system_clock::now() < npc.lastAttack + sec) return;
+    std::chrono::seconds sec(ATTACK_INTERVAL);
+    if (std::chrono::system_clock::now() < npc.lastAttack + sec) return;
 
-      if (minDistanceToPlayer > minDistanceToAttackPlayer) return;
-      NPCAttack(npc.id, playerPosition);
+    if (minDistanceToPlayer > minDistanceToAttackPlayer) return;
+    NPCAttack(npc.id, playerPosition);
 }
 
 void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
