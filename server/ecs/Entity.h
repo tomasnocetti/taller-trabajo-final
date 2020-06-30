@@ -47,7 +47,7 @@ class LiveEntity: public Entity {
   public:
     LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s, 
       size_t level, size_t id);
-    virtual void rcvDamage(int &damage);
+    virtual void rcvDamage(int &damage) = 0;
     virtual bool attack(LiveEntity &entity, int xCoord, int yCoord) = 0;
 };
 

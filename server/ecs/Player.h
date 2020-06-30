@@ -23,6 +23,7 @@ class Player : public LiveEntity{
     BodyEquipmentSkills bodySkills;
     HeadEquipmentSkills headSkills;
     ResurrectionData resurrection;
+    ChatData chat;
     friend class GameModel;
 
   public:

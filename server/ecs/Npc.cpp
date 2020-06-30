@@ -2,6 +2,7 @@
 #include <iostream>
 #include <chrono>
 #include <ctime>
+#include "../services/ChatManager.h"
 
 NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) : 
   LiveEntity(npcData.position, npcData.healthAndManaData, skills, level,
@@ -36,12 +37,23 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
   lastAttack = std::chrono::system_clock::now();
 
   bool dodged = Equations::dodgeAttack(entity.skills.agility);
-  if (dodged) return false;
+  if (dodged){  
+    return true;
+  } 
 
   int damage = Equations::NPCDamage(level, skills.strength);
   entity.rcvDamage(damage);
 
   return true;
+}
+
+void NPC::rcvDamage(int &damage) {
+  bool dodged = Equations::dodgeAttack(skills.agility);
+  if (dodged){  
+    damage = -1;
+    return;
+  } 
+  health.currentHP -= damage;
 }
 
 int NPC::drop(unsigned int &seed){
