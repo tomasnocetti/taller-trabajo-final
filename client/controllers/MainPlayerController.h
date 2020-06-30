@@ -39,10 +39,6 @@ class MainPlayerController {
     TextEntity gold;
     TextEntity level;
     Bar expBar;
-
-    void checkRace(PlayerRace race);
-    void checkHealth(int health);
-    void checkEquipment(EquipmentData equipment);
 };
 
 #endif

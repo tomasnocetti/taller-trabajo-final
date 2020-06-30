@@ -7,6 +7,7 @@ ZombieAnimation::ZombieAnimation(LTexture* texture) :
 	backwardFrames = 6;
 	leftFrames = 5;
 	rightFrames = 5;
+	index = 0;
   cropAnimationFrames();
 }
 

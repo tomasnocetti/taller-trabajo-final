@@ -27,7 +27,7 @@ Player::Player(MainPlayerData playerData, size_t id):
 std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
   PlayerRootData root) {
     MainPlayerData data;
-    GlobalConfig& c = GC::get();
+    const GlobalConfig& c = GC::get();
 
     data.rootd = root;
     data.nick = nick;
@@ -48,14 +48,17 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.points.totalHP = Equations::maxLife(data.skills.classConstitution,
       data.skills.classHealth, data.skills.raceHealth,
       data.level);
-    data.points.currentHP = data.points.totalHP;
+    //data.points.currentHP = data.points.totalHP;
+    data.points.currentHP = 1;
     
     data.points.totalMP = Equations::maxMana
       (data.skills.inteligence, data.skills.classMana, data.skills.raceMana,
       data.level);
-    data.points.currentMP = data.points.totalMP;
+    //data.points.currentMP = data.points.totalMP;  
+    data.points.currentMP = 0;  
     data.points.lastHealthIncrease = std::chrono::system_clock::now();
     data.points.lastManaIncrease = std::chrono::system_clock::now();
+    data.points.meditating = false;
 
     data.movement.xDir = 0;
     data.movement.yDir = 0;
@@ -145,17 +148,6 @@ void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
   }
 }
 
-/* VER SI TODAVIA SIRVE
-
-void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
-  equipment.body = TUNIC;
-  equipment.head = HELMET;
-  equipment.leftHand = IRON_SHIELD;
-  equipment.rightHand = SIMPLE_BOW;
-}
-
-*/
-
 void Player::setRighHandSkills(RightHandEquipmentSkills
   &rightSkills, RightHandEquipment &rightEquipment){
     switch (rightEquipment){
@@ -244,7 +236,7 @@ void Player::setPositionData(PlayerRootData &root, PositionData &position){
 
 
 bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
-  GlobalConfig& c = GC::get();
+  const GlobalConfig& c = GC::get();
   PositionData attackZoneData = {
     xCoord - c.attackZoneWidth / 2,
     yCoord - c.attackZoneHeight / 2,
@@ -333,26 +325,25 @@ int Player::defend(){
 
 void Player::setDefaultEquipment(MainPlayerData &data){
   InventoryElementData bodyArmour, weapon, healthPotion, manaPotion,
-    weapon2;
+    weapon2, leftHandArmour, headArmour, bodyArmour2;
 
-/*
   leftHandArmour.amount = 1;
   leftHandArmour.isEquiped = false;
   leftHandArmour.equipableType = LEFT_HAND_DEFENSE;
   leftHandArmour.enumPosition = LeftHandEquipment::IRON_SHIELD;
-*/
-/*
+  data.equipment.leftHand = DEFAULT_L;
+
   headArmour.amount = 1;
-  headArmour.isEquiped = false;
+  headArmour.isEquiped = true;
   headArmour.equipableType = HEAD_DEFENSE;
   headArmour.enumPosition = HeadEquipment::HAT;
-*/
-/*
+  data.equipment.head = HAT;
+
   bodyArmour2.amount = 1;
   bodyArmour2.isEquiped = false;
   bodyArmour2.equipableType = BODY_ARMOUR;
   bodyArmour2.enumPosition = BodyEquipment::TUNIC;
-*/
+
   bodyArmour.amount = 1;
   bodyArmour.isEquiped = true;
   bodyArmour.equipableType = BODY_ARMOUR;
@@ -364,10 +355,6 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   weapon.equipableType = WEAPON;
   weapon.enumPosition = RightHandEquipment::SWORD;
   data.equipment.rightHand = SWORD;
-
-  /* Mano izquierda y cabeza quedan en default (nada equipado) */
-  data.equipment.head = DEFAULT_H;
-  data.equipment.leftHand = DEFAULT_L;
 
   healthPotion.amount = 2;
   healthPotion.isEquiped = false;
@@ -389,9 +376,9 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   data.inventory.push_back(healthPotion);
   data.inventory.push_back(manaPotion);
   data.inventory.push_back(weapon2);
-  //data.inventory.push_back(headArmour);
-  //data.inventory.push_back(bodyArmour2);
-  //data.inventory.push_back(leftHandArmour);
+  data.inventory.push_back(headArmour);
+  data.inventory.push_back(bodyArmour2);
+  data.inventory.push_back(leftHandArmour);
 }
 
 void Player::equip(int inventoryPosition){
@@ -401,6 +388,8 @@ void Player::equip(int inventoryPosition){
   HeadEquipment head;
   BodyEquipment body;
   Potions potion;
+
+  if ((unsigned int)inventoryPosition > inventory.size()) return;
 
   InventoryElementData& i = inventory[inventoryPosition];
 

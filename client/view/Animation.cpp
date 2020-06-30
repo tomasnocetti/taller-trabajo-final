@@ -6,14 +6,6 @@
 Animation::Animation(LTexture* texture) :
   texture(texture) {}
 
-void Animation::init(){
-	/** Fill needed animation from SdlAssetsManager **/
-	index = 0;
-	cropAnimationFrames();
-}
-
-void Animation::cropAnimationFrames() {}
-
 void Animation::set(int currentAnim){
 	switch(currentAnim){
 		case BACK_WALK:

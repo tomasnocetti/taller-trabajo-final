@@ -77,6 +77,9 @@ void ChatController::handleCommand() {
   if (action == "/resucitar") {
     model.resurrect();
   }
+  if (action == "/meditar"){
+    model.meditate();
+  }
 }
 
 EntityList& ChatController::getEntities() {

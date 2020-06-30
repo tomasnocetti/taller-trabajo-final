@@ -84,6 +84,22 @@
       "mana": 0,
       "meditation": 0,
       "health": 5
+    }],
+    "items": [{
+      "id": 0,
+      "type": "W",
+      "name": "Arco compuesto"
+    }, {
+      "id": 1,
+      "type": "W",
+      "name": "Arco simple"
+    }],
+    "traderItems": [{
+      "itemId": 0,
+      "value": 200
+    }, {
+      "itemId": 1,
+      "value": 300
     }]
   }
 }

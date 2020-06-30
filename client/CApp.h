@@ -9,8 +9,6 @@
 #include "controllers/Controllers.h"
 
 //Screen dimension constants
-#define GAME_TITLE "Argentum" 
-
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 

@@ -4,11 +4,11 @@
 #include <msgpack.hpp>
 
 typedef enum {
-  POTION,
-  WEAPON,
-  LEFT_HAND_DEFENSE,
-  HEAD_DEFENSE,
-  BODY_ARMOUR
+  POTION = 'P',
+  WEAPON = 'W',
+  LEFT_HAND_DEFENSE = 'L',
+  HEAD_DEFENSE = 'H',
+  BODY_ARMOUR = 'B'
 } Equipable;
 
 MSGPACK_ADD_ENUM(Equipable)
@@ -35,7 +35,8 @@ typedef enum {
   DEFAULT_R,
   SWORD,
   SIMPLE_BOW,
-  ASH_STICK
+  ASH_STICK,
+  GNARLED_STAFF
 } RightHandEquipment;
 
 MSGPACK_ADD_ENUM(RightHandEquipment)

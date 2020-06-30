@@ -18,7 +18,8 @@ void ServerProxy::authentificate(std::string& alias) {
 
 void ServerProxy::init() {
   MapParser m;
-  m.loadMap("client/assets/map/gameMap.json");
+  //m.loadMap("client/assets/map/gameMap.json");
+  m.loadMap("client/assets/map/game_map.json");
   map = m.getMapData();
 
   serverProxyWrite.start();
@@ -97,8 +98,12 @@ void ServerProxy::close(){
   writeBQ.close();
 }
 
-/* Codigo para mockear comando de resucitar */
 void ServerProxy::resurrect(){
   InstructionData instruction = {RESURRECT, {}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::meditate(){
+  InstructionData instruction = {MEDITATE, {}};
   writeBQ.push(instruction);
 }
