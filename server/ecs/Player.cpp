@@ -27,7 +27,7 @@ Player::Player(MainPlayerData playerData, size_t id):
 std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
   PlayerRootData root) {
     MainPlayerData data;
-    GlobalConfig& c = GC::get();
+    const GlobalConfig& c = GC::get();
 
     data.rootd = root;
     data.nick = nick;
@@ -247,7 +247,7 @@ void Player::setPositionData(PlayerRootData &root, PositionData &position){
 
 
 bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
-  GlobalConfig& c = GC::get();
+  const GlobalConfig& c = GC::get();
   PositionData attackZoneData = {
     xCoord - c.attackZoneWidth / 2,
     yCoord - c.attackZoneHeight / 2,

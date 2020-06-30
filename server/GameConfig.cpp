@@ -1,6 +1,7 @@
 #include "GameConfig.h"
 
 #include <fstream>
+#include <utility>
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -19,6 +20,8 @@ void GC::load(const char* src) {
 
   const Json::Value gameConfig = root["gameConfig"];
   const Json::Value races = gameConfig["races"];
+  const Json::Value items = gameConfig["items"];
+  const Json::Value traderItems = gameConfig["traderItems"];
 
   instance->g.attackZoneWidth = gameConfig["attackZoneWidth"].asInt();
   instance->g.attackZoneHeight = gameConfig["attackZoneHeight"].asInt();
@@ -39,6 +42,44 @@ void GC::load(const char* src) {
   instance->g.playerInitialLevel = gameConfig["playerInitialLevel"].asInt();
   instance->g.newbieLevel = gameConfig["newbieLevel"].asInt();
   instance->g.fairPlayLevel = gameConfig["fairPlayLevel"].asInt();
+
+  /** PARSE ITEMS */
+  for (const Json::Value &item : items) {
+    std::string t = item["type"].asString();
+    Equipable type =
+      static_cast<Equipable> (t[0]);
+    switch (type) {
+      case Equipable::BODY_ARMOUR:
+      case Equipable::POTION:
+      case Equipable::WEAPON:
+      case Equipable::LEFT_HAND_DEFENSE:
+      case Equipable::HEAD_DEFENSE:
+        break;
+    default:
+      return;
+    }
+
+    Item dataItem = {
+      item["id"].asInt(),
+      type,
+      item["name"].asString()
+    };
+    instance->g.items.insert(
+      std::pair<int, Item>(
+        dataItem.id, dataItem));
+  }
+
+  // PARSE TRADER ITEMS
+  for (const Json::Value &traderItem : traderItems) {
+    int itemId = traderItem["itemId"].asInt();
+    if (!instance->g.items.count(itemId)) continue;
+
+    TraderItem item = {
+      itemId,
+      traderItem["value"].asInt()
+    };
+    instance->g.traderItems.push_back(item);
+  }
 }
 
 
@@ -50,7 +91,7 @@ void GC::load(const char* src) {
 //   return classData.at(class);
 // }
 
-GlobalConfig& GC::get() {
+const GlobalConfig& GC::get() {
   if (instance == nullptr) {
     throw std::runtime_error(ERROR_MSG);
   }

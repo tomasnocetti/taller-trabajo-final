@@ -102,7 +102,7 @@ void GameModel::stopMovement(size_t playerId){
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
   p.health.meditating = false;
-  GlobalConfig& c = GC::get();
+  const GlobalConfig& c = GC::get();
   if (p.health.currentHP <= 0) return;
 
   for (auto &it : cities)
@@ -220,7 +220,7 @@ void GameModel::getRespawnPosition(
   LiveEntity &entity){
     bool collision = true;
     entity.position = positionToRes;
-    GlobalConfig& c = GC::get();
+    const GlobalConfig& c = GC::get();
 
     for (int i = 0;; i++){
       entity.position.x = positionToRes.x + c.offsetToRespawn * i;
@@ -306,7 +306,7 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
 
 void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   NPC& n = *npcMap.at(npcId);
-  GlobalConfig& c = GC::get();
+  const GlobalConfig& c = GC::get();
   for (auto& it : players){
     for (auto &itCities : cities)
       if (players.at(it.first)->checkCollision(*itCities)) return;

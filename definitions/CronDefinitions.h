@@ -10,6 +10,6 @@ struct CronGameModelData {
   std::vector<OtherPlayersData> otherPlayers;
 };
 
-using CronBQ = FixedBlockingQueue<1, std::unique_ptr<CronGameModelData>>;
+using CronBQ = FixedQueue<1, std::unique_ptr<CronGameModelData>>;
 
 #endif 
