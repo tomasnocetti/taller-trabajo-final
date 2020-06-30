@@ -25,13 +25,26 @@ void CApp::OnExecute() {
   OnInit();
   SDL_Event Event;
 
+	const int FPS = 60;
+	const int frameDelay = 1000 / FPS;
+
+	Uint32 frameStart;
+	int frameTime;
+
   while (Running) {
+    frameStart = SDL_GetTicks();
     while (SDL_PollEvent(&Event)){
       OnEvent(Event);
     }
 
     OnLoop();
     OnRender();
+
+    frameTime = SDL_GetTicks() - frameStart;
+
+		if (frameDelay > frameTime){
+			SDL_Delay(frameDelay - frameTime);
+		}
   }
 
   OnCleanup();
