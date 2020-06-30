@@ -12,7 +12,7 @@ void TextEntity::init(int x, int y, LTexture* texture, TTF_Font* font) {
 }
 
 void TextEntity::update(std::string text) {
-	if(text == previousText) return;
+	if (text == previousText) return;
 
 	SDL_Color white = {255, 255, 255, 255};
 	texture->loadFromRenderedText(font, text, white);

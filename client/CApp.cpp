@@ -9,11 +9,15 @@ CApp::CApp(std::string& host, std::string& port) :
   mapViewport(window),
   lifeViewport(window),
   expViewport(window),
+  inventoryViewport(window),
+  chatViewport(window),
   loginController(model, manager),
+  chatController(model, manager),
   globalController(model, manager),
   mapController(model, manager),
   playerController(model, manager),
-  enemyController(model, manager) {
+  enemyController(model, manager),
+  inventoryController(model, manager) {
   Running = true;
 }
 
@@ -21,14 +25,26 @@ void CApp::OnExecute() {
   OnInit();
   SDL_Event Event;
 
+	const int FPS = 60;
+	const int frameDelay = 1000 / FPS;
+
+	Uint32 frameStart;
+	int frameTime;
+
   while (Running) {
+    frameStart = SDL_GetTicks();
     while (SDL_PollEvent(&Event)){
       OnEvent(Event);
     }
 
     OnLoop();
     OnRender();
-    SDL_Delay(1000/60);
+
+    frameTime = SDL_GetTicks() - frameStart;
+
+		if (frameDelay > frameTime){
+			SDL_Delay(frameDelay - frameTime);
+		}
   }
 
   OnCleanup();
@@ -43,13 +59,15 @@ void CApp::OnEvent(SDL_Event& e) {
   window.handleEvent(e);
   switch (mode) {
     case GameMode::LOGIN:
-      // loginController.handleEvent(e);
+      loginController.handleEvent(e);
       break;
     case GameMode::CREATE:
       break;
     case GameMode::RUN:
-      playerController.handleEvent(e, 
+      playerController.handleEvent(e,
         mapViewport.getCameraX(), mapViewport.getCameraY());
+      inventoryController.handleEvent(e);
+      chatController.handleEvent(e);
       break;
   }
 }
@@ -57,7 +75,9 @@ void CApp::OnEvent(SDL_Event& e) {
 void CApp::OnLoop() {
   model.update();
   playerController.update();
+  chatController.update();
   enemyController.update();
+  inventoryController.update();
 }
 
 void CApp::OnRender() {
@@ -65,9 +85,9 @@ void CApp::OnRender() {
   switch (mode) {
     case GameMode::LOGIN:
       globalViewport.paint(loginController.getEntities());
-      break;
+    break;
     case GameMode::CREATE:
-      break;
+    break;
     case GameMode::RUN:
       globalViewport.paint(globalController.getEntities());
       mapViewport.paint(mapController.getEntities(),
@@ -76,6 +96,8 @@ void CApp::OnRender() {
         enemyController.getOtherPlayers());
       lifeViewport.paint(playerController.getBars());
       expViewport.paint(playerController.getExp());
+      inventoryViewport.paint(inventoryController.getItems());
+      chatViewport.paint(chatController.getEntities());
       break;
   }
   window.render();
@@ -87,6 +109,7 @@ void CApp::OnInit() {
   model.init();
 
   loginController.init();
+  chatController.init();
   globalController.init();
   mapController.init();
   playerController.init();
@@ -104,6 +127,15 @@ void CApp::LoadAssets() {
   manager.addFont("arial", ARIAL_PATH, 12);
   manager.addTexture("main-screen-path", MAIN_SCREEN_PATH);
   manager.addTexture("login-screen-path", LOGIN_SCREEN_PATH);
+  manager.addTextTexture("user-input");
+  manager.addTexture("scroll-button",
+    "client/assets/buttons/scroll-button.png");
+  manager.addTexture("scroll-button-active",
+    "client/assets/buttons/scroll-button-active.png");
+    manager.addTexture("scroll-button-down",
+    "client/assets/buttons/button-scroll-down.png");
+  manager.addTexture("scroll-button-down-active",
+    "client/assets/buttons/button-scroll-down-active.png");
   manager.addTexture("healthText", "client/assets/health.png");
   manager.addTexture("manaText", "client/assets/health.png");
   manager.addTexture("goldText", "client/assets/health.png");
@@ -124,11 +156,29 @@ void CApp::LoadAssets() {
   manager.addTexture("skeleton-view", "client/assets/skeletonView.png");
   manager.addTexture("goblin-view", "client/assets/goblinView.png");
   manager.addTexture("spider-view", "client/assets/spiderView.png");
+  manager.addTexture("zombie-view", "client/assets/zombieView.png");
   manager.addTexture("helmet", "client/assets/iron_helm.png");
   manager.addTexture("hat", "client/assets/hat.png");
   manager.addTexture("hood", "client/assets/hood.png");
   manager.addTexture("turtle-shield", "client/assets/turtle_shield.png");
   manager.addTexture("iron-shield", "client/assets/iron_shield.png");
+  manager.addTexture("simple-bow", "client/assets/simpleBow.png");
+  manager.addTexture("sword", "client/assets/sword.png");
+  manager.addTexture("invText_1", "client/assets/health.png");
+  manager.addTexture("invText_2", "client/assets/health.png");
+  manager.addTexture("invText_3", "client/assets/health.png");
+  manager.addTexture("invText_4", "client/assets/health.png");
+  manager.addTexture("invText_5", "client/assets/health.png");
+  manager.addTexture("invText_6", "client/assets/health.png");
+  manager.addTexture("invText_7", "client/assets/health.png");
+  manager.addTexture("invText_8", "client/assets/health.png");
+  manager.addTexture("invText_9", "client/assets/health.png");
+  manager.addTexture("check", "client/assets/check.png");
+  manager.addTexture("health-potion", "client/assets/health_potion.png");
+  manager.addTexture("mana-potion", "client/assets/mana_potion.png");
+  manager.addTexture("sword-inv", "client/assets/sword_inv.png");
+  manager.addTexture("clothes-inv", "client/assets/clothes_inv.png");
+  manager.addTexture("bow-inv", "client/assets/bow_inv.png");
 }
 
 CApp::~CApp() {}

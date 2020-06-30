@@ -3,7 +3,9 @@
 #include <iostream>
 
 PlayerView::PlayerView() : headWear(HeadWear(nullptr, 0, 0, 0, 0)), 
-	shield(Shield(nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)) {}
+	shield(Shield(nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)), 
+	weapon(Weapon(nullptr, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 
+		0, 0, 0, 0, 0, 0)) {}
 
 void PlayerView::init(LTexture* texture) {
 	this->x = 0;
@@ -16,7 +18,7 @@ void PlayerView::init(LTexture* texture) {
 }
 
 void PlayerView::move(int x, int y){
-	if(x == this->x && y < this->y){
+	if (x == this->x && y < this->y){
 		this->y = y;
 		animation->set(BACK_WALK);
 		headFrame = {48, 0, 16, 16};
@@ -42,9 +44,9 @@ void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
 	animation->paint(x - camera.getX(), y - camera.getY(), 
 		scaleW, scaleH);
 
-	if(head == nullptr) return;
+	if (head == nullptr) return;
 
-	if(headFrame.x == 0 || headFrame.x == 48) {
+	if (headFrame.x == 0 || headFrame.x == 48) {
 		head->paint(x - camera.getX() + 3, y - camera.getY() - 9, 
 			scaleW, scaleH, &headFrame);
 	} else {
@@ -56,6 +58,9 @@ void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
 		scaleW, scaleH, &headFrame);
 
 	shield.paint(x - camera.getX(), y - camera.getY(), 
+		scaleW, scaleH, &headFrame);
+
+	weapon.paint(x - camera.getX(), y - camera.getY(), 
 		scaleW, scaleH, &headFrame);
 }
 
@@ -75,6 +80,10 @@ void PlayerView::setBodyWear(LTexture* texture) {
 
 void PlayerView::setShield(Shield shield){
 	this->shield = shield;
+}
+
+void PlayerView::setWeapon(Weapon weapon){
+	this->weapon = weapon;
 }
 
 void PlayerView::setGhostAnimation(LTexture* texture) {
@@ -99,7 +108,7 @@ bool PlayerView::ghostState(){
 }
 
 PlayerView::~PlayerView() {
-	if(animation == nullptr) return;
+	if (animation == nullptr) return;
 	
   delete animation;
 }

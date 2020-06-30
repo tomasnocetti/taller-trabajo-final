@@ -19,6 +19,8 @@ class Equations{
       LeftHandEquipmentSkills leftSkills, HeadEquipmentSkills headSkills);
     static int random(int minValue, int maxValue);
     static float randomFloat(float a, float b);
+    static int NPCDamage(int level, size_t npcStrength);
+    static bool criticAttack();
   private:
     static unsigned int seed;
 };

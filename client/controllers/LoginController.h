@@ -20,6 +20,7 @@ class LoginController {
   private:
     ServerProxy& model;
     SdlAssetsManager& manager;
+    TextInputEntity* userInputField;
     EntityList screens;
 };
 

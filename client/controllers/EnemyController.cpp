@@ -4,8 +4,8 @@
 #include "../view/SkeletonAnimation.h"
 #include "../view/GoblinAnimation.h"
 #include "../view/SpiderAnimation.h"
+#include "../view/ZombieAnimation.h"
 #include <vector>
-#include <map>
 #include <iostream>
 
 EnemyController::EnemyController(
@@ -24,7 +24,7 @@ EntityList& EnemyController::getNPCs(){
 	enemyVector.clear();
 	std::vector<EnemyData> npcs = model.getNPCData();
 	for(unsigned int i = 0; i < npcs.size(); i++){
-		if(npcs[i].healthAndManaData.currentHP > 0){
+		if (npcs[i].healthAndManaData.currentHP > 0){
 			enemyVector.emplace_back(enemies.at(npcs[i].id));
 		}
 	}
@@ -48,9 +48,10 @@ Animation* EnemyController::checkType(NPCClass type){
 			return new SkeletonAnimation(
         manager.getTexture("skeleton-view"));
 		break;
-		/*case ZOMBIE:
-			return std::move(new ZombieAnimation());
-		break;*/
+		case ZOMBIE:
+			return new ZombieAnimation(
+        manager.getTexture("zombie-view"));
+		break;
 		case GOBLIN:
 			return new GoblinAnimation(
         manager.getTexture("goblin-view"));
@@ -89,7 +90,7 @@ LTexture* EnemyController::checkRace(PlayerRace race) {
 void EnemyController::updateNPCs(){
 	std::vector<EnemyData> npcs = model.getNPCData();
 	for(unsigned int i = 0; i < npcs.size(); i++){
-		if(enemies.count(npcs[i].id) <= 0){
+		if (enemies.count(npcs[i].id) <= 0){
 		Animation* animation = checkType(npcs[i].type);
 		std::shared_ptr<EnemyView> enemy(new EnemyView(
 			npcs[i].position.x, npcs[i].position.y, animation));
@@ -102,8 +103,8 @@ void EnemyController::updateNPCs(){
 void EnemyController::updateOtherPlayers(){
 	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
 	for(unsigned int i = 0; i < others.size(); i++){
-		if(others[i].id != model.getMainPlayerData().id){
-			if(otherPlayers.count(others[i].id) <= 0){
+		if (others[i].id != model.getMainPlayerData().id){
+			if (otherPlayers.count(others[i].id) <= 0){
 				LTexture* texture = manager.getTexture("clothes");
 				std::shared_ptr<PlayerView> player(new PlayerView());
 				player->init(texture);
@@ -115,7 +116,7 @@ void EnemyController::updateOtherPlayers(){
 				others[i].position.y);
 			std::shared_ptr<PlayerView> player = 
 				std::dynamic_pointer_cast<PlayerView>(otherPlayers.at(others[i].id));
-			//checkHealth(player, others[i].points);
+			checkHealth(player, others[i].otherPlayerHealth);
 			checkEquipment(player, others[i].equipment);
 		}
 	}
@@ -125,7 +126,7 @@ void EnemyController::updateOtherPlayers(){
 	for(it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
 		bool erase = true;
     for (unsigned int i = 0; i < others.size(); i++){
-    	if(it->first == others[i].id){
+    	if (it->first == others[i].id){
     		erase = false;
     		break;
     	}
@@ -188,6 +189,17 @@ void EnemyController::checkEquipment(std::shared_ptr<PlayerView> playerView,
       playerView->setShield(Shield(nullptr, 
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     break;
+  }
+}
+
+void EnemyController::checkHealth(std::shared_ptr<PlayerView> playerView, 
+  size_t health) {
+  if (health <= 0 && !playerView->ghostState()){
+    playerView->setGhostAnimation(manager.getTexture("ghost"));
+  }
+
+  if (health > 0 && playerView->ghostState()){
+    playerView->setPlayerAnimation(manager.getTexture("clothes"));
   }
 }
 

@@ -2,6 +2,7 @@
 #define __ENTITYDEF_H
 
 #include <msgpack.hpp>
+#include <chrono>
 
 struct PositionData {
   int x;
@@ -22,6 +23,9 @@ struct HealthAndManaData {
   int currentHP;
   int totalMP;
   int currentMP;
+  std::chrono::system_clock::time_point nextRespawn;
+  std::chrono::system_clock::time_point lastHealthIncrease;
+  std::chrono::system_clock::time_point lastManaIncrease;
   MSGPACK_DEFINE(totalHP, currentHP, totalMP, currentMP)
 };
 

@@ -1,5 +1,6 @@
 #include "GameCron.h"
 #include "ecs/Entity.h"
+#include "GameConfig.h"
 #include <iostream>
 #include <chrono>
 #include <vector>
@@ -18,6 +19,7 @@ void GameCron::run() {
 
       runPlayersMovement(d->otherPlayers);
       runNPCLogic(d->npcs, d->otherPlayers);
+      runPlayerHealthAndMana(d->otherPlayers);
 
       std::this_thread::sleep_for(std::chrono::milliseconds(60));
     }
@@ -38,12 +40,18 @@ CronBQ& GameCron::getBQ() {
 }
 
 void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
+  GlobalConfig& c = GC::get();
   for (OtherPlayersData &player : players) {
+    if (player.resurrection.resurrect == true){
+      playerResurrection(player);
+      continue;
+    }
+      
     if (player.movement.xDir == 0 &&
       player.movement.yDir == 0) continue;
 
-    int x = player.position.x + player.movement.xDir * SPEED;
-    int y = player.position.y + player.movement.yDir * SPEED;
+    int x = player.position.x + player.movement.xDir * c.speed;
+    int y = player.position.y + player.movement.yDir * c.speed;
 
     std::unique_ptr<Instruction> i(
       new PlayerSetCoordsInstruction(player.id, x, y));
@@ -51,14 +59,61 @@ void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
   }
 }
 
+void GameCron::playerResurrection(OtherPlayersData &player){
+  if (player.resurrection.timeToResurrection 
+    > std::chrono::system_clock::now()) return;
+
+  std::unique_ptr<Instruction> i(
+      new PlayerResurrecctionInstruction(
+        player.id));
+    instructionQueue.push(std::move(i));  
+}
+
+void GameCron::runPlayerHealthAndMana(std::vector<OtherPlayersData>& players){
+  std::chrono::seconds sec(3);
+  for (auto& it : players){
+    if ((it.healthAndMana.currentHP == it.healthAndMana.totalHP)
+      || (it.healthAndMana.lastHealthIncrease + sec >
+      std::chrono::system_clock::now()) || 
+      (it.healthAndMana.currentHP <= 0)) continue;
+      
+      std::unique_ptr<Instruction> i(
+        new PlayerIncreaseHealthInstruction(it.id));
+        instructionQueue.push(std::move(i));
+
+    if ((it.healthAndMana.currentMP == it.healthAndMana.totalMP)
+      || (it.healthAndMana.lastManaIncrease + sec >
+        std::chrono::system_clock::now()) || 
+        (it.healthAndMana.currentMP <= 0)) continue;
+      
+      std::unique_ptr<Instruction> ins(
+        new PlayerIncreaseManaInstruction(it.id));
+        instructionQueue.push(std::move(ins));
+  }
+}
+
 void GameCron::runNPCLogic(
   std::vector<EnemyData>& npcs,
   std::vector<OtherPlayersData>& players) {
   for (EnemyData &npc : npcs) {
-    bool hasPlayerInRange = false;
-    double minDistanceToPlayer = MIN_DISTANCE_NPC;
+    if (npc.healthAndManaData.currentHP <= 0){
+      if (npc.healthAndManaData.nextRespawn < std::chrono::system_clock::now())
+        NPCReSpawn(npc.id);
+    }
+    
+    aliveNPCLogic(players, npc);
+  }
+}
 
-    double minDistanceToAttackPlayer = MIN_DISTANCE_TO_ATTACK_PLAYER;
+void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players, 
+  EnemyData &npc){
+    if (npc.healthAndManaData.currentHP <= 0) return;
+    GlobalConfig& c = GC::get();
+    
+    bool hasPlayerInRange = false;
+    double minDistanceToPlayer = c.minDistanceNpc;
+
+    double minDistanceToAttackPlayer = c.minDistanceToAttackPlayer;
     PositionData playerPosition;
 
     // Calcula la distancia minima a un jugador
@@ -73,19 +128,22 @@ void GameCron::runNPCLogic(
       playerPosition = player.position;
     }
 
-    if (!hasPlayerInRange) continue;
+    if (!hasPlayerInRange) return;
     moveNPC(npc.id, npc.position, playerPosition);    
 
-    if (minDistanceToPlayer > minDistanceToAttackPlayer) continue;
+    std::chrono::seconds sec(c.attackInterval);
+    if (std::chrono::system_clock::now() < npc.lastAttack + sec) return;
+
+    if (minDistanceToPlayer > minDistanceToAttackPlayer) return;
     NPCAttack(npc.id, playerPosition);
-  }
 }
 
 void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
   MovementData d = Entity::getPositionDirection(npc, follow);
-  
-  int x = npc.x + d.xDir * SPEED_NPC;
-  int y = npc.y + d.yDir * SPEED_NPC;
+  GlobalConfig& c = GC::get();
+
+  int x = npc.x + d.xDir * c.speedNpc;
+  int y = npc.y + d.yDir * c.speedNpc;
 
   std::unique_ptr<Instruction> i(
       new NPCSetCoordsInstruction(id, x, y));
@@ -95,6 +153,12 @@ void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
 void GameCron::NPCAttack(size_t npcId, PositionData& playerToAttack) {
   std::unique_ptr<Instruction> i(
       new NPCAttackInstruction(npcId, playerToAttack.x, playerToAttack.y));
+    instructionQueue.push(std::move(i));
+}
+
+void GameCron::NPCReSpawn(size_t id){
+  std::unique_ptr<Instruction> i(
+      new NPCRespawnInstruction(id));
     instructionQueue.push(std::move(i));
 }
 

@@ -1,6 +1,7 @@
 #include "MainPlayerController.h"
 #include "../view/HeadWear.h"
 #include "../view/Shield.h"
+#include "../view/Weapon.h"
 #include <iostream>
 #include <vector>
 
@@ -27,9 +28,8 @@ void MainPlayerController::init(){
   LTexture* goldText = manager.getTexture("goldText");
   LTexture* levelText = manager.getTexture("levelText");
   LTexture* expText = manager.getTexture("expText");
-  
+
   playerView.init(manager.getTexture("clothes"));
-  checkRace(data.rootd.prace);
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y,
     healthText, font);
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y, manaText, font);
@@ -46,13 +46,14 @@ void MainPlayerController::update() {
   manaBar.update(data.points.currentMP, data.points.totalMP, 0);
   gold.update(std::to_string(data.gold));
 
-  level.update(data.nick + " - nivel: " + 
+  level.update(data.nick + " - nivel: " +
     std::to_string(data.level));
-  expBar.update(data.experience.currentExperience, 
-    data.experience.maxLevelExperience, 
+  expBar.update(data.experience.currentExperience,
+    data.experience.maxLevelExperience,
     data.experience.minLevelExperience);
 
-  checkHealth(data.points.currentHP, data.rootd.prace);
+  checkRace(data.rootd.prace);
+  checkHealth(data.points.currentHP);
   checkEquipment(data.equipment);
 }
 
@@ -62,11 +63,30 @@ void MainPlayerController::handleEvent(const SDL_Event &e,
 
   if (e.type == SDL_MOUSEBUTTONDOWN){
     if (e.button.button == SDL_BUTTON_LEFT){
+      if (!active) {
+        active = inRect(src, e.button.x, e.button.y);
+        return;
+      }
+
+      active = inRect(src, e.button.x, e.button.y);
       model.attack(
-        e.button.x + cameraX - MAIN_SCREEN_BASE_MAP_X,
-        e.button.y + cameraY - MAIN_SCREEN_BASE_MAP_Y);
+        e.button.x + cameraX - src.x,
+        e.button.y + cameraY - src.y);
     }
   }
+
+  if (e.type == SDL_KEYUP) {
+    const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
+    if (!currentKeyStates[SDL_SCANCODE_W] &&
+      !currentKeyStates[SDL_SCANCODE_S] &&
+      !currentKeyStates[SDL_SCANCODE_A] &&
+      !currentKeyStates[SDL_SCANCODE_D]) {
+      model.move(0, 0);
+    }
+    return;
+  }
+
+  if (!active) return;
 
   if (e.type == SDL_KEYDOWN) {
     switch (e.key.keysym.sym) {
@@ -83,17 +103,6 @@ void MainPlayerController::handleEvent(const SDL_Event &e,
         model.move(1, 0);
 				break;
 		}
-    return;
-  }
-
-  if (e.type == SDL_KEYUP) {
-    const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
-    if (!currentKeyStates[SDL_SCANCODE_W] &&
-      !currentKeyStates[SDL_SCANCODE_S] &&
-      !currentKeyStates[SDL_SCANCODE_A] &&
-      !currentKeyStates[SDL_SCANCODE_D]) {
-      model.move(0, 0);
-    }
     return;
   }
 }
@@ -118,6 +127,8 @@ std::vector<Entity*> MainPlayerController::getExp() {
 }
 
 void MainPlayerController::checkRace(PlayerRace race) {
+  if (playerView.ghostState()) return;
+
   switch (race){
     case DWARF:
       playerView.setHead(manager.getTexture("dwarf-head"));
@@ -154,46 +165,60 @@ void MainPlayerController::checkEquipment(EquipmentData equipment){
 
   switch (equipment.head){
     case HELMET:
-      playerView.setHeadWear(HeadWear(manager.getTexture("helmet"), 
+      playerView.setHeadWear(HeadWear(manager.getTexture("helmet"),
         3, -9, 0, -10));
     break;
     case HAT:
-      playerView.setHeadWear(HeadWear(manager.getTexture("hat"), 
+      playerView.setHeadWear(HeadWear(manager.getTexture("hat"),
         3, -25, 0, -25));
     break;
     case HOOD:
-      playerView.setHeadWear(HeadWear(manager.getTexture("hood"), 
+      playerView.setHeadWear(HeadWear(manager.getTexture("hood"),
         2, -10, -1, -10));
     break;
     default:
       playerView.setHeadWear(HeadWear(nullptr, 0, 0, 0, 0));
     break;
   }
-  
+
   switch (equipment.leftHand){
     case TURTLE_SHIELD:
-      playerView.setShield(Shield(manager.getTexture("turtle-shield"), 
+      playerView.setShield(Shield(manager.getTexture("turtle-shield"),
         12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16));
     break;
     case IRON_SHIELD:
-      playerView.setShield(Shield(manager.getTexture("iron-shield"), 
+      playerView.setShield(Shield(manager.getTexture("iron-shield"),
         6, 10, 17, 24, 1, 60, 13, 16, 25, 104, 24, 18));
     break;
     default:
-      playerView.setShield(Shield(nullptr, 
+      playerView.setShield(Shield(nullptr,
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
+    break;
+  }
+
+  switch (equipment.rightHand){
+    case SIMPLE_BOW:
+      playerView.setWeapon(Weapon(manager.getTexture("simple-bow"), 
+        2, 6, 10, 20, 15, 56, 10, 14, 0, 141, 15, 15, 13, 5, 15, 10, 0, 5));
+    break;
+    case SWORD:
+      playerView.setWeapon(Weapon(manager.getTexture("sword"), 
+        34, 18, 17, 15, 44, 67, 4, 12, 9, 158, 13, 20, 17, 13, 20, 15, 2, 15));
+    break;
+    default:
+      playerView.setWeapon(Weapon(nullptr, 
+        0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0));
     break;
   }
 }
 
-void MainPlayerController::checkHealth(int health, PlayerRace race) {
+void MainPlayerController::checkHealth(int health) {
   if (health <= 0 && !playerView.ghostState()){
     playerView.setGhostAnimation(manager.getTexture("ghost"));
   }
 
   if (health > 0 && playerView.ghostState()){
     playerView.setPlayerAnimation(manager.getTexture("clothes"));
-    checkRace(race);
   }
 }
 

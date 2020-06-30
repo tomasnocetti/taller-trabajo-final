@@ -5,8 +5,12 @@
 #include "MapDefinitions.h"
 #include "EntityDefinitions.h"
 #include "EquipmentDefinitions.h"
+#include "ChatDefinitions.h"
 #include <string>
 #include <vector>
+
+#define PLAYER_WIDTH 25
+#define PLAYER_HEIGHT 48
 
 typedef enum {
   HUMAN,
@@ -25,6 +29,19 @@ typedef enum {
 } PlayerClass;
 
 MSGPACK_ADD_ENUM(PlayerClass)
+
+struct ResurrectionData{
+  std::chrono::system_clock::time_point timeToResurrection;
+  bool resurrect;
+};
+
+struct InventoryElementData{
+  size_t amount;
+  bool isEquiped;
+  Equipable equipableType;
+  char enumPosition;
+  MSGPACK_DEFINE(amount, isEquiped, equipableType, enumPosition)
+};
 
 struct SkillsData {
   size_t strength;
@@ -57,11 +74,6 @@ struct PlayerRootData {
   MSGPACK_DEFINE(pclass, prace)
 };
 
-struct Inventory {
-  std::string helmet;
-  MSGPACK_DEFINE(helmet)
-};
-
 struct MainPlayerData {
   std::string nick;
   size_t id;
@@ -70,13 +82,14 @@ struct MainPlayerData {
   ExperienceData experience;
   SkillsData skills;
   PlayerRootData rootd;
-  Inventory inventory;
+  std::vector<InventoryElementData> inventory;
   HealthAndManaData points;
   PositionData position;
   MovementData movement;
   EquipmentData equipment;
+  ChatData chat;
   MSGPACK_DEFINE(nick, id, gold, level, experience, skills, rootd, inventory, 
-    points, position, movement, equipment)
+    points, position, movement, equipment, chat)
 };
 
 struct OtherPlayersData {
@@ -86,7 +99,10 @@ struct OtherPlayersData {
   PlayerRootData rootd;
   EquipmentData equipment;
   size_t otherPlayerHealth;
-  MSGPACK_DEFINE(id, position, rootd, equipment, otherPlayerHealth)
+  HealthAndManaData healthAndMana;
+  ResurrectionData resurrection;
+  MSGPACK_DEFINE(id, position, rootd, equipment, 
+    otherPlayerHealth, healthAndMana)
 };
 
 struct PlayerGameModelData {

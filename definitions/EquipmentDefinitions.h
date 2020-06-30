@@ -3,8 +3,18 @@
 
 #include <msgpack.hpp>
 
+typedef enum {
+  POTION,
+  WEAPON,
+  LEFT_HAND_DEFENSE,
+  HEAD_DEFENSE,
+  BODY_ARMOUR
+} Equipable;
+
+MSGPACK_ADD_ENUM(Equipable)
+
 typedef enum{
-  DEFAULT1,
+  DEFAULT_H,
   HELMET,
   HAT,
   HOOD
@@ -13,7 +23,7 @@ typedef enum{
 MSGPACK_ADD_ENUM(HeadEquipment)
 
 typedef enum {
-  DEFAULT2,
+  DEFAULT_B,
   TUNIC,
   LEATHER_ARMOR,
   PLATE_ARMOR
@@ -22,20 +32,28 @@ typedef enum {
 MSGPACK_ADD_ENUM(BodyEquipment)
 
 typedef enum {
-  DEFAULT3,
+  DEFAULT_R,
   SWORD,
-  SIMPLE_BOW
+  SIMPLE_BOW,
+  ASH_STICK
 } RightHandEquipment;
 
 MSGPACK_ADD_ENUM(RightHandEquipment)
 
 typedef enum {
-  DEFAULT4,
+  DEFAULT_L,
   TURTLE_SHIELD,
   IRON_SHIELD
 } LeftHandEquipment;
 
 MSGPACK_ADD_ENUM(LeftHandEquipment)
+
+typedef enum {
+  HEALTH,
+  MANA
+} Potions;
+
+MSGPACK_ADD_ENUM(Potions)
 
 struct EquipmentData {
   HeadEquipment head;
@@ -49,6 +67,7 @@ struct RightHandEquipmentSkills{
   int maxDamage;
   int minDamage;
   int range;
+  int mana;
 };
 
 struct LeftHandEquipmentSkills{
@@ -75,6 +94,12 @@ struct HeadEquipmentSkills{
 #define SIMPLE_BOW_MIN_DAMAGE 1
 #define SIMPLE_BOW_MAX_DAMAGE 4
 #define SIMPLE_BOW_RANGE 300
+
+#define ASH_STICK_MIN_DAMAGE 2
+#define ASH_STICK_MAX_NDAMAGE 4
+#define ASH_STICK_MANA 5
+#define ASH_STICK_RANGE 300
+
 
 /* Body Equipment Skills */
 
