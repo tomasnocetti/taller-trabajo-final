@@ -1,6 +1,7 @@
 #include "GameConfig.h"
 
 #include <fstream>
+#include <utility>
 #include <algorithm>
 #include <string>
 #include <vector>
@@ -43,7 +44,7 @@ void GC::load(const char* src) {
   instance->g.fairPlayLevel = gameConfig["fairPlayLevel"].asInt();
 
   /** PARSE ITEMS */
-  for(const Json::Value &item : items) {
+  for (const Json::Value &item : items) {
     std::string t = item["type"].asString();
     Equipable type =
       static_cast<Equipable> (t[0]);
@@ -66,10 +67,10 @@ void GC::load(const char* src) {
     instance->g.items.insert(
       std::pair<int, Item>(
         dataItem.id, dataItem));
-  };
+  }
 
   // PARSE TRADER ITEMS
-  for(const Json::Value &traderItem : traderItems) {
+  for (const Json::Value &traderItem : traderItems) {
     int itemId = traderItem["itemId"].asInt();
     if (!instance->g.items.count(itemId)) continue;
 
@@ -78,7 +79,7 @@ void GC::load(const char* src) {
       traderItem["value"].asInt()
     };
     instance->g.traderItems.push_back(item);
-  };
+  }
 }
 
 
