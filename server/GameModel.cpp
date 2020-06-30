@@ -260,12 +260,16 @@ void GameModel::increasePlayerMana(size_t playerId){
   p.health.lastManaIncrease = std::chrono::system_clock::now();
   
   if (p.health.currentMP <= p.health.totalMP) return;
-  p.health.currentHP = p.health.totalHP;
+  p.health.currentMP = p.health.totalMP;
 }
 
 void GameModel::increaseManaByMeditation(size_t id){
   Player &p = *players.at(id);
   p.health.currentMP += p.skills.raceRecovery * p.skills.inteligence;
+  p.health.lastManaIncrease = std::chrono::system_clock::now();
+
+  if (p.health.currentMP <= p.health.totalMP) return;
+  p.health.currentMP = p.health.totalMP;
 }
 
 void GameModel::meditate(size_t id){

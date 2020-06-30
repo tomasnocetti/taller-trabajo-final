@@ -81,14 +81,16 @@ void GameCron::runPlayerHealthAndMana(std::vector<OtherPlayersData>& players){
       std::unique_ptr<Instruction> i(
         new PlayerIncreaseHealthInstruction(it.id));
         instructionQueue.push(std::move(i));
-/*
-    if (it.healthAndMana.meditating && it.healthAndMana.currentHP > 0){
-      std::unique_ptr<Instruction> ins(
-        new IncreaseManaMeditationInstruction(it.id));
-        instructionQueue.push(std::move(ins));
-      continue;
+
+    if ((it.healthAndMana.meditating) && (it.healthAndMana.currentHP > 0)
+      && (it.healthAndMana.lastManaIncrease + sec <
+      std::chrono::system_clock::now())){
+        std::unique_ptr<Instruction> ins(
+          new IncreaseManaMeditationInstruction(it.id));
+          instructionQueue.push(std::move(ins));
+        continue;
     }
-*/
+
     if ((it.healthAndMana.currentMP == it.healthAndMana.totalMP)
       || (it.healthAndMana.lastManaIncrease + sec >
         std::chrono::system_clock::now()) || 

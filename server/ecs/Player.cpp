@@ -405,6 +405,8 @@ void Player::equip(int inventoryPosition){
   BodyEquipment body;
   Potions potion;
 
+  if ((unsigned int)inventoryPosition > inventory.size()) return;
+
   InventoryElementData& i = inventory[inventoryPosition];
 
   type = i.equipableType;
