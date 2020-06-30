@@ -35,7 +35,8 @@ typedef enum {
   DEFAULT_R,
   SWORD,
   SIMPLE_BOW,
-  ASH_STICK
+  ASH_STICK,
+  GNARLED_STAFF
 } RightHandEquipment;
 
 MSGPACK_ADD_ENUM(RightHandEquipment)

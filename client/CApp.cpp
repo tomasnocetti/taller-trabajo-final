@@ -66,7 +66,7 @@ void CApp::OnEvent(SDL_Event& e) {
     case GameMode::RUN:
       playerController.handleEvent(e,
         mapViewport.getCameraX(), mapViewport.getCameraY());
-      inventoryController.handleEvent(e);
+      //inventoryController.handleEvent(e);
       chatController.handleEvent(e);
       break;
   }
@@ -113,7 +113,6 @@ void CApp::OnInit() {
   globalController.init();
   mapController.init();
   playerController.init();
-  enemyController.init();
 
   mapViewport.init();
   MapData data = model.getMapData();
@@ -136,11 +135,11 @@ void CApp::LoadAssets() {
     "client/assets/buttons/button-scroll-down.png");
   manager.addTexture("scroll-button-down-active",
     "client/assets/buttons/button-scroll-down-active.png");
-  manager.addTexture("healthText", "client/assets/health.png");
-  manager.addTexture("manaText", "client/assets/health.png");
-  manager.addTexture("goldText", "client/assets/health.png");
-  manager.addTexture("levelText", "client/assets/health.png");
-  manager.addTexture("expText", "client/assets/health.png");
+  manager.addTextTexture("healthText");
+  manager.addTextTexture("manaText");
+  manager.addTextTexture("goldText");
+  manager.addTextTexture("levelText");
+  manager.addTextTexture("expText");
   manager.addTexture("clothes", "client/assets/clothes.png");
   manager.addTexture("blue-tunic", "client/assets/blue_tunic.png");
   manager.addTexture("plate-armor", "client/assets/plate_armor.png");
@@ -163,22 +162,34 @@ void CApp::LoadAssets() {
   manager.addTexture("turtle-shield", "client/assets/turtle_shield.png");
   manager.addTexture("iron-shield", "client/assets/iron_shield.png");
   manager.addTexture("simple-bow", "client/assets/simpleBow.png");
+  manager.addTexture("ash-stick", "client/assets/ash_stick.png");
+  manager.addTexture("gnarled-staff", "client/assets/gnarled_staff.png");
   manager.addTexture("sword", "client/assets/sword.png");
-  manager.addTexture("invText_1", "client/assets/health.png");
-  manager.addTexture("invText_2", "client/assets/health.png");
-  manager.addTexture("invText_3", "client/assets/health.png");
-  manager.addTexture("invText_4", "client/assets/health.png");
-  manager.addTexture("invText_5", "client/assets/health.png");
-  manager.addTexture("invText_6", "client/assets/health.png");
-  manager.addTexture("invText_7", "client/assets/health.png");
-  manager.addTexture("invText_8", "client/assets/health.png");
-  manager.addTexture("invText_9", "client/assets/health.png");
+  manager.addTextTexture("invText_1");
+  manager.addTextTexture("invText_2");
+  manager.addTextTexture("invText_3");
+  manager.addTextTexture("invText_4");
+  manager.addTextTexture("invText_5");
+  manager.addTextTexture("invText_6");
+  manager.addTextTexture("invText_7");
+  manager.addTextTexture("invText_8");
+  manager.addTextTexture("invText_9");
   manager.addTexture("check", "client/assets/check.png");
   manager.addTexture("health-potion", "client/assets/health_potion.png");
   manager.addTexture("mana-potion", "client/assets/mana_potion.png");
   manager.addTexture("sword-inv", "client/assets/sword_inv.png");
-  manager.addTexture("clothes-inv", "client/assets/clothes_inv.png");
   manager.addTexture("bow-inv", "client/assets/bow_inv.png");
+  manager.addTexture("ash-stick-inv", "client/assets/ash_stick_inv.png");
+  manager.addTexture("gnarled-inv", "client/assets/gnarled_staff_inv.png");
+  manager.addTexture("clothes-inv", "client/assets/clothes_inv.png");
+  manager.addTexture("leather-inv", "client/assets/leather_armor_inv.png");
+  manager.addTexture("plate-armor-inv", "client/assets/plate_armor_inv.png");
+  manager.addTexture("blue-tunic-inv", "client/assets/blue_tunic_inv.png");
+  manager.addTexture("turtle-inv", "client/assets/turtle_shield_inv.png");
+  manager.addTexture("iron-shield-inv", "client/assets/iron_shield_inv.png");
+  manager.addTexture("iron-helm-inv", "client/assets/iron_helm_inv.png");
+  manager.addTexture("hat-inv", "client/assets/hat_inv.png");
+  manager.addTexture("hood-inv", "client/assets/hood_inv.png");
 }
 
 CApp::~CApp() {}
