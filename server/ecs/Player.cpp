@@ -148,17 +148,6 @@ void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
   }
 }
 
-/* VER SI TODAVIA SIRVE
-
-void Player::setInitEquipment(EquipmentData &equipment, PlayerRootData &root){
-  equipment.body = TUNIC;
-  equipment.head = HELMET;
-  equipment.leftHand = IRON_SHIELD;
-  equipment.rightHand = SIMPLE_BOW;
-}
-
-*/
-
 void Player::setRighHandSkills(RightHandEquipmentSkills
   &rightSkills, RightHandEquipment &rightEquipment){
     switch (rightEquipment){
@@ -336,26 +325,25 @@ int Player::defend(){
 
 void Player::setDefaultEquipment(MainPlayerData &data){
   InventoryElementData bodyArmour, weapon, healthPotion, manaPotion,
-    weapon2;
+    weapon2, leftHandArmour, headArmour, bodyArmour2;
 
-/*
   leftHandArmour.amount = 1;
   leftHandArmour.isEquiped = false;
   leftHandArmour.equipableType = LEFT_HAND_DEFENSE;
   leftHandArmour.enumPosition = LeftHandEquipment::IRON_SHIELD;
-*/
-/*
+  data.equipment.leftHand = DEFAULT_L;
+
   headArmour.amount = 1;
-  headArmour.isEquiped = false;
+  headArmour.isEquiped = true;
   headArmour.equipableType = HEAD_DEFENSE;
   headArmour.enumPosition = HeadEquipment::HAT;
-*/
-/*
+  data.equipment.head = HAT;
+
   bodyArmour2.amount = 1;
   bodyArmour2.isEquiped = false;
   bodyArmour2.equipableType = BODY_ARMOUR;
   bodyArmour2.enumPosition = BodyEquipment::TUNIC;
-*/
+
   bodyArmour.amount = 1;
   bodyArmour.isEquiped = true;
   bodyArmour.equipableType = BODY_ARMOUR;
@@ -367,10 +355,6 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   weapon.equipableType = WEAPON;
   weapon.enumPosition = RightHandEquipment::SWORD;
   data.equipment.rightHand = SWORD;
-
-  /* Mano izquierda y cabeza quedan en default (nada equipado) */
-  data.equipment.head = DEFAULT_H;
-  data.equipment.leftHand = DEFAULT_L;
 
   healthPotion.amount = 2;
   healthPotion.isEquiped = false;
@@ -392,9 +376,9 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   data.inventory.push_back(healthPotion);
   data.inventory.push_back(manaPotion);
   data.inventory.push_back(weapon2);
-  //data.inventory.push_back(headArmour);
-  //data.inventory.push_back(bodyArmour2);
-  //data.inventory.push_back(leftHandArmour);
+  data.inventory.push_back(headArmour);
+  data.inventory.push_back(bodyArmour2);
+  data.inventory.push_back(leftHandArmour);
 }
 
 void Player::equip(int inventoryPosition){
