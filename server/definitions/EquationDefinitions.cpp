@@ -6,6 +6,7 @@
 #define MAX_LEVEL_EXPERIENCE_CONST 1.8
 #define DEFENSE_CONST 0.001
 #define NPC_DAMAGE_CONST 0.2
+#define CRITIC_ATTACK 0.5
 
 Equations::Equations() {}
 
@@ -86,3 +87,8 @@ float Equations::randomFloat(float a, float b) {
 int Equations::NPCDamage(int level, size_t npcStrength){
   return npcStrength * level * NPC_DAMAGE_CONST;
 }
+
+bool Equations::criticAttack(){
+  return randomFloat(0, 1) < CRITIC_ATTACK;
+}
+

@@ -32,6 +32,8 @@ struct GlobalConfig {
   int npcInitHealthPoints;
   size_t npcInitSkills;
   int playerInitialLevel;
+  size_t newbieLevel;
+  size_t fairPlayLevel;
 };
 
 struct RaceSkillsData {
@@ -47,7 +49,7 @@ struct RaceSkillsData {
 
 class GC {
   public:
-    GC() {};
+    GC() {}
     GC(const GC&) = delete;
     GC& operator=(const GC&) = delete;
     GC&& operator=(GC&& other) = delete;

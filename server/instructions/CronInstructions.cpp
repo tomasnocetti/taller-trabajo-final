@@ -41,6 +41,21 @@ void NPCRespawnInstruction::run(GameModel& game) {
 
 PlayerResurrecctionInstruction::PlayerResurrecctionInstruction(size_t id) :
     playerId(id){}
+
 void PlayerResurrecctionInstruction::run(GameModel& game) {
   game.resurrectPlayer(playerId);
+}
+
+PlayerIncreaseHealthInstruction::PlayerIncreaseHealthInstruction(size_t id) :
+    playerId(id){}
+
+void PlayerIncreaseHealthInstruction::run(GameModel& game) {
+  game.increasePlayerHealth(playerId);
+}
+
+PlayerIncreaseManaInstruction::PlayerIncreaseManaInstruction(size_t id) :
+    playerId(id){}
+
+void PlayerIncreaseManaInstruction::run(GameModel& game) {
+  game.increasePlayerMana(playerId);
 }
