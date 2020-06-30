@@ -1,6 +1,7 @@
 #include "Entity.h"
 #include <math.h>
 #include <iostream>
+#include "../services/ChatManager.h"
 
 Entity::Entity(PositionData& p) : position(p) {}
 
@@ -72,7 +73,3 @@ LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s,
     health(h),
     skills(s),
     id(id) {}
-
-void LiveEntity::rcvDamage(int &damage){
-  health.currentHP -= damage;
-}

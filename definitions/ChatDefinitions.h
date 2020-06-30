@@ -4,6 +4,8 @@
 #include <string>
 #include <vector>
 
+#include <msgpack.hpp>
+
 #define CHAT_BASE_X 11
 #define CHAT_BASE_Y 15
 #define CHAT_BASE_W 541
@@ -23,6 +25,12 @@
 #define CHAT_PADDING_V 4
 #define CHAT_LINE_HEIGHT 14
 
+#define INITIAL_MSG "Bienvenido a las tierras de ARGENTUM"
+#define DAMAGE_RCV_MSG "Nos estan atacando! Daño recibido: "
+#define ENEMY_DODGED_ATTACK "El enemigo ha esquivado el ataque!"
+#define ATTACK_DODGED "Ataque esquivado!"
+#define DAMAGE_CAUSED "Ataque exitoso! Daño provocado: "
+
 typedef enum{
   INFO,
   DANGER,
@@ -30,13 +38,17 @@ typedef enum{
   NORMAL
 } MessageType;
 
+MSGPACK_ADD_ENUM(MessageType)
+
 struct Entry {
   MessageType type;
   std::string value;
+  MSGPACK_DEFINE(type, value)
 };
 
 struct ChatData {
   std::vector<Entry> entries;
+  MSGPACK_DEFINE(entries)
 };
 
 #endif

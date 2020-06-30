@@ -80,7 +80,6 @@ struct MainPlayerData {
   size_t gold;
   size_t level;
   ExperienceData experience;
-  ChatData chat;
   SkillsData skills;
   PlayerRootData rootd;
   std::vector<InventoryElementData> inventory;
@@ -88,8 +87,9 @@ struct MainPlayerData {
   PositionData position;
   MovementData movement;
   EquipmentData equipment;
+  ChatData chat;
   MSGPACK_DEFINE(nick, id, gold, level, experience, skills, rootd, inventory, 
-    points, position, movement, equipment)
+    points, position, movement, equipment, chat)
 };
 
 struct OtherPlayersData {

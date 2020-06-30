@@ -16,6 +16,7 @@ class NPC : public LiveEntity {
     int drop(unsigned int &seed);
     void setNextRespawn();
     void setEnemyData(EnemyData &enemy);
+    void rcvDamage(int &damage) override;
     static std::unique_ptr<NPC> createNPC(
       size_t id,
       PositionData position,
