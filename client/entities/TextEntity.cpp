@@ -1,6 +1,6 @@
 #include "TextEntity.h"
 #include <string>
-
+#include <iostream>
 TextEntity::TextEntity() {}
 
 void TextEntity::init(int x, int y, LTexture* texture, TTF_Font* font) {
@@ -8,6 +8,8 @@ void TextEntity::init(int x, int y, LTexture* texture, TTF_Font* font) {
 	this->font = font;
 	this->x = x;
 	this->y = y;
+	w = 0;
+	h = 0;
 	previousText = "";
 }
 
@@ -16,12 +18,15 @@ void TextEntity::update(std::string text) {
 
 	SDL_Color white = {255, 255, 255, 255};
 	texture->loadFromRenderedText(font, text, white);
+	texture->queryTexture(this->w, this->h);
 	previousText = text;
 }
 
+void TextEntity::center(int xPos) {
+	x = xPos - (this->w / 2);
+}
+
 void TextEntity::paint(double scaleW, double scaleH){
-	int w, h;
-	texture->queryTexture(w, h);
 	SDL_Rect destRect = {x, y, w, h};
 	texture->paint(destRect, scaleW, scaleH);
 }
