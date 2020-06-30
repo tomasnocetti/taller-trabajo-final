@@ -1,6 +1,5 @@
 #include "GameConfig.h"
 
-#include "MapParser.h"
 #include <fstream>
 #include <algorithm>
 #include <string>
@@ -28,7 +27,8 @@ void GC::load(const char* src) {
   instance->g.maxRangeZone = gameConfig["maxRangeZone"].asInt();
   instance->g.offsetToRespawn = gameConfig["offsetToRespawn"].asInt();
   instance->g.minDistanceNpc = gameConfig["minDistanceNpc"].asInt();
-  instance->g.minDistanceToAttackPlayer = gameConfig["minDistanceToAttackPlayer"].asInt();
+  instance->g.minDistanceToAttackPlayer =
+    gameConfig["minDistanceToAttackPlayer"].asInt();
   instance->g.speed = gameConfig["speed"].asInt();
   instance->g.speedNpc = gameConfig["speedNpc"].asInt();
   instance->g.respawnTimeNpc = gameConfig["respawnTimeNpc"].asInt();
@@ -51,7 +51,7 @@ void GC::load(const char* src) {
 GlobalConfig& GC::get() {
   if (instance == nullptr) {
     throw std::runtime_error(ERROR_MSG);
-  };
+  }
 
   return instance->g;
 }

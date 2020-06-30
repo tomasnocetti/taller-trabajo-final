@@ -1,5 +1,5 @@
 #include "Npc.h"
-#include "../services/GameConfig.h"
+#include "../GameConfig.h"
 #include <iostream>
 #include <chrono>
 #include <ctime>

@@ -4,7 +4,7 @@
 #include <string>
 #include <utility>
 #include "../services/ChatManager.h"
-#include "../services/GameConfig.h"
+#include "../GameConfig.h"
 
 Player::Player(MainPlayerData playerData, size_t id):
   LiveEntity(playerData.position, playerData.points, playerData.skills,
@@ -287,7 +287,7 @@ void Player::rcvDamage(int &damage){
   if (defensePoints > damage){
     damage = 0;
     return;
-  };
+  }
 
   health.currentHP -= (damage - defensePoints);
   if (health.currentHP < 0) health.currentHP = 0;

@@ -1,5 +1,5 @@
 #include "GameModel.h"
-#include "services/GameConfig.h"
+#include "GameConfig.h"
 #include <iostream>
 #include <string> // TODO - Lo pide el parser
 #include <utility>
@@ -197,8 +197,8 @@ void GameModel::resurrect(size_t playerId){
   for (auto& it : priests){
     double distance = p.getPositionDistance(it->position, p.position);
     if (distance >= minDistanceToPriest && minDistanceToPriest != 0) continue;
-      minDistanceToPriest = distance;
-      resurrectionPos = it->position;
+    minDistanceToPriest = distance;
+    resurrectionPos = it->position;
   }
   getRespawnPosition(resurrectionPos, p);
   p.position = resurrectionPos;

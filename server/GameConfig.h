@@ -4,8 +4,9 @@
 #include <json/json.h>
 // #include <jsoncpp/json/json.h>
 #include <vector>
+#include <map>
 #include <string>
-#include "../../DataDefinitions.h"
+#include "../DataDefinitions.h"
 
 #define ERROR_MSG "No valid instance"
 #define INVALID_CONFIG_FILE "Invalid config file"

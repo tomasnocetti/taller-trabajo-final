@@ -1,6 +1,6 @@
 #include "GameCron.h"
 #include "ecs/Entity.h"
-#include "services/GameConfig.h"
+#include "GameConfig.h"
 #include <iostream>
 #include <chrono>
 #include <vector>
