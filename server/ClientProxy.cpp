@@ -151,6 +151,10 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
         client.playerId));
       client.instructionQueue.push(std::move(i));
       break;
+    case MEDITATE:
+      i = std::unique_ptr<Instruction>(new MeditateInstruction(
+        client.playerId));
+      client.instructionQueue.push(std::move(i));
       break;
     default:
       std::cout << "El jugador quiere realizar otra accion. " << std::endl;

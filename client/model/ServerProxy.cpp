@@ -98,8 +98,12 @@ void ServerProxy::close(){
   writeBQ.close();
 }
 
-/* Codigo para mockear comando de resucitar */
 void ServerProxy::resurrect(){
   InstructionData instruction = {RESURRECT, {}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::meditate(){
+  InstructionData instruction = {MEDITATE, {}};
   writeBQ.push(instruction);
 }

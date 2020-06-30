@@ -16,6 +16,17 @@
 #define ERROR_MSG "No valid instance"
 #define INVALID_CONFIG_FILE "Invalid config file"
 
+struct Item {
+  int id;
+  Equipable type;
+  std::string name;
+};
+
+struct TraderItem {
+  int itemId;
+  int value;
+};
+
 struct GlobalConfig {
   int attackZoneWidth;
   int attackZoneHeight;
@@ -35,6 +46,8 @@ struct GlobalConfig {
   int playerInitialLevel;
   size_t newbieLevel;
   size_t fairPlayLevel;
+  std::map<int, Item> items;
+  std::vector<TraderItem> traderItems;
 };
 
 struct RaceSkillsData {
@@ -55,7 +68,7 @@ class GC {
     GC& operator=(const GC&) = delete;
     GC&& operator=(GC&& other) = delete;
     static void load(const char* src);
-    static GlobalConfig& get();
+    static const GlobalConfig& get();
 
   private:
     GlobalConfig g;

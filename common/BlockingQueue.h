@@ -88,24 +88,53 @@ public:
  * Close will notify all waiting threads that the queue is closed.
  */
 template<size_t s, typename T>
-class FixedBlockingQueue: public BlockingQueue<T> {
-  private:
-    size_t size;
-  public:
-    explicit FixedBlockingQueue(const T&) = delete;
-    FixedBlockingQueue& operator=(const T&) = delete;
-    FixedBlockingQueue() : size(s) {}
+class FixedQueue {
+protected:
+  std::queue<T> queue;
+  std::mutex m;
+  size_t maxSize;
+
+public:
+    explicit FixedQueue(const T&) = delete;
+    FixedQueue& operator=(const T&) = delete;
+    FixedQueue() : maxSize(s) {}
     void push(T t) {
       std::unique_lock<std::mutex> lk(this->m);
 
-      if (size == 0) return;
-      if (this->queue.size() >= size) {
+      if (maxSize == 0) return;
+      if (this->queue.size() >= maxSize) {
         this->queue.pop();
       }
       this->queue.push(std::move(t));
-
-      this->cv.notify_all();
     }
+    bool try_front(T& t) {
+      std::unique_lock<std::mutex> lk(m);
+
+      if (queue.empty()) return false;
+
+      t = std::move(queue.front());
+      return true;
+    }
+    bool try_pop() {
+      std::unique_lock<std::mutex> lk(m);
+
+      if (queue.empty()) return false;
+      queue.pop();
+      return true;
+    }
+    bool try_front_pop(T& t) {
+      std::unique_lock<std::mutex> lk(m);
+
+      if (queue.empty()) return false;
+
+      t = std::move(queue.front());
+      queue.pop();
+      return true;
+    }
+    int size(){
+      return queue.size();
+    }
+    ~FixedQueue() {}
 };
 
 #endif

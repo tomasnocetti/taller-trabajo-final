@@ -101,7 +101,8 @@ void GameModel::stopMovement(size_t playerId){
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
-  GlobalConfig& c = GC::get();
+  p.health.meditating = false;
+  const GlobalConfig& c = GC::get();
   if (p.health.currentHP <= 0) return;
 
   for (auto &it : cities)
@@ -149,6 +150,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   Player& p = *players.at(playerId);
+  p.health.meditating = false;
   int auxXPos = p.position.x;
   int auxYPos = p.position.y;
   p.position.x = x;
@@ -185,13 +187,14 @@ bool GameModel::checkEntityCollisions(LiveEntity &entity){
     collission = entity.checkCollision(*it);
     if (collission) return true;
   }
-
   return false;
 }
 
 void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
-  if (players.at(playerId)->health.currentHP <= 0) return;
-  players.at(playerId)->equip(inventoryPosition);
+  Player &p = *players.at(playerId);
+  p.health.meditating = false;
+  if (p.health.currentHP <= 0) return;
+  p.equip(inventoryPosition);
 }
 
 void GameModel::resurrect(size_t playerId){
@@ -217,7 +220,7 @@ void GameModel::getRespawnPosition(
   LiveEntity &entity){
     bool collision = true;
     entity.position = positionToRes;
-    GlobalConfig& c = GC::get();
+    const GlobalConfig& c = GC::get();
 
     for (int i = 0;; i++){
       entity.position.x = positionToRes.x + c.offsetToRespawn * i;
@@ -260,7 +263,21 @@ void GameModel::increasePlayerMana(size_t playerId){
   p.health.lastManaIncrease = std::chrono::system_clock::now();
   
   if (p.health.currentMP <= p.health.totalMP) return;
-  p.health.currentHP = p.health.totalHP;
+  p.health.currentMP = p.health.totalMP;
+}
+
+void GameModel::increaseManaByMeditation(size_t id){
+  Player &p = *players.at(id);
+  p.health.currentMP += p.skills.raceRecovery * p.skills.inteligence;
+  p.health.lastManaIncrease = std::chrono::system_clock::now();
+
+  if (p.health.currentMP <= p.health.totalMP) return;
+  p.health.currentMP = p.health.totalMP;
+}
+
+void GameModel::meditate(size_t id){
+  Player &p = *players.at(id);
+  p.health.meditating = true;
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
@@ -289,7 +306,7 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
 
 void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   NPC& n = *npcMap.at(npcId);
-  GlobalConfig& c = GC::get();
+  const GlobalConfig& c = GC::get();
   for (auto& it : players){
     for (auto &itCities : cities)
       if (players.at(it.first)->checkCollision(*itCities)) return;

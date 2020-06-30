@@ -67,3 +67,10 @@ ResurrectInstrucion::ResurrectInstrucion(size_t id) :
 void ResurrectInstrucion::run(GameModel& game) {
   game.resurrect(playerId);
 }
+
+MeditateInstruction::MeditateInstruction(size_t id) :
+  playerId(id){}
+
+void MeditateInstruction::run(GameModel& game) {
+  game.meditate(playerId);
+}
