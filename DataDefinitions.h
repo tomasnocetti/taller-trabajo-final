@@ -17,7 +17,8 @@ typedef enum {
   AUTHENTICATE,
   STOP_MOVEMENT,
   EQUIP,
-  RESURRECT
+  RESURRECT,
+  MEDITATE
 } ActionTypeT;
 
 typedef enum {

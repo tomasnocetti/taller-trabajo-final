@@ -263,6 +263,16 @@ void GameModel::increasePlayerMana(size_t playerId){
   p.health.currentHP = p.health.totalHP;
 }
 
+void GameModel::increaseManaByMeditation(size_t id){
+  Player &p = *players.at(id);
+  p.health.currentMP += p.skills.raceRecovery * p.skills.inteligence;
+}
+
+void GameModel::meditate(size_t id){
+  Player &p = *players.at(id);
+  p.health.meditating = true;
+}
+
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
     NPC& n = *npcMap.at(id);
     int auxXPos = n.position.x;

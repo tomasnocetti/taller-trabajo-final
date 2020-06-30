@@ -26,6 +26,7 @@ struct HealthAndManaData {
   std::chrono::system_clock::time_point nextRespawn;
   std::chrono::system_clock::time_point lastHealthIncrease;
   std::chrono::system_clock::time_point lastManaIncrease;
+  bool meditating;
   MSGPACK_DEFINE(totalHP, currentHP, totalMP, currentMP)
 };
 

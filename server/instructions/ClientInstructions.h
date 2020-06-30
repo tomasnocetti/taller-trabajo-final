@@ -106,4 +106,18 @@ class ResurrectInstrucion : public Instruction {
     size_t playerId;
 };
 
+class  MeditateInstruction : public Instruction {
+  public:
+    explicit MeditateInstruction(size_t id);
+    MeditateInstruction(const ResurrectInstrucion&) = delete;
+    MeditateInstruction& operator=(const MeditateInstruction&) 
+      = delete;
+    MeditateInstruction&& operator=(MeditateInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+};
+
 #endif

@@ -60,6 +60,10 @@ class GameModel{
     void increasePlayerHealth(size_t playerId);
     /* Handle increasePlayerHealth instruction */
     void increasePlayerMana(size_t playerId);
+    /* Handle meditate instruction */
+    void meditate(size_t playerId);
+    /* Handle increaseManaMeditation instruction - GameCron Instruction */
+    void increaseManaByMeditation(size_t playerId);
     /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
       Devuelve true si pudo o es valido, false de lo contrario. */
     bool authenticate(
