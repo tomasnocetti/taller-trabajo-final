@@ -1,9 +1,10 @@
 #ifndef _GAME_CONFIG_H_
 #define _GAME_CONFIG_H_
 
+
 #if __APPLE__
 #include <json/json.h>
-#elif
+#else
 #include <jsoncpp/json/json.h>
 #endif
 

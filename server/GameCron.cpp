@@ -44,7 +44,7 @@ void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
   for (OtherPlayersData &player : players) {
     if (player.resurrection.resurrect == true){
       playerResurrection(player);
-      return;
+      continue;
     }
       
     if (player.movement.xDir == 0 &&
