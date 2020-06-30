@@ -1,5 +1,6 @@
 #include "GameCron.h"
 #include "ecs/Entity.h"
+#include "GameConfig.h"
 #include <iostream>
 #include <chrono>
 #include <vector>
@@ -39,6 +40,7 @@ CronBQ& GameCron::getBQ() {
 }
 
 void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
+  GlobalConfig& c = GC::get();
   for (OtherPlayersData &player : players) {
     if (player.resurrection.resurrect == true){
       playerResurrection(player);
@@ -48,8 +50,8 @@ void GameCron::runPlayersMovement(std::vector<OtherPlayersData>& players) {
     if (player.movement.xDir == 0 &&
       player.movement.yDir == 0) continue;
 
-    int x = player.position.x + player.movement.xDir * SPEED;
-    int y = player.position.y + player.movement.yDir * SPEED;
+    int x = player.position.x + player.movement.xDir * c.speed;
+    int y = player.position.y + player.movement.yDir * c.speed;
 
     std::unique_ptr<Instruction> i(
       new PlayerSetCoordsInstruction(player.id, x, y));
@@ -104,11 +106,12 @@ void GameCron::runNPCLogic(
 void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players, 
   EnemyData &npc){
     if (npc.healthAndManaData.currentHP <= 0) return;
+    GlobalConfig& c = GC::get();
     
     bool hasPlayerInRange = false;
-    double minDistanceToPlayer = MIN_DISTANCE_NPC;
+    double minDistanceToPlayer = c.minDistanceNpc;
 
-    double minDistanceToAttackPlayer = MIN_DISTANCE_TO_ATTACK_PLAYER;
+    double minDistanceToAttackPlayer = c.minDistanceToAttackPlayer;
     PositionData playerPosition;
 
     // Calcula la distancia minima a un jugador
@@ -126,7 +129,7 @@ void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players,
     if (!hasPlayerInRange) return;
     moveNPC(npc.id, npc.position, playerPosition);    
 
-    std::chrono::seconds sec(ATTACK_INTERVAL);
+    std::chrono::seconds sec(c.attackInterval);
     if (std::chrono::system_clock::now() < npc.lastAttack + sec) return;
 
     if (minDistanceToPlayer > minDistanceToAttackPlayer) return;
@@ -135,9 +138,10 @@ void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players,
 
 void GameCron::moveNPC(size_t id, PositionData& npc, PositionData& follow) {
   MovementData d = Entity::getPositionDirection(npc, follow);
-  
-  int x = npc.x + d.xDir * SPEED_NPC;
-  int y = npc.y + d.yDir * SPEED_NPC;
+  GlobalConfig& c = GC::get();
+
+  int x = npc.x + d.xDir * c.speedNpc;
+  int y = npc.y + d.yDir * c.speedNpc;
 
   std::unique_ptr<Instruction> i(
       new NPCSetCoordsInstruction(id, x, y));

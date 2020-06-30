@@ -25,7 +25,7 @@ class InventoryEntity: public Entity {
       TTF_Font* font, size_t amount);
     //void setTextInfo(size_t amount, bool isEquipped);
     void setEquipTexture(LTexture* texture);
-    void setRect(int x, int y, int w, int h);
+    void setRect(int x, int y, int w, int h) override;
     void paint(double scaleW, double scaleH) override;
     void paint(const Camera &camera, 
     	double scaleW, double scaleH) override {}
