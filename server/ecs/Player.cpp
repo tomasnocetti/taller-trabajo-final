@@ -325,7 +325,7 @@ int Player::defend(){
 
 void Player::setDefaultEquipment(MainPlayerData &data){
   InventoryElementData bodyArmour, weapon, healthPotion, manaPotion,
-    weapon2, leftHandArmour, headArmour, bodyArmour2;
+    weapon2, leftHandArmour, headArmour, bodyArmour2, headArmour2;
 
   leftHandArmour.amount = 1;
   leftHandArmour.isEquiped = false;
@@ -338,6 +338,11 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   headArmour.equipableType = HEAD_DEFENSE;
   headArmour.enumPosition = HeadEquipment::HAT;
   data.equipment.head = HAT;
+
+  headArmour2.amount = 1;
+  headArmour2.isEquiped = false;
+  headArmour2.equipableType = HEAD_DEFENSE;
+  headArmour2.enumPosition = HeadEquipment::HELMET;
 
   bodyArmour2.amount = 1;
   bodyArmour2.isEquiped = false;
@@ -379,6 +384,7 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   data.inventory.push_back(headArmour);
   data.inventory.push_back(bodyArmour2);
   data.inventory.push_back(leftHandArmour);
+  data.inventory.push_back(headArmour2);
 }
 
 void Player::equip(int inventoryPosition){
