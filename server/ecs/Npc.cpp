@@ -48,6 +48,13 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
 }
 
 void NPC::rcvDamage(int &damage) {
+  bool critickAttack = Equations::criticAttack();
+  if (critickAttack){
+    damage = damage * 2;
+    health.currentHP -= damage;
+    return;
+  }
+
   bool dodged = Equations::dodgeAttack(skills.agility);
   if (dodged){  
     damage = -1;
