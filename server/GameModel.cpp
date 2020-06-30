@@ -107,18 +107,25 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     if (p.checkCollision(*it)) return;
 
   for (auto& it : players){
+    if (p.level <= NEWBIE_LEVEL) break;
+
+    Player& auxp = *players.at(it.first);
+
     for (auto &itCities : cities)
-      if (players.at(it.first)->checkCollision(*itCities)) return;
+      if (auxp.checkCollision(*itCities)) return;
 
-    if (players.at(it.first)->health.currentHP <= 0) continue;
+    if (abs((int)(p.level - auxp.level)) > FAIR_PLAY_LEVEL) continue;
 
-    if (players.at(it.first)->id == playerId) continue;
+    if (auxp.level <= NEWBIE_LEVEL) continue;
+
+    if (auxp.health.currentHP <= 0) continue;
+
+    if (auxp.id == playerId) continue;
 
     if (!p.checkInRange(*it.second, MAX_RANGE_ZONE))
       continue;
 
     bool success = p.attack(*it.second, xPos, yPos);
-
     if (success) break;
   }
 
