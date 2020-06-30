@@ -2,7 +2,11 @@
 #define _GAME_CONFIG_H_
 
 
+#if __APPLE__
+#include <json/json.h>
+#else
 #include <jsoncpp/json/json.h>
+#endif
 
 #include <vector>
 #include <map>
