@@ -13,6 +13,7 @@ struct Item {
   Equipable type;
   std::string name;
   virtual void equip(Player& player) const = 0;
+  virtual void unEquip(Player& player) const = 0;
 };
 
 struct RightHandItem : Item {
@@ -29,6 +30,7 @@ struct RightHandItem : Item {
   int range;
   int mana;
   void equip(Player& player) const override;
+  void unEquip(Player& player) const override;
 };
 
 struct LeftHandItem : Item {
@@ -41,6 +43,7 @@ struct LeftHandItem : Item {
   int minDefense;
   int maxDefense;
   void equip(Player& player) const override;
+  void unEquip(Player& player) const override;
 };
 
 struct BodyItem : Item {
@@ -53,6 +56,7 @@ struct BodyItem : Item {
   int minDefense;
   int maxDefense;
   void equip(Player& player) const override;
+  void unEquip(Player& player) const override;
 };
 
 struct HeadItem : Item {
@@ -65,6 +69,7 @@ struct HeadItem : Item {
   int minDefense;
   int maxDefense;
   void equip(Player& player) const override;
+  void unEquip(Player& player) const override;
 };
 
 struct HealthPotion : Item {
@@ -74,6 +79,7 @@ struct HealthPotion : Item {
     std::string name);
   int maxDefense;
   void equip(Player& player) const override;
+  void unEquip(Player& player) const override {}
 };
 
 struct ManaPotion : Item {
@@ -83,6 +89,7 @@ struct ManaPotion : Item {
     std::string name);
   int maxDefense;
   void equip(Player& player) const override;
+  void unEquip(Player& player) const override {}
 };
 
 #endif

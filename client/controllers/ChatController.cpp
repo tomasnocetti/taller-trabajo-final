@@ -86,6 +86,11 @@ void ChatController::handleCommand() {
     std::string alias = command.erase(0, pos + delimiter.length());
     model.authentificate(alias);
   }
+
+  if (action == "/tirar"){
+    std::string inventoryPosition = command.erase(0, pos+delimiter.length());
+    model.throwObject(inventoryPosition);
+  }
 }
 
 EntityList& ChatController::getEntities() {

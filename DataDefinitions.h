@@ -18,7 +18,8 @@ typedef enum {
   STOP_MOVEMENT,
   EQUIP,
   RESURRECT,
-  MEDITATE
+  MEDITATE,
+  THROW_OBJECT,
 } ActionTypeT;
 
 typedef enum {

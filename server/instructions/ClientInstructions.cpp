@@ -74,3 +74,11 @@ MeditateInstruction::MeditateInstruction(size_t id) :
 void MeditateInstruction::run(GameModel& game) {
   game.meditate(playerId);
 }
+
+ThrowObjInstruction::ThrowObjInstruction(size_t id, std::string inventoryPos) :
+  playerId(id),
+  inventoryPosition(std::stoi(inventoryPos)-1){}
+
+void ThrowObjInstruction::run(GameModel& game) {
+  game.throwInventoryObj(playerId, inventoryPosition);
+}

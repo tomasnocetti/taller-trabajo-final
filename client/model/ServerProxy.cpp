@@ -119,3 +119,9 @@ void ServerProxy::meditate(){
   InstructionData instruction = {MEDITATE, {}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::throwObject(std::string inventoryPosition){
+  ParamData x = {inventoryPosition};
+  InstructionData instruction = {THROW_OBJECT, {x}};
+  writeBQ.push(instruction);
+}

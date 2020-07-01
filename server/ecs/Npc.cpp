@@ -92,7 +92,7 @@ bool NPC::drop(DropItemData &drop){
 
   if ((probDrop > c.npcDropGold + c.npcDropPotion) && 
     (probDrop <= c.npcDropGold + c.npcDropPotion + c.npcDropItem)){
-      drop.id = Equations::random(0, 6);
+      drop.id = Equations::random(1, 6);
       return true;
   }
 

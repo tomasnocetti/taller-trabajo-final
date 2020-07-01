@@ -335,7 +335,13 @@ void Player::equip(int inventoryPosition){
 }
 
 void Player::drop(){
-  inventory.erase(inventory.begin(), inventory.begin()+inventory.size());
+  const GlobalConfig& c = GC::get();
+  for (unsigned int i = 0; i < inventory.size(); i++){
+    InventoryElementData& j = inventory[i];
+    const std::unique_ptr<Item> &item = c.items.at(j.itemId);
+    item->unEquip(*this);
+    inventory.erase(inventory.begin(), inventory.begin() + i);
+  }
 }
 
 int Player::calculateExcessGold(){
@@ -347,6 +353,40 @@ void Player::setTimeToResurrect(
   resurrection.resurrect = true;
   std::chrono::seconds sec(int(minDistanceToPriest*0.01));
   resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
+}
+
+void Player::throwObj(size_t inventoryPosition){
+  if ((unsigned int)inventoryPosition >= inventory.size()) return;
+  Equipable type;
+  const GlobalConfig& c = GC::get();
+
+  InventoryElementData& i = inventory[inventoryPosition];
+
+  const std::unique_ptr<Item> &item = c.items.at(i.itemId);
+
+  type = item->type;
+
+  switch (type) {
+    case HEALTH_POTION:
+    case MANA_POTION:
+      inventory[inventoryPosition].amount -= 1;
+
+      if (inventory[inventoryPosition].amount > 0) return;
+
+      inventory.erase(inventory.begin() + inventoryPosition);
+      break;
+    case WEAPON:
+    case LEFT_HAND_DEFENSE:
+    case HEAD_DEFENSE:
+    case BODY_ARMOUR:
+      if (!inventory[inventoryPosition].isEquiped){
+        inventory.erase(inventory.begin() + inventoryPosition);
+        break;
+      }
+
+      item->unEquip(*this);
+      inventory.erase(inventory.begin() + inventoryPosition);
+  }
 }
 
 void Player::setPlayerGameModelData(PlayerGameModelData &modelData){
