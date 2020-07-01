@@ -80,6 +80,7 @@ class ServerProxy{
     MainPlayerData mainPlayer;
     std::vector<EnemyData> npcs;
     std::vector<OtherPlayersData> otherPlayers;
+    std::vector<DropItemData> drops;
     BlockingQueueWrite writeBQ;
     ResponseQ readBQ;
     /** IMPORTANTE **/

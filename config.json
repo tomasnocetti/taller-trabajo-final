@@ -19,6 +19,9 @@
     "playerInitialLevel": 1,
     "newbieLevel": 2,
     "fairPlayLevel": 3,
+    "npcDropGold": 0.3,
+    "npcDropPotion": 0.2,
+    "npcDropItem": 0.2,
     "chatMessages": {
       "initialMsg": "Bienvenido a las tierras de ARGENTUM",
       "damageRcvMsg": "Nos estan atacando! Daño recibido: ",
@@ -28,6 +31,10 @@
       "insufficientFunds": "Tu oro es insuficiente",
       "noInventorySpace": "No hay espaio en tu inventario",
       "invalidOption": "La opcion selecionada es invalida"
+    },
+    "dropSizes": {
+      "weight": 32,
+      "height": 32
     },
     "races": [{
       "type": "human",
@@ -145,7 +152,11 @@
       "id": 8,
       "type": "V",
       "name": "Pocion de Vida"
+    }, {
+      "id": 9,
+      "name": "oro"
     }],
+
     "traderItems": [{
       "itemId": 0,
       "value": 200

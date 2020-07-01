@@ -21,6 +21,7 @@ class Equations{
     static float randomFloat(float a, float b);
     static int NPCDamage(int level, size_t npcStrength);
     static bool criticAttack();
+    static int excessGold(int level, int gold);
   private:
     static unsigned int seed;
 };

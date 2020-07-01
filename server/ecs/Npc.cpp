@@ -65,11 +65,37 @@ void NPC::rcvDamage(int &damage) {
   health.currentHP -= damage;
 }
 
-int NPC::drop(unsigned int &seed){
-  if (health.currentHP > 0) return 0;
+bool NPC::drop(DropItemData &drop){
+  if (health.currentHP > 0) return false;
   const GlobalConfig& c = GC::get();
+  double probDrop = Equations::randomFloat(0, 1);
+  drop.amount = 1;
+  drop.position = position;
 
-  return health.totalHP * Equations::randomFloat(0, c.npcRandomDrop);
+  if (probDrop <= c.npcDropGold){
+    double gold = Equations::randomFloat(0.01, 0.2) * health.totalHP;
+    drop.id = 9;
+    drop.amount = int(gold);
+  }
+
+  if ((probDrop > c.npcDropGold) && (probDrop <= 
+    (c.npcDropGold + c.npcDropPotion))){
+      int potion = Equations::random(0, 1);
+      if (potion == 1){
+        drop.id = 7;
+      }else{
+        drop.id = 8;
+      }
+      return true;
+  }
+
+  if ((probDrop > c.npcDropGold + c.npcDropPotion) && 
+    (probDrop <= c.npcDropGold + c.npcDropPotion + c.npcDropItem)){
+      drop.id = Equations::random(0, 6);
+      return true;
+  }
+
+  return false;
 }
 
 void NPC::setNextRespawn(){

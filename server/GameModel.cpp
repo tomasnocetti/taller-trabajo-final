@@ -138,11 +138,16 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
       continue;
 
     bool success = p.attack(*it.second, xPos, yPos);
-    if (success) break;
+    if (success && auxp.health.totalHP > 0) break;
+
+    addPlayerDrops(auxp);
+    auxp.drop();
+    break;
   }
 
   for (auto& it : npcMap){
     NPC& npc = *npcMap.at(it.first);
+    if (npc.health.currentHP <= 0) continue;
 
     if (!p.checkInRange(*it.second, c.maxRangeZone))
       continue;
@@ -153,9 +158,88 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     if (npc.health.currentHP <= 0)
       npc.setNextRespawn();
 
-    p.gold += npc.drop(randomSeed);
-    return;
+    DropItemData drop;
+    bool thereIsDrop = npc.drop(drop);
+    if (!thereIsDrop) return;
+
+    addNPCDrop(drop);
   }
+}
+
+void GameModel::addNPCDrop(DropItemData &drop){
+  const GlobalConfig& c = GC::get();
+  drop.position.w = c.dropSizes.weight;
+  drop.position.h = c.dropSizes.height;
+
+  getDropPosition(drop.position);
+  drops.push_back(std::move(drop));
+}
+
+void GameModel::addPlayerDrops(Player &player){
+  const GlobalConfig& c = GC::get();
+
+  DropItemData goldDrop;
+  goldDrop.id = 9;
+  goldDrop.position = player.position;
+  goldDrop.position.w = c.dropSizes.weight;
+  goldDrop.position.h = c.dropSizes.height;
+  getDropPosition(goldDrop.position);
+  goldDrop.amount = player.calculateExcessGold();
+  if (goldDrop.amount > 0){
+    drops.push_back(std::move(goldDrop));
+    player.gold -= goldDrop.amount;
+  }
+
+  for (auto& it : player.inventory){
+    DropItemData drop;
+    drop.position = player.position;
+    drop.position.w = c.dropSizes.weight;
+    drop.position.h = c.dropSizes.height;
+    drop.amount = it.amount;
+    drop.id = it.itemId;
+    getDropPosition(drop.position);
+    drops.push_back(std::move(drop));
+  }
+}
+
+void GameModel::getDropPosition(PositionData &positionToDrop){
+  bool collision = true;
+  const GlobalConfig& c = GC::get();
+  int auxXPos = positionToDrop.x;
+  
+  for (int i = 1;; i++){
+    positionToDrop.x += c.offsetToRespawn * i;
+    collision = checkDropCollisions(positionToDrop);
+    if (!collision) break;
+
+    positionToDrop.x -= 2*(c.offsetToRespawn * i);
+    collision = checkDropCollisions(positionToDrop);
+    if (!collision) break;
+
+    positionToDrop.x = auxXPos;
+    positionToDrop.y += c.offsetToRespawn * i;
+    collision = checkDropCollisions(positionToDrop);
+    if (!collision) break;
+
+    positionToDrop.y -= 2*(c.offsetToRespawn * i);
+    collision = checkDropCollisions(positionToDrop);
+    if (!collision) break;
+  }
+}
+
+bool GameModel::checkDropCollisions(PositionData &dropPossiblePos){
+  Entity possibleDrop(dropPossiblePos);
+
+  for (auto& it : drops){
+    Entity drop(it.position);
+    if (drop.checkCollision(possibleDrop)) return true;
+  }
+
+  for (auto& it : margins){
+    if (it->checkCollision(possibleDrop)) return true;
+  }
+
+  return false;
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
@@ -318,12 +402,19 @@ void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   NPC& n = *npcMap.at(npcId);
   const GlobalConfig& c = GC::get();
   for (auto& it : players){
+    if (players.at(it.first)->health.currentHP < 0) return;
     for (auto &itCities : cities)
       if (players.at(it.first)->checkCollision(*itCities)) return;
 
     if (!n.checkInRange(*it.second, c.maxRangeZone))
         return;
     n.attack(*it.second, xPos, yPos);
+
+    if (players.at(it.first)->health.currentHP > 0) return;
+
+    addPlayerDrops(*it.second);
+    players.at(it.first)->drop();
+    return;
   }
 }
 
@@ -363,7 +454,7 @@ void GameModel::propagate() {
 
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.npcs = npcs;
-  //modelData.map = map;
+  modelData.drops = drops;
   players.at(id)->setPlayerGameModelData(modelData);
   modelData.otherPlayers = otherPlayers;
 }

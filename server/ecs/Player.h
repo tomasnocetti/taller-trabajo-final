@@ -61,9 +61,11 @@ class Player : public LiveEntity{
     o de defensa, setea el booleano isEquiped en verdadero, y los otros
     en falso. */
     void equip(int inventoryPosition);
+    void drop();
     void setTimeToResurrect(double minDistanceToPriest);
     void setPlayerGameModelData(PlayerGameModelData &modelData);
     void setOtherPlayersData(OtherPlayersData &otherData);
+    int calculateExcessGold();
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

@@ -104,12 +104,20 @@ struct OtherPlayersData {
     otherPlayerHealth, healthAndMana)
 };
 
+struct DropItemData{
+  PositionData position;
+  int amount;
+  int id;
+  MSGPACK_DEFINE(position, id, amount) 
+};
+
 struct PlayerGameModelData {
   MainPlayerData playerData;
   //MapData map;
   std::vector<EnemyData> npcs;
   std::vector<OtherPlayersData> otherPlayers;
-  MSGPACK_DEFINE(playerData, npcs, otherPlayers)
+  std::vector<DropItemData> drops;
+  MSGPACK_DEFINE(playerData, npcs, otherPlayers, drops)
 };
 
 #endif
