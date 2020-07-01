@@ -3,6 +3,7 @@
 
 #include "../../DataDefinitions.h"
 #include "../ecs/Player.h"
+#include <iostream>
 
 class Player;
 
@@ -11,7 +12,7 @@ struct Item {
   int id;
   Equipable type;
   std::string name;
-  virtual void equip(Player& player) const {};
+  virtual void equip(Player& player) const = 0;
 };
 
 struct RightHandItem : Item {
