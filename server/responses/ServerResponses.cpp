@@ -28,3 +28,29 @@ PlayerGameResponse::PlayerGameResponse(
 std::string PlayerGameResponse::getModelPacked(){
   return modelPacked;
 }
+
+
+MapResponse::MapResponse(
+  MapData model) :
+  Response(ResponseTypeT::MAP_MODEL) {
+    /** LOGICA PARA PACKEAR LA RESPUESTA ACORDE AL PROTOCOLO
+     * TIPODERESPUESTA - 4 bytes de largo - contenido
+    */
+
+    std::stringstream buffer;
+    msgpack::pack(buffer, model);
+    
+    std::string str(buffer.str());
+
+    size_t length = to_big_end<uint32_t>(str.length());
+    str.insert(0, (char *) &length, 4);
+
+    size_t responseType = type;
+    str.insert(0, (char *) &responseType, 1);
+
+    modelPacked = str;
+}
+
+std::string MapResponse::getModelPacked(){
+  return modelPacked;
+}

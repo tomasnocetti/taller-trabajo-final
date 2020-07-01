@@ -49,6 +49,7 @@ class ServerProxy{
     void init();
     void update();
     bool isAuthenticated() const;
+    bool isMapSet() const;
 
     /** Client ACTIONS */
     void authentificate(std::string& alias);
@@ -62,14 +63,18 @@ class ServerProxy{
     MapData getMapData() const;
     MainPlayerData getMainPlayerData() const;
     std::vector<EnemyData> getNPCData() const;
-    void setGameModelData(PlayerGameModelData &gameModelData);
     std::vector<OtherPlayersData> getOtherPlayersData() const;
+
+    /** Server SETTERS */
+    void setGameModelData(PlayerGameModelData &gameModelData);
+    void setMapData(MapData& map);
     void close();
 
   private:
     friend class ServerProxyWrite;
     friend class ServerProxyRead;
-    bool authentificated;
+    bool authentificated = false;
+    bool mapSet = false;
     std::atomic<bool> running;
     MapData map;
     MainPlayerData mainPlayer;

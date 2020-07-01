@@ -12,10 +12,12 @@ class MapController {
   public:
     MapController(ServerProxy& model, SdlAssetsManager& manager);
     ~MapController();
-    void init();
+    void update();
     EntityList& getEntities();
 
   private:
+    void init();
+    bool mapIsSet = false;
     ServerProxy& model;
     SdlAssetsManager& manager;
     EntityList tiles;

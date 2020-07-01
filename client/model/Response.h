@@ -35,4 +35,15 @@ class PlayerGameResponse: public Response {
     PlayerGameModelData model;
 };
 
+class MapResponse: public Response {
+  public:
+    explicit MapResponse(std::string &buffer);
+    MapResponse(const MapResponse&) = delete;
+    MapResponse& operator=(const MapResponse&) = delete;
+    MapResponse&& operator=(MapResponse&& other) = delete;
+    void run(ServerProxy& server) override;
+  private:
+    MapData model;
+};
+
 #endif
