@@ -70,10 +70,24 @@ void RightHandItem::equip(Player& p) const {
   p.rightSkills.mana = mana;
 }
 
+void RightHandItem::unEquip(Player& p) const{
+  p.equipment.rightHand = 0;
+  p.rightSkills.maxDamage = 0;
+  p.rightSkills.minDamage = 0;
+  p.rightSkills.range = 0;
+  p.rightSkills.mana = 0;
+}
+
 void LeftHandItem::equip(Player& p) const {
   p.equipment.leftHand = id;
   p.leftSkills.maxDefense = maxDefense;
   p.leftSkills.minDefense = maxDefense;
+}
+
+void LeftHandItem::unEquip(Player &p) const{
+  p.equipment.leftHand = 0;
+  p.leftSkills.maxDefense = 0;
+  p.leftSkills.minDefense = 0;
 }
 
 void BodyItem::equip(Player& p) const {
@@ -82,10 +96,22 @@ void BodyItem::equip(Player& p) const {
   p.bodySkills.minDefense = minDefense;
 }
 
+void BodyItem::unEquip(Player &p) const{
+  p.equipment.body = 0;
+  p.bodySkills.maxDefense = 0;
+  p.bodySkills.minDefense = 0;
+}
+
 void HeadItem::equip(Player& p) const {
   p.equipment.head = id;
   p.headSkills.maxDefense = maxDefense;
   p.headSkills.minDefense = maxDefense;
+}
+
+void HeadItem::unEquip(Player &p) const{
+  p.equipment.head = 0;
+  p.headSkills.maxDefense = 0;
+  p.headSkills.minDefense = 0;
 }
 
 void HealthPotion::equip(Player& p) const {

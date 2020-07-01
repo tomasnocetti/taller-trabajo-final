@@ -89,6 +89,8 @@ class GameModel{
     void getDropPosition(PositionData &positionToRes);
     bool checkDropCollisions(PositionData &dropPossiblePos);
     void addNPCDrop(DropItemData &drop);
+    /* Handle throwInventoryObj instruction */
+    void throwInventoryObj(size_t playerId, size_t inventoryPosition);
 };
 
 #endif

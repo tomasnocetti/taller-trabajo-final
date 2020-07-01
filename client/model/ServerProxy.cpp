@@ -12,7 +12,6 @@ ServerProxy::ServerProxy(std::string& host, std::string& port) :
     socket.connect(host.c_str(), port.c_str());
 }
 
-
 void ServerProxy::init() {
   serverProxyWrite.start();
   serverProxyRead.start();
@@ -124,5 +123,11 @@ void ServerProxy::resurrect(){
 void ServerProxy::meditate(){
   if (!authentificated) return;
   InstructionData instruction = {MEDITATE, {}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::throwObject(std::string inventoryPosition){
+  ParamData x = {inventoryPosition};
+  InstructionData instruction = {THROW_OBJECT, {x}};
   writeBQ.push(instruction);
 }

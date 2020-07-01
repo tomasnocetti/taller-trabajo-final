@@ -120,4 +120,19 @@ class MeditateInstruction : public Instruction {
     size_t playerId;
 };
 
+class ThrowObjInstruction : public Instruction {
+  public:
+    ThrowObjInstruction(size_t id, std::string inventoryPosition);
+    ThrowObjInstruction(const ThrowObjInstruction&) = delete;
+    ThrowObjInstruction& operator=(const ThrowObjInstruction&) 
+      = delete;
+    ThrowObjInstruction&& operator=(ThrowObjInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    size_t inventoryPosition;
+};
+
 #endif

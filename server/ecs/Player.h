@@ -66,6 +66,7 @@ class Player : public LiveEntity{
     void setPlayerGameModelData(PlayerGameModelData &modelData);
     void setOtherPlayersData(OtherPlayersData &otherData);
     int calculateExcessGold();
+    void throwObj(size_t inventoryPosition);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

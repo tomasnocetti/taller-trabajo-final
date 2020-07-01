@@ -374,6 +374,11 @@ void GameModel::meditate(size_t id){
   p.health.meditating = true;
 }
 
+void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
+  Player &p = *players.at(playerId);
+  p.throwObj(inventoryPosition);
+}
+
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
     NPC& n = *npcMap.at(id);
     int auxXPos = n.position.x;
