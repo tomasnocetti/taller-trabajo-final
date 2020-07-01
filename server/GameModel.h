@@ -88,6 +88,7 @@ class GameModel{
     void addPlayerDrops(Player &player);
     void getDropPosition(PositionData &positionToRes);
     bool checkDropCollisions(PositionData &dropPossiblePos);
+    void addNPCDrop(DropItemData &drop);
 };
 
 #endif

@@ -58,6 +58,9 @@ struct GlobalConfig {
   int playerInitialLevel;
   size_t newbieLevel;
   size_t fairPlayLevel;
+  double npcDropGold;
+  double npcDropPotion;
+  double npcDropItem;
   std::map<int, std::unique_ptr<Item>> items;
   std::vector<TraderItem> traderItems;
   ChatMessages chatMessages;

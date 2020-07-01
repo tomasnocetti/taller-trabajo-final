@@ -19,6 +19,9 @@
     "playerInitialLevel": 1,
     "newbieLevel": 2,
     "fairPlayLevel": 3,
+    "npcDropGold": 0.3,
+    "npcDropPotion": 0.2,
+    "npcDropItem": 0.2,
     "chatMessages": {
       "initialMsg": "Bienvenido a las tierras de ARGENTUM",
       "damageRcvMsg": "Nos estan atacando! Daño recibido: ",
@@ -30,14 +33,8 @@
       "invalidOption": "La opcion selecionada es invalida"
     },
     "dropSizes": {
-      "initialMsg": "Bienvenido a las tierras de ARGENTUM",
-      "damageRcvMsg": "Nos estan atacando! Daño recibido: ",
-      "enemyDodgedAttack": "El enemigo ha esquivado el ataque!",
-      "attackDodged": "Ataque esquivado!",
-      "damageCaused": "Ataque exitoso! Daño provocado: ",
-      "insufficientFunds": "Tu oro es insuficiente",
-      "noInventorySpace": "No hay espaio en tu inventario",
-      "invalidOption": "La opcion selecionada es invalida"
+      "weight": 32,
+      "height": 32
     },
     "races": [{
       "type": "human",

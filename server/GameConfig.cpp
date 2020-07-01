@@ -44,6 +44,9 @@ void GC::load(const char* src) {
   instance->g.playerInitialLevel = gameConfig["playerInitialLevel"].asInt();
   instance->g.newbieLevel = gameConfig["newbieLevel"].asInt();
   instance->g.fairPlayLevel = gameConfig["fairPlayLevel"].asInt();
+  instance->g.npcDropGold = gameConfig["npcDropGold"].asDouble();
+  instance->g.npcDropPotion = gameConfig["npcDropPotion"].asDouble();
+  instance->g.npcDropItem = gameConfig["npcDropItem"].asDouble();
 
   instance->g.chatMessages.initialMsg =
     chatMessages["initialMsg"].asString();

@@ -146,6 +146,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
   for (auto& it : npcMap){
     NPC& npc = *npcMap.at(it.first);
+    if (npc.health.currentHP <= 0) continue;
 
     if (!p.checkInRange(*it.second, c.maxRangeZone))
       continue;
@@ -156,19 +157,31 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     if (npc.health.currentHP <= 0)
       npc.setNextRespawn();
 
-    p.gold += npc.drop(randomSeed);
-    return;
+    DropItemData drop;
+    bool thereIsDrop = npc.drop(drop);
+    if (!thereIsDrop) return;
+
+    addNPCDrop(drop);
   }
+}
+
+void GameModel::addNPCDrop(DropItemData &drop){
+  const GlobalConfig& c = GC::get();
+  drop.position.w = c.dropSizes.weight;
+  drop.position.h = c.dropSizes.height;
+
+  getDropPosition(drop.position);
+  drops.push_back(std::move(drop));
 }
 
 void GameModel::addPlayerDrops(Player &player){
   DropItemData drop;
   const GlobalConfig& c = GC::get();
-  drop.position.w = c.dropSizes.weight;
-  drop.position.h = c.dropSizes.height;
 
   for (auto& it : player.inventory){
     drop.position = player.position;
+    drop.position.w = c.dropSizes.weight;
+    drop.position.h = c.dropSizes.height;
     drop.amount = it.amount;
     drop.id = it.itemId;
     getDropPosition(drop.position);

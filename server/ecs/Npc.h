@@ -13,7 +13,7 @@ class NPC : public LiveEntity {
     bool checkCollision(Entity& otherEntity) const override;
     bool checkInRange(Entity& otherEntity, double distance) const override;
     bool attack(LiveEntity &entity, int xCoord, int yCoord) override;
-    int drop(unsigned int &seed);
+    bool drop(DropItemData &drop);
     void setNextRespawn();
     void setEnemyData(EnemyData &enemy);
     void rcvDamage(int &damage) override;
