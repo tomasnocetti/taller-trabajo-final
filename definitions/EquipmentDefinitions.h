@@ -14,49 +14,6 @@ typedef enum {
 
 MSGPACK_ADD_ENUM(Equipable)
 
-typedef enum{
-  DEFAULT_H,
-  HELMET,
-  HAT,
-  HOOD
-} HeadEquipment;
-
-MSGPACK_ADD_ENUM(HeadEquipment)
-
-typedef enum {
-  DEFAULT_B,
-  TUNIC,
-  LEATHER_ARMOR,
-  PLATE_ARMOR
-} BodyEquipment;
-
-MSGPACK_ADD_ENUM(BodyEquipment)
-
-typedef enum {
-  DEFAULT_R,
-  SWORD,
-  SIMPLE_BOW,
-  ASH_STICK,
-  GNARLED_STAFF
-} RightHandEquipment;
-
-MSGPACK_ADD_ENUM(RightHandEquipment)
-
-typedef enum {
-  DEFAULT_L,
-  TURTLE_SHIELD,
-  IRON_SHIELD
-} LeftHandEquipment;
-
-MSGPACK_ADD_ENUM(LeftHandEquipment)
-
-typedef enum {
-  HEALTH,
-  MANA
-} Potions;
-
-MSGPACK_ADD_ENUM(Potions)
-
 struct EquipmentData {
   int head;
   int body;

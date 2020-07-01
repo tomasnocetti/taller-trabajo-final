@@ -18,6 +18,10 @@ Player::Player(MainPlayerData playerData, size_t id):
   equipment(playerData.equipment),
   resurrection({std::chrono::system_clock::now(), false}),
   chat(playerData.chat){
+    rightSkills = {0, 0, 0, 0};
+    leftSkills = {0, 0};
+    bodySkills = {0, 0};
+    headSkills = {0, 0};
     for (unsigned int i = 0; i < inventory.size(); i++){
       if (inventory.at(i).isEquiped)
         equip(i);
@@ -58,6 +62,7 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     data.points.currentMP = 0;
     data.points.lastHealthIncrease = std::chrono::system_clock::now();
     data.points.lastManaIncrease = std::chrono::system_clock::now();
+    data.points.nextRespawn = std::chrono::system_clock::now();
     data.points.meditating = false;
 
     data.movement.xDir = 0;
