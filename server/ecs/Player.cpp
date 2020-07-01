@@ -17,7 +17,12 @@ Player::Player(MainPlayerData playerData, size_t id):
   movement(playerData.movement),
   equipment(playerData.equipment),
   resurrection({std::chrono::system_clock::now(), false}),
-  chat(playerData.chat){}
+  chat(playerData.chat){
+    for (unsigned int i = 0; i < inventory.size(); i++){
+      if (inventory.at(i).isEquiped)
+        equip(i);
+    }
+}
 
 std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
   PlayerRootData root) {
@@ -246,67 +251,44 @@ int Player::defend(){
 }
 
 void Player::setDefaultEquipment(MainPlayerData &data){
-  InventoryElementData bodyArmour, weapon, healthPotion, manaPotion,
-    weapon2, leftHandArmour, headArmour, bodyArmour2, headArmour2;
+  InventoryElementData weapon, weapon2, leftHandArmour,
+    headArmour, bodyArmour2;
 
   leftHandArmour.amount = 1;
-  leftHandArmour.isEquiped = false;
+  leftHandArmour.isEquiped = true;
   leftHandArmour.equipableType = LEFT_HAND_DEFENSE;
   leftHandArmour.enumPosition = LeftHandEquipment::IRON_SHIELD;
-  data.equipment.leftHand = DEFAULT_L;
+  leftHandArmour.itemId = 4;
 
   headArmour.amount = 1;
   headArmour.isEquiped = true;
   headArmour.equipableType = HEAD_DEFENSE;
-  headArmour.enumPosition = HeadEquipment::HAT;
-  data.equipment.head = HAT;
-
-  headArmour2.amount = 1;
-  headArmour2.isEquiped = false;
-  headArmour2.equipableType = HEAD_DEFENSE;
-  headArmour2.enumPosition = HeadEquipment::HELMET;
+  headArmour.enumPosition = HeadEquipment::HELMET;
+  headArmour.itemId = 3;
 
   bodyArmour2.amount = 1;
-  bodyArmour2.isEquiped = false;
+  bodyArmour2.isEquiped = true;
   bodyArmour2.equipableType = BODY_ARMOUR;
   bodyArmour2.enumPosition = BodyEquipment::TUNIC;
-
-  bodyArmour.amount = 1;
-  bodyArmour.isEquiped = true;
-  bodyArmour.equipableType = BODY_ARMOUR;
-  bodyArmour.enumPosition = BodyEquipment::DEFAULT_B;
-  data.equipment.body = DEFAULT_B;
+  bodyArmour2.itemId = 5;
 
   weapon.amount = 1;
   weapon.isEquiped = true;
   weapon.equipableType = WEAPON;
   weapon.enumPosition = RightHandEquipment::SWORD;
-  data.equipment.rightHand = SWORD;
-
-  healthPotion.amount = 2;
-  healthPotion.isEquiped = false;
-  healthPotion.equipableType = POTION;
-  healthPotion.enumPosition = Potions::HEALTH;
-
-  manaPotion.amount = 2;
-  manaPotion.isEquiped = false;
-  manaPotion.equipableType = POTION;
-  manaPotion.enumPosition = Potions::MANA;
-
+  weapon.itemId = 2;
+  
   weapon2.amount = 1;
   weapon2.isEquiped = false;
   weapon2.equipableType = WEAPON;
   weapon2.enumPosition = RightHandEquipment::SIMPLE_BOW;
+  weapon2.itemId = 1;
 
-  data.inventory.push_back(bodyArmour);
   data.inventory.push_back(weapon);
-  data.inventory.push_back(healthPotion);
-  data.inventory.push_back(manaPotion);
   data.inventory.push_back(weapon2);
   data.inventory.push_back(headArmour);
   data.inventory.push_back(bodyArmour2);
   data.inventory.push_back(leftHandArmour);
-  data.inventory.push_back(headArmour2);
 }
 
 void Player::equip(int inventoryPosition){
@@ -316,9 +298,9 @@ void Player::equip(int inventoryPosition){
 
   InventoryElementData& i = inventory[inventoryPosition];
 
-  const Item& item = c.items.at(i.itemId);
+  const std::unique_ptr<Item> &item = c.items.at(i.itemId);
 
-  type = item.type;
+  type = item->type;
 
   switch (type) {
     case POTION:
@@ -338,7 +320,7 @@ void Player::equip(int inventoryPosition){
     case LEFT_HAND_DEFENSE:
     case HEAD_DEFENSE:
     case BODY_ARMOUR:
-      item.equip(*this);
+      item->equip(*this);
 
       for (auto& it : inventory){
         if (it.equipableType != type) continue;

@@ -1,4 +1,5 @@
 #include "Items.h"
+#include <string>
 
 Item::Item(int id, Equipable type, std::string name) :
   id(id),

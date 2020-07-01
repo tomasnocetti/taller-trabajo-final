@@ -12,12 +12,12 @@ Trader::Trader(PositionData position) :
   const GlobalConfig& c = GC::get();
 
   // Preparo items de manera legible
-  for (int i = 0; i < c.traderItems.size(); i++) {
+  for (unsigned int i = 0; i < c.traderItems.size(); i++) {
     std::stringstream ss;
     const TraderItem& traderItem = c.traderItems[i];
-    const Item& item = c.items.at(traderItem.itemId);
+    const std::unique_ptr<Item> &item = c.items.at(traderItem.itemId);
 
-    ss << "   " << i << ". " << item.name << " <" << traderItem.value << ">";
+    ss << "   " << i << ". " << item->name << " <" << traderItem.value << ">";
     readableItems.push_back(ss.str());
   }
 }
@@ -34,7 +34,7 @@ void Trader::buy(Player& p, size_t option) {
   }
 
   const TraderItem& item = c.traderItems[option];
-  if (item.value > p.gold) {
+  if (item.value > (int)p.gold) {
     ChatManager::insufficientFunds(p.chat);
     return;
   }

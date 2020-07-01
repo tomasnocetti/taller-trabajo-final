@@ -71,47 +71,47 @@ void GC::load(const char* src) {
     switch (type) {
       case Equipable::BODY_ARMOUR:
       instance->g.items.insert(
-        std::pair<int, Item>(
-          id, BodyItem(
-          id,
-          type,
-          name,
-          item["minDefense"].asInt(),
-          item["maxDefense"].asInt())));
+        std::pair<int, std::unique_ptr<Item>>(
+          id, std::unique_ptr<Item> (new BodyItem(
+            id,
+            type,
+            name,
+            item["minDefense"].asInt(),
+            item["maxDefense"].asInt()))));
         break;
       case Equipable::POTION:
         break;
       case Equipable::WEAPON:
-          instance->g.items.insert(
-            std::pair<int, Item>(
-              id, RightHandItem(
-                id,
-                type,
-                name,
-                item["minDamage"].asInt(),
-                item["maxDamage"].asInt(),
-                item["mana"].asInt(),
-                item["range"].asInt())));
+        instance->g.items.insert(
+          std::pair<int, std::unique_ptr<Item>>(
+            id, std::unique_ptr<Item> (new RightHandItem(
+              id,
+              type,
+              name,
+              item["minDamage"].asInt(),
+              item["maxDamage"].asInt(),
+              item["mana"].asInt(),
+              item["range"].asInt()))));
         break;
       case Equipable::LEFT_HAND_DEFENSE:
         instance->g.items.insert(
-          std::pair<int, Item>(
-            id, LeftHandItem(
-          id,
-          type,
-          name,
-          item["minDefense"].asInt(),
-          item["maxDefense"].asInt())));
+          std::pair<int, std::unique_ptr<Item>>(
+            id, std::unique_ptr<Item> (new LeftHandItem(
+              id,
+              type,
+              name,
+              item["minDefense"].asInt(),
+              item["maxDefense"].asInt()))));
         break;
       case Equipable::HEAD_DEFENSE:
         instance->g.items.insert(
-          std::pair<int, Item>(
-            id, HeadItem(
+          std::pair<int, std::unique_ptr<Item>>(
+            id, std::unique_ptr<HeadItem> (new HeadItem(
           id,
           type,
           name,
           item["minDefense"].asInt(),
-          item["maxDefense"].asInt())));
+          item["maxDefense"].asInt()))));
         break;
     default:
       return;
