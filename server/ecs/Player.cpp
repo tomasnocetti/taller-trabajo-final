@@ -254,42 +254,32 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   InventoryElementData weapon, weapon2, leftHandArmour,
     headArmour, bodyArmour2, healthPotion, manaPotion;
 
-  healthPotion.amount = 1;
+  healthPotion.amount = 2;
   healthPotion.isEquiped = false;
-  healthPotion.itemId = 5;
+  healthPotion.itemId = 8;
 
-  manaPotion.amount = 1;
+  manaPotion.amount = 2;
   manaPotion.isEquiped = false;
-  manaPotion.itemId = 5;
+  manaPotion.itemId = 7;
 
   leftHandArmour.amount = 1;
   leftHandArmour.isEquiped = true;
-  leftHandArmour.equipableType = LEFT_HAND_DEFENSE;
-  leftHandArmour.enumPosition = LeftHandEquipment::IRON_SHIELD;
   leftHandArmour.itemId = 4;
 
   headArmour.amount = 1;
   headArmour.isEquiped = true;
-  headArmour.equipableType = HEAD_DEFENSE;
-  headArmour.enumPosition = HeadEquipment::HELMET;
   headArmour.itemId = 3;
 
   bodyArmour2.amount = 1;
   bodyArmour2.isEquiped = true;
-  bodyArmour2.equipableType = BODY_ARMOUR;
-  bodyArmour2.enumPosition = BodyEquipment::TUNIC;
   bodyArmour2.itemId = 5;
 
   weapon.amount = 1;
   weapon.isEquiped = true;
-  weapon.equipableType = WEAPON;
-  weapon.enumPosition = RightHandEquipment::SWORD;
   weapon.itemId = 2;
   
   weapon2.amount = 1;
   weapon2.isEquiped = false;
-  weapon2.equipableType = WEAPON;
-  weapon2.enumPosition = RightHandEquipment::SIMPLE_BOW;
   weapon2.itemId = 1;
 
   data.inventory.push_back(weapon);
@@ -297,11 +287,12 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   data.inventory.push_back(headArmour);
   data.inventory.push_back(bodyArmour2);
   data.inventory.push_back(leftHandArmour);
+  data.inventory.push_back(healthPotion);
+  data.inventory.push_back(manaPotion);
 }
 
 void Player::equip(int inventoryPosition){
   if ((unsigned int)inventoryPosition >= inventory.size()) return;
-  std::cout << inventory.size() << std::endl;
   Equipable type;
   const GlobalConfig& c = GC::get();
 
@@ -329,7 +320,7 @@ void Player::equip(int inventoryPosition){
       item->equip(*this);
 
       for (auto& it : inventory){
-        if (it.equipableType != type) continue;
+        if (c.items.at(it.itemId)->type != type) continue;
         it.isEquiped = false;
       }
 

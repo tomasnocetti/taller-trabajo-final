@@ -139,11 +139,11 @@
       "mana": 5
     }, {
       "id": 7,
-      "type": "P",
+      "type": "M",
       "name": "Pocion de Mana"
     }, {
       "id": 8,
-      "type": "P",
+      "type": "V",
       "name": "Pocion de Vida"
     }],
     "traderItems": [{
