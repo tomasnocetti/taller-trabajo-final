@@ -12,20 +12,15 @@ ServerProxy::ServerProxy(std::string& host, std::string& port) :
     socket.connect(host.c_str(), port.c_str());
 }
 
-void ServerProxy::authentificate(std::string& alias) {
-  std::cout << "Player " << alias << " authentificated" << std::endl;
-}
 
 void ServerProxy::init() {
-  MapParser m;
-  //m.loadMap("client/assets/map/gameMap.json");
-  m.loadMap("client/assets/map/game_map.json");
-  map = m.getMapData();
-
   serverProxyWrite.start();
   serverProxyRead.start();
+}
 
-  ParamData nick = {"Fer"};
+void ServerProxy::authentificate(std::string& alias) {
+  std::cout << "Player " << alias << " Autenticando" << std::endl;
+  ParamData nick = {alias};
   InstructionData instruction = {AUTHENTICATE, {nick}};
   writeBQ.push(instruction);
 }
@@ -72,9 +67,15 @@ MainPlayerData ServerProxy::getMainPlayerData() const {
 }
 
 void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
+  authentificated = true;
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
+}
+
+void ServerProxy::setMapData(MapData& mapData){
+  mapSet = true;
+  map = mapData;
 }
 
 MapData ServerProxy::getMapData() const {
@@ -91,6 +92,10 @@ std::vector<OtherPlayersData> ServerProxy::getOtherPlayersData() const {
 
 bool ServerProxy::isAuthenticated() const {
   return authentificated;
+}
+
+bool ServerProxy::isMapSet() const {
+  return mapSet;
 }
 
 void ServerProxy::close(){

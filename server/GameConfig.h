@@ -11,20 +11,27 @@
 #include <vector>
 #include <map>
 #include <string>
+#include "definitions/Items.h"
 #include "../DataDefinitions.h"
 
 #define ERROR_MSG "No valid instance"
 #define INVALID_CONFIG_FILE "Invalid config file"
 
-struct Item {
-  int id;
-  Equipable type;
-  std::string name;
-};
 
 struct TraderItem {
   int itemId;
   int value;
+};
+
+struct ChatMessages {
+  std::string initialMsg;
+  std::string damageRcvMsg;
+  std::string enemyDodgedAttack;
+  std::string attackDodged;
+  std::string damageCaused;
+  std::string insufficientFunds;
+  std::string noInventorySpace;
+  std::string invalidOption;
 };
 
 struct GlobalConfig {
@@ -46,8 +53,9 @@ struct GlobalConfig {
   int playerInitialLevel;
   size_t newbieLevel;
   size_t fairPlayLevel;
-  std::map<int, Item> items;
+  std::map<int, std::unique_ptr<Item>> items;
   std::vector<TraderItem> traderItems;
+  ChatMessages chatMessages;
 };
 
 struct RaceSkillsData {

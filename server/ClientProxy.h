@@ -36,7 +36,8 @@ class ClientProxyRead: public Thread {
 
   private:
     ClientProxy& client;
-    void handleInstruction(InstructionData& instruction);
+    void handleAuthInstruction(InstructionData& instruction);
+    void handleNonAuthInstruction(InstructionData& instruction);
     bool getRawInstruction(std::string& buffer);
     InstructionData getInstruction(std::string& instrution);
 };

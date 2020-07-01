@@ -32,5 +32,16 @@ class PlayerGameResponse: public Response {
     std::string modelPacked;
 };
 
+class MapResponse: public Response {
+  public:
+    explicit MapResponse(MapData model);
+    MapResponse(const MapResponse&) = delete;
+    MapResponse& operator=(const MapResponse&) = delete;
+    MapResponse&& operator=(MapResponse&& other) = delete;
+    std::string getModelPacked() override;
+  private:
+    std::string modelPacked;
+};
+
 
 #endif
