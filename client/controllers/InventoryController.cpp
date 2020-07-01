@@ -20,7 +20,7 @@ void InventoryController::update() {
 
 void InventoryController::generateImage(InventoryElementData item, int index) {
   std::shared_ptr<InventoryEntity> inventoryItem(new InventoryEntity());
-  switch (item.equipableType){
+  /*switch (item.equipableType){
     case POTION:
       switch (item.enumPosition){
         case HEALTH:
@@ -85,6 +85,33 @@ void InventoryController::generateImage(InventoryElementData item, int index) {
           inventoryItem->setImage(manager.getTexture("hood-inv"));
         break;
       }
+    break;
+  }*/
+
+  switch (item.itemId) {
+    case 1:
+      inventoryItem->setImage(manager.getTexture("bow-inv"));
+    break;
+    case 2:
+      inventoryItem->setImage(manager.getTexture("sword-inv"));
+    break;
+    case 3:
+      inventoryItem->setImage(manager.getTexture("iron-helm-inv"));
+    break;
+    case 4:
+      inventoryItem->setImage(manager.getTexture("iron-shield-inv"));
+    break;
+    case 5:
+      inventoryItem->setImage(manager.getTexture("blue-tunic-inv"));
+    break;
+    case 6:
+      inventoryItem->setImage(manager.getTexture("ash-stick-inv"));
+    break;
+    case 7:
+      inventoryItem->setImage(manager.getTexture("mana-potion"));
+    break;
+    case 8:
+      inventoryItem->setImage(manager.getTexture("health-potion"));
     break;
   }
 

@@ -131,12 +131,20 @@
       "maxDefense": 10
     }, {
       "id": 6,
-      "type": "B",
+      "type": "W",
       "name": "Vara de Fresno",
       "minDamage": 2,
       "maxDamage": 4,
       "range": 300,
       "mana": 5
+    }, {
+      "id": 7,
+      "type": "P",
+      "name": "Pocion de Mana"
+    }, {
+      "id": 8,
+      "type": "P",
+      "name": "Pocion de Vida"
     }],
     "traderItems": [{
       "itemId": 0,

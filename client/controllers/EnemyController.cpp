@@ -91,7 +91,7 @@ void EnemyController::updateOtherPlayers(){
 			std::shared_ptr<PlayerView> player = 
 				std::dynamic_pointer_cast<PlayerView>(otherPlayers.at(others[i].id));
       player->checkRace(others[i].rootd.prace);
-      player->checkHealth(others[i].otherPlayerHealth);
+      player->checkHealth(others[i].healthAndMana.currentHP);
       player->checkEquipment(others[i].equipment);
 		}
 	}
