@@ -334,6 +334,10 @@ void Player::equip(int inventoryPosition){
   }
 }
 
+void Player::drop(){
+  inventory.erase (inventory.begin(), inventory.begin()+inventory.size());
+}
+
 void Player::setTimeToResurrect(
   double minDistanceToPriest){
   resurrection.resurrect = true;

@@ -20,6 +20,7 @@ class GameModel{
   private:
     std::vector<std::unique_ptr<Entity>> margins;
     std::vector<std::unique_ptr<Entity>> cities;
+    std::vector<DropItemData> drops;
     std::vector<EnemyData> npcs;
     std::map<size_t, std::unique_ptr<NPC>> npcMap;
     std::map<size_t, ResponseBQ&> clientsBQ;
@@ -84,6 +85,9 @@ class GameModel{
     void attack(size_t playerId, int xPos, int yPos);
     bool checkEntityCollisions(LiveEntity &entity);
     void getRespawnPosition(PositionData &positionToRes, LiveEntity &entity);
+    void addPlayerDrops(Player &player);
+    void getDropPosition(PositionData &positionToRes);
+    bool checkDropCollisions(PositionData &dropPossiblePos);
 };
 
 #endif

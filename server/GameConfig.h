@@ -34,6 +34,11 @@ struct ChatMessages {
   std::string invalidOption;
 };
 
+struct DropSizes{
+  int height;
+  int weight;
+};
+
 struct GlobalConfig {
   int attackZoneWidth;
   int attackZoneHeight;
@@ -56,6 +61,7 @@ struct GlobalConfig {
   std::map<int, std::unique_ptr<Item>> items;
   std::vector<TraderItem> traderItems;
   ChatMessages chatMessages;
+  DropSizes dropSizes;
 };
 
 struct RaceSkillsData {
