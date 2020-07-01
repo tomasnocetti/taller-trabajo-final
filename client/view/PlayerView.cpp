@@ -104,41 +104,41 @@ void PlayerView::checkHealth(int health) {
 
 void PlayerView::checkEquipment(EquipmentData equipment) {
   switch (equipment.body) {
-    case TUNIC:
+    case 5:
       setBodyWear(manager.getTexture("blue-tunic"));
     break;
-    case PLATE_ARMOR:
+    /*case PLATE_ARMOR:
       setBodyWear(manager.getTexture("plate-armor"));
     break;
     case LEATHER_ARMOR:
       setBodyWear(manager.getTexture("leather-armor"));
-    break;
+    break;*/
     default:
       setBodyWear(manager.getTexture("clothes"));
     break;
   }
 
   switch (equipment.head) {
-    case HELMET:
+    case 3:
 			headWear = HeadWear(manager.getTexture("helmet"), 3, -9, 0, -10);
     break;
-    case HAT:
+    /*case HAT:
 			headWear = HeadWear(manager.getTexture("hat"), 3, -25, 0, -25);
     break;
     case HOOD:
 			headWear = HeadWear(manager.getTexture("hood"), 2, -10, -1, -10);
-    break;
+    break;*/
     default:
 			headWear = HeadWear(nullptr, 0, 0, 0, 0);
     break;
   }
   
   switch (equipment.leftHand) {
-    case TURTLE_SHIELD:
+    /*case TURTLE_SHIELD:
 			shield = Shield(manager.getTexture("turtle-shield"), 
         12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16);
-    break;
-    case IRON_SHIELD:
+    break;*/
+    case 4:
 			shield = Shield(manager.getTexture("iron-shield"), 
         6, 10, 17, 24, 1, 60, 13, 16, 25, 104, 24, 18);
     break;
@@ -148,24 +148,24 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
   }
 
   switch (equipment.rightHand) {
-    case SIMPLE_BOW:
+    case 1:
 			weapon = Weapon(manager.getTexture("simple-bow"), 
         2, 6, 10, 20, 15, 56, 10, 14, 101, 139, 11, 29, 13, 5, 15, 10, 0, 0);
     break;
-    case SWORD:
+    case 2:
 			/*weapon = Weapon(manager.getTexture("sword"), 
         34, 18, 17, 15, 18, 67, 6, 21, 9, 158, 13, 20, 17, 13, 18, 18, 2, 15);*/
 				weapon = Weapon(manager.getTexture("sword"), 
         34, 18, 17, 15, 0, 0, 0, 0, 9, 158, 13, 20, 17, 13, 18, 18, 2, 15);
     break;
-		case ASH_STICK:
+		case 6:
 			weapon = Weapon(manager.getTexture("ash-stick"), 
         4, 4, 4, 37, 17, 50, 4, 39, 51, 143, 20, 30, 16, 0, 18, 0, 0, 3);
     break;
-		case GNARLED_STAFF:
+		/*case GNARLED_STAFF:
 			weapon = Weapon(manager.getTexture("gnarled-staff"), 
         4, 4, 4, 37, 17, 50, 4, 39, 51, 143, 20, 30, 16, 0, 18, 0, 0, 3);
-    break;
+    break;*/
     default:
 			weapon = Weapon(nullptr, 
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);

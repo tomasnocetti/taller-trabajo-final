@@ -293,7 +293,7 @@ void Player::setDefaultEquipment(MainPlayerData &data){
 
 void Player::equip(int inventoryPosition){
   Equipable type;
-  if ((unsigned int)inventoryPosition > inventory.size()) return;
+  if ((unsigned int)inventoryPosition >= inventory.size()) return;
   const GlobalConfig& c = GC::get();
 
   InventoryElementData& i = inventory[inventoryPosition];
