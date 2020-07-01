@@ -70,7 +70,6 @@ void ClientProxyRead::run(){
       } else {
         handleAuthInstruction(i);
       }
-
     }
   } catch(const std::exception& e) {
     std::cout << "ERROR CLIENT PROXY READ: " << e.what() << std::endl;

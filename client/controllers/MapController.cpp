@@ -70,7 +70,7 @@ void MapController::init(){
 }
 
 void MapController::update(){ 
-  if(!mapIsSet && model.isMapSet()) init();
+  if (!mapIsSet && model.isMapSet()) init();
 }
 
 EntityList& MapController::getEntities() {
