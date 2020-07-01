@@ -74,7 +74,8 @@ bool NPC::drop(DropItemData &drop){
 
   if (probDrop <= c.npcDropGold){
     double gold = Equations::randomFloat(0.01, 0.2) * health.totalHP;
-    std::cout << "Horo dejado por el npc: " << gold << std::endl;
+    drop.id = 9;
+    drop.amount = int(gold);
   }
 
   if ((probDrop > c.npcDropGold) && (probDrop <= (c.npcDropGold + c.npcDropPotion))){

@@ -35,7 +35,7 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
 
     data.rootd = root;
     data.nick = nick;
-    data.gold = 0;
+    data.gold = 150;
     data.level = c.playerInitialLevel;
 
     Player::setClassSkills(data.skills, data.rootd);
@@ -336,6 +336,10 @@ void Player::equip(int inventoryPosition){
 
 void Player::drop(){
   inventory.erase(inventory.begin(), inventory.begin()+inventory.size());
+}
+
+int Player::calculateExcessGold(){
+  return Equations::excessGold(level, gold);
 }
 
 void Player::setTimeToResurrect(

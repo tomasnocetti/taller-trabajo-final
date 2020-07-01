@@ -142,6 +142,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     addPlayerDrops(auxp);
     auxp.drop();
+    break;
   }
 
   for (auto& it : npcMap){
@@ -175,10 +176,22 @@ void GameModel::addNPCDrop(DropItemData &drop){
 }
 
 void GameModel::addPlayerDrops(Player &player){
-  DropItemData drop;
   const GlobalConfig& c = GC::get();
 
+  DropItemData goldDrop;
+  goldDrop.id = 9;
+  goldDrop.position = player.position;
+  goldDrop.position.w = c.dropSizes.weight;
+  goldDrop.position.h = c.dropSizes.height;
+  getDropPosition(goldDrop.position);
+  goldDrop.amount = player.calculateExcessGold();
+  if (goldDrop.amount > 0){
+    drops.push_back(std::move(goldDrop));
+    player.gold -= goldDrop.amount;
+  }
+
   for (auto& it : player.inventory){
+    DropItemData drop;
     drop.position = player.position;
     drop.position.w = c.dropSizes.weight;
     drop.position.h = c.dropSizes.height;
@@ -389,6 +402,7 @@ void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   NPC& n = *npcMap.at(npcId);
   const GlobalConfig& c = GC::get();
   for (auto& it : players){
+    if (players.at(it.first)->health.currentHP < 0) return;
     for (auto &itCities : cities)
       if (players.at(it.first)->checkCollision(*itCities)) return;
 
@@ -400,6 +414,7 @@ void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
 
     addPlayerDrops(*it.second);
     players.at(it.first)->drop();
+    return;
   }
 }
 

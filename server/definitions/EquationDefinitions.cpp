@@ -92,3 +92,6 @@ bool Equations::criticAttack(){
   return randomFloat(0, 1) < CRITIC_ATTACK;
 }
 
+int Equations::excessGold(int level, int gold){
+  return std::max(gold - (int)(100 * pow(level, 1.1)), 0);
+}

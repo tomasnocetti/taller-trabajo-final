@@ -65,6 +65,7 @@ class Player : public LiveEntity{
     void setTimeToResurrect(double minDistanceToPriest);
     void setPlayerGameModelData(PlayerGameModelData &modelData);
     void setOtherPlayersData(OtherPlayersData &otherData);
+    int calculateExcessGold();
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 
