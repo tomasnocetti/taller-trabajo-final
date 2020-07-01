@@ -12,7 +12,6 @@ class Entity {
     virtual void move(int x, int y) {}
     virtual void paint(double scaleW, double scaleH) = 0;
     virtual void paint(const Camera &camera, double scaleW, double scaleH) = 0;
-    virtual void setRect(int x, int y, int w, int h) {}
     virtual ~Entity() {}
 };
 

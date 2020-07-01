@@ -3,7 +3,7 @@
 EnemyView::EnemyView(int x, int y, Animation *animation) {
 	this->x = x;
 	this->y = y;
-	this->animation = animation;
+	this->animation.reset(animation);
 	animation->set(FORWARD_STAND);
 }
 
@@ -33,8 +33,4 @@ void EnemyView::paint(const Camera &camera, double scaleW, double scaleH){
   	scaleW, scaleH);
 }
 
-EnemyView::~EnemyView(){
-	if (animation == nullptr) return;
-
-	delete animation;
-}
+EnemyView::~EnemyView() {}

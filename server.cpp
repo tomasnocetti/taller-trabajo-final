@@ -6,7 +6,7 @@
 
 int main() {
   try {
-    char mapPath[] = "client/assets/map/gameMap.json";
+    char mapPath[] = "client/assets/map/game_map.json";
     char port[] = "7777";
     serverRun(port, mapPath);
   } catch(const std::exception& e) {

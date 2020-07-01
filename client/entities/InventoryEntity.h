@@ -11,11 +11,9 @@ class InventoryEntity: public Entity {
     LTexture* texture;
     SDL_Rect destRect;
     TextEntity amountText;
-    //TextEntity equippedText;
     LTexture* textTexture;
     TTF_Font* font;
     size_t amount;
-    //bool isEquipped;
     LTexture* equipTexture = nullptr;
 
   public:
@@ -23,9 +21,8 @@ class InventoryEntity: public Entity {
     void setImage(LTexture* background);
     void setTextAssetsAndInfo(LTexture* texture, 
       TTF_Font* font, size_t amount);
-    //void setTextInfo(size_t amount, bool isEquipped);
     void setEquipTexture(LTexture* texture);
-    void setRect(int x, int y, int w, int h) override;
+    void move(int x, int y) override;
     void paint(double scaleW, double scaleH) override;
     void paint(const Camera &camera, 
     	double scaleW, double scaleH) override {}

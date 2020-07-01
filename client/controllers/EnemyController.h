@@ -16,7 +16,6 @@ class EnemyController {
     EnemyController(const EnemyController&) = delete;
     EnemyController& operator=(const EnemyController&) = delete;
     EnemyController&& operator=(EnemyController&& other);
-  	void init();
     void update();
     EntityList& getNPCs();
     EntityList& getOtherPlayers();
@@ -32,10 +31,6 @@ class EnemyController {
     std::unordered_map<size_t, std::shared_ptr<Entity>> otherPlayers;
 
     Animation* checkType(NPCClass type);
-    LTexture* checkRace(PlayerRace race);
-    void checkHealth(std::shared_ptr<PlayerView> playerView, size_t health);
-    void checkEquipment(std::shared_ptr<PlayerView>playerView, 
-      EquipmentData equipment);
     void updateNPCs();
     void updateOtherPlayers();
 };

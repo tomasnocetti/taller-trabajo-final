@@ -6,6 +6,7 @@ SpiderAnimation::SpiderAnimation(LTexture* texture) :
 	backwardFrames = 4;
 	leftFrames = 4;
 	rightFrames = 4;
+	index = 0;
   cropAnimationFrames();
 }
 

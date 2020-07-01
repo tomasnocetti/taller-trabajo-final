@@ -11,11 +11,10 @@ GameCron::GameCron(InstructionBQ& instructionQueue) :
 
 void GameCron::run() {
   try{
+    std::unique_ptr<CronGameModelData> d;
     while (running){
-      std::unique_ptr<CronGameModelData> d;
-
       bool success = cronBQ.try_front_pop(d);
-      if (!success) continue;
+      if (!success && !d) continue;
 
       runPlayersMovement(d->otherPlayers);
       runNPCLogic(d->npcs, d->otherPlayers);
@@ -71,19 +70,28 @@ void GameCron::playerResurrection(OtherPlayersData &player){
 void GameCron::runPlayerHealthAndMana(std::vector<OtherPlayersData>& players){
   std::chrono::seconds sec(3);
   for (auto& it : players){
-    if ((it.healthAndMana.currentHP == it.healthAndMana.totalHP)
-      || (it.healthAndMana.lastHealthIncrease + sec >
-      std::chrono::system_clock::now()) || 
-      (it.healthAndMana.currentHP <= 0)) continue;
-      
-      std::unique_ptr<Instruction> i(
-        new PlayerIncreaseHealthInstruction(it.id));
-        instructionQueue.push(std::move(i));
+    if (((it.healthAndMana.currentHP != it.healthAndMana.totalHP) &&
+      (it.healthAndMana.currentHP > 0))
+      && (it.healthAndMana.lastHealthIncrease + sec <
+      std::chrono::system_clock::now())){
+        std::unique_ptr<Instruction> i(
+          new PlayerIncreaseHealthInstruction(it.id));
+          instructionQueue.push(std::move(i));
+    }
+
+    if ((it.healthAndMana.meditating) && (it.healthAndMana.currentHP > 0)
+      && (it.healthAndMana.lastManaIncrease + sec <
+      std::chrono::system_clock::now())){
+        std::unique_ptr<Instruction> ins(
+          new IncreaseManaMeditationInstruction(it.id));
+          instructionQueue.push(std::move(ins));
+        continue;
+    }
 
     if ((it.healthAndMana.currentMP == it.healthAndMana.totalMP)
       || (it.healthAndMana.lastManaIncrease + sec >
         std::chrono::system_clock::now()) || 
-        (it.healthAndMana.currentMP <= 0)) continue;
+        (it.healthAndMana.currentMP < 0)) continue;
       
       std::unique_ptr<Instruction> ins(
         new PlayerIncreaseManaInstruction(it.id));
