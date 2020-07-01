@@ -19,6 +19,7 @@ void ServerProxy::init() {
 }
 
 void ServerProxy::authentificate(std::string& alias) {
+  if (authentificated) return;
   std::cout << "Player " << alias << " Autenticando" << std::endl;
   ParamData nick = {alias};
   InstructionData instruction = {AUTHENTICATE, {nick}};
@@ -36,6 +37,7 @@ void ServerProxy::update() {
 }
 
 void ServerProxy::move(int xDir, int yDir){
+  if (!authentificated) return;
   if (xDir == 0 && yDir == 0){
     InstructionData instruction = {STOP_MOVEMENT, {}};
     writeBQ.push(instruction);
@@ -48,6 +50,7 @@ void ServerProxy::move(int xDir, int yDir){
 }
 
 void ServerProxy::attack(int xPos, int yPos) {
+  if (!authentificated) return;
   ParamData x = {std::to_string(xPos)};
   ParamData y = {std::to_string(yPos)};
   ParamData width = {std::to_string(mainPlayer.position.w)};
@@ -57,6 +60,7 @@ void ServerProxy::attack(int xPos, int yPos) {
 }
 
 void ServerProxy::equip(int inventoryPosition){
+  if (!authentificated) return;
   ParamData pos = {std::to_string(inventoryPosition)};
   InstructionData instruction = {EQUIP, {pos}};
   writeBQ.push(instruction);
@@ -104,11 +108,13 @@ void ServerProxy::close(){
 }
 
 void ServerProxy::resurrect(){
+  if (!authentificated) return;
   InstructionData instruction = {RESURRECT, {}};
   writeBQ.push(instruction);
 }
 
 void ServerProxy::meditate(){
+  if (!authentificated) return;
   InstructionData instruction = {MEDITATE, {}};
   writeBQ.push(instruction);
 }

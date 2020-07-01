@@ -9,6 +9,7 @@ class Player;
 
 struct Item {
   Item(int id, Equipable type, std::string name);
+  virtual ~Item() {};
   int id;
   Equipable type;
   std::string name;
