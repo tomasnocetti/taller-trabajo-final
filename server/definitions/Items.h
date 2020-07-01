@@ -11,15 +11,15 @@ struct Item {
   int id;
   Equipable type;
   std::string name;
-  virtual void equip(Player& player) {};
+  virtual void equip(Player& player) const {};
 };
 
 struct RightHandItem : Item {
   RightHandItem(
-    int id, 
-    Equipable type, 
-    std::string name, 
-    int minDamage, 
+    int id,
+    Equipable type,
+    std::string name,
+    int minDamage,
     int maxDamage,
     int mana,
     int range);
@@ -27,43 +27,43 @@ struct RightHandItem : Item {
   int maxDamage;
   int range;
   int mana;
-  virtual void equip(Player& player) override;
+  void equip(Player& player) const override;
 };
 
 struct LeftHandItem : Item {
   LeftHandItem(
-    int id, 
-    Equipable type, 
-    std::string name, 
-    int minDefense, 
+    int id,
+    Equipable type,
+    std::string name,
+    int minDefense,
     int maxDefense);
   int minDefense;
   int maxDefense;
-  virtual void equip(Player& player) override;
+  void equip(Player& player) const override;
 };
 
 struct BodyItem : Item {
   BodyItem(
-    int id, 
-    Equipable type, 
-    std::string name, 
-    int minDefense, 
+    int id,
+    Equipable type,
+    std::string name,
+    int minDefense,
     int maxDefense);
   int minDefense;
   int maxDefense;
-  virtual void equip(Player& player) override;
+  void equip(Player& player) const override;
 };
 
 struct HeadItem : Item {
   HeadItem(
-    int id, 
-    Equipable type, 
-    std::string name, 
-    int minDefense, 
+    int id,
+    Equipable type,
+    std::string name,
+    int minDefense,
     int maxDefense);
   int minDefense;
   int maxDefense;
-  virtual void equip(Player& player) override;
+  void equip(Player& player) const override;
 };
 
 #endif

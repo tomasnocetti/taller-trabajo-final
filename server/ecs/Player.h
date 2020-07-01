@@ -59,11 +59,6 @@ class Player : public LiveEntity{
     o de defensa, setea el booleano isEquiped en verdadero, y los otros
     en falso. */
     void equip(int inventoryPosition);
-    void equip(Potions potion, int inventoryPosition);
-    void equip(RightHandEquipment rightHandEquipment, int inventoryPosition);
-    void equip(LeftHandEquipment leftHandEquipment, int inventoryPosition);
-    void equip(HeadEquipment headEquipment, int inventoryPosition);
-    void equip(BodyEquipment bodyEquipment, int inventoryPosition);
     void setTimeToResurrect(double minDistanceToPriest);
     void setPlayerGameModelData(PlayerGameModelData &modelData);
     void setOtherPlayersData(OtherPlayersData &otherData);
@@ -75,14 +70,6 @@ class Player : public LiveEntity{
     static void setRaceSkills(SkillsData &skills, PlayerRootData &root);  
     static void setInitEquipment(EquipmentData &equipment, 
       PlayerRootData &root);   
-    static void setRighHandSkills(RightHandEquipmentSkills
-      &rightSkills, RightHandEquipment &rightEquipment);
-    static void setLeftHandSkills(LeftHandEquipmentSkills
-      &leftSkills, LeftHandEquipment &leftEquipment); 
-    static void setBodySkills(BodyEquipmentSkills
-      &bodySkills, BodyEquipment &bodyEquipment); 
-    static void setHeadSkills(HeadEquipmentSkills
-      &headSkills, HeadEquipment &headEquipment);   
     static void setExperienceData(size_t &level, ExperienceData &experience);
     static void setPositionData(PlayerRootData &root, PositionData &position);
     static void setDefaultEquipment(MainPlayerData &data);

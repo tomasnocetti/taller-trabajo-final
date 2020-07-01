@@ -96,7 +96,7 @@
       "health": 5
     }],
     "items": [{
-      "id": 0,
+      "id": 1,
       "type": "W",
       "name": "Arco simple",
       "minDamage": 1,
@@ -104,7 +104,7 @@
       "range": 300,
       "mana": 0
     }, {
-      "id": 1,
+      "id": 2,
       "type": "W",
       "name": "Espada",
       "minDamage": 2,
@@ -112,17 +112,31 @@
       "range": 100,
       "mana": 0
     }, {
-      "id": 2,
+      "id": 3,
       "type": "H",
       "name": "Casco",
       "minDefense": 2,
-      "maxDefense": 5
+      "maxDefense": 8
     }, {
-      "id": 3,
+      "id": 4,
       "type": "L",
       "name": "Escudo de Hierro",
       "minDefense": 2,
       "maxDefense": 5
+    }, {
+      "id": 5,
+      "type": "B",
+      "name": "Tunica",
+      "minDefense": 6,
+      "maxDefense": 10
+    }, {
+      "id": 6,
+      "type": "B",
+      "name": "Vara de Fresno",
+      "minDamage": 2,
+      "maxDamage": 4,
+      "range": 300,
+      "mana": 5
     }],
     "traderItems": [{
       "itemId": 0,
