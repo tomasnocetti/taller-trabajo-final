@@ -94,6 +94,8 @@ bool GameModel::authenticate(
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
+  responseBQ.push(
+    std::unique_ptr<MapResponse> (new MapResponse(m.getMapData())));
   return true;
 }
 

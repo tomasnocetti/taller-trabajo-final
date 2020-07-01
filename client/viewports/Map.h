@@ -18,16 +18,15 @@ class Map : SdlViewport{
       int h = MAIN_SCREEN_BASE_MAP_H);
     Map(const Map&) = delete;
     Map& operator=(const Map&) = delete;
-    void paint(EntityList& entities, Entity &player, EntityList& enemies, 
+    void paint(
+      Camera& camera,
+      EntityList& entities,
+      Entity &player,
+      EntityList& enemies,
       EntityList& otherPlayers);
-    void init();
-    void setMaxCameraDimensions(MapData data);
-    int getCameraX();
-    int getCameraY();
 		//Deallocates memory
 		~Map();
 	private:
-    Camera camera;
 };
 
 #endif

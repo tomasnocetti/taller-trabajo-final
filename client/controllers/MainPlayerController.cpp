@@ -30,8 +30,9 @@ void MainPlayerController::init(){
   LTexture* goldText = manager.getTexture("goldText");
   LTexture* levelText = manager.getTexture("levelText");
   LTexture* expText = manager.getTexture("expText");
-  
+
   playerView.init();
+  camera.init(0, 0, MAIN_SCREEN_BASE_MAP_W, MAIN_SCREEN_BASE_MAP_H);
   healthBar.init(manager.getTexture("health"), HEALTH_BAR_Y,
     healthText, font);
   manaBar.init(manager.getTexture("mana"), MANA_BAR_Y, manaText, font);
@@ -41,7 +42,15 @@ void MainPlayerController::init(){
 }
 
 void MainPlayerController::update() {
+  if (!cameraIsSet && model.isMapSet()) {
+    const MapData& data = model.getMapData();
+    camera.setMaxDimensions(data.width * data.tilewidth,
+		data.height * data.tileheight);
+    cameraIsSet = true;
+  }
+
   MainPlayerData data = model.getMainPlayerData();
+
   playerView.move(data.position.x, data.position.y);
 
   healthBar.update(data.points.currentHP, data.points.totalHP, 0);
@@ -57,23 +66,24 @@ void MainPlayerController::update() {
   playerView.checkRace(data.rootd.prace);
   playerView.checkHealth(data.points.currentHP);
   playerView.checkEquipment(data.equipment);
+
+  camera.setX(playerView.x - MAIN_SCREEN_BASE_MAP_W / 2);
+  camera.setY(playerView.y - MAIN_SCREEN_BASE_MAP_H / 2);
 }
 
-void MainPlayerController::handleEvent(const SDL_Event &e,
-  int cameraX, int cameraY) {
+void MainPlayerController::handleEvent(const SDL_Event &e) {
   if (e.type == SDL_MOUSEMOTION) return;
 
   if (e.type == SDL_MOUSEBUTTONDOWN){
     if (e.button.button == SDL_BUTTON_LEFT){
+      active = inRect(src, e.button.x, e.button.y);
       if (!active) {
-        active = inRect(src, e.button.x, e.button.y);
         return;
       }
 
-      active = inRect(src, e.button.x, e.button.y);
       model.attack(
-        e.button.x + cameraX - src.x,
-        e.button.y + cameraY - src.y);
+        e.button.x + camera.getX() - src.x,
+        e.button.y + camera.getY() - src.y);
     }
   }
 
@@ -132,6 +142,10 @@ std::vector<Entity*> MainPlayerController::getExp() {
   v.push_back(&level);
   v.push_back(&expBar);
   return v;
+}
+
+Camera& MainPlayerController::getCamera() {
+  return camera;
 }
 
 MainPlayerController::~MainPlayerController() {}

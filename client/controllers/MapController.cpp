@@ -66,6 +66,11 @@ void MapController::init(){
           texID));
     }
   });
+  mapIsSet = true;
+}
+
+void MapController::update(){ 
+  if (!mapIsSet && model.isMapSet()) init();
 }
 
 EntityList& MapController::getEntities() {
