@@ -78,14 +78,15 @@ bool NPC::drop(DropItemData &drop){
     drop.amount = int(gold);
   }
 
-  if ((probDrop > c.npcDropGold) && (probDrop <= (c.npcDropGold + c.npcDropPotion))){
-    int potion = Equations::random(0, 1);
-    if (potion == 1){
-      drop.id = 7;
-    }else{
-      drop.id = 8;
-    }
-    return true;
+  if ((probDrop > c.npcDropGold) && (probDrop <= 
+    (c.npcDropGold + c.npcDropPotion))){
+      int potion = Equations::random(0, 1);
+      if (potion == 1){
+        drop.id = 7;
+      }else{
+        drop.id = 8;
+      }
+      return true;
   }
 
   if ((probDrop > c.npcDropGold + c.npcDropPotion) && 
