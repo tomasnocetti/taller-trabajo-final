@@ -14,6 +14,8 @@ class TextEntity : public Entity {
 		std::string previousText;
 		int x;
 		int y;
+		int w;
+		int h;
 		
 	public:
 		TextEntity();
