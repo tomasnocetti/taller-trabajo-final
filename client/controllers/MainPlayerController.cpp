@@ -47,7 +47,7 @@ void MainPlayerController::update() {
     cameraIsSet = true;
   }
 
-  if(!model.isAuthenticated()) return;
+  if (!model.isAuthenticated()) return;
 
   MainPlayerData data = model.getMainPlayerData();
 
