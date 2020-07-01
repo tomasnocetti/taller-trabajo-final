@@ -336,12 +336,14 @@ void Player::equip(int inventoryPosition){
 
 void Player::drop(){
   const GlobalConfig& c = GC::get();
+  
   for (unsigned int i = 0; i < inventory.size(); i++){
     InventoryElementData& j = inventory[i];
     const std::unique_ptr<Item> &item = c.items.at(j.itemId);
     item->unEquip(*this);
-    inventory.erase(inventory.begin(), inventory.begin() + i);
   }
+
+  inventory.erase(inventory.begin(), inventory.begin() + inventory.size());
 }
 
 int Player::calculateExcessGold(){
