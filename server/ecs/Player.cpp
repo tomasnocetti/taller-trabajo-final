@@ -252,7 +252,15 @@ int Player::defend(){
 
 void Player::setDefaultEquipment(MainPlayerData &data){
   InventoryElementData weapon, weapon2, leftHandArmour,
-    headArmour, bodyArmour2;
+    headArmour, bodyArmour2, healthPotion, manaPotion;
+
+  healthPotion.amount = 1;
+  healthPotion.isEquiped = false;
+  healthPotion.itemId = 5;
+
+  manaPotion.amount = 1;
+  manaPotion.isEquiped = false;
+  manaPotion.itemId = 5;
 
   leftHandArmour.amount = 1;
   leftHandArmour.isEquiped = true;
