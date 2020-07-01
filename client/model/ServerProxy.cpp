@@ -12,7 +12,6 @@ ServerProxy::ServerProxy(std::string& host, std::string& port) :
     socket.connect(host.c_str(), port.c_str());
 }
 
-
 void ServerProxy::init() {
   serverProxyWrite.start();
   serverProxyRead.start();

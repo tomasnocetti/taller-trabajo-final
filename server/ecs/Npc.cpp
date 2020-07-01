@@ -76,6 +76,7 @@ bool NPC::drop(DropItemData &drop){
     double gold = Equations::randomFloat(0.01, 0.2) * health.totalHP;
     drop.id = 9;
     drop.amount = int(gold);
+    return true;
   }
 
   if ((probDrop > c.npcDropGold) && (probDrop <= 
