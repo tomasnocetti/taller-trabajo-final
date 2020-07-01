@@ -73,12 +73,19 @@ void ChatController::handleCommand() {
 
   /** INFO COMMAND **/
   std::string action = command.substr(0, pos);
-  command.erase(0, pos + delimiter.length());
+  ;
+
   if (action == "/resucitar") {
     model.resurrect();
   }
+
   if (action == "/meditar"){
     model.meditate();
+  }
+
+  if (action == "/iniciar"){
+    std::string alias = command.erase(0, pos + delimiter.length());
+    model.authentificate(alias);
   }
 }
 

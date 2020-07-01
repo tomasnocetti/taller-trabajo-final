@@ -65,7 +65,12 @@ void ClientProxyRead::run(){
       }
 
       /** HANDLE **/
-      handleInstruction(i);
+      if (!client.authenticated) {
+        handleNonAuthInstruction(i);
+      } else {
+        handleAuthInstruction(i);
+      }
+
     }
   } catch(const std::exception& e) {
     std::cout << "ERROR CLIENT PROXY READ: " << e.what() << std::endl;
@@ -99,7 +104,8 @@ InstructionData ClientProxyRead::getInstruction(std::string& instruction) {
   return instructionData;
 }
 
-void ClientProxyRead::handleInstruction(InstructionData& instruction) {
+void ClientProxyRead::handleAuthInstruction(
+  InstructionData& instruction) {
   ActionTypeT action = instruction.action;
   std::unique_ptr<Instruction> i;
 
@@ -154,6 +160,23 @@ void ClientProxyRead::handleInstruction(InstructionData& instruction) {
     case MEDITATE:
       i = std::unique_ptr<Instruction>(new MeditateInstruction(
         client.playerId));
+      client.instructionQueue.push(std::move(i));
+      break;
+    default:
+      std::cout << "El jugador quiere realizar otra accion. " << std::endl;
+      break;
+  }
+}
+
+void ClientProxyRead::handleNonAuthInstruction(
+  InstructionData& instruction) {
+  ActionTypeT action = instruction.action;
+  std::unique_ptr<Instruction> i;
+
+  switch (action) {
+    case AUTHENTICATE:
+      i = std::unique_ptr<Instruction>(
+        new AuthInstruction(client, instruction.params[0].value));
       client.instructionQueue.push(std::move(i));
       break;
     default:
