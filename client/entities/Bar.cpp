@@ -21,5 +21,6 @@ void Bar::update(int value, int maxValue, int minValue) {
 
 void Bar::paint(double scaleW, double scaleH) {
 	texture->paint(destRect, scaleW, scaleH);
+	text.center(BAR_X + BAR_W / 2);
 	text.paint(scaleW, scaleH);
 }

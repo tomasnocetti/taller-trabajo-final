@@ -64,8 +64,7 @@ void CApp::OnEvent(SDL_Event& e) {
     case GameMode::CREATE:
       break;
     case GameMode::RUN:
-      playerController.handleEvent(e,
-        mapViewport.getCameraX(), mapViewport.getCameraY());
+      playerController.handleEvent(e);
       //inventoryController.handleEvent(e);
       chatController.handleEvent(e);
       break;
@@ -74,6 +73,7 @@ void CApp::OnEvent(SDL_Event& e) {
 
 void CApp::OnLoop() {
   model.update();
+  mapController.update();
   playerController.update();
   chatController.update();
   enemyController.update();
@@ -90,7 +90,9 @@ void CApp::OnRender() {
     break;
     case GameMode::RUN:
       globalViewport.paint(globalController.getEntities());
-      mapViewport.paint(mapController.getEntities(),
+      mapViewport.paint(
+        playerController.getCamera(),
+        mapController.getEntities(),
         playerController.getEntity(),
         enemyController.getNPCs(),
         enemyController.getOtherPlayers());
@@ -111,12 +113,7 @@ void CApp::OnInit() {
   loginController.init();
   chatController.init();
   globalController.init();
-  mapController.init();
   playerController.init();
-
-  mapViewport.init();
-  MapData data = model.getMapData();
-  mapViewport.setMaxCameraDimensions(data);
 }
 
 void CApp::OnCleanup() {}

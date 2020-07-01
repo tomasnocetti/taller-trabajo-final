@@ -18,10 +18,14 @@ Player::Player(MainPlayerData playerData, size_t id):
   equipment(playerData.equipment),
   resurrection({std::chrono::system_clock::now(), false}),
   chat(playerData.chat){
-    setRighHandSkills(rightSkills, equipment.rightHand);
-    setLeftHandSkills(leftSkills, equipment.leftHand);
-    setBodySkills(bodySkills, equipment.body);
-    setHeadSkills(headSkills, equipment.head);
+    rightSkills = {0, 0, 0, 0};
+    leftSkills = {0, 0};
+    bodySkills = {0, 0};
+    headSkills = {0, 0};
+    for (unsigned int i = 0; i < inventory.size(); i++){
+      if (inventory.at(i).isEquiped)
+        equip(i);
+    }
 }
 
 std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
@@ -50,14 +54,15 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
       data.level);
     //data.points.currentHP = data.points.totalHP;
     data.points.currentHP = 1;
-    
+
     data.points.totalMP = Equations::maxMana
       (data.skills.inteligence, data.skills.classMana, data.skills.raceMana,
       data.level);
-    //data.points.currentMP = data.points.totalMP;  
-    data.points.currentMP = 0;  
+    //data.points.currentMP = data.points.totalMP;
+    data.points.currentMP = 0;
     data.points.lastHealthIncrease = std::chrono::system_clock::now();
     data.points.lastManaIncrease = std::chrono::system_clock::now();
+    data.points.nextRespawn = std::chrono::system_clock::now();
     data.points.meditating = false;
 
     data.movement.xDir = 0;
@@ -146,79 +151,6 @@ void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
     default:
       break;
   }
-}
-
-void Player::setRighHandSkills(RightHandEquipmentSkills
-  &rightSkills, RightHandEquipment &rightEquipment){
-    switch (rightEquipment){
-      case SWORD:
-        rightSkills.maxDamage = SWORD_MAX_DAMAGE;
-        rightSkills.minDamage = SWORD_MIN_DAMAGE;
-        rightSkills.range = SWORD_RANGE;
-        rightSkills.mana = 0;
-        break;
-      case SIMPLE_BOW:
-        rightSkills.maxDamage = SIMPLE_BOW_MAX_DAMAGE;
-        rightSkills.minDamage = SIMPLE_BOW_MIN_DAMAGE;
-        rightSkills.range = SIMPLE_BOW_RANGE;
-        rightSkills.mana = 0;
-        break;
-      case ASH_STICK:
-        rightSkills.maxDamage = ASH_STICK_MAX_NDAMAGE;
-        rightSkills.minDamage = ASH_STICK_MIN_DAMAGE;
-        rightSkills.range = ASH_STICK_RANGE;
-        rightSkills.mana = ASH_STICK_MANA;
-      default:
-        rightSkills.maxDamage = 0;
-        rightSkills.minDamage = 0;
-        rightSkills.range = 0;
-        rightSkills.mana = 0;
-        break;
-    }
-}
-
-void Player::setLeftHandSkills(LeftHandEquipmentSkills
-  &leftSkills, LeftHandEquipment &leftEquipment){
-    switch (leftEquipment){
-      case IRON_SHIELD:
-        leftSkills.maxDefense = IRON_SHIELD_MAX_DEFENSE;
-        leftSkills.minDefense = IRON_SHIELD_MIN_DEFENSE;
-        break;
-      default:
-        leftSkills.maxDefense = 0;
-        leftSkills.minDefense = 0;
-        break;
-    }
-}
-
-void Player::setBodySkills(BodyEquipmentSkills
-  &bodySkills, BodyEquipment &bodyEquipment){
-    switch (bodyEquipment)
-    {
-    case TUNIC:
-      bodySkills.maxDefense = TUNIC_MAX_DEFENSE;
-      bodySkills.minDefense = TUNIC_MIN_DEFENSE;
-      break;
-    default:
-      bodySkills.maxDefense = 0;
-      bodySkills.minDefense = 0;
-      break;
-    }
-}
-
-void Player::setHeadSkills(HeadEquipmentSkills
-  &headSkills, HeadEquipment &headEquipment){
-    switch (headEquipment)
-    {
-    case HELMET:
-      headSkills.maxDefense = HELMET_MAX_DEFENSE;
-      headSkills.minDefense = HELMET_MIN_DEFENSE;
-      break;
-    default:
-      headSkills.maxDefense = 0;
-      headSkills.minDefense = 0;
-      break;
-    }
 }
 
 void Player::setExperienceData(size_t &level, ExperienceData &experience){
@@ -324,172 +256,82 @@ int Player::defend(){
 }
 
 void Player::setDefaultEquipment(MainPlayerData &data){
-  InventoryElementData bodyArmour, weapon, healthPotion, manaPotion,
-    weapon2, leftHandArmour, headArmour, bodyArmour2, headArmour2;
-
-  leftHandArmour.amount = 1;
-  leftHandArmour.isEquiped = false;
-  leftHandArmour.equipableType = LEFT_HAND_DEFENSE;
-  leftHandArmour.enumPosition = LeftHandEquipment::IRON_SHIELD;
-  data.equipment.leftHand = DEFAULT_L;
-
-  headArmour.amount = 1;
-  headArmour.isEquiped = true;
-  headArmour.equipableType = HEAD_DEFENSE;
-  headArmour.enumPosition = HeadEquipment::HAT;
-  data.equipment.head = HAT;
-
-  headArmour2.amount = 1;
-  headArmour2.isEquiped = false;
-  headArmour2.equipableType = HEAD_DEFENSE;
-  headArmour2.enumPosition = HeadEquipment::HELMET;
-
-  bodyArmour2.amount = 1;
-  bodyArmour2.isEquiped = false;
-  bodyArmour2.equipableType = BODY_ARMOUR;
-  bodyArmour2.enumPosition = BodyEquipment::TUNIC;
-
-  bodyArmour.amount = 1;
-  bodyArmour.isEquiped = true;
-  bodyArmour.equipableType = BODY_ARMOUR;
-  bodyArmour.enumPosition = BodyEquipment::DEFAULT_B;
-  data.equipment.body = DEFAULT_B;
-
-  weapon.amount = 1;
-  weapon.isEquiped = true;
-  weapon.equipableType = WEAPON;
-  weapon.enumPosition = RightHandEquipment::SWORD;
-  data.equipment.rightHand = SWORD;
+  InventoryElementData weapon, weapon2, leftHandArmour,
+    headArmour, bodyArmour2, healthPotion, manaPotion;
 
   healthPotion.amount = 2;
   healthPotion.isEquiped = false;
-  healthPotion.equipableType = POTION;
-  healthPotion.enumPosition = Potions::HEALTH;
+  healthPotion.itemId = 8;
 
   manaPotion.amount = 2;
   manaPotion.isEquiped = false;
-  manaPotion.equipableType = POTION;
-  manaPotion.enumPosition = Potions::MANA;
+  manaPotion.itemId = 7;
 
+  leftHandArmour.amount = 1;
+  leftHandArmour.isEquiped = true;
+  leftHandArmour.itemId = 4;
+
+  headArmour.amount = 1;
+  headArmour.isEquiped = true;
+  headArmour.itemId = 3;
+
+  bodyArmour2.amount = 1;
+  bodyArmour2.isEquiped = true;
+  bodyArmour2.itemId = 5;
+
+  weapon.amount = 1;
+  weapon.isEquiped = true;
+  weapon.itemId = 2;
+  
   weapon2.amount = 1;
   weapon2.isEquiped = false;
-  weapon2.equipableType = WEAPON;
-  weapon2.enumPosition = RightHandEquipment::SIMPLE_BOW;
+  weapon2.itemId = 1;
 
-  data.inventory.push_back(bodyArmour);
   data.inventory.push_back(weapon);
-  data.inventory.push_back(healthPotion);
-  data.inventory.push_back(manaPotion);
   data.inventory.push_back(weapon2);
   data.inventory.push_back(headArmour);
   data.inventory.push_back(bodyArmour2);
   data.inventory.push_back(leftHandArmour);
-  data.inventory.push_back(headArmour2);
+  data.inventory.push_back(healthPotion);
+  data.inventory.push_back(manaPotion);
 }
 
 void Player::equip(int inventoryPosition){
+  if ((unsigned int)inventoryPosition >= inventory.size()) return;
   Equipable type;
-  RightHandEquipment right;
-  LeftHandEquipment left;
-  HeadEquipment head;
-  BodyEquipment body;
-  Potions potion;
-
-  if ((unsigned int)inventoryPosition > inventory.size()) return;
+  const GlobalConfig& c = GC::get();
 
   InventoryElementData& i = inventory[inventoryPosition];
 
-  type = i.equipableType;
+  const std::unique_ptr<Item> &item = c.items.at(i.itemId);
+
+  type = item->type;
 
   switch (type) {
-    case POTION:
-      potion = static_cast<Potions> (i.enumPosition);
-      equip(potion, inventoryPosition);
+    case HEALTH_POTION:
+    case MANA_POTION:
+      item->equip(*this);
+
+      inventory[inventoryPosition].amount -= 1;
+
+      if (inventory[inventoryPosition].amount > 0) return;
+
+      inventory.erase(inventory.begin() + inventoryPosition);
       break;
     case WEAPON:
-      right = static_cast<RightHandEquipment> (i.enumPosition);
-      equip(right, inventoryPosition);
-      break;
     case LEFT_HAND_DEFENSE:
-      left = static_cast<LeftHandEquipment> (i.enumPosition);
-      equip(left, inventoryPosition);
-      break;
     case HEAD_DEFENSE:
-      head = static_cast<HeadEquipment> (i.enumPosition);
-      equip(head, inventoryPosition);
-      break;
     case BODY_ARMOUR:
-      body = static_cast<BodyEquipment> (i.enumPosition);
-      equip(body, inventoryPosition);
+      item->equip(*this);
+
+      for (auto& it : inventory){
+        if (c.items.at(it.itemId)->type != type) continue;
+        it.isEquiped = false;
+      }
+
+      inventory[inventoryPosition].isEquiped = true;
       break;
   }
-}
-
-void Player::equip(Potions potion, int inventoryPosition) {
-  if (potion == HEALTH){
-    health.currentHP = health.totalHP;
-  }else if (potion == MANA){
-    health.currentMP = health.totalMP;
-  }
-
-  inventory[inventoryPosition].amount -= 1;
-
-  if (inventory[inventoryPosition].amount > 0) return;
-
-  inventory.erase(inventory.begin() + inventoryPosition);
-}
-
-void Player::equip(RightHandEquipment rightHandEquipment,
-  int inventoryPosition) {
-    equipment.rightHand = rightHandEquipment;
-    Player::setRighHandSkills(rightSkills, rightHandEquipment);
-
-    for (auto& it : inventory){
-      if (it.equipableType != WEAPON) continue;
-      it.isEquiped = false;
-    }
-
-    inventory[inventoryPosition].isEquiped = true;
-}
-
-void Player::equip(LeftHandEquipment leftHandEquipment,
-  int inventoryPosition) {
-    equipment.leftHand = leftHandEquipment;
-    Player::setLeftHandSkills(leftSkills, leftHandEquipment);
-
-    for (auto& it : inventory){
-      if (it.equipableType != LEFT_HAND_DEFENSE) continue;
-      it.isEquiped = false;
-    }
-
-    inventory[inventoryPosition].isEquiped = true;
-}
-
-void Player::equip(HeadEquipment headEquipment,
-  int inventoryPosition) {
-    equipment.head = headEquipment;
-    Player::setHeadSkills(headSkills, headEquipment);
-
-    for (auto& it : inventory){
-      if (it.equipableType != HEAD_DEFENSE) continue;
-      it.isEquiped = false;
-    }
-
-    inventory[inventoryPosition].isEquiped = true;
-}
-
-void Player::equip(BodyEquipment bodyEquipment,
-  int inventoryPosition) {
-    equipment.body = bodyEquipment;
-
-    Player::setBodySkills(bodySkills, bodyEquipment);
-
-    for (auto& it : inventory){
-      if (it.equipableType != BODY_ARMOUR) continue;
-      it.isEquiped = false;
-    }
-
-    inventory[inventoryPosition].isEquiped = true;
 }
 
 void Player::setTimeToResurrect(

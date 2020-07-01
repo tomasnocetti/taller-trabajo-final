@@ -83,7 +83,7 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  if (nick == "Fer") playerId  = rand_r(&randomSeed) % 100;
+  if (nick == "Fer") playerId  = Equations::random(1, 100);
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -94,6 +94,8 @@ bool GameModel::authenticate(
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
+  responseBQ.push(
+    std::unique_ptr<MapResponse> (new MapResponse(m.getMapData())));
   return true;
 }
 

@@ -52,6 +52,11 @@ void ServerProxyRead::handleResponse() {
         new PlayerGameResponse(response));
       server.responseQ.push(std::move(r));
       break;
+    case ResponseTypeT::MAP_MODEL:
+      r = std::unique_ptr<MapResponse>(
+        new MapResponse(response));
+      server.responseQ.push(std::move(r));
+      break;
     default:
       break;
   }
