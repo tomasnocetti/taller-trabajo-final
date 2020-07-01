@@ -4,7 +4,8 @@
 #include <msgpack.hpp>
 
 typedef enum {
-  POTION = 'P',
+  HEALTH_POTION = 'HP',
+  MANA_POTION = 'MP',
   WEAPON = 'W',
   LEFT_HAND_DEFENSE = 'L',
   HEAD_DEFENSE = 'H',

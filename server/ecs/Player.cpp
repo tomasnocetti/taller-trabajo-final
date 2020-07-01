@@ -292,8 +292,9 @@ void Player::setDefaultEquipment(MainPlayerData &data){
 }
 
 void Player::equip(int inventoryPosition){
+  if ((unsigned int)inventoryPosition >= inventory.size()) return;
+  std::cout << inventory.size() << std::endl;
   Equipable type;
-  if ((unsigned int)inventoryPosition > inventory.size()) return;
   const GlobalConfig& c = GC::get();
 
   InventoryElementData& i = inventory[inventoryPosition];
@@ -303,18 +304,15 @@ void Player::equip(int inventoryPosition){
   type = item->type;
 
   switch (type) {
-    case POTION:
-      // if (potion == HEALTH){
-      //   health.currentHP = health.totalHP;
-      // } else if (potion == MANA){
-      //   health.currentMP = health.totalMP;
-      // }
+    case HEALTH_POTION:
+    case MANA_POTION:
+      item->equip(*this);
 
-      // inventory[inventoryPosition].amount -= 1;
+      inventory[inventoryPosition].amount -= 1;
 
-      // if (inventory[inventoryPosition].amount > 0) return;
+      if (inventory[inventoryPosition].amount > 0) return;
 
-      // inventory.erase(inventory.begin() + inventoryPosition);
+      inventory.erase(inventory.begin() + inventoryPosition);
       break;
     case WEAPON:
     case LEFT_HAND_DEFENSE:
