@@ -28,7 +28,9 @@ Player::Player(MainPlayerData playerData, size_t id):
     }
 }
 
-std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
+std::unique_ptr<Player> Player::createPlayer(
+  size_t id,
+  std::string nick,
   PlayerRootData root) {
     MainPlayerData data;
     const GlobalConfig& c = GC::get();
@@ -55,8 +57,10 @@ std::unique_ptr<Player> Player::createPlayer(size_t id, std::string nick,
     //data.points.currentHP = data.points.totalHP;
     data.points.currentHP = 1;
 
-    data.points.totalMP = Equations::maxMana
-      (data.skills.inteligence, data.skills.classMana, data.skills.raceMana,
+    data.points.totalMP = Equations::maxMana(
+      data.skills.inteligence,
+      data.skills.classMana,
+      data.skills.raceMana,
       data.level);
     //data.points.currentMP = data.points.totalMP;
     data.points.currentMP = 0;
@@ -154,9 +158,9 @@ void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
 }
 
 void Player::setExperienceData(size_t &level, ExperienceData &experience){
-    experience.minLevelExperience = experience.maxLevelExperience;
-    experience.maxLevelExperience =
-      Equations::maxLevelExperience(level);
+  experience.minLevelExperience = experience.maxLevelExperience;
+  experience.maxLevelExperience =
+  Equations::maxLevelExperience(level);
 }
 
 void Player::setPositionData(PlayerRootData &root, PositionData &position){
@@ -165,7 +169,6 @@ void Player::setPositionData(PlayerRootData &root, PositionData &position){
   position.x = 2600;
   position.y = 2600;
 }
-
 
 bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   const GlobalConfig& c = GC::get();
@@ -282,7 +285,7 @@ void Player::setDefaultEquipment(MainPlayerData &data){
   weapon.amount = 1;
   weapon.isEquiped = true;
   weapon.itemId = 2;
-  
+
   weapon2.amount = 1;
   weapon2.isEquiped = false;
   weapon2.itemId = 1;
@@ -336,7 +339,7 @@ void Player::equip(int inventoryPosition){
 
 void Player::drop(){
   const GlobalConfig& c = GC::get();
-  
+
   for (unsigned int i = 0; i < inventory.size(); i++){
     InventoryElementData& j = inventory[i];
     const std::unique_ptr<Item> &item = c.items.at(j.itemId);
@@ -416,4 +419,14 @@ void Player::setOtherPlayersData(OtherPlayersData &otherData){
   otherData.otherPlayerHealth = health.currentHP;
   otherData.resurrection = resurrection;
   otherData.healthAndMana = health;
+}
+
+void Player::increaseMana() {
+  int mult = health.meditating ? skills.inteligence : 1;
+  health.currentMP += skills.raceRecovery * mult;
+
+  health.lastManaIncrease = std::chrono::system_clock::now();
+
+  if (health.currentMP <= health.totalMP) return;
+  health.currentMP = health.totalMP;
 }

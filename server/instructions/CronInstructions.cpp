@@ -59,11 +59,3 @@ PlayerIncreaseManaInstruction::PlayerIncreaseManaInstruction(size_t id) :
 void PlayerIncreaseManaInstruction::run(GameModel& game) {
   game.increasePlayerMana(playerId);
 }
-
-IncreaseManaMeditationInstruction::IncreaseManaMeditationInstruction(
-  size_t id) :
-    playerId(id){}
-
-void IncreaseManaMeditationInstruction::run(GameModel& game) {
-  game.increaseManaByMeditation(playerId);
-}
