@@ -22,8 +22,6 @@ MainPlayerController::MainPlayerController(
   playerView(manager) {}
 
 void MainPlayerController::init(){
-  MainPlayerData data = model.getMainPlayerData();
-
   TTF_Font* font = manager.getFont("arial");
   LTexture* healthText = manager.getTexture("healthText");
   LTexture* manaText = manager.getTexture("manaText");
@@ -48,6 +46,8 @@ void MainPlayerController::update() {
 		data.height * data.tileheight);
     cameraIsSet = true;
   }
+
+  if (!model.isAuthenticated()) return;
 
   MainPlayerData data = model.getMainPlayerData();
 

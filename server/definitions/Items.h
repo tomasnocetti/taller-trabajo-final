@@ -68,4 +68,22 @@ struct HeadItem : Item {
   void equip(Player& player) const override;
 };
 
+struct HealthPotion : Item {
+  HealthPotion(
+    int id,
+    Equipable type,
+    std::string name);
+  int maxDefense;
+  void equip(Player& player) const override;
+};
+
+struct ManaPotion : Item {
+  ManaPotion(
+    int id,
+    Equipable type,
+    std::string name);
+  int maxDefense;
+  void equip(Player& player) const override;
+};
+
 #endif

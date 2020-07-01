@@ -50,6 +50,18 @@ RightHandItem::RightHandItem(
   range(range),
   mana(mana) {}
 
+HealthPotion::HealthPotion(
+    int id,
+    Equipable type,
+    std::string name) :
+  Item(id, type, name) {}
+
+ManaPotion::ManaPotion(
+    int id,
+    Equipable type,
+    std::string name) :
+  Item(id, type, name) {}
+
 void RightHandItem::equip(Player& p) const {
   p.equipment.rightHand = id;
   p.rightSkills.maxDamage = maxDamage;
@@ -74,4 +86,12 @@ void HeadItem::equip(Player& p) const {
   p.equipment.head = id;
   p.headSkills.maxDefense = maxDefense;
   p.headSkills.minDefense = maxDefense;
+}
+
+void HealthPotion::equip(Player& p) const {
+  p.health.currentHP = p.health.totalHP;
+}
+
+void ManaPotion::equip(Player& p) const {
+  p.health.currentMP = p.health.totalMP;
 }

@@ -29,6 +29,8 @@ class Player : public LiveEntity{
     friend struct LeftHandItem;
     friend struct BodyItem;
     friend struct HeadItem;
+    friend struct HealthPotion;
+    friend struct ManaPotion;
     friend class GameModel;
     friend class Trader;
   public:

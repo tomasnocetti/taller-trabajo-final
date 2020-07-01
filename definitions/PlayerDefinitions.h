@@ -38,10 +38,8 @@ struct ResurrectionData{
 struct InventoryElementData{
   size_t amount;
   bool isEquiped;
-  Equipable equipableType; // SE VA
-  char enumPosition; // SE VA
   int itemId;
-  MSGPACK_DEFINE(amount, isEquiped, equipableType, enumPosition, itemId)
+  MSGPACK_DEFINE(amount, isEquiped, itemId)
 };
 
 struct SkillsData {

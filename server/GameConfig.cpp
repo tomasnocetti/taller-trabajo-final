@@ -79,7 +79,21 @@ void GC::load(const char* src) {
             item["minDefense"].asInt(),
             item["maxDefense"].asInt()))));
         break;
-      case Equipable::POTION:
+      case Equipable::MANA_POTION:
+        instance->g.items.insert(
+          std::pair<int, std::unique_ptr<Item>>(
+            id, std::unique_ptr<Item> (new ManaPotion(
+              id,
+              type,
+              name))));
+        break;
+      case Equipable::HEALTH_POTION:
+        instance->g.items.insert(
+          std::pair<int, std::unique_ptr<Item>>(
+            id, std::unique_ptr<Item> (new HealthPotion(
+              id,
+              type,
+              name))));
         break;
       case Equipable::WEAPON:
         instance->g.items.insert(
