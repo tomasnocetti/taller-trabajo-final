@@ -91,6 +91,10 @@ void ChatController::handleCommand() {
     std::string inventoryPosition = command.erase(0, pos+delimiter.length());
     model.throwObject(inventoryPosition);
   }
+
+  if (action == "/tomar"){
+    model.pickUp();
+  }
 }
 
 EntityList& ChatController::getEntities() {

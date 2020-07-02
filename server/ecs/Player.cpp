@@ -96,6 +96,7 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   health.currentMP -= rightSkills.mana;
 
   int damage = Equations::damage(rootd, rightSkills);
+    
   entity.rcvDamage(damage);
   if (damage == -1){
     ChatManager::enemyDodgedTheAttack(chat);
@@ -131,11 +132,16 @@ void Player::rcvDamage(int &damage){
   }
 
   health.currentHP -= (damage - defensePoints);
-  if (health.currentHP < 0) health.currentHP = 0;
+  if (health.currentHP < 0) setDeadDefaults();
 
   damage -= defensePoints;
 
   ChatManager::damageReceived(chat, damage);
+}
+
+void Player::setDeadDefaults(){
+  health.currentHP = 0;
+  health.currentMP = 0;
 }
 
 void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
@@ -269,9 +275,13 @@ void Player::throwObj(size_t inventoryPosition){
     case LEFT_HAND_DEFENSE:
     case HEAD_DEFENSE:
     case BODY_ARMOUR:
+      inventory[inventoryPosition].amount -= 1;
+
+      if (inventory[inventoryPosition].amount > 0) return;
+
       if (!inventory[inventoryPosition].isEquiped){
         inventory.erase(inventory.begin() + inventoryPosition);
-        break;
+        return;
       }
 
       item->unEquip(*this);
@@ -326,4 +336,57 @@ void Player::stopMeditating(){
     ChatManager::stopMeditating(chat);
     health.meditating = false;
   }
+}
+
+bool Player::pickUp(DropItemData &drop){
+  const GlobalConfig& c = GC::get();
+  PositionData pickUpZoneData = {
+    drop.position.x - c.dropZoneWidth / 2,
+    drop.position.y - c.dropZoneHeight / 2,
+    c.dropZoneWidth,
+    c.dropZoneHeight};
+  Entity pickUpZone(pickUpZoneData);
+
+  bool canPickUp = checkCollision(pickUpZone);
+  if (!canPickUp) return false;
+
+  if (drop.id == c.goldItemId){
+    gold += drop.amount; 
+
+    unsigned int maxGold = Equations::maxGold(level, gold);
+    if (gold < maxGold) return true;
+    
+    gold = maxGold;
+    return true;
+  }
+
+  InventoryElementData item;
+  item.amount = drop.amount;
+  item.isEquiped = false;
+  item.itemId = drop.id;
+
+  for (auto& it : inventory){
+    if (it.itemId == item.itemId){
+      it.amount += drop.amount;
+      return true;
+    };
+  }
+
+  if (inventoryIsFull()) return false;
+
+  inventory.push_back(std::move(item));
+  return true;
+}
+
+bool Player::inventoryIsFull(){
+  const GlobalConfig& c = GC::get();
+  if (inventory.size() >= c.maxInventoryDifferentItems){
+    ChatManager::inventoryIsFull(chat);
+    return true;
+  }
+  return false;
+}
+
+bool Player::isAlive(){
+  return health.currentHP > 0;
 }
