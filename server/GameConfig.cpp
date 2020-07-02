@@ -20,10 +20,12 @@ void GC::load(const char* src) {
 
   const Json::Value gameConfig = root["gameConfig"];
   const Json::Value races = gameConfig["races"];
+  const Json::Value classes = gameConfig["classes"];
   const Json::Value items = gameConfig["items"];
   const Json::Value traderItems = gameConfig["traderItems"];
   const Json::Value chatMessages = gameConfig["chatMessages"];
   const Json::Value dropSizes = gameConfig["dropSizes"];
+  
 
   instance->g.attackZoneWidth = gameConfig["attackZoneWidth"].asInt();
   instance->g.attackZoneHeight = gameConfig["attackZoneHeight"].asInt();
@@ -150,6 +152,18 @@ void GC::load(const char* src) {
     };
     instance->g.traderItems.push_back(item);
   }
+
+  for (const Json::Value &class : classes) { 
+
+  }
+
+  for (const Json::Value &race : races) { 
+    std::string t = item["type"].asString();
+    PlayerRace type =
+      static_cast<PlayerRace> (t[0]);
+    instance->g.raceSkills.insert()
+  }
+
 }
 
 

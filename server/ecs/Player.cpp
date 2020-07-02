@@ -51,9 +51,10 @@ std::unique_ptr<Player> Player::createPlayer(
 
     Player::setPositionData(root, data.position);
 
-    data.points.totalHP = Equations::maxLife(data.skills.classConstitution,
-      data.skills.classHealth, data.skills.raceHealth,
-      data.level);
+// data.skills.classConstitution,
+//       data.skills.classHealth, data.skills.raceHealth,
+//       data.level
+    data.points.totalHP = Equations::maxLife(data.rootd, data.level);
     //data.points.currentHP = data.points.totalHP;
     data.points.currentHP = 1;
 
