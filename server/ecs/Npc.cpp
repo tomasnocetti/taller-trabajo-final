@@ -5,11 +5,10 @@
 #include <ctime>
 #include "../services/ChatManager.h"
 
-NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
+NPC::NPC(EnemyData npcData, size_t level) :
   LiveEntity(
     npcData.position,
     npcData.healthAndManaData,
-    skills,
     level,
     npcData.id),
   type(npcData.type){
@@ -119,10 +118,7 @@ std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
       std::chrono::system_clock::now()};
     data.lastAttack = std::chrono::system_clock::now();
 
-    SkillsData skills = {
-      c.npcInitSkills, c.npcInitSkills, c.npcInitSkills};
-
-    std::unique_ptr<NPC> npc(new NPC(data, skills, level));
+    std::unique_ptr<NPC> npc(new NPC(data, level));
 
     return npc;
 }
