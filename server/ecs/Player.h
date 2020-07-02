@@ -60,6 +60,7 @@ class Player : public LiveEntity{
     o de defensa, setea el booleano isEquiped en verdadero, y los otros
     en falso. */
     void equip(int inventoryPosition);
+    void equipDefault();
     void drop();
     void setTimeToResurrect(double minDistanceToPriest);
     void setPlayerGameModelData(PlayerGameModelData &modelData);
@@ -77,7 +78,8 @@ class Player : public LiveEntity{
       PlayerRootData &root);   
     static void setExperienceData(size_t &level, ExperienceData &experience);
     static void setPositionData(PlayerRootData &root, PositionData &position);
-    static void setDefaultEquipment(MainPlayerData &data);
+    static void setDefaultEquipment
+      (std::vector<InventoryElementData> &inventory);
 };
 
 #endif

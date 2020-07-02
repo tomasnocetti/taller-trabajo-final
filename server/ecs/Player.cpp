@@ -21,10 +21,7 @@ Player::Player(MainPlayerData playerData, size_t id):
     leftSkills = {0, 0};
     bodySkills = {0, 0};
     headSkills = {0, 0};
-    for (unsigned int i = 0; i < inventory.size(); i++){
-      if (inventory.at(i).isEquiped)
-        equip(i);
-    }
+    equipDefault();
 }
 
 std::unique_ptr<Player> Player::createPlayer(
@@ -39,14 +36,13 @@ std::unique_ptr<Player> Player::createPlayer(
     data.gold = c.playerInitialGold;
     data.level = c.playerInitialLevel;
 
-    Player::setDefaultEquipment(data);
+    Player::setDefaultEquipment(data.inventory);
 
     data.experience.maxLevelExperience = 0;
     data.experience.currentExperience = 0;
     Player::setExperienceData(data.level, data.experience);
 
     Player::setPositionData(root, data.position);
-
 
     data.points.totalHP = Equations::maxLife(data.rootd, data.level);
     //data.points.currentHP = data.points.totalHP;
@@ -164,45 +160,26 @@ int Player::defend(){
     leftSkills, headSkills);
 }
 
-void Player::setDefaultEquipment(MainPlayerData &data){
-  InventoryElementData weapon, weapon2, leftHandArmour,
-    headArmour, bodyArmour2, healthPotion, manaPotion;
+void Player::setDefaultEquipment (std::vector<InventoryElementData>
+  &inventory){
+    const GlobalConfig& c = GC::get();
+    inventory = c.defaultInventory;
+} 
 
-  healthPotion.amount = 2;
-  healthPotion.isEquiped = false;
-  healthPotion.itemId = 8;
+void Player::equipDefault(){
+  const GlobalConfig& c = GC::get();
 
-  manaPotion.amount = 2;
-  manaPotion.isEquiped = false;
-  manaPotion.itemId = 7;
-
-  leftHandArmour.amount = 1;
-  leftHandArmour.isEquiped = true;
-  leftHandArmour.itemId = 4;
-
-  headArmour.amount = 1;
-  headArmour.isEquiped = true;
-  headArmour.itemId = 3;
-
-  bodyArmour2.amount = 1;
-  bodyArmour2.isEquiped = true;
-  bodyArmour2.itemId = 5;
-
-  weapon.amount = 1;
-  weapon.isEquiped = true;
-  weapon.itemId = 2;
-
-  weapon2.amount = 1;
-  weapon2.isEquiped = false;
-  weapon2.itemId = 1;
-
-  data.inventory.push_back(weapon);
-  data.inventory.push_back(weapon2);
-  data.inventory.push_back(headArmour);
-  data.inventory.push_back(bodyArmour2);
-  data.inventory.push_back(leftHandArmour);
-  data.inventory.push_back(healthPotion);
-  data.inventory.push_back(manaPotion);
+  for (unsigned int i = 0; i < inventory.size(); i++){
+    bool canEquip = true;
+    for (auto& it : c.potionsToDropNPC){
+      if (inventory.at(i).itemId == it){
+        canEquip = false;
+        break;
+      }
+    }
+    if (!canEquip) continue;
+    equip(i);
+  }
 }
 
 void Player::equip(int inventoryPosition){
@@ -260,8 +237,10 @@ int Player::calculateExcessGold(){
 }
 
 void Player::setTimeToResurrect(double minDistanceToPriest){
+  const GlobalConfig& c = GC::get();
   resurrection.resurrect = true;
-  std::chrono::seconds sec(int(minDistanceToPriest*0.01));
+  std::chrono::seconds 
+    sec(int(minDistanceToPriest * c.estimateTimeToPriestConst));
   resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
 }
 

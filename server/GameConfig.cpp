@@ -58,6 +58,8 @@ void GC::load(const char* src) {
     gameConfig["npcDropGoldRandMinValue"].asDouble();
   instance->g.npcDropGoldRandMaxValue =
     gameConfig["npcDropGoldRandMinValue"].asDouble();
+  instance->g.estimateTimeToPriestConst = 
+    gameConfig["estimateTimeToPriestConst"].asDouble();
 
   instance->g.chatMessages.initialMsg =
     chatMessages["initialMsg"].asString();
@@ -230,7 +232,7 @@ void GC::parseRaces(GlobalConfig& g, const Json::Value& val) {
           race["strength"].asInt(),
           race["agility"].asInt()}));
   }
-};
+}
 
 void GC::parseClasses(GlobalConfig& g, const Json::Value& val) {
   for (const Json::Value &classT : val) {
@@ -245,4 +247,4 @@ void GC::parseClasses(GlobalConfig& g, const Json::Value& val) {
           classT["meditation"].asInt(),
           classT["health"].asInt() }));
   }
-};
+}

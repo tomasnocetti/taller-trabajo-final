@@ -25,6 +25,7 @@
     "npcDropGoldRandMinValue": 0.01,
     "npcDropGoldRandMaxValue": 0.2,
     "playerInitialGold": 0,
+    "estimateTimeToPriestConst": 0.01,
     "chatMessages": {
       "initialMsg": "Bienvenido a las tierras de ARGENTUM",
       "damageRcvMsg": "Nos estan atacando! Daño recibido: ",
