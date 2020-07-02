@@ -22,6 +22,9 @@
     "npcDropGold": 0.3,
     "npcDropPotion": 0.2,
     "npcDropItem": 0.2,
+    "npcDropGoldRandMinValue": 0.01,
+    "npcDropGoldRandMaxValue": 0.2,
+    "playerInitialGold": 0,
     "chatMessages": {
       "initialMsg": "Bienvenido a las tierras de ARGENTUM",
       "damageRcvMsg": "Nos estan atacando! Daño recibido: ",
@@ -31,6 +34,13 @@
       "insufficientFunds": "Tu oro es insuficiente",
       "noInventorySpace": "No hay espaio en tu inventario",
       "invalidOption": "La opcion selecionada es invalida"
+    },
+    "equations": {
+      "limitForNextLevel": 1.8,
+      "dodgeAttackComparisonValue": 0.001,
+      "npcDamageConst": 0.2,
+      "critickAttackProb": 0.5,
+      "excessGoldConstPow": 1.1
     },
     "dropSizes": {
       "weight": 32,
@@ -152,17 +162,29 @@
       "id": 8,
       "type": "V",
       "name": "Pocion de Vida"
-    }, {
-      "id": 9,
-      "name": "oro"
     }],
-
+    "goldItemId": 9,
+    "itemsToDropNPC": [1, 2, 3, 4, 5, 6],
+    "potionsToDropNPC": [7, 8],
     "traderItems": [{
       "itemId": 0,
       "value": 200
     }, {
       "itemId": 1,
       "value": 300
+    }],
+    "defaultItems":[{
+      "itemId": 2,
+      "amount": 1
+    }, {
+      "itemId": 4,
+      "amount": 1 
+    },{
+      "itemId": 7,
+      "amount": 1
+    }, {
+      "itemId": 8,
+      "amount": 1
     }]
   }
 }

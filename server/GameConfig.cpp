@@ -25,7 +25,10 @@ void GC::load(const char* src) {
   const Json::Value traderItems = gameConfig["traderItems"];
   const Json::Value chatMessages = gameConfig["chatMessages"];
   const Json::Value dropSizes = gameConfig["dropSizes"];
-  
+  const Json::Value itemsToDropNPC = gameConfig["itemsToDropNPC"];
+  const Json::Value potionsToDropNPC = gameConfig["potionsToDropNPC"];
+  const Json::Value equations = gameConfig["equations"];
+  const Json::Value defaultInventory = gameConfig["defaultInventory"];
 
   instance->g.attackZoneWidth = gameConfig["attackZoneWidth"].asInt();
   instance->g.attackZoneHeight = gameConfig["attackZoneHeight"].asInt();
@@ -49,6 +52,12 @@ void GC::load(const char* src) {
   instance->g.npcDropGold = gameConfig["npcDropGold"].asDouble();
   instance->g.npcDropPotion = gameConfig["npcDropPotion"].asDouble();
   instance->g.npcDropItem = gameConfig["npcDropItem"].asDouble();
+  instance->g.goldItemId = gameConfig["goldItemId"].asInt();
+  instance->g.playerInitialGold = gameConfig["playerInitialGold"].asInt();
+  instance->g.npcDropGoldRandMinValue = 
+    gameConfig["npcDropGoldRandMinValue"].asDouble();
+  instance->g.npcDropGoldRandMaxValue = 
+    gameConfig["npcDropGoldRandMinValue"].asDouble();
 
   instance->g.chatMessages.initialMsg =
     chatMessages["initialMsg"].asString();
@@ -67,9 +76,17 @@ void GC::load(const char* src) {
   instance->g.chatMessages.invalidOption =
     chatMessages["invalidOption"].asString();
 
-  instance->g.dropSizes.weight = dropSizes["weight"].asInt();
-  instance->g.dropSizes.height = dropSizes["height"].asInt();
-  
+  instance->g.equations.critickAttackProb = 
+    equations["critickAttackProb"].asDouble();
+  instance->g.equations.dodgeAttackComparisonValue = 
+    equations["dodgeAttackComparisonValue"].asDouble();
+  instance->g.equations.excessGoldConstPow = 
+    equations["excessGoldConstPow"].asDouble();
+  instance->g.equations.limitForNextLevel = 
+    equations["limitForNextLevel"].asDouble();
+  instance->g.equations.npcDamageConst = 
+    equations["npcDamageConst"].asDouble();
+
   /** PARSE ITEMS */
   for (const Json::Value &item : items) {
     std::string t = item["type"].asString();
@@ -166,6 +183,29 @@ void GC::load(const char* src) {
 
 }
 
+  // PARSE ITEMSTODROPNPC
+  for (const Json::Value &item : itemsToDropNPC) {
+    instance->g.itemsToDropNPC.push_back(item.asInt());
+  }
+
+  // PARSE POTIONSTODROPNPC
+  for (const Json::Value &potion : potionsToDropNPC) {
+    instance->g.potionsToDropNPC.push_back(potion.asInt());
+  }
+
+  // DEFAULT INVENTORY
+  for (const Json::Value &inventoryItem : defaultInventory) {
+    int itemId = inventoryItem["itemId"].asInt();
+    int amount = inventoryItem["amount"].asInt();
+
+    InventoryElementData item = {
+      size_t(amount),
+      true,
+      itemId,
+    };
+    instance->g.defaultInventory.push_back(item);
+  }
+}
 
 // RaceSkillsData GC::getRaceSkills(PlayerRace race){
 //   return raceData.at(race);
