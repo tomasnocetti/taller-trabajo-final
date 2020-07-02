@@ -179,7 +179,7 @@ void GameModel::addPlayerDrops(Player &player){
   const GlobalConfig& c = GC::get();
 
   DropItemData goldDrop;
-  goldDrop.id = 9;
+  goldDrop.id = c.goldItemId;
   goldDrop.position = player.position;
   goldDrop.position.w = c.dropSizes.weight;
   goldDrop.position.h = c.dropSizes.height;

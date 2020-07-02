@@ -2,11 +2,7 @@
 #include <math.h>
 #include <iostream>
 #include <algorithm>
-
-#define MAX_LEVEL_EXPERIENCE_CONST 1.8
-#define DEFENSE_CONST 0.001
-#define NPC_DAMAGE_CONST 0.2
-#define CRITIC_ATTACK 0.5
+#include "../GameConfig.h"
 
 Equations::Equations() {}
 
@@ -31,7 +27,8 @@ int Equations::maxMana(
 }
 
 int Equations::maxLevelExperience(int level) {
-  return 1000 * pow(level, MAX_LEVEL_EXPERIENCE_CONST);
+  const GlobalConfig& c = GC::get();
+  return 1000 * pow(level, c.equations.limitForNextLevel);
 }
 
 int Equations::damage(
@@ -58,8 +55,9 @@ int Equations::killExperience(
 }
 
 bool Equations::dodgeAttack(int agility) {
+  const GlobalConfig& c = GC::get();
   float rand = pow(randomFloat(0, 1), agility);
-  return rand < DEFENSE_CONST;
+  return rand < c.equations.dodgeAttackComparisonValue;
 }
 
 int Equations::defend(
@@ -85,13 +83,17 @@ float Equations::randomFloat(float a, float b) {
 }
 
 int Equations::NPCDamage(int level, size_t npcStrength){
-  return npcStrength * level * NPC_DAMAGE_CONST;
+  const GlobalConfig& c = GC::get();
+  return npcStrength * level * c.equations.npcDamageConst;
 }
 
 bool Equations::criticAttack(){
-  return randomFloat(0, 1) < CRITIC_ATTACK;
+  const GlobalConfig& c = GC::get();
+  return randomFloat(0, 1) < c.equations.critickAttackProb;
 }
 
 int Equations::excessGold(int level, int gold){
-  return std::max(gold - (int)(100 * pow(level, 1.1)), 0);
+  const GlobalConfig& c = GC::get();
+  return std::max(gold - (int)(100 * pow(level, 
+    c.equations.excessGoldConstPow)), 0);
 }

@@ -39,6 +39,14 @@ struct DropSizes{
   int weight;
 };
 
+struct EquationsData{
+  double limitForNextLevel;
+  double dodgeAttackComparisonValue;
+  double npcDamageConst;
+  double critickAttackProb;
+  double excessGoldConstPow;
+};
+
 struct GlobalConfig {
   int attackZoneWidth;
   int attackZoneHeight;
@@ -61,10 +69,18 @@ struct GlobalConfig {
   double npcDropGold;
   double npcDropPotion;
   double npcDropItem;
+  int goldItemId;
+  int playerInitialGold;
+  double npcDropGoldRandMinValue;
+  double npcDropGoldRandMaxValue;
   std::map<int, std::unique_ptr<Item>> items;
   std::vector<TraderItem> traderItems;
   ChatMessages chatMessages;
   DropSizes dropSizes;
+  EquationsData equations;
+  std::vector<int> itemsToDropNPC;
+  std::vector<int> potionsToDropNPC;
+  std::vector<InventoryElementData> defaultInventory;
 };
 
 struct RaceSkillsData {
