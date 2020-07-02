@@ -116,7 +116,7 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
 void Player::rcvDamage(int &damage){
   bool critickAttack = Equations::criticAttack();
   if (!critickAttack){
-    bool dodged = Equations::dodgeAttack(skills.agility);
+    bool dodged = Equations::dodgeAttackPlayer(rootd);
     if (dodged){
       ChatManager::attackDodged(chat);
       damage = -1;
@@ -159,8 +159,10 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
 }
 
 int Player::defend(){
-  return Equations::defend(skills.agility, bodySkills,
-    leftSkills, headSkills);
+  return Equations::defend(
+    bodySkills,
+    leftSkills,
+    headSkills);
 }
 
 void Player::setDefaultEquipment(MainPlayerData &data){

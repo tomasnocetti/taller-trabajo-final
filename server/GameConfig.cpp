@@ -54,6 +54,8 @@ void GC::load(const char* src) {
   instance->g.npcDropItem = gameConfig["npcDropItem"].asDouble();
   instance->g.goldItemId = gameConfig["goldItemId"].asInt();
   instance->g.playerInitialGold = gameConfig["playerInitialGold"].asInt();
+  instance->g.dropSizes.weight = dropSizes["weight"].asInt();
+  instance->g.dropSizes.height = dropSizes["height"].asInt();
   instance->g.npcDropGoldRandMinValue =
     gameConfig["npcDropGoldRandMinValue"].asDouble();
   instance->g.npcDropGoldRandMaxValue =
