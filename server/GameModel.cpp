@@ -119,7 +119,6 @@ bool GameModel::checkCityCollisions(Entity &entity){
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
-  p.stopMeditating();
   const GlobalConfig& c = GC::get();
   if (p.health.currentHP <= 0) return;
 
@@ -146,6 +145,8 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     bool success = p.attack(*it.second, xPos, yPos);
     if (!success) continue;
 
+    p.stopMeditating();
+
     if (auxp.health.currentHP > 0) break;
 
     addPlayerDrops(auxp);
@@ -162,6 +163,8 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     bool success = p.attack(*it.second, xPos, yPos);
     if (!success) continue;
+
+    p.stopMeditating();
 
     if (npc.health.currentHP <= 0)
       npc.setNextRespawn();

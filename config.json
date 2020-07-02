@@ -196,15 +196,9 @@
       "minDefense": 1,
       "maxDefense": 2
     }],
-<<<<<<< HEAD
-    "goldItemId": 9,
-    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14],
-    "potionsToDropNPC": [7, 8],
-=======
     "goldItemId": 5000,
     "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
     "potionsToDropNPC": [18, 19],
->>>>>>> c5942807d5f007235eff3d1d3d3416772e4ca8ff
     "traderItems": [{
       "itemId": 0,
       "value": 200
