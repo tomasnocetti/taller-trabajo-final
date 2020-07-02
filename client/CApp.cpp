@@ -179,14 +179,14 @@ void CApp::LoadAssets() {
   manager.addTexture("item_4", "client/assets/iron_shield_inv.png");
   manager.addTexture("item_5", "client/assets/blue_tunic_inv.png");
   manager.addTexture("item_6", "client/assets/ash_stick_inv.png");
-  manager.addTexture("item_7", "client/assets/mana_potion.png");
-  manager.addTexture("item_8", "client/assets/health_potion.png");
-  manager.addTexture("item_9", "client/assets/gold.png");
-  manager.addTexture("item_10", "client/assets/hat_inv.png");
-  manager.addTexture("item_11", "client/assets/hood_inv.png");
-  manager.addTexture("item_12", "client/assets/leather_armor_inv.png");
-  manager.addTexture("item_13", "client/assets/plate_armor_inv.png");
-  manager.addTexture("item_14", "client/assets/turtle_shield_inv.png");
+  manager.addTexture("item_7", "client/assets/hat_inv.png");
+  manager.addTexture("item_8", "client/assets/hood_inv.png");
+  manager.addTexture("item_9", "client/assets/leather_armor_inv.png");
+  manager.addTexture("item_10", "client/assets/plate_armor_inv.png");
+  manager.addTexture("item_11", "client/assets/turtle_shield_inv.png");
+  manager.addTexture("item_18", "client/assets/mana_potion.png");
+  manager.addTexture("item_19", "client/assets/health_potion.png");
+  manager.addTexture("item_5000", "client/assets/gold.png");
 }
 
 CApp::~CApp() {}
