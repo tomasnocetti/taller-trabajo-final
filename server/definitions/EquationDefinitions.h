@@ -11,6 +11,8 @@ class Equations{
     static int maxLife(PlayerRootData& root, int level);
     static int maxMana(PlayerRootData& root, int level);
     static int maxLevelExperience(int level);
+    static int recoverMana(PlayerRootData& root, bool isMeditating);
+    static int recoverHealth(PlayerRootData& root);
     static int damage(PlayerRootData& root, 
       RightHandEquipmentSkills weaponSkills);
     static int attackExperience(int damage, int otherLevel, int level);
