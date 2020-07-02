@@ -27,7 +27,7 @@ class Equations{
     static int NPCDamage(int level);
     static bool criticAttack();
     static int excessGold(int level, int gold);
-    
+    static int maxGold(int level, int gold);
   private:
     static unsigned int seed;
 };

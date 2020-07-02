@@ -73,6 +73,8 @@ struct GlobalConfig {
   int attackZoneHeight;
   int attackNpcZoneWidth;
   int attackNpcZoneHeight;
+  int dropZoneWidth;
+  int dropZoneHeight;
   int maxRangeZone;
   int offsetToRespawn;
   int minDistanceNpc;
@@ -95,6 +97,7 @@ struct GlobalConfig {
   double npcDropGoldRandMinValue;
   double npcDropGoldRandMaxValue;
   double estimateTimeToPriestConst;
+  unsigned int maxInventoryDifferentItems;
   std::map<PlayerRace, RaceSkillsData> raceSkills;
   std::map<PlayerClass, ClassSkillsData> classSkills;
   std::map<int, std::unique_ptr<Item>> items;

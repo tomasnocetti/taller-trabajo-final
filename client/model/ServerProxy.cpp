@@ -76,13 +76,6 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   otherPlayers = gameModelData.otherPlayers;
   unsigned int aux = drops.size();
   drops = gameModelData.drops;
-  if (aux != drops.size()){
-    std::cout << "drop contains: ";
-    for (unsigned int i = 0; i < drops.size(); i++){
-      std::cout << " " << drops[i].id;
-    }
-    std::cout << std::endl;
-  }
 }
 
 void ServerProxy::setMapData(MapData& mapData){

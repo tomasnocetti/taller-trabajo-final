@@ -171,7 +171,7 @@ void CApp::LoadAssets() {
   manager.addTextTexture("invText_6");
   manager.addTextTexture("invText_7");
   manager.addTextTexture("invText_8");
-  manager.addTextTexture("invText_5000");
+  manager.addTextTexture("invText_9");
   manager.addTexture("check", "client/assets/check.png");
   manager.addTexture("item_1", "client/assets/bow_inv.png");
   manager.addTexture("item_2", "client/assets/sword_inv.png");

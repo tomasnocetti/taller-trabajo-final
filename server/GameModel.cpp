@@ -388,15 +388,22 @@ void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
 
 void GameModel::pickUpObj(size_t playerId){
   Player &p = *players.at(playerId);
-  if (p.inventoryIsFull()) return;
-  bool success = false;
+  const GlobalConfig& c = GC::get();
   int i = 0;
+  
+  if (!p.isAlive()) return;
 
   for (auto& it : drops){
-    success = p.pickUp(it);
+    int goldPlayerBeforeDrop = p.gold;
+
+    bool success = p.pickUp(it);
     if (success){
+      if (it.id == c.goldItemId){
+        it.amount -= (p.gold - goldPlayerBeforeDrop);
+        if (it.amount != 0) return;
+      }
       drops.erase(drops.begin() + i);
-      break;
+      return;
     }
     i++;
   }

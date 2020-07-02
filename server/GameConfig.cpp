@@ -34,6 +34,8 @@ void GC::load(const char* src) {
   instance->g.attackZoneHeight = gameConfig["attackZoneHeight"].asInt();
   instance->g.attackNpcZoneWidth = gameConfig["attackNpcZoneWidth"].asInt();
   instance->g.attackNpcZoneHeight = gameConfig["attackNpcZoneHeight"].asInt();
+  instance->g.dropZoneWidth = gameConfig["dropZoneWidth"].asInt();
+  instance->g.dropZoneHeight = gameConfig["dropZoneHeight"].asInt();
   instance->g.maxRangeZone = gameConfig["maxRangeZone"].asInt();
   instance->g.offsetToRespawn = gameConfig["offsetToRespawn"].asInt();
   instance->g.minDistanceNpc = gameConfig["minDistanceNpc"].asInt();
@@ -59,9 +61,11 @@ void GC::load(const char* src) {
   instance->g.npcDropGoldRandMinValue =
     gameConfig["npcDropGoldRandMinValue"].asDouble();
   instance->g.npcDropGoldRandMaxValue =
-    gameConfig["npcDropGoldRandMinValue"].asDouble();
+    gameConfig["npcDropGoldRandMaxValue"].asDouble();
   instance->g.estimateTimeToPriestConst = 
     gameConfig["estimateTimeToPriestConst"].asDouble();
+  instance->g.maxInventoryDifferentItems = 
+    gameConfig["maxInventoryDifferentItems"].asInt();
 
   instance->g.chatMessages.initialMsg =
     chatMessages["initialMsg"].asString();
