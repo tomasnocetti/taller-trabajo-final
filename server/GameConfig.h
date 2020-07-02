@@ -55,7 +55,7 @@ struct ClassSkillsData {
   int mana;
   int meditation;
   int health;
-}
+};
 
 struct EquationsData{
   double limitForNextLevel;
@@ -103,18 +103,6 @@ struct GlobalConfig {
   std::vector<InventoryElementData> defaultInventory;
 };
 
-
-struct ClassSkillsData {
-  size_t recovery;
-  size_t mana;
-  size_t meditation;
-  size_t health;
-  size_t constitution;
-  size_t inteligence;
-  size_t strength;
-  size_t agility;
-};
-
 class GC {
   public:
     GC() {}
@@ -128,7 +116,8 @@ class GC {
     GlobalConfig g;
     std::map<char, RaceSkillsData> raceData;
     static GC* instance;
-    static parseRaces(GC& i, const Json::Value& val);
+    static void parseRaces(GlobalConfig& g, const Json::Value& val);
+    static void parseClasses(GlobalConfig& g, const Json::Value& val);
 };
 
 #endif

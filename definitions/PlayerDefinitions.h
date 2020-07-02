@@ -13,19 +13,19 @@
 #define PLAYER_HEIGHT 48
 
 typedef enum {
-  HUMAN,
-  ELF,
-  GNOME,
-  DWARF
+  HUMAN = 'H',
+  ELF = 'E',
+  GNOME = 'G',
+  DWARF = 'D'
 } PlayerRace;
 
 MSGPACK_ADD_ENUM(PlayerRace)
 
 typedef enum {
-  MAGE,
-  CLERIC,
-  PALADIN,
-  WARRIOR
+  MAGE = 'M',
+  CLERIC = 'C',
+  PALADIN = 'P', 
+  WARRIOR = 'W'
 } PlayerClass;
 
 MSGPACK_ADD_ENUM(PlayerClass)
