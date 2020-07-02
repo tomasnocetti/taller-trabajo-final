@@ -158,47 +158,53 @@
       "range": 300,
       "mana": 5
     }, {
-      "id": 7,
+      "id": 18,
       "type": "M",
       "name": "Pocion de Mana"
     }, {
-      "id": 8,
+      "id": 19,
       "type": "V",
       "name": "Pocion de Vida"
     }, {
-      "id": 10,
+      "id": 7,
       "type": "H",
       "name": "Sombrero magico",
       "minDefense": 4,
       "maxDefense": 12
     }, {
-      "id": 11,
+      "id": 8,
       "type": "H",
       "name": "Capucha",
       "minDefense": 1,
       "maxDefense": 4
     }, {
-      "id": 12,
+      "id": 9,
       "type": "B",
       "name": "Armadura de Cuero",
       "minDefense": 2,
       "maxDefense": 6
     }, {
-      "id": 13,
+      "id": 10,
       "type": "B",
       "name": "Armadura de Placas",
       "minDefense": 15,
       "maxDefense": 30
     }, {
-      "id": 14,
+      "id": 11,
       "type": "L",
       "name": "Escudo de Tortuga",
       "minDefense": 1,
       "maxDefense": 2
     }],
+<<<<<<< HEAD
     "goldItemId": 9,
     "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14],
     "potionsToDropNPC": [7, 8],
+=======
+    "goldItemId": 5000,
+    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "potionsToDropNPC": [18, 19],
+>>>>>>> c5942807d5f007235eff3d1d3d3416772e4ca8ff
     "traderItems": [{
       "itemId": 0,
       "value": 200
