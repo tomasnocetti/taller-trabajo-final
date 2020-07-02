@@ -185,7 +185,7 @@ void GC::load(const char* src) {
     int amount = inventoryItem["amount"].asInt();
 
     InventoryElementData item = {
-      amount,
+      size_t(amount),
       true,
       itemId,
     };
