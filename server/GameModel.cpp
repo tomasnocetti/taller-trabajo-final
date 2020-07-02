@@ -374,6 +374,16 @@ void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
   p.throwObj(inventoryPosition);
 }
 
+void GameModel::pickUpObj(size_t playerId){
+  Player &p = *players.at(playerId);
+  bool success = false;
+  
+  for (auto& it : drops){
+    success = p.pickUp(it);
+    if (success) break;
+  }
+}
+
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
     NPC& n = *npcMap.at(id);
     int auxXPos = n.position.x;

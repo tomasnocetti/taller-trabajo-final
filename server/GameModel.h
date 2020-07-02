@@ -90,6 +90,8 @@ class GameModel{
     void addNPCDrop(DropItemData &drop);
     /* Handle throwInventoryObj instruction */
     void throwInventoryObj(size_t playerId, size_t inventoryPosition);
+    /* Handle pickUp instruction */
+    void pickUpObj(size_t playerId);
 };
 
 #endif

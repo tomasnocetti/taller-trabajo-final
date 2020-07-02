@@ -166,6 +166,11 @@ void ClientProxyRead::handleAuthInstruction(
         client.playerId, instruction.params[0].value));
       client.instructionQueue.push(std::move(i));      
       break;
+    case PICK_UP:
+      i = std::unique_ptr<Instruction>(new PickUpInstruction(
+        client.playerId));
+      client.instructionQueue.push(std::move(i));      
+      break; 
     default:
       std::cout << "El jugador quiere realizar otra accion. " << std::endl;
       break;

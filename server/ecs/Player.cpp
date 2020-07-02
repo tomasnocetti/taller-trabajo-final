@@ -327,3 +327,24 @@ void Player::stopMeditating(){
     health.meditating = false;
   }
 }
+
+bool Player::pickUp(DropItemData &drop){
+  if ((inventory.size() == 9)) return;
+  const GlobalConfig& c = GC::get();
+  PositionData pickUpZoneData = {
+    drop.position.x - c.attackZoneWidth / 2,
+    drop.position.y - c.attackZoneHeight / 2,
+    c.attackZoneWidth,
+    c.attackZoneHeight};
+  Entity pickUpZone(pickUpZoneData);
+
+  bool canPickUp = checkCollision(pickUpZone);
+  if (!canPickUp) return false;
+
+  InventoryElementData item;
+  item.amount = drop.amount;
+  item.isEquiped = false;
+  item.itemId = drop.id;
+  inventory.push_back(item);
+  return true;
+}

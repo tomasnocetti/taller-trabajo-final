@@ -136,3 +136,8 @@ void ServerProxy::throwObject(std::string inventoryPosition){
   InstructionData instruction = {THROW_OBJECT, {x}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::pickUp(){
+  InstructionData instruction = {PICK_UP, {}};
+  writeBQ.push(instruction);
+}

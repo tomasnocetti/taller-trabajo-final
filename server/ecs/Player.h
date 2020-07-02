@@ -67,6 +67,7 @@ class Player : public LiveEntity{
     void throwObj(size_t inventoryPosition);
     void meditate();
     void stopMeditating();
+    bool pickUp(DropItemData &drop);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

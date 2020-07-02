@@ -135,4 +135,18 @@ class ThrowObjInstruction : public Instruction {
     size_t inventoryPosition;
 };
 
+class PickUpInstruction : public Instruction {
+  public:
+    PickUpInstruction(size_t id);
+    PickUpInstruction(const PickUpInstruction&) = delete;
+    PickUpInstruction& operator=(const PickUpInstruction&) 
+      = delete;
+    PickUpInstruction&& operator=(PickUpInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+};
+
 #endif
