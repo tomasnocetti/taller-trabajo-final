@@ -107,10 +107,10 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
     case 5:
       setBodyWear(manager.getTexture("blue-tunic"));
     break;
-    case 13:
+    case 10:
       setBodyWear(manager.getTexture("plate-armor"));
     break;
-    case 12:
+    case 9:
       setBodyWear(manager.getTexture("leather-armor"));
     break;
     default:
@@ -122,10 +122,10 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
     case 3:
 			headWear = HeadWear(manager.getTexture("helmet"), 3, -9, 0, -10);
     break;
-    case 10:
+    case 7:
 			headWear = HeadWear(manager.getTexture("hat"), 3, -25, 0, -25);
     break;
-    case 11:
+    case 8:
 			headWear = HeadWear(manager.getTexture("hood"), 2, -10, -1, -10);
     break;
     default:
@@ -134,7 +134,7 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
   }
   
   switch (equipment.leftHand) {
-    case 14:
+    case 11:
 			shield = Shield(manager.getTexture("turtle-shield"), 
         12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16);
     break;
