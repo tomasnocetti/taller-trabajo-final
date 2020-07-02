@@ -50,11 +50,11 @@ int Equations::attackExperience(
 }
 
 int Equations::killExperience(
-  int maxHealthOther, 
-  int otherLevel, 
+  int maxHealthOther,
+  int otherLevel,
   int level) {
-    return randomFloat(0, 0.1) * 
-      maxHealthOther * 
+    return randomFloat(0, 0.1) *
+      maxHealthOther *
       std::max(otherLevel - level + 10, 0);
 }
 
@@ -65,12 +65,12 @@ bool Equations::dodgeAttack(int agility) {
 }
 
 int Equations::defend(
-  int agility, 
-  BodyEquipmentSkills bodySkills, 
-  LeftHandEquipmentSkills leftSkills, 
+  int agility,
+  BodyEquipmentSkills bodySkills,
+  LeftHandEquipmentSkills leftSkills,
   HeadEquipmentSkills headSkills) {
-    return random(bodySkills.minDefense, bodySkills.maxDefense) + 
-      random(leftSkills.minDefense, leftSkills.maxDefense) + 
+    return random(bodySkills.minDefense, bodySkills.maxDefense) +
+      random(leftSkills.minDefense, leftSkills.maxDefense) +
       random(headSkills.minDefense, headSkills.maxDefense);
 }
 
@@ -98,6 +98,20 @@ bool Equations::criticAttack(){
 
 int Equations::excessGold(int level, int gold){
   const GlobalConfig& c = GC::get();
-  return std::max(gold - (int)(100 * pow(level, 
+  return std::max(gold - (int)(100 * pow(level,
     c.equations.excessGoldConstPow)), 0);
+}
+
+int Equations::recoverMana(PlayerRootData& root, bool isMeditating) {
+  const GlobalConfig& c = GC::get();
+  const ClassSkillsData& classT = c.classSkills.at(root.pclass);
+  const RaceSkillsData& race = c.raceSkills.at(root.prace);
+  int mult = isMeditating ? race.inteligence : 1;
+  return classT.meditation * mult;
+}
+
+int Equations::recoverHealth(PlayerRootData& root) {
+  const GlobalConfig& c = GC::get();
+  const RaceSkillsData& race = c.raceSkills.at(root.prace);
+  return race.recovery;
 }

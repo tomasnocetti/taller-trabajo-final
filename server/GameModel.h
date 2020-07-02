@@ -58,9 +58,7 @@ class GameModel{
     /* Handle resurrectPlayer instruction - GameCron Instruction */
     void resurrectPlayer(size_t playerId);
     /* Handle increasePlayerMana instruction */
-    void increasePlayerHealth(size_t playerId);
-    /* Handle increasePlayerHealth instruction */
-    void increasePlayerMana(size_t playerId);
+    void recover(size_t playerId);
     /* Handle meditate instruction */
     void meditate(size_t playerId);
     /* Handle increaseManaMeditation instruction - GameCron Instruction */
