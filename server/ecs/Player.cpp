@@ -172,13 +172,18 @@ void Player::equipDefault(){
 
   for (unsigned int i = 0; i < inventory.size(); i++){
     bool canEquip = true;
+    
     for (auto& it : c.potionsToDropNPC){
+      
       if (inventory.at(i).itemId == it){
         canEquip = false;
+        inventory.at(i).isEquiped = false;
         break;
       }
     }
+    
     if (!canEquip) continue;
+    
     equip(i);
   }
 }
