@@ -58,14 +58,21 @@ int Equations::killExperience(
       std::max(otherLevel - level + 10, 0);
 }
 
-bool Equations::dodgeAttack(int agility) {
+bool Equations::dodgeAttackNPC() {
   const GlobalConfig& c = GC::get();
-  float rand = pow(randomFloat(0, 1), agility);
+  float rand = pow(randomFloat(0, 1), c.npcInitSkills);
+  return rand < c.equations.dodgeAttackComparisonValue;
+}
+
+bool Equations::dodgeAttackPlayer(PlayerRootData& root) {
+  const GlobalConfig& c = GC::get();
+  const RaceSkillsData& race = c.raceSkills.at(root.prace);
+
+  float rand = pow(randomFloat(0, 1), race.agility);
   return rand < c.equations.dodgeAttackComparisonValue;
 }
 
 int Equations::defend(
-  int agility,
   BodyEquipmentSkills bodySkills,
   LeftHandEquipmentSkills leftSkills,
   HeadEquipmentSkills headSkills) {

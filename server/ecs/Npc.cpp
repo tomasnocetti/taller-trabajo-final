@@ -41,11 +41,6 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
 
   lastAttack = std::chrono::system_clock::now();
 
-  bool dodged = Equations::dodgeAttack(entity.skills.agility);
-  if (dodged){
-    return true;
-  }
-
   int damage = Equations::NPCDamage(level, skills.strength);
   entity.rcvDamage(damage);
 
@@ -60,7 +55,7 @@ void NPC::rcvDamage(int &damage) {
     return;
   }
 
-  bool dodged = Equations::dodgeAttack(skills.agility);
+  bool dodged = Equations::dodgeAttackNPC();
   if (dodged){
     damage = -1;
     return;

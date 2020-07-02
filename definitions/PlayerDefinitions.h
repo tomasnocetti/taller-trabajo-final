@@ -55,9 +55,6 @@ struct SkillsData {
   size_t raceMana;
   size_t raceHealth;
   size_t classConstitution;
-  MSGPACK_DEFINE(strength, agility, inteligence, classRecovery, 
-    classMeditation, raceRecovery, raceMeditation, classMana, classHealth,
-    raceMana, raceHealth, classConstitution)
 };
 
 struct ExperienceData{

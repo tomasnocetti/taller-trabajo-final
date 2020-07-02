@@ -17,8 +17,10 @@ class Equations{
       RightHandEquipmentSkills weaponSkills);
     static int attackExperience(int damage, int otherLevel, int level);
     static int killExperience(int maxHealthOther, int otherLevel, int level);
-    static bool dodgeAttack(int agility);
-    static int defend(int agility, BodyEquipmentSkills bodySkills, 
+    static bool dodgeAttackPlayer(PlayerRootData& root);
+    static bool dodgeAttackNPC();
+    static int defend(
+      BodyEquipmentSkills bodySkills, 
       LeftHandEquipmentSkills leftSkills, HeadEquipmentSkills headSkills);
     static int random(int minValue, int maxValue);
     static float randomFloat(float a, float b);
