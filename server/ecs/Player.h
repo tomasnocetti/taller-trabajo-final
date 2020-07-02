@@ -66,14 +66,12 @@ class Player : public LiveEntity{
     void setPlayerGameModelData(PlayerGameModelData &modelData);
     void setOtherPlayersData(OtherPlayersData &otherData);
     int calculateExcessGold();
-    void increaseMana();
+    void recover();
     void throwObj(size_t inventoryPosition);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 
       PlayerRootData root);
-    static void setClassSkills(SkillsData &skills, PlayerRootData &root);
-    static void setRaceSkills(SkillsData &skills, PlayerRootData &root);  
     static void setInitEquipment(EquipmentData &equipment, 
       PlayerRootData &root);   
     static void setExperienceData(size_t &level, ExperienceData &experience);

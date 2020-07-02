@@ -107,12 +107,12 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
     case 5:
       setBodyWear(manager.getTexture("blue-tunic"));
     break;
-    /*case PLATE_ARMOR:
+    case 13:
       setBodyWear(manager.getTexture("plate-armor"));
     break;
-    case LEATHER_ARMOR:
+    case 12:
       setBodyWear(manager.getTexture("leather-armor"));
-    break;*/
+    break;
     default:
       setBodyWear(manager.getTexture("clothes"));
     break;
@@ -122,22 +122,22 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
     case 3:
 			headWear = HeadWear(manager.getTexture("helmet"), 3, -9, 0, -10);
     break;
-    /*case HAT:
+    case 10:
 			headWear = HeadWear(manager.getTexture("hat"), 3, -25, 0, -25);
     break;
-    case HOOD:
+    case 11:
 			headWear = HeadWear(manager.getTexture("hood"), 2, -10, -1, -10);
-    break;*/
+    break;
     default:
 			headWear = HeadWear(nullptr, 0, 0, 0, 0);
     break;
   }
   
   switch (equipment.leftHand) {
-    /*case TURTLE_SHIELD:
+    case 14:
 			shield = Shield(manager.getTexture("turtle-shield"), 
         12, 14, 13, 18, 2, 60, 5, 17, 31, 104, 20, 16);
-    break;*/
+    break;
     case 4:
 			shield = Shield(manager.getTexture("iron-shield"), 
         6, 10, 17, 24, 1, 60, 13, 16, 25, 104, 24, 18);
@@ -153,9 +153,7 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
         2, 6, 10, 20, 15, 56, 10, 14, 101, 139, 11, 29, 13, 5, 15, 10, 0, 0);
     break;
     case 2:
-			/*weapon = Weapon(manager.getTexture("sword"), 
-        34, 18, 17, 15, 18, 67, 6, 21, 9, 158, 13, 20, 17, 13, 18, 18, 2, 15);*/
-				weapon = Weapon(manager.getTexture("sword"), 
+			weapon = Weapon(manager.getTexture("sword"), 
         34, 18, 17, 15, 0, 0, 0, 0, 9, 158, 13, 20, 17, 13, 18, 18, 2, 15);
     break;
 		case 6:

@@ -65,7 +65,6 @@ void CApp::OnEvent(SDL_Event& e) {
       break;
     case GameMode::RUN:
       playerController.handleEvent(e);
-      //inventoryController.handleEvent(e);
       chatController.handleEvent(e);
       break;
   }
@@ -74,6 +73,7 @@ void CApp::OnEvent(SDL_Event& e) {
 void CApp::OnLoop() {
   model.update();
   mapController.update();
+  mapController.updateDrops();
   playerController.update();
   chatController.update();
   enemyController.update();
@@ -93,6 +93,7 @@ void CApp::OnRender() {
       mapViewport.paint(
         playerController.getCamera(),
         mapController.getEntities(),
+        mapController.getDrops(),
         playerController.getEntity(),
         enemyController.getNPCs(),
         enemyController.getOtherPlayers());
@@ -172,21 +173,20 @@ void CApp::LoadAssets() {
   manager.addTextTexture("invText_8");
   manager.addTextTexture("invText_9");
   manager.addTexture("check", "client/assets/check.png");
-  manager.addTexture("health-potion", "client/assets/health_potion.png");
-  manager.addTexture("mana-potion", "client/assets/mana_potion.png");
-  manager.addTexture("sword-inv", "client/assets/sword_inv.png");
-  manager.addTexture("bow-inv", "client/assets/bow_inv.png");
-  manager.addTexture("ash-stick-inv", "client/assets/ash_stick_inv.png");
-  manager.addTexture("gnarled-inv", "client/assets/gnarled_staff_inv.png");
-  manager.addTexture("clothes-inv", "client/assets/clothes_inv.png");
-  manager.addTexture("leather-inv", "client/assets/leather_armor_inv.png");
-  manager.addTexture("plate-armor-inv", "client/assets/plate_armor_inv.png");
-  manager.addTexture("blue-tunic-inv", "client/assets/blue_tunic_inv.png");
-  manager.addTexture("turtle-inv", "client/assets/turtle_shield_inv.png");
-  manager.addTexture("iron-shield-inv", "client/assets/iron_shield_inv.png");
-  manager.addTexture("iron-helm-inv", "client/assets/iron_helm_inv.png");
-  manager.addTexture("hat-inv", "client/assets/hat_inv.png");
-  manager.addTexture("hood-inv", "client/assets/hood_inv.png");
+  manager.addTexture("item_1", "client/assets/bow_inv.png");
+  manager.addTexture("item_2", "client/assets/sword_inv.png");
+  manager.addTexture("item_3", "client/assets/iron_helm_inv.png");
+  manager.addTexture("item_4", "client/assets/iron_shield_inv.png");
+  manager.addTexture("item_5", "client/assets/blue_tunic_inv.png");
+  manager.addTexture("item_6", "client/assets/ash_stick_inv.png");
+  manager.addTexture("item_7", "client/assets/mana_potion.png");
+  manager.addTexture("item_8", "client/assets/health_potion.png");
+  manager.addTexture("item_9", "client/assets/gold.png");
+  manager.addTexture("item_10", "client/assets/hat_inv.png");
+  manager.addTexture("item_11", "client/assets/hood_inv.png");
+  manager.addTexture("item_12", "client/assets/leather_armor_inv.png");
+  manager.addTexture("item_13", "client/assets/plate_armor_inv.png");
+  manager.addTexture("item_14", "client/assets/turtle_shield_inv.png");
 }
 
 CApp::~CApp() {}

@@ -350,18 +350,9 @@ void GameModel::resurrectPlayer(size_t playerId){
     players.at(playerId)->health.totalMP;
 }
 
-void GameModel::increasePlayerHealth(size_t playerId){
+void GameModel::recover(size_t playerId){
   Player &p = *players.at(playerId);
-  p.health.currentHP += p.skills.raceRecovery;
-  p.health.lastHealthIncrease = std::chrono::system_clock::now();
-  
-  if (p.health.currentHP <= p.health.totalHP) return;
-  p.health.currentHP = p.health.totalHP;
-}
-
-void GameModel::increasePlayerMana(size_t playerId){
-  Player &p = *players.at(playerId);
-  p.increaseMana();
+  p.recover();
 }
 
 void GameModel::meditate(size_t id){

@@ -5,11 +5,10 @@
 #include <ctime>
 #include "../services/ChatManager.h"
 
-NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
+NPC::NPC(EnemyData npcData, size_t level) :
   LiveEntity(
-    npcData.position, 
-    npcData.healthAndManaData, 
-    skills, 
+    npcData.position,
+    npcData.healthAndManaData,
     level,
     npcData.id),
   type(npcData.type){
@@ -41,12 +40,7 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
 
   lastAttack = std::chrono::system_clock::now();
 
-  bool dodged = Equations::dodgeAttack(entity.skills.agility);
-  if (dodged){
-    return true;
-  }
-
-  int damage = Equations::NPCDamage(level, skills.strength);
+  int damage = Equations::NPCDamage(level);
   entity.rcvDamage(damage);
 
   return true;
@@ -60,7 +54,7 @@ void NPC::rcvDamage(int &damage) {
     return;
   }
 
-  bool dodged = Equations::dodgeAttack(skills.agility);
+  bool dodged = Equations::dodgeAttackNPC();
   if (dodged){
     damage = -1;
     return;
@@ -83,7 +77,7 @@ bool NPC::drop(DropItemData &drop){
     return true;
   }
 
-  if ((probDrop > c.npcDropGold) && (probDrop <= 
+  if ((probDrop > c.npcDropGold) && (probDrop <=
     (c.npcDropGold + c.npcDropPotion))){
       int potion = Equations::random(0, 1);
       if (potion == 1){
@@ -94,7 +88,7 @@ bool NPC::drop(DropItemData &drop){
       return true;
   }
 
-  if ((probDrop > c.npcDropGold + c.npcDropPotion) && 
+  if ((probDrop > c.npcDropGold + c.npcDropPotion) &&
     (probDrop <= c.npcDropGold + c.npcDropPotion + c.npcDropItem)){
       drop.id = Equations::random(1, c.itemsToDropNPC.size());
       return true;
@@ -124,10 +118,7 @@ std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
       std::chrono::system_clock::now()};
     data.lastAttack = std::chrono::system_clock::now();
 
-    SkillsData skills = {
-      c.npcInitSkills, c.npcInitSkills, c.npcInitSkills};
-
-    std::unique_ptr<NPC> npc(new NPC(data, skills, level));
+    std::unique_ptr<NPC> npc(new NPC(data, level));
 
     return npc;
 }

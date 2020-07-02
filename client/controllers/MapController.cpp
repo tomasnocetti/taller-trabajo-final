@@ -1,6 +1,7 @@
 #include "MapController.h"
 #include "../entities/TileEntity.h"
-#include "../../DataDefinitions.h"
+#include "../entities/DropEntity.h"
+#include "../../definitions/MapDefinitions.h"
 #include <iostream>
 #include <algorithm>
 #include <string>
@@ -73,6 +74,28 @@ void MapController::update(){
   if (!mapIsSet && model.isMapSet()) init();
 }
 
+void MapController::updateDrops() {
+  std::vector<DropItemData> items = model.getDrops();
+
+  drops.clear();
+  for (unsigned int i = 0; i < items.size(); i++)
+    generateDrop(items[i]);
+}
+
+void MapController::generateDrop(DropItemData item) {
+  LTexture* texture = manager.getTexture(
+    "item_" + std::to_string(item.id));
+  std::shared_ptr<DropEntity> drop(new DropEntity(
+    texture, item.position.x, item.position.y, 
+    item.position.w, item.position.h));
+
+  drops.emplace_back(drop);
+}
+
 EntityList& MapController::getEntities() {
   return tiles;
+}
+
+EntityList& MapController::getDrops() {
+  return drops;
 }

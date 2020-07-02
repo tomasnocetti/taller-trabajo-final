@@ -5,10 +5,14 @@
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
 #define EXP_BAR_Y 45
-#define GOLD_Y 10
-#define GOLD_X 105
-#define LEVEL_X 50
+//#define GOLD_X 105
+#define GOLD_X 93
+#define GOLD_Y 11
+#define GOLD_W 70
+//#define LEVEL_X 50
+#define LEVEL_X 13
 #define LEVEL_Y 24
+#define LEVEL_W 190
 
 #define KEYCODE_OFFSET 48
 #define KEYCODE_1 49
@@ -56,9 +60,11 @@ void MainPlayerController::update() {
   healthBar.update(data.points.currentHP, data.points.totalHP, 0);
   manaBar.update(data.points.currentMP, data.points.totalMP, 0);
   gold.update(std::to_string(data.gold));
+  gold.center(GOLD_X + GOLD_W / 2);
 
   level.update(data.nick + " - nivel: " +
     std::to_string(data.level));
+  level.center(LEVEL_X + LEVEL_W / 2);
   expBar.update(data.experience.currentExperience,
     data.experience.maxLevelExperience,
     data.experience.minLevelExperience);

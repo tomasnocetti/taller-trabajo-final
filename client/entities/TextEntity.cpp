@@ -8,6 +8,8 @@ void TextEntity::init(int x, int y, LTexture* texture, TTF_Font* font) {
 	this->font = font;
 	this->x = x;
 	this->y = y;
+	w = 0;
+	h = 0;
 	previousText = "";
 }
 
@@ -25,8 +27,6 @@ void TextEntity::center(int xPos) {
 }
 
 void TextEntity::paint(double scaleW, double scaleH){
-	//int w, h;
-	//texture->queryTexture(w, h);
 	SDL_Rect destRect = {x, y, w, h};
 	texture->paint(destRect, scaleW, scaleH);
 }

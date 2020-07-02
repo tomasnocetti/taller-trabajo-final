@@ -42,24 +42,6 @@ struct InventoryElementData{
   MSGPACK_DEFINE(amount, isEquiped, itemId)
 };
 
-struct SkillsData {
-  size_t strength;
-  size_t agility;
-  size_t inteligence;
-  size_t classRecovery;
-  size_t classMeditation;
-  size_t raceRecovery;
-  size_t raceMeditation;
-  size_t classMana;
-  size_t classHealth;
-  size_t raceMana;
-  size_t raceHealth;
-  size_t classConstitution;
-  MSGPACK_DEFINE(strength, agility, inteligence, classRecovery, 
-    classMeditation, raceRecovery, raceMeditation, classMana, classHealth,
-    raceMana, raceHealth, classConstitution)
-};
-
 struct ExperienceData{
   size_t currentExperience;
   size_t maxLevelExperience;
@@ -79,7 +61,6 @@ struct MainPlayerData {
   size_t gold;
   size_t level;
   ExperienceData experience;
-  SkillsData skills;
   PlayerRootData rootd;
   std::vector<InventoryElementData> inventory;
   HealthAndManaData points;
@@ -87,7 +68,7 @@ struct MainPlayerData {
   MovementData movement;
   EquipmentData equipment;
   ChatData chat;
-  MSGPACK_DEFINE(nick, id, gold, level, experience, skills, rootd, inventory, 
+  MSGPACK_DEFINE(nick, id, gold, level, experience, rootd, inventory, 
     points, position, movement, equipment, chat)
 };
 
