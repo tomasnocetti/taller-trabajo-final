@@ -155,7 +155,7 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
     }
 }
 
-void Player::setDefaultEquipment (std::vector<InventoryElementData>
+void Player::setDefaultEquipment(std::vector<InventoryElementData>
   &inventory){
     const GlobalConfig& c = GC::get();
     inventory = c.defaultInventory;
@@ -168,7 +168,6 @@ void Player::equipDefault(){
     bool canEquip = true;
     
     for (auto& it : c.potionsToDropNPC){
-      
       if (inventory.at(i).itemId == it){
         canEquip = false;
         inventory.at(i).isEquiped = false;

@@ -50,7 +50,8 @@ MovementData Entity::getPositionDirection(
 }
 
 MovementData Entity::getInitMovement() {
-  return {0, 0};
+  MovementData m = {0, 0};
+  return m;
 }
 
 bool Entity::checkCollision(Entity& otherEntity) const{
