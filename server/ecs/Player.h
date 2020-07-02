@@ -47,9 +47,6 @@ class Player : public LiveEntity{
     /* Se descuenta el daño recibido de los puntos de salud, luego 
     de haber calculado los puntos de defensa. */
     void rcvDamage(int &damage) override;
-    /* Devuelve la cantidad de puntos de defensa en base a lo que tenga
-    equipado el jugador */
-    int defend();
     /* Se añade experiencia al jugador, en base al ataque realizado y los 
     stats de la entidad atacada. */
     void addExperience(int &damage, size_t &otherLevel, int &otherHealth,

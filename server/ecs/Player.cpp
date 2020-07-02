@@ -21,6 +21,7 @@ Player::Player(MainPlayerData playerData, size_t id):
     leftSkills = {0, 0};
     bodySkills = {0, 0};
     headSkills = {0, 0};
+    equipment = {0, 0, 0, 0};
     equipDefault();
 }
 
@@ -121,7 +122,7 @@ void Player::rcvDamage(int &damage){
   }
   if (critickAttack) damage = damage * 2; // critic attack
 
-  int defensePoints = defend();
+  int defensePoints = Equations::defend(bodySkills, leftSkills, headSkills);
   if (defensePoints > damage){
     damage = 0;
     return;
@@ -152,13 +153,6 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
       health.totalHP = Equations::maxLife(rootd, level);
       health.totalMP = Equations::maxMana(rootd, level);
     }
-}
-
-int Player::defend(){
-  return Equations::defend(
-    bodySkills,
-    leftSkills,
-    headSkills);
 }
 
 void Player::setDefaultEquipment (std::vector<InventoryElementData>
@@ -305,7 +299,6 @@ void Player::setOtherPlayersData(OtherPlayersData &otherData){
   otherData.movement = movement;
   otherData.rootd = rootd;
   otherData.equipment = equipment;
-  otherData.otherPlayerHealth = health.currentHP;
   otherData.resurrection = resurrection;
   otherData.healthAndMana = health;
 }

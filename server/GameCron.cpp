@@ -109,7 +109,7 @@ void GameCron::aliveNPCLogic(std::vector<OtherPlayersData>& players,
 
     // Calcula la distancia minima a un jugador
     for (OtherPlayersData &player : players) {
-      if (player.otherPlayerHealth <= 0) continue;
+      if (player.healthAndMana.currentHP <= 0) continue;
       double distance = Entity::getPositionDistance(
         npc.position, player.position);
 

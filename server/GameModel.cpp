@@ -83,7 +83,7 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  if (nick == "Fer") playerId  = Equations::random(1, 100);
+  playerId  = Equations::random(1, 100);
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -379,13 +379,10 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
       return;
     }
 
-    for (auto &it : cities){
-      collision = n.checkCollision(*it);
-      if (collision){
-        n.position.x = auxXPos;
-        n.position.y = auxYPos;
-        return;
-      }
+    if (checkCityCollisions(n)){
+      n.position.x = auxXPos;
+      n.position.y = auxYPos;
+      return;
     }
 }
 
