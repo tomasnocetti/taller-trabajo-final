@@ -6,6 +6,7 @@
 #include <vector>
 #include <random>
 #include <stdlib.h>
+#include <utility>
 
 GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
   cronBQ(cronBQ),
@@ -389,24 +390,25 @@ void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
 void GameModel::pickUpObj(size_t playerId){
   Player &p = *players.at(playerId);
   const GlobalConfig& c = GC::get();
-  int i = 0;
   
   if (!p.isAlive()) return;
 
-  for (auto& it : drops){
-    int goldPlayerBeforeDrop = p.gold;
+  drops.erase(
+    std::remove_if(
+      drops.begin(), 
+      drops.end(),
+      [&p, &c](DropItemData &it) {
+        int goldPlayerBeforeDrop = p.gold;
 
-    bool success = p.pickUp(it);
-    if (success){
-      if (it.id == c.goldItemId){
-        it.amount -= (p.gold - goldPlayerBeforeDrop);
-        if (it.amount != 0) return;
-      }
-      drops.erase(drops.begin() + i);
-      return;
-    }
-    i++;
-  }
+        bool success = p.pickUp(it);
+        if (!success) return false;
+
+        if (it.id == c.goldItemId){
+          it.amount -= (p.gold - goldPlayerBeforeDrop);
+          if (it.amount != 0) return false;
+        }
+        return true;
+  }), drops.end());
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
