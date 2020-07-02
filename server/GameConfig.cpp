@@ -20,6 +20,7 @@ void GC::load(const char* src) {
 
   const Json::Value gameConfig = root["gameConfig"];
   const Json::Value races = gameConfig["races"];
+  const Json::Value classes = gameConfig["classes"];
   const Json::Value items = gameConfig["items"];
   const Json::Value traderItems = gameConfig["traderItems"];
   const Json::Value chatMessages = gameConfig["chatMessages"];
@@ -53,9 +54,9 @@ void GC::load(const char* src) {
   instance->g.npcDropItem = gameConfig["npcDropItem"].asDouble();
   instance->g.goldItemId = gameConfig["goldItemId"].asInt();
   instance->g.playerInitialGold = gameConfig["playerInitialGold"].asInt();
-  instance->g.npcDropGoldRandMinValue = 
+  instance->g.npcDropGoldRandMinValue =
     gameConfig["npcDropGoldRandMinValue"].asDouble();
-  instance->g.npcDropGoldRandMaxValue = 
+  instance->g.npcDropGoldRandMaxValue =
     gameConfig["npcDropGoldRandMinValue"].asDouble();
 
   instance->g.chatMessages.initialMsg =
@@ -75,15 +76,15 @@ void GC::load(const char* src) {
   instance->g.chatMessages.invalidOption =
     chatMessages["invalidOption"].asString();
 
-  instance->g.equations.critickAttackProb = 
+  instance->g.equations.critickAttackProb =
     equations["critickAttackProb"].asDouble();
-  instance->g.equations.dodgeAttackComparisonValue = 
+  instance->g.equations.dodgeAttackComparisonValue =
     equations["dodgeAttackComparisonValue"].asDouble();
-  instance->g.equations.excessGoldConstPow = 
+  instance->g.equations.excessGoldConstPow =
     equations["excessGoldConstPow"].asDouble();
-  instance->g.equations.limitForNextLevel = 
+  instance->g.equations.limitForNextLevel =
     equations["limitForNextLevel"].asDouble();
-  instance->g.equations.npcDamageConst = 
+  instance->g.equations.npcDamageConst =
     equations["npcDamageConst"].asDouble();
 
   /** PARSE ITEMS */
@@ -169,6 +170,9 @@ void GC::load(const char* src) {
     instance->g.traderItems.push_back(item);
   }
 
+  parseRaces(instance->g, races);
+  parseClasses(instance->g, classes);
+
   // PARSE ITEMSTODROPNPC
   for (const Json::Value &item : itemsToDropNPC) {
     instance->g.itemsToDropNPC.push_back(item.asInt());
@@ -208,3 +212,37 @@ const GlobalConfig& GC::get() {
 
   return instance->g;
 }
+
+void GC::parseRaces(GlobalConfig& g, const Json::Value& val) {
+  for (const Json::Value &race : val) {
+    std::string t = race["type"].asString();
+    PlayerRace type =
+      static_cast<PlayerRace> (t[0]);
+    g.raceSkills.insert(
+      std::pair<PlayerRace, RaceSkillsData>(
+        type,
+        { race["recovery"].asInt(),
+          race["mana"].asInt(),
+          race["meditation"].asInt(),
+          race["health"].asInt(),
+          race["constitution"].asInt(),
+          race["inteligence"].asInt(),
+          race["strength"].asInt(),
+          race["agility"].asInt()}));
+  }
+};
+
+void GC::parseClasses(GlobalConfig& g, const Json::Value& val) {
+  for (const Json::Value &classT : val) {
+    std::string t = classT["type"].asString();
+    PlayerClass type =
+      static_cast<PlayerClass> (t[0]);
+    g.classSkills.insert(
+      std::pair<PlayerClass, ClassSkillsData>(
+        type,
+        { classT["recovery"].asInt(),
+          classT["mana"].asInt(),
+          classT["meditation"].asInt(),
+          classT["health"].asInt() }));
+  }
+};

@@ -39,6 +39,24 @@ struct DropSizes{
   int weight;
 };
 
+struct RaceSkillsData {
+  int recovery;
+  int mana;
+  int meditation;
+  int health;
+  int constitution;
+  int inteligence;
+  int strength;
+  int agility;
+};
+
+struct ClassSkillsData {
+  int recovery;
+  int mana;
+  int meditation;
+  int health;
+};
+
 struct EquationsData{
   double limitForNextLevel;
   double dodgeAttackComparisonValue;
@@ -73,6 +91,8 @@ struct GlobalConfig {
   int playerInitialGold;
   double npcDropGoldRandMinValue;
   double npcDropGoldRandMaxValue;
+  std::map<PlayerRace, RaceSkillsData> raceSkills;
+  std::map<PlayerClass, ClassSkillsData> classSkills;
   std::map<int, std::unique_ptr<Item>> items;
   std::vector<TraderItem> traderItems;
   ChatMessages chatMessages;
@@ -81,17 +101,6 @@ struct GlobalConfig {
   std::vector<int> itemsToDropNPC;
   std::vector<int> potionsToDropNPC;
   std::vector<InventoryElementData> defaultInventory;
-};
-
-struct RaceSkillsData {
-  size_t recovery;
-  size_t mana;
-  size_t meditation;
-  size_t health;
-  size_t constitution;
-  size_t inteligence;
-  size_t strength;
-  size_t agility;
 };
 
 class GC {
@@ -107,6 +116,8 @@ class GC {
     GlobalConfig g;
     std::map<char, RaceSkillsData> raceData;
     static GC* instance;
+    static void parseRaces(GlobalConfig& g, const Json::Value& val);
+    static void parseClasses(GlobalConfig& g, const Json::Value& val);
 };
 
 #endif
