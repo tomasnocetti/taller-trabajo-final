@@ -40,9 +40,6 @@ std::unique_ptr<Player> Player::createPlayer(
     data.gold = c.playerInitialGold;
     data.level = c.playerInitialLevel;
 
-    Player::setClassSkills(data.skills, data.rootd);
-    Player::setRaceSkills(data.skills, data.rootd);
-
     Player::setDefaultEquipment(data);
 
     data.experience.maxLevelExperience = 0;
@@ -52,17 +49,11 @@ std::unique_ptr<Player> Player::createPlayer(
     Player::setPositionData(root, data.position);
 
 
-    data.points.totalHP = Equations::maxLife(data.skills.classConstitution,
-      data.skills.classHealth, data.skills.raceHealth,
-      data.level);
+    data.points.totalHP = Equations::maxLife(data.rootd, data.level);
     //data.points.currentHP = data.points.totalHP;
     data.points.currentHP = 1;
 
-    data.points.totalMP = Equations::maxMana(
-      data.skills.inteligence,
-      data.skills.classMana,
-      data.skills.raceMana,
-      data.level);
+    data.points.totalMP = Equations::maxMana(data.rootd, data.level);
     //data.points.currentMP = data.points.totalMP;
     data.points.currentMP = 0;
     data.points.lastHealthIncrease = std::chrono::system_clock::now();
@@ -78,84 +69,6 @@ std::unique_ptr<Player> Player::createPlayer(
     std::unique_ptr<Player> player(new Player(data, id));
 
     return player;
-}
-
-void Player::setRaceSkills(SkillsData &skills, PlayerRootData &root){
-  switch (root.prace){
-    case HUMAN:
-      skills.classRecovery = HUMAN_RECOVERY;
-      skills.classMana = HUMAN_MANA;
-      skills.classMeditation = HUMAN_MEDITATION;
-      skills.classHealth = HUMAN_HEALTH;
-      skills.classConstitution = HUMAN_CONSTITUTION;
-      skills.inteligence = HUMAN_INTELIGENCE;
-      skills.strength = HUMAN_STRENGTH;
-      skills.agility = HUMAN_AGILITY;
-      break;
-    case ELF:
-      skills.classRecovery = ELF_RECOVERY;
-      skills.classMana = ELF_MANA;
-      skills.classMeditation = ELF_MEDITATION;
-      skills.classHealth = ELF_HEALTH;
-      skills.classConstitution = ELF_CONSTITUTION;
-      skills.inteligence = ELF_INTELIGENCE;
-      skills.strength = ELF_STRENGTH;
-      skills.agility = ELF_AGILITY;
-      break;
-    case DWARF:
-      skills.classRecovery = DWARF_RECOVERY;
-      skills.classMana = DWARF_MANA;
-      skills.classMeditation = DWARF_MEDITATION;
-      skills.classHealth = DWARF_HEALTH;
-      skills.classConstitution = DWARF_CONSTITUTION;
-      skills.inteligence = DWARF_INTELIGENCE;
-      skills.strength = DWARF_STRENGTH;
-      skills.agility = DWARF_AGILITY;
-      break;
-    case GNOME:
-      skills.classRecovery = GNOME_RECOVERY;
-      skills.classMana = GNOME_MANA;
-      skills.classMeditation = GNOME_MEDITATION;
-      skills.classHealth = GNOME_HEALTH;
-      skills.classConstitution = GNOME_CONSTITUTION;
-      skills.inteligence = GNOME_INTELIGENCE;
-      skills.strength = GNOME_STRENGTH;
-      skills.agility = GNOME_AGILITY;
-      break;
-    default:
-      break;
-    }
-}
-
-void Player::setClassSkills(SkillsData &skills, PlayerRootData &root){
-  switch (root.pclass){
-    case MAGE:
-      skills.raceRecovery = MAGE_RECOVERY;
-      skills.raceMana = MAGE_MANA;
-      skills.raceMeditation = MAGE_MEDITATION;
-      skills.raceHealth = MAGE_HEALTH;
-      break;
-    case CLERIC:
-      skills.raceRecovery = CLERIC_RECOVERY;
-      skills.raceMana = CLERIC_MANA;
-      skills.raceMeditation = CLERIC_MEDITATION;
-      skills.raceHealth = CLERIC_HEALTH;
-      break;
-    case PALADIN:
-      skills.raceRecovery = PALADIN_RECOVERY;
-      skills.raceMana = PALADIN_MANA;
-      skills.raceMeditation = PALADIN_MEDITATION;
-      skills.raceHealth = PALADIN_HEALTH;
-      break;
-    case WARRIOR:
-      skills.raceRecovery = WARRIOR_RECOVERY;
-      skills.raceMana = WARRIOR_MANA;
-      skills.raceMeditation = WARRIOR_MEDITATION;
-      skills.raceHealth = WARRIOR_HEALTH;
-      break;
-    default:
-      break;
-  }
 }
 
 void Player::setExperienceData(size_t &level, ExperienceData &experience){
@@ -190,7 +103,7 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   if (health.currentMP < rightSkills.mana) return false;
   health.currentMP -= rightSkills.mana;
 
-  int damage = Equations::damage(skills.strength, rightSkills);
+  int damage = Equations::damage(rootd, rightSkills);
   entity.rcvDamage(damage);
   if (damage == -1){
     ChatManager::enemyDodgedTheAttack(chat);
@@ -245,12 +158,8 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
       level += 1;
       Player::setExperienceData(level, experience);
 
-      health.totalHP = Equations::maxLife(skills.classConstitution,
-      skills.classHealth, skills.raceHealth,
-      level);
-
-      health.totalMP = Equations::maxMana
-      (skills.inteligence, skills.classMana, skills.raceMana, level);
+      health.totalHP = Equations::maxLife(rootd, level);
+      health.totalMP = Equations::maxMana(rootd, level);
     }
 }
 

@@ -11,19 +11,21 @@ Equations::~Equations(){}
 unsigned int Equations::seed = 0;
 
 int Equations::maxLife(
-  int constitution,
-  int classHealth,
-  int raceHealth,
+  PlayerRootData& root,
   int level) {
-    return constitution * classHealth * raceHealth * level;
+    const GlobalConfig& c = GC::get();
+    const RaceSkillsData& race = c.raceSkills.at(root.prace);
+    const ClassSkillsData& classT = c.classSkills.at(root.pclass);
+    return race.constitution * race.health * classT.health * level;
 }
 
 int Equations::maxMana(
-  int inteligence,
-  int classMana,
-  int raceMana,
+  PlayerRootData& root,
   int level) {
-    return inteligence * classMana * raceMana * level;
+    const GlobalConfig& c = GC::get();
+    const RaceSkillsData& race = c.raceSkills.at(root.prace);
+    const ClassSkillsData& classT = c.classSkills.at(root.pclass);
+    return race.inteligence * classT.mana * race.mana * level;
 }
 
 int Equations::maxLevelExperience(int level) {
@@ -32,10 +34,12 @@ int Equations::maxLevelExperience(int level) {
 }
 
 int Equations::damage(
-  int strength,
+  PlayerRootData& root,
   RightHandEquipmentSkills weaponSkills) {
+    const GlobalConfig& c = GC::get();
+    const RaceSkillsData& race = c.raceSkills.at(root.prace);
     int rand = random(weaponSkills.minDamage, weaponSkills.maxDamage);
-    return strength * rand;
+    return race.strength * rand;
 }
 
 int Equations::attackExperience(
