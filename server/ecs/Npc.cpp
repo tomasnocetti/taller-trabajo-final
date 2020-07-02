@@ -73,8 +73,9 @@ bool NPC::drop(DropItemData &drop){
   drop.position = position;
 
   if (probDrop <= c.npcDropGold){
-    double gold = Equations::randomFloat(0.01, 0.2) * health.totalHP;
-    drop.id = 9;
+    double gold = Equations::randomFloat(c.npcDropGoldRandMinValue,
+      c.npcDropGoldRandMaxValue) * health.totalHP;
+    drop.id = c.goldItemId;
     drop.amount = int(gold);
     return true;
   }
@@ -83,16 +84,16 @@ bool NPC::drop(DropItemData &drop){
     (c.npcDropGold + c.npcDropPotion))){
       int potion = Equations::random(0, 1);
       if (potion == 1){
-        drop.id = 7;
+        drop.id = c.potionsToDropNPC[0];
       }else{
-        drop.id = 8;
+        drop.id = c.potionsToDropNPC[1];
       }
       return true;
   }
 
   if ((probDrop > c.npcDropGold + c.npcDropPotion) && 
     (probDrop <= c.npcDropGold + c.npcDropPotion + c.npcDropItem)){
-      drop.id = Equations::random(1, 6);
+      drop.id = Equations::random(1, c.itemsToDropNPC.size());
       return true;
   }
 

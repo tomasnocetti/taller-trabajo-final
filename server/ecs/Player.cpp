@@ -37,7 +37,7 @@ std::unique_ptr<Player> Player::createPlayer(
 
     data.rootd = root;
     data.nick = nick;
-    data.gold = 150;
+    data.gold = c.playerInitialGold;
     data.level = c.playerInitialLevel;
 
     Player::setClassSkills(data.skills, data.rootd);
