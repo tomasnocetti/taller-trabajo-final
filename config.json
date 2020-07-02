@@ -36,7 +36,8 @@
       "noInventorySpace": "No hay espaio en tu inventario",
       "invalidOption": "La opcion selecionada es invalida",
       "meditating": "Meditando..",
-      "stopMeditating": "Saliste del estado de meditación."
+      "stopMeditating": "Saliste del estado de meditación.",
+      "inventoryIsFull": "El inventario esta lleno!"
     },
     "equations": {
       "limitForNextLevel": 1.8,

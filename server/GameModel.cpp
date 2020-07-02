@@ -370,17 +370,35 @@ void GameModel::meditate(size_t id){
 
 void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
   Player &p = *players.at(playerId);
+  const GlobalConfig& c = GC::get();
   p.stopMeditating();
+  InventoryElementData inventoryItem(p.inventory.at(inventoryPosition));
+  
   p.throwObj(inventoryPosition);
+
+  DropItemData item;
+  item.id = inventoryItem.itemId;
+  item.amount = 1;
+  item.position = p.position;
+  item.position.w = c.dropSizes.weight;
+  item.position.h = c.dropSizes.height;
+  getDropPosition(item.position);
+  drops.push_back(std::move(item));
 }
 
 void GameModel::pickUpObj(size_t playerId){
   Player &p = *players.at(playerId);
+  if (p.inventoryIsFull()) return;
   bool success = false;
-  
+  int i = 0;
+
   for (auto& it : drops){
     success = p.pickUp(it);
-    if (success) break;
+    if (success){
+      drops.erase(drops.begin() + i);
+      break;
+    }
+    i++;
   }
 }
 

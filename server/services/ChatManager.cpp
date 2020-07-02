@@ -58,3 +58,9 @@ void ChatManager::stopMeditating(ChatData &chat){
   chat.entries.push_back({INFO,
     c.chatMessages.stopMeditating});  
 }
+
+void ChatManager::inventoryIsFull(ChatData &chat){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({NORMAL,
+  c.chatMessages.inventoryIsFull});  
+}

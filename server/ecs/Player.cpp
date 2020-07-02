@@ -271,7 +271,7 @@ void Player::throwObj(size_t inventoryPosition){
     case BODY_ARMOUR:
       if (!inventory[inventoryPosition].isEquiped){
         inventory.erase(inventory.begin() + inventoryPosition);
-        break;
+        return;
       }
 
       item->unEquip(*this);
@@ -329,7 +329,6 @@ void Player::stopMeditating(){
 }
 
 bool Player::pickUp(DropItemData &drop){
-  if ((inventory.size() == 9)) return;
   const GlobalConfig& c = GC::get();
   PositionData pickUpZoneData = {
     drop.position.x - c.attackZoneWidth / 2,
@@ -347,4 +346,12 @@ bool Player::pickUp(DropItemData &drop){
   item.itemId = drop.id;
   inventory.push_back(item);
   return true;
+}
+
+bool Player::inventoryIsFull(){
+  if (inventory.size() >= 9){
+    ChatManager::inventoryIsFull(chat);
+    return true;
+  }
+  return false;
 }

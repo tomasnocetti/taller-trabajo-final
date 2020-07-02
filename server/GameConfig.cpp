@@ -83,7 +83,8 @@ void GC::load(const char* src) {
     chatMessages["meditating"].asString();
   instance->g.chatMessages.stopMeditating =
     chatMessages["stopMeditating"].asString();
-
+  instance->g.chatMessages.inventoryIsFull =
+    chatMessages["inventoryIsFull"].asString();
 
   instance->g.equations.critickAttackProb =
     equations["critickAttackProb"].asDouble();

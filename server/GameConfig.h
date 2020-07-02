@@ -34,6 +34,7 @@ struct ChatMessages {
   std::string invalidOption;
   std::string meditating;
   std::string stopMeditating;
+  std::string inventoryIsFull; 
 };
 
 struct DropSizes{
