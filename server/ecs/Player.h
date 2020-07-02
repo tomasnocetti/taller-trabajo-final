@@ -65,6 +65,8 @@ class Player : public LiveEntity{
     int calculateExcessGold();
     void recover();
     void throwObj(size_t inventoryPosition);
+    void meditate();
+    void stopMeditating();
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

@@ -34,7 +34,9 @@
       "damageCaused": "Ataque exitoso! Daño provocado: ",
       "insufficientFunds": "Tu oro es insuficiente",
       "noInventorySpace": "No hay espaio en tu inventario",
-      "invalidOption": "La opcion selecionada es invalida"
+      "invalidOption": "La opcion selecionada es invalida",
+      "meditating": "Meditando..",
+      "stopMeditating": "Saliste del estado de meditación."
     },
     "equations": {
       "limitForNextLevel": 1.8,

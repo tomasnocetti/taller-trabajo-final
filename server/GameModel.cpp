@@ -119,7 +119,7 @@ bool GameModel::checkCityCollisions(Entity &entity){
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
-  p.health.meditating = false;
+  p.stopMeditating();
   const GlobalConfig& c = GC::get();
   if (p.health.currentHP <= 0) return;
 
@@ -252,7 +252,8 @@ bool GameModel::checkDropCollisions(PositionData &dropPossiblePos){
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   Player& p = *players.at(playerId);
-  p.health.meditating = false;
+  p.stopMeditating();
+
   int auxXPos = p.position.x;
   int auxYPos = p.position.y;
   p.position.x = x;
@@ -294,13 +295,17 @@ bool GameModel::checkEntityCollisions(LiveEntity &entity){
 
 void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
   Player &p = *players.at(playerId);
-  p.health.meditating = false;
+  
+  p.stopMeditating();
+
   if (p.health.currentHP <= 0) return;
+  
   p.equip(inventoryPosition);
 }
 
 void GameModel::resurrect(size_t playerId){
   Player &p = *players.at(playerId);
+
   if (p.health.currentHP > 0) return;
 
   double minDistanceToPriest = 0;
@@ -357,11 +362,12 @@ void GameModel::recover(size_t playerId){
 
 void GameModel::meditate(size_t id){
   Player &p = *players.at(id);
-  p.health.meditating = true;
+  p.meditate();
 }
 
 void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
   Player &p = *players.at(playerId);
+  p.stopMeditating();
   p.throwObj(inventoryPosition);
 }
 

@@ -46,10 +46,15 @@ void ChatManager::invalidOption(ChatData &chat) {
   chat.entries.push_back({INFO,
     c.chatMessages.invalidOption});
 }
-/*
-  mainPlayer.chat.entries.push_back({INFO, "Bienvenido Tomas"});
-  mainPlayer.chat.entries.push_back({DANGER, "Te atacaron por 100 puntos"});
-  mainPlayer.chat.entries.push_back({SUCCESS, "Atacaste por 100 puntos"});
-  mainPlayer.chat.entries.push_back({NORMAL, "Lista de items a comprar:"});
 
-*/
+void ChatManager::meditating(ChatData &chat){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+    c.chatMessages.meditating});  
+}
+
+void ChatManager::stopMeditating(ChatData &chat){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+    c.chatMessages.stopMeditating});  
+}

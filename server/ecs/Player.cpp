@@ -111,6 +111,8 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
 }
 
 void Player::rcvDamage(int &damage){
+  stopMeditating();
+
   bool critickAttack = Equations::criticAttack();
   if (!critickAttack){
     bool dodged = Equations::dodgeAttackPlayer(rootd);
@@ -312,4 +314,16 @@ void Player::recover() {
   health.currentHP += Equations::recoverHealth(rootd);
   if (health.currentHP > health.totalHP)
     health.currentHP = health.totalHP;
+}
+
+void Player::meditate(){
+  health.meditating = true;
+  ChatManager::meditating(chat);
+}
+
+void Player::stopMeditating(){
+  if (health.meditating){
+    ChatManager::stopMeditating(chat);
+    health.meditating = false;
+  }
 }

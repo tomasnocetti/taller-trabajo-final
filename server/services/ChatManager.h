@@ -17,6 +17,8 @@ class ChatManager{
     static void enemyDodgedTheAttack(ChatData &chat);
     static void attackDodged(ChatData &chat);
     static void damageCaused(ChatData &data, int damage);
+    static void meditating(ChatData &chat);
+    static void stopMeditating(ChatData &chat);
 
   private:
 };
