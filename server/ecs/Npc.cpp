@@ -6,10 +6,13 @@
 #include "../services/ChatManager.h"
 
 NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
-  LiveEntity(npcData.position, npcData.healthAndManaData, skills, level,
+  LiveEntity(
+    npcData.position, 
+    npcData.healthAndManaData, 
+    skills, 
+    level,
     npcData.id),
-  type(npcData.type),
-  movement(npcData.movement){
+  type(npcData.type){
     spawnPosition = npcData.position;
 }
 
@@ -112,8 +115,6 @@ std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
     const GlobalConfig& c = GC::get();
     data.id = id;
     data.position = position;
-    data.movement.xDir = 0;
-    data.movement.yDir = 0;
     data.type = npcType;
     data.healthAndManaData = {
       c.npcInitHealthPoints,
