@@ -71,8 +71,6 @@ class Player : public LiveEntity{
       size_t id, 
       std::string nick, 
       PlayerRootData root);
-    static void setClassSkills(SkillsData &skills, PlayerRootData &root);
-    static void setRaceSkills(SkillsData &skills, PlayerRootData &root);  
     static void setInitEquipment(EquipmentData &equipment, 
       PlayerRootData &root);   
     static void setExperienceData(size_t &level, ExperienceData &experience);

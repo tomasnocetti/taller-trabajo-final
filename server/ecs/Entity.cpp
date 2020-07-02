@@ -70,13 +70,12 @@ double Entity::getPositionDistance(
 
 Entity::~Entity(){}
 
-LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s,
+LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h,
   size_t level, size_t id) :
     Entity(p),
     level(level),
     movement(Entity::getInitMovement()),
     health(h),
-    skills(s),
     id(id) {}
 
 void LiveEntity::stop() {

@@ -7,7 +7,7 @@
 #include "../GameConfig.h"
 
 Player::Player(MainPlayerData playerData, size_t id):
-  LiveEntity(playerData.position, playerData.points, playerData.skills,
+  LiveEntity(playerData.position, playerData.points,
   playerData.level, id),
   nick(playerData.nick),
   gold(playerData.gold),
@@ -306,7 +306,6 @@ void Player::setPlayerGameModelData(PlayerGameModelData &modelData){
   modelData.playerData.gold = gold;
   modelData.playerData.level = level;
   modelData.playerData.experience = experience;
-  modelData.playerData.skills = skills;
   modelData.playerData.rootd = rootd;
   modelData.playerData.inventory = inventory;
   modelData.playerData.points = health;

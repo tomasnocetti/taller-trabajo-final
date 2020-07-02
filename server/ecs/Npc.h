@@ -7,7 +7,7 @@
 
 class NPC : public LiveEntity {
   public:
-    NPC(EnemyData npcData, SkillsData skills, size_t level);
+    NPC(EnemyData npcData, size_t level);
     NPC(const NPC&) = delete;
     NPC& operator=(const NPC&) = delete;
     bool checkCollision(Entity& otherEntity) const override;
