@@ -14,7 +14,6 @@ Player::Player(MainPlayerData playerData, size_t id):
   experience(playerData.experience),
   rootd(playerData.rootd),
   inventory(playerData.inventory),
-  movement(playerData.movement),
   equipment(playerData.equipment),
   resurrection({std::chrono::system_clock::now(), false}),
   chat(playerData.chat){
@@ -60,9 +59,6 @@ std::unique_ptr<Player> Player::createPlayer(
     data.points.lastManaIncrease = std::chrono::system_clock::now();
     data.points.nextRespawn = std::chrono::system_clock::now();
     data.points.meditating = false;
-
-    data.movement.xDir = 0;
-    data.movement.yDir = 0;
 
     ChatManager::initialMessage(data.chat);
 
@@ -263,8 +259,7 @@ int Player::calculateExcessGold(){
   return Equations::excessGold(level, gold);
 }
 
-void Player::setTimeToResurrect(
-  double minDistanceToPriest){
+void Player::setTimeToResurrect(double minDistanceToPriest){
   resurrection.resurrect = true;
   std::chrono::seconds sec(int(minDistanceToPriest*0.01));
   resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;

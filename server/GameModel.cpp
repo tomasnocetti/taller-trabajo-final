@@ -105,8 +105,7 @@ void GameModel::move(size_t playerId, int x, int y) {
 }
 
 void GameModel::stopMovement(size_t playerId){
-  players.at(playerId)->movement.xDir = 0;
-  players.at(playerId)->movement.yDir = 0;
+  players.at(playerId)->stop();
 }
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
