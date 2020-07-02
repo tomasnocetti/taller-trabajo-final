@@ -83,7 +83,7 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  if (nick == "Fer") playerId  = Equations::random(1, 100);
+  playerId  = Equations::random(1, 100);
 
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
@@ -108,22 +108,29 @@ void GameModel::stopMovement(size_t playerId){
   players.at(playerId)->stop();
 }
 
+bool GameModel::checkCityCollisions(Entity &entity){
+  bool isInCity = false;
+  for (auto &itCities : cities){
+    isInCity = entity.checkCollision(*itCities);
+    if (isInCity) break;
+  }
+  return isInCity;
+}
+
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
-  p.health.meditating = false;
+  p.stopMeditating();
   const GlobalConfig& c = GC::get();
   if (p.health.currentHP <= 0) return;
 
-  for (auto &it : cities)
-    if (p.checkCollision(*it)) return;
+  if (checkCityCollisions(p)) return;
 
   for (auto& it : players){
     if (p.level <= c.newbieLevel) break;
 
     Player& auxp = *players.at(it.first); 
 
-    for (auto &itCities : cities)
-      if (auxp.checkCollision(*itCities)) return;
+    if (checkCityCollisions(auxp)) continue;
 
     if (abs((int)(p.level - auxp.level)) > (int)c.fairPlayLevel) continue;
 
@@ -136,7 +143,9 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     if (!p.checkInRange(*it.second, c.maxRangeZone))
       continue;
 
-    p.attack(*it.second, xPos, yPos);
+    bool success = p.attack(*it.second, xPos, yPos);
+    if (!success) continue;
+
     if (auxp.health.currentHP > 0) break;
 
     addPlayerDrops(auxp);
@@ -243,7 +252,8 @@ bool GameModel::checkDropCollisions(PositionData &dropPossiblePos){
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
   Player& p = *players.at(playerId);
-  p.health.meditating = false;
+  p.stopMeditating();
+
   int auxXPos = p.position.x;
   int auxYPos = p.position.y;
   p.position.x = x;
@@ -285,13 +295,17 @@ bool GameModel::checkEntityCollisions(LiveEntity &entity){
 
 void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
   Player &p = *players.at(playerId);
-  p.health.meditating = false;
+  
+  p.stopMeditating();
+
   if (p.health.currentHP <= 0) return;
+  
   p.equip(inventoryPosition);
 }
 
 void GameModel::resurrect(size_t playerId){
   Player &p = *players.at(playerId);
+
   if (p.health.currentHP > 0) return;
 
   double minDistanceToPriest = 0;
@@ -348,11 +362,12 @@ void GameModel::recover(size_t playerId){
 
 void GameModel::meditate(size_t id){
   Player &p = *players.at(id);
-  p.health.meditating = true;
+  p.meditate();
 }
 
 void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
   Player &p = *players.at(playerId);
+  p.stopMeditating();
   p.throwObj(inventoryPosition);
 }
 
@@ -370,13 +385,10 @@ void GameModel::npcSetCoords(size_t id, int xPos, int yPos){
       return;
     }
 
-    for (auto &it : cities){
-      collision = n.checkCollision(*it);
-      if (collision){
-        n.position.x = auxXPos;
-        n.position.y = auxYPos;
-        return;
-      }
+    if (checkCityCollisions(n)){
+      n.position.x = auxXPos;
+      n.position.y = auxYPos;
+      return;
     }
 }
 
@@ -387,18 +399,15 @@ void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
     Player &p = *it.second;
     if (p.health.currentHP < 0) return;
     
-    bool isInCity = false;
-    for (auto &itCities : cities){
-      isInCity = p.checkCollision(*itCities);
-      if (isInCity) break;
-    }
-    if(isInCity) continue;
+    if (checkCityCollisions(p)) continue;
 
     if (!n.checkInRange(*it.second, c.maxRangeZone))
         return;
-    n.attack(*it.second, xPos, yPos);
+    
+    bool success = n.attack(*it.second, xPos, yPos);
+    if (!success) continue;
 
-    if (p.health.currentHP > 0) continue;
+    if (p.health.currentHP > 0) break;
 
     addPlayerDrops(*it.second);
     players.at(it.first)->drop();

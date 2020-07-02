@@ -25,6 +25,7 @@
     "npcDropGoldRandMinValue": 0.01,
     "npcDropGoldRandMaxValue": 0.2,
     "playerInitialGold": 0,
+    "estimateTimeToPriestConst": 0.01,
     "chatMessages": {
       "initialMsg": "Bienvenido a las tierras de ARGENTUM",
       "damageRcvMsg": "Nos estan atacando! Daño recibido: ",
@@ -33,7 +34,9 @@
       "damageCaused": "Ataque exitoso! Daño provocado: ",
       "insufficientFunds": "Tu oro es insuficiente",
       "noInventorySpace": "No hay espaio en tu inventario",
-      "invalidOption": "La opcion selecionada es invalida"
+      "invalidOption": "La opcion selecionada es invalida",
+      "meditating": "Meditando..",
+      "stopMeditating": "Saliste del estado de meditación."
     },
     "equations": {
       "limitForNextLevel": 1.8,
@@ -193,7 +196,7 @@
       "minDefense": 1,
       "maxDefense": 2
     }],
-    "goldItemId": 9,
+    "goldItemId": 5000,
     "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14],
     "potionsToDropNPC": [7, 8],
     "traderItems": [{

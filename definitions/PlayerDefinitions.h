@@ -78,23 +78,20 @@ struct OtherPlayersData {
   MovementData movement;
   PlayerRootData rootd;
   EquipmentData equipment;
-  size_t otherPlayerHealth;
   HealthAndManaData healthAndMana;
   ResurrectionData resurrection;
-  MSGPACK_DEFINE(id, position, rootd, equipment, 
-    otherPlayerHealth, healthAndMana)
+  MSGPACK_DEFINE(id, position, rootd, equipment, healthAndMana)
 };
 
 struct DropItemData{
   PositionData position;
   int amount;
   int id;
-  MSGPACK_DEFINE(position, id, amount) 
+  MSGPACK_DEFINE(position, id) 
 };
 
 struct PlayerGameModelData {
   MainPlayerData playerData;
-  //MapData map;
   std::vector<EnemyData> npcs;
   std::vector<OtherPlayersData> otherPlayers;
   std::vector<DropItemData> drops;

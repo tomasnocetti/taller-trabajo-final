@@ -32,6 +32,8 @@ struct ChatMessages {
   std::string insufficientFunds;
   std::string noInventorySpace;
   std::string invalidOption;
+  std::string meditating;
+  std::string stopMeditating;
 };
 
 struct DropSizes{
@@ -91,6 +93,7 @@ struct GlobalConfig {
   int playerInitialGold;
   double npcDropGoldRandMinValue;
   double npcDropGoldRandMaxValue;
+  double estimateTimeToPriestConst;
   std::map<PlayerRace, RaceSkillsData> raceSkills;
   std::map<PlayerClass, ClassSkillsData> classSkills;
   std::map<int, std::unique_ptr<Item>> items;

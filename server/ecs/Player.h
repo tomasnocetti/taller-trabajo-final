@@ -47,9 +47,6 @@ class Player : public LiveEntity{
     /* Se descuenta el daño recibido de los puntos de salud, luego 
     de haber calculado los puntos de defensa. */
     void rcvDamage(int &damage) override;
-    /* Devuelve la cantidad de puntos de defensa en base a lo que tenga
-    equipado el jugador */
-    int defend();
     /* Se añade experiencia al jugador, en base al ataque realizado y los 
     stats de la entidad atacada. */
     void addExperience(int &damage, size_t &otherLevel, int &otherHealth,
@@ -60,6 +57,7 @@ class Player : public LiveEntity{
     o de defensa, setea el booleano isEquiped en verdadero, y los otros
     en falso. */
     void equip(int inventoryPosition);
+    void equipDefault();
     void drop();
     void setTimeToResurrect(double minDistanceToPriest);
     void setPlayerGameModelData(PlayerGameModelData &modelData);
@@ -67,6 +65,8 @@ class Player : public LiveEntity{
     int calculateExcessGold();
     void recover();
     void throwObj(size_t inventoryPosition);
+    void meditate();
+    void stopMeditating();
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 
@@ -75,7 +75,8 @@ class Player : public LiveEntity{
       PlayerRootData &root);   
     static void setExperienceData(size_t &level, ExperienceData &experience);
     static void setPositionData(PlayerRootData &root, PositionData &position);
-    static void setDefaultEquipment(MainPlayerData &data);
+    static void setDefaultEquipment
+      (std::vector<InventoryElementData> &inventory);
 };
 
 #endif
