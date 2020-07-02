@@ -137,7 +137,7 @@ class ThrowObjInstruction : public Instruction {
 
 class PickUpInstruction : public Instruction {
   public:
-    PickUpInstruction(size_t id);
+    explicit PickUpInstruction(size_t id);
     PickUpInstruction(const PickUpInstruction&) = delete;
     PickUpInstruction& operator=(const PickUpInstruction&) 
       = delete;
