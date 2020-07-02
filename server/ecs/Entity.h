@@ -44,13 +44,11 @@ class LiveEntity: public Entity {
     size_t level;
     MovementData movement;
     HealthAndManaData health;
-    SkillsData skills;
     size_t id;
   public:
     LiveEntity(
       PositionData& p, 
       HealthAndManaData& h, 
-      SkillsData &s, 
       size_t level, 
       size_t id);
     virtual void rcvDamage(int &damage) = 0;

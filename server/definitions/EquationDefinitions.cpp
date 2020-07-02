@@ -93,9 +93,9 @@ float Equations::randomFloat(float a, float b) {
   return a + r;
 }
 
-int Equations::NPCDamage(int level, size_t npcStrength){
+int Equations::NPCDamage(int level){
   const GlobalConfig& c = GC::get();
-  return npcStrength * level * c.equations.npcDamageConst;
+  return c.npcInitSkills * level * c.equations.npcDamageConst;
 }
 
 bool Equations::criticAttack(){
