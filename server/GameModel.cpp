@@ -105,8 +105,7 @@ void GameModel::move(size_t playerId, int x, int y) {
 }
 
 void GameModel::stopMovement(size_t playerId){
-  players.at(playerId)->movement.xDir = 0;
-  players.at(playerId)->movement.yDir = 0;
+  players.at(playerId)->stop();
 }
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
@@ -179,7 +178,7 @@ void GameModel::addPlayerDrops(Player &player){
   const GlobalConfig& c = GC::get();
 
   DropItemData goldDrop;
-  goldDrop.id = 9;
+  goldDrop.id = c.goldItemId;
   goldDrop.position = player.position;
   goldDrop.position.w = c.dropSizes.weight;
   goldDrop.position.h = c.dropSizes.height;
@@ -353,20 +352,7 @@ void GameModel::increasePlayerHealth(size_t playerId){
 
 void GameModel::increasePlayerMana(size_t playerId){
   Player &p = *players.at(playerId);
-  p.health.currentMP += p.skills.raceRecovery;
-  p.health.lastManaIncrease = std::chrono::system_clock::now();
-  
-  if (p.health.currentMP <= p.health.totalMP) return;
-  p.health.currentMP = p.health.totalMP;
-}
-
-void GameModel::increaseManaByMeditation(size_t id){
-  Player &p = *players.at(id);
-  p.health.currentMP += p.skills.raceRecovery * p.skills.inteligence;
-  p.health.lastManaIncrease = std::chrono::system_clock::now();
-
-  if (p.health.currentMP <= p.health.totalMP) return;
-  p.health.currentMP = p.health.totalMP;
+  p.increaseMana();
 }
 
 void GameModel::meditate(size_t id){

@@ -1,7 +1,7 @@
 #include "MapController.h"
 #include "../entities/TileEntity.h"
 #include "../entities/DropEntity.h"
-#include "../../definitions/MapDefinitions.h"   //si falla algo acordate que puede ser esto
+#include "../../definitions/MapDefinitions.h"
 #include <iostream>
 #include <algorithm>
 #include <string>
@@ -88,7 +88,6 @@ void MapController::generateDrop(DropItemData item) {
   std::shared_ptr<DropEntity> drop(new DropEntity(
     texture, item.position.x, item.position.y, 
     item.position.w, item.position.h));
-  //drop->move(item.position.x, item.position.y);
 
   drops.emplace_back(drop);
 }

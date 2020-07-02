@@ -114,19 +114,4 @@ class PlayerIncreaseManaInstruction : public Instruction {
     size_t playerId;
 };
 
-class IncreaseManaMeditationInstruction : public Instruction {
-  public:
-    explicit IncreaseManaMeditationInstruction(size_t id);
-    IncreaseManaMeditationInstruction(
-      const IncreaseManaMeditationInstruction&) = delete;
-    IncreaseManaMeditationInstruction& operator=(
-      const IncreaseManaMeditationInstruction&) = delete;
-    IncreaseManaMeditationInstruction&& operator=(
-      IncreaseManaMeditationInstruction&& other);
-    void run(GameModel& game) override;
-
-  private:
-    size_t playerId;
-};
-
 #endif

@@ -2,16 +2,17 @@
 #define EQUATIONS_H
 
 #include "../../definitions/EquipmentDefinitions.h"
+#include "../../DataDefinitions.h"
 
 class Equations{
   public:
     Equations();
     ~Equations();
-    static int maxLife(int constitution, int classHealth, 
-      int raceHealth, int level);
-    static int maxMana(int inteligence, int classMana, int raceMana, int level);
+    static int maxLife(PlayerRootData& root, int level);
+    static int maxMana(PlayerRootData& root, int level);
     static int maxLevelExperience(int level);
-    static int damage(int strength, RightHandEquipmentSkills weaponSkills);
+    static int damage(PlayerRootData& root, 
+      RightHandEquipmentSkills weaponSkills);
     static int attackExperience(int damage, int otherLevel, int level);
     static int killExperience(int maxHealthOther, int otherLevel, int level);
     static bool dodgeAttack(int agility);

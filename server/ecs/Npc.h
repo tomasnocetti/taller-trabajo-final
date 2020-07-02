@@ -26,7 +26,6 @@ class NPC : public LiveEntity {
     
   private:
     NPCClass type;
-    MovementData movement;
     PositionData spawnPosition;
     std::chrono::system_clock::time_point lastAttack;
     static size_t idGenerator;

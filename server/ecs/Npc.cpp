@@ -6,10 +6,13 @@
 #include "../services/ChatManager.h"
 
 NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
-  LiveEntity(npcData.position, npcData.healthAndManaData, skills, level,
+  LiveEntity(
+    npcData.position, 
+    npcData.healthAndManaData, 
+    skills, 
+    level,
     npcData.id),
-  type(npcData.type),
-  movement(npcData.movement){
+  type(npcData.type){
     spawnPosition = npcData.position;
 }
 
@@ -73,8 +76,9 @@ bool NPC::drop(DropItemData &drop){
   drop.position = position;
 
   if (probDrop <= c.npcDropGold){
-    double gold = Equations::randomFloat(0.01, 0.2) * health.totalHP;
-    drop.id = 9;
+    double gold = Equations::randomFloat(c.npcDropGoldRandMinValue,
+      c.npcDropGoldRandMaxValue) * health.totalHP;
+    drop.id = c.goldItemId;
     drop.amount = int(gold);
     return true;
   }
@@ -83,16 +87,16 @@ bool NPC::drop(DropItemData &drop){
     (c.npcDropGold + c.npcDropPotion))){
       int potion = Equations::random(0, 1);
       if (potion == 1){
-        drop.id = 7;
+        drop.id = c.potionsToDropNPC[0];
       }else{
-        drop.id = 8;
+        drop.id = c.potionsToDropNPC[1];
       }
       return true;
   }
 
   if ((probDrop > c.npcDropGold + c.npcDropPotion) && 
     (probDrop <= c.npcDropGold + c.npcDropPotion + c.npcDropItem)){
-      drop.id = Equations::random(1, 6);
+      drop.id = Equations::random(1, c.itemsToDropNPC.size());
       return true;
   }
 
@@ -111,8 +115,6 @@ std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
     const GlobalConfig& c = GC::get();
     data.id = id;
     data.position = position;
-    data.movement.xDir = 0;
-    data.movement.yDir = 0;
     data.type = npcType;
     data.healthAndManaData = {
       c.npcInitHealthPoints,
