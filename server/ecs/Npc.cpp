@@ -7,9 +7,9 @@
 
 NPC::NPC(EnemyData npcData, SkillsData skills, size_t level) :
   LiveEntity(
-    npcData.position, 
-    npcData.healthAndManaData, 
-    skills, 
+    npcData.position,
+    npcData.healthAndManaData,
+    skills,
     level,
     npcData.id),
   type(npcData.type){
@@ -41,7 +41,7 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
 
   lastAttack = std::chrono::system_clock::now();
 
-  int damage = Equations::NPCDamage(level, skills.strength);
+  int damage = Equations::NPCDamage(level);
   entity.rcvDamage(damage);
 
   return true;
@@ -78,7 +78,7 @@ bool NPC::drop(DropItemData &drop){
     return true;
   }
 
-  if ((probDrop > c.npcDropGold) && (probDrop <= 
+  if ((probDrop > c.npcDropGold) && (probDrop <=
     (c.npcDropGold + c.npcDropPotion))){
       int potion = Equations::random(0, 1);
       if (potion == 1){
@@ -89,7 +89,7 @@ bool NPC::drop(DropItemData &drop){
       return true;
   }
 
-  if ((probDrop > c.npcDropGold + c.npcDropPotion) && 
+  if ((probDrop > c.npcDropGold + c.npcDropPotion) &&
     (probDrop <= c.npcDropGold + c.npcDropPotion + c.npcDropItem)){
       drop.id = Equations::random(1, c.itemsToDropNPC.size());
       return true;
