@@ -109,22 +109,29 @@ void GameModel::stopMovement(size_t playerId){
   players.at(playerId)->movement.yDir = 0;
 }
 
+bool GameModel::checkCityCollisions(Entity &entity){
+  bool isInCity = false;
+  for (auto &itCities : cities){
+    isInCity = entity.checkCollision(*itCities);
+    if (isInCity) break;
+  }
+  return isInCity;
+}
+
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
   p.health.meditating = false;
   const GlobalConfig& c = GC::get();
   if (p.health.currentHP <= 0) return;
 
-  for (auto &it : cities)
-    if (p.checkCollision(*it)) return;
+  if (checkCityCollisions(p)) return;
 
   for (auto& it : players){
     if (p.level <= c.newbieLevel) break;
 
     Player& auxp = *players.at(it.first); 
 
-    for (auto &itCities : cities)
-      if (auxp.checkCollision(*itCities)) return;
+    if (checkCityCollisions(auxp)) continue;
 
     if (abs((int)(p.level - auxp.level)) > (int)c.fairPlayLevel) continue;
 
@@ -138,7 +145,9 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
       continue;
 
     bool success = p.attack(*it.second, xPos, yPos);
-    if (success && auxp.health.totalHP > 0) break;
+    if (!success) continue;
+
+    if (auxp.health.currentHP > 0) break;
 
     addPlayerDrops(auxp);
     auxp.drop();
@@ -407,15 +416,18 @@ void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   NPC& n = *npcMap.at(npcId);
   const GlobalConfig& c = GC::get();
   for (auto& it : players){
-    if (players.at(it.first)->health.currentHP < 0) return;
-    for (auto &itCities : cities)
-      if (players.at(it.first)->checkCollision(*itCities)) return;
+    Player &p = *it.second;
+    if (p.health.currentHP < 0) return;
+    
+    if (checkCityCollisions(p)) continue;
 
     if (!n.checkInRange(*it.second, c.maxRangeZone))
         return;
-    n.attack(*it.second, xPos, yPos);
+    
+    bool success = n.attack(*it.second, xPos, yPos);
+    if (!success) continue;
 
-    if (players.at(it.first)->health.currentHP > 0) return;
+    if (p.health.currentHP > 0) break;
 
     addPlayerDrops(*it.second);
     players.at(it.first)->drop();

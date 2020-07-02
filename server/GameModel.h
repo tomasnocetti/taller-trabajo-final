@@ -30,6 +30,7 @@ class GameModel{
     MapParser m;
     CronBQ& cronBQ;
     void parseMapData();
+    bool checkCityCollisions(Entity &entity);
     unsigned int randomSeed;
 
   public:

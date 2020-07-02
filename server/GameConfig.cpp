@@ -27,7 +27,7 @@ void GC::load(const char* src) {
   const Json::Value itemsToDropNPC = gameConfig["itemsToDropNPC"];
   const Json::Value potionsToDropNPC = gameConfig["potionsToDropNPC"];
   const Json::Value equations = gameConfig["equations"];
-  const Json::Value defaultInventory = gameConfig["defaultInventory"];
+  const Json::Value defaultItems = gameConfig["defaultItems"];
 
   instance->g.attackZoneWidth = gameConfig["attackZoneWidth"].asInt();
   instance->g.attackZoneHeight = gameConfig["attackZoneHeight"].asInt();
@@ -180,7 +180,7 @@ void GC::load(const char* src) {
   }
 
   // DEFAULT INVENTORY
-  for (const Json::Value &inventoryItem : defaultInventory) {
+  for (const Json::Value &inventoryItem : defaultItems) {
     int itemId = inventoryItem["itemId"].asInt();
     int amount = inventoryItem["amount"].asInt();
 
