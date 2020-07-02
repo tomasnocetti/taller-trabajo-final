@@ -74,7 +74,6 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
-  unsigned int aux = drops.size();
   drops = gameModelData.drops;
 }
 
