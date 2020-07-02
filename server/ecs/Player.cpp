@@ -55,8 +55,7 @@ std::unique_ptr<Player> Player::createPlayer(
     data.points.totalMP = Equations::maxMana(data.rootd, data.level);
     //data.points.currentMP = data.points.totalMP;
     data.points.currentMP = 0;
-    data.points.lastHealthIncrease = std::chrono::system_clock::now();
-    data.points.lastManaIncrease = std::chrono::system_clock::now();
+    data.points.recoverTime = std::chrono::system_clock::now();
     data.points.nextRespawn = std::chrono::system_clock::now();
     data.points.meditating = false;
 
@@ -117,7 +116,7 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
 void Player::rcvDamage(int &damage){
   bool critickAttack = Equations::criticAttack();
   if (!critickAttack){
-    bool dodged = Equations::dodgeAttack(skills.agility);
+    bool dodged = Equations::dodgeAttackPlayer(rootd);
     if (dodged){
       ChatManager::attackDodged(chat);
       damage = -1;
@@ -160,8 +159,10 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
 }
 
 int Player::defend(){
-  return Equations::defend(skills.agility, bodySkills,
-    leftSkills, headSkills);
+  return Equations::defend(
+    bodySkills,
+    leftSkills,
+    headSkills);
 }
 
 void Player::setDefaultEquipment(MainPlayerData &data){
@@ -326,12 +327,14 @@ void Player::setOtherPlayersData(OtherPlayersData &otherData){
   otherData.healthAndMana = health;
 }
 
-void Player::increaseMana() {
-  int mult = health.meditating ? skills.inteligence : 1;
-  health.currentMP += skills.raceRecovery * mult;
+void Player::recover() {
+  health.recoverTime = std::chrono::system_clock::now();
 
-  health.lastManaIncrease = std::chrono::system_clock::now();
+  health.currentMP += Equations::recoverMana(rootd, health.meditating);
+  if (health.currentMP > health.totalMP)
+    health.currentMP = health.totalMP;
 
-  if (health.currentMP <= health.totalMP) return;
-  health.currentMP = health.totalMP;
+  health.currentHP += Equations::recoverHealth(rootd);
+  if (health.currentHP > health.totalHP)
+    health.currentHP = health.totalHP;
 }
