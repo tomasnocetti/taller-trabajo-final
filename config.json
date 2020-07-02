@@ -162,9 +162,39 @@
       "id": 8,
       "type": "V",
       "name": "Pocion de Vida"
+    }, {
+      "id": 10,
+      "type": "H",
+      "name": "Sombrero magico",
+      "minDefense": 4,
+      "maxDefense": 12
+    }, {
+      "id": 11,
+      "type": "H",
+      "name": "Capucha",
+      "minDefense": 1,
+      "maxDefense": 4
+    }, {
+      "id": 12,
+      "type": "B",
+      "name": "Armadura de Cuero",
+      "minDefense": 2,
+      "maxDefense": 6
+    }, {
+      "id": 13,
+      "type": "B",
+      "name": "Armadura de Placas",
+      "minDefense": 15,
+      "maxDefense": 30
+    }, {
+      "id": 14,
+      "type": "L",
+      "name": "Escudo de Tortuga",
+      "minDefense": 1,
+      "maxDefense": 2
     }],
     "goldItemId": 9,
-    "itemsToDropNPC": [1, 2, 3, 4, 5, 6],
+    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 10, 11, 12, 13, 14],
     "potionsToDropNPC": [7, 8],
     "traderItems": [{
       "itemId": 0,

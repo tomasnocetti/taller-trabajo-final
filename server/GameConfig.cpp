@@ -232,7 +232,7 @@ void GC::parseRaces(GlobalConfig& g, const Json::Value& val) {
           race["strength"].asInt(),
           race["agility"].asInt()}));
   }
-};
+}
 
 void GC::parseClasses(GlobalConfig& g, const Json::Value& val) {
   for (const Json::Value &classT : val) {
@@ -247,4 +247,4 @@ void GC::parseClasses(GlobalConfig& g, const Json::Value& val) {
           classT["meditation"].asInt(),
           classT["health"].asInt() }));
   }
-};
+}

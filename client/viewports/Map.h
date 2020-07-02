@@ -21,6 +21,7 @@ class Map : SdlViewport{
     void paint(
       Camera& camera,
       EntityList& entities,
+      EntityList& drops,
       Entity &player,
       EntityList& enemies,
       EntityList& otherPlayers);
