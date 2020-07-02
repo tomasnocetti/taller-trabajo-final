@@ -155,6 +155,36 @@
     }, {
       "id": 9,
       "name": "oro"
+    }, {
+      "id": 10,
+      "type": "H",
+      "name": "Sombrero magico",
+      "minDefense": 4,
+      "maxDefense": 12
+    }, {
+      "id": 11,
+      "type": "H",
+      "name": "Capucha",
+      "minDefense": 1,
+      "maxDefense": 4
+    }, {
+      "id": 12,
+      "type": "B",
+      "name": "Armadura de Cuero",
+      "minDefense": 2,
+      "maxDefense": 6
+    }, {
+      "id": 13,
+      "type": "B",
+      "name": "Armadura de Placas",
+      "minDefense": 15,
+      "maxDefense": 30
+    }, {
+      "id": 14,
+      "type": "L",
+      "name": "Escudo de Tortuga",
+      "minDefense": 1,
+      "maxDefense": 2
     }],
 
     "traderItems": [{

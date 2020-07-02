@@ -65,6 +65,7 @@ class ServerProxy{
     MainPlayerData getMainPlayerData() const;
     std::vector<EnemyData> getNPCData() const;
     std::vector<OtherPlayersData> getOtherPlayersData() const;
+    std::vector<DropItemData> getDrops() const;
 
     /** Server SETTERS */
     void setGameModelData(PlayerGameModelData &gameModelData);

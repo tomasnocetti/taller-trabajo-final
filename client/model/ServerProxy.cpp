@@ -74,13 +74,14 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
-  unsigned int auxDropsSize = drops.size();
+  unsigned int aux = drops.size();
   drops = gameModelData.drops;
-  if (auxDropsSize != drops.size()){
-    std::cout << "Drops contains:";
-    for (unsigned i=0; i<drops.size(); ++i)
-      std::cout << ' ' << drops[i].id;
-    std::cout << '\n';
+  if (aux != drops.size()){
+    std::cout << "drop contains: ";
+    for (unsigned int i = 0; i < drops.size(); i++){
+      std::cout << " " << drops[i].id;
+    }
+    std::cout << std::endl;
   }
 }
 
@@ -99,6 +100,10 @@ std::vector<EnemyData> ServerProxy::getNPCData() const {
 
 std::vector<OtherPlayersData> ServerProxy::getOtherPlayersData() const {
   return otherPlayers;
+}
+
+std::vector<DropItemData> ServerProxy::getDrops() const {
+  return drops;
 }
 
 bool ServerProxy::isAuthenticated() const {

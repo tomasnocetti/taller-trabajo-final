@@ -137,8 +137,8 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     if (!p.checkInRange(*it.second, c.maxRangeZone))
       continue;
 
-    bool success = p.attack(*it.second, xPos, yPos);
-    if (success && auxp.health.totalHP > 0) break;
+    p.attack(*it.second, xPos, yPos);
+    if (auxp.health.currentHP > 0) break;
 
     addPlayerDrops(auxp);
     auxp.drop();
@@ -407,15 +407,21 @@ void GameModel::npcAttack(size_t npcId, int xPos, int yPos){
   NPC& n = *npcMap.at(npcId);
   const GlobalConfig& c = GC::get();
   for (auto& it : players){
-    if (players.at(it.first)->health.currentHP < 0) return;
-    for (auto &itCities : cities)
-      if (players.at(it.first)->checkCollision(*itCities)) return;
+    Player &p = *it.second;
+    if (p.health.currentHP < 0) return;
+    
+    bool isInCity = false;
+    for (auto &itCities : cities){
+      isInCity = p.checkCollision(*itCities);
+      if (isInCity) break;
+    }
+    if(isInCity) continue;
 
     if (!n.checkInRange(*it.second, c.maxRangeZone))
         return;
     n.attack(*it.second, xPos, yPos);
 
-    if (players.at(it.first)->health.currentHP > 0) return;
+    if (p.health.currentHP > 0) continue;
 
     addPlayerDrops(*it.second);
     players.at(it.first)->drop();
