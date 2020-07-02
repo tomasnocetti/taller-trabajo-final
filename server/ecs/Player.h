@@ -17,7 +17,6 @@ class Player : public LiveEntity{
     ExperienceData experience;
     PlayerRootData rootd;
     std::vector<InventoryElementData> inventory;
-    MovementData movement;
     EquipmentData equipment;
     RightHandEquipmentSkills rightSkills;
     LeftHandEquipmentSkills leftSkills;
@@ -66,6 +65,7 @@ class Player : public LiveEntity{
     void setPlayerGameModelData(PlayerGameModelData &modelData);
     void setOtherPlayersData(OtherPlayersData &otherData);
     int calculateExcessGold();
+    void increaseMana();
     void throwObj(size_t inventoryPosition);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 

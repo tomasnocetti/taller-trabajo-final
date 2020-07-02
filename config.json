@@ -47,7 +47,7 @@
       "height": 32
     },
     "races": [{
-      "type": "human",
+      "type": "H",
       "recovery": 5,
       "mana": 5,
       "meditation": 5,
@@ -57,7 +57,7 @@
       "strength": 5,
       "agility": 5
     }, {
-      "type": "elf",
+      "type": "E",
       "recovery": 8,
       "mana": 10,
       "meditation": 10,
@@ -67,7 +67,7 @@
       "strength": 2,
       "agility": 15
     }, {
-      "type": "dwarf",
+      "type": "D",
       "recovery": 8,
       "mana": 5,
       "meditation": 5,
@@ -77,7 +77,7 @@
       "strength": 10,
       "agility": 2
     }, {
-      "type": "gnome",
+      "type": "G",
       "recovery": 8,
       "mana": 8,
       "meditation": 8,
@@ -88,25 +88,25 @@
       "agility": 5
     }],
     "classes": [{
-      "type": "mage",
+      "type": "M",
       "recovery": 2,
       "mana": 3,
       "meditation": 3,
       "health": 1
     }, {
-      "type": "cleric",
+      "type": "C",
       "recovery": 3,
       "mana": 2,
       "meditation": 2,
       "health": 3
     }, {
-      "type": "paladin",
+      "type": "P",
       "recovery": 2,
       "mana": 1,
       "meditation": 1,
       "health": 3
     }, {
-      "type": "warrior",
+      "type": "W",
       "recovery": 3,
       "mana": 0,
       "meditation": 0,

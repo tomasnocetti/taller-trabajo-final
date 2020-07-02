@@ -105,8 +105,7 @@ void GameModel::move(size_t playerId, int x, int y) {
 }
 
 void GameModel::stopMovement(size_t playerId){
-  players.at(playerId)->movement.xDir = 0;
-  players.at(playerId)->movement.yDir = 0;
+  players.at(playerId)->stop();
 }
 
 bool GameModel::checkCityCollisions(Entity &entity){
@@ -362,20 +361,7 @@ void GameModel::increasePlayerHealth(size_t playerId){
 
 void GameModel::increasePlayerMana(size_t playerId){
   Player &p = *players.at(playerId);
-  p.health.currentMP += p.skills.raceRecovery;
-  p.health.lastManaIncrease = std::chrono::system_clock::now();
-  
-  if (p.health.currentMP <= p.health.totalMP) return;
-  p.health.currentMP = p.health.totalMP;
-}
-
-void GameModel::increaseManaByMeditation(size_t id){
-  Player &p = *players.at(id);
-  p.health.currentMP += p.skills.raceRecovery * p.skills.inteligence;
-  p.health.lastManaIncrease = std::chrono::system_clock::now();
-
-  if (p.health.currentMP <= p.health.totalMP) return;
-  p.health.currentMP = p.health.totalMP;
+  p.increaseMana();
 }
 
 void GameModel::meditate(size_t id){

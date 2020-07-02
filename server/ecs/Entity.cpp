@@ -49,6 +49,10 @@ MovementData Entity::getPositionDirection(
   return a;
 }
 
+MovementData Entity::getInitMovement() {
+  return {0, 0};
+}
+
 bool Entity::checkCollision(Entity& otherEntity) const{
   PositionData& otherp = otherEntity.position;
 
@@ -70,6 +74,11 @@ LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h, SkillsData &s,
   size_t level, size_t id) :
     Entity(p),
     level(level),
+    movement(Entity::getInitMovement()),
     health(h),
     skills(s),
     id(id) {}
+
+void LiveEntity::stop() {
+  movement = Entity::getInitMovement();
+}
