@@ -111,7 +111,7 @@ int Equations::excessGold(int level, int gold){
 
 int Equations::maxGold(int level, int gold){
   const GlobalConfig& c = GC::get();
-  return 100 * pow(level, c.equations.excessGoldConstPow);
+  return 100 * pow(level, c.equations.excessGoldConstPow) * 1.5;
 }
 
 int Equations::recoverMana(PlayerRootData& root, bool isMeditating) {

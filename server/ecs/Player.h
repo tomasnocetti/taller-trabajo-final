@@ -71,6 +71,7 @@ class Player : public LiveEntity{
     void meditate();
     void stopMeditating();
     bool pickUp(DropItemData &drop);
+    bool addItemToInventory(InventoryElementData &item);
     bool inventoryIsFull();
     bool isAlive();
     void setDeadDefaults();

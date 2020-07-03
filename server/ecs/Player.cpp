@@ -264,7 +264,7 @@ bool Player::throwObj(size_t inventoryPosition,
 
 bool Player::eraseInventoryItem(size_t inventoryPosition){
   if ((unsigned int)inventoryPosition >= inventory.size()) return false;
-  
+
   Equipable type;
   const GlobalConfig& c = GC::get();
 
@@ -374,16 +374,17 @@ bool Player::pickUp(DropItemData &drop){
     return true;
   }
 
-  InventoryElementData item;
-  item.amount = drop.amount;
-  item.isEquiped = false;
-  item.itemId = drop.id;
+  InventoryElementData item = {(size_t)drop.amount, false, drop.id};
 
+  return addItemToInventory(item);
+}
+
+bool Player::addItemToInventory(InventoryElementData &item){
   for (auto& it : inventory){
     if (it.itemId == item.itemId){
-      it.amount += drop.amount;
+      it.amount += item.amount;
       return true;
-    };
+    }
   }
 
   if (inventoryIsFull()) return false;
