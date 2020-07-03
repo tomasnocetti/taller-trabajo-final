@@ -2,7 +2,7 @@
   "systemConfig": {
     "indexFilePath": "path/to/file",
     "dbFilePath": "path/to/file",
-    "mapFilePath": "path/to/map"
+    "mapFilePath": "client/assets/map/game_map.json"
   },
   "gameConfig": {
     "attackZoneWidth": 30,

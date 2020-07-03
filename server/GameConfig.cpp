@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-GC* GC::instance = nullptr;
+std::unique_ptr<GC> GC::instance = nullptr;
 
 void GC::load(const char* src) {
   Json::Value root;
@@ -15,7 +15,7 @@ void GC::load(const char* src) {
   if ((file.rdstate() & std::ifstream::failbit ) != 0)
     throw std::invalid_argument(INVALID_CONFIG_FILE);
 
-  instance = new GC();
+  instance = std::unique_ptr<GC>(new GC());
   file >> root;
   
   const Json::Value gameConfig = root["gameConfig"];

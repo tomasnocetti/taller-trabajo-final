@@ -20,11 +20,11 @@ class MapParser {
     MapParser& operator=(const MapParser&) = delete;
     MapParser&& operator=(MapParser&& other);
     ~MapParser();
-    void loadMap(char* src);
     std::vector<struct TileLayerData>& getTileLayers();
     std::vector<struct ObjectLayerData>& getObjectLayers();
     MapData& getMapData();
   private:
+    void loadMap(const std::string& path);
     void loadTileLayer(Json::Value& layer);
     void loadObjectLayer(Json::Value& layer);
     void loadTileSet(Json::Value& tileset);

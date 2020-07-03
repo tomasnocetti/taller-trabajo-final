@@ -8,6 +8,7 @@
 #include <jsoncpp/json/json.h>
 #endif
 
+#include <memory>
 #include <vector>
 #include <map>
 #include <string>
@@ -125,12 +126,13 @@ class GC {
     GC& operator=(const GC&) = delete;
     GC&& operator=(GC&& other) = delete;
     static void load(const char* src);
+    static void clean();
     static const GlobalConfig& get();
     static const SystemConfig& getS();
   private:
     GlobalConfig g;
     SystemConfig s;
-    static GC* instance;
+    static std::unique_ptr<GC> instance;
     static void parseSystem(SystemConfig& s, const Json::Value& val);
     static void parseItems(GlobalConfig& g, const Json::Value& val);
     static void parseRaces(GlobalConfig& g, const Json::Value& val);
