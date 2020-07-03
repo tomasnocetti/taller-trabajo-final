@@ -10,6 +10,7 @@
 #include "ecs/Player.h"
 #include "ecs/Npc.h"
 #include "ecs/Trader.h"
+#include "ecs/Priest.h"
 #include "../DataDefinitions.h"
 #include "definitions/EquationDefinitions.h"
 #include <map>
@@ -17,6 +18,7 @@
 class Player;
 class NPC;
 class Trader;
+class Priest;
 
 class GameModel{
   private:
@@ -28,7 +30,7 @@ class GameModel{
     std::map<size_t, ResponseBQ&> clientsBQ;
     std::map<size_t, std::unique_ptr<Player>> players;
     std::vector<OtherPlayersData> otherPlayers;
-    std::vector<std::unique_ptr<Entity>> priests;
+    std::map<size_t, std::unique_ptr<Priest>> priests;
     std::map<size_t, std::unique_ptr<Trader>> traders;
     MapParser m;
     CronBQ& cronBQ;
@@ -102,6 +104,9 @@ class GameModel{
     void sell(size_t playerId, size_t itemPosition);
     /* Handle buy instruction */
     void buy(size_t playerId, size_t itemPosition);
+    int checkPriestInRange(Player &p);
+    /* Handle heal instruction */
+    void heal(size_t playerId);
 };
 
 #endif

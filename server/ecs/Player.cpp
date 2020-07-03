@@ -449,3 +449,9 @@ void Player::sell(size_t inventoryPos, size_t itemValue){
 size_t Player::inventoryItemId(size_t inventoryPosition){
   return inventory.at(inventoryPosition).itemId;
 }
+
+void Player::heal(){
+  stopMeditating();
+  health.currentHP = health.totalHP;
+  health.currentMP = health.totalMP;
+}

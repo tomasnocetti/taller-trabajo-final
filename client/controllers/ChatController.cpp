@@ -109,6 +109,9 @@ void ChatController::handleCommand() {
     std::string itemNumber = command.erase(0, pos+delimiter.length());
     model.sell(itemNumber);
   }
+
+  if (action == "/curar")
+    model.heal();
 }
 
 EntityList& ChatController::getEntities() {

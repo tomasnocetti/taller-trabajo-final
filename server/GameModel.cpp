@@ -65,10 +65,12 @@ void GameModel::parseMapData() {
       }
 
       if (layer.name == PRIESTS_LAYER){
-        std::unique_ptr<Entity> priest(
-          new Entity(p));
-        priests.push_back(std::move(priest));
+        std::unique_ptr<Priest> priest(
+          new Priest(p));
+        priests.insert(std::pair<size_t,
+        std::unique_ptr<Priest>>(Priest::getNewId(), std::move(priest)));
       }
+
       if (layer.name == MERCHANT_LAYER){
         std::unique_ptr<Trader> trader(
           new Trader(p));
@@ -288,7 +290,7 @@ bool GameModel::checkEntityCollisions(LiveEntity &entity){
   }
 
   for (auto &it : priests){
-    collission = entity.checkCollision(*it);
+    collission = entity.checkCollision(*it.second);
     if (collission) return true;
   }
 
@@ -318,10 +320,10 @@ void GameModel::resurrect(size_t playerId){
   PositionData resurrectionPos = {};
 
   for (auto& it : priests){
-    double distance = p.getPositionDistance(it->position, p.position);
+    double distance = p.getPositionDistance(it.second->position, p.position);
     if (distance >= minDistanceToPriest && minDistanceToPriest != 0) continue;
     minDistanceToPriest = distance;
-    resurrectionPos = it->position;
+    resurrectionPos = it.second->position;
   }
   getRespawnPosition(resurrectionPos, p);
   p.position = resurrectionPos;
@@ -416,10 +418,28 @@ void GameModel::pickUpObj(size_t playerId){
 void GameModel::list(size_t playerId){
   Player &p = *players.at(playerId);
   int traderId = checkTraderInRange(p);
+  int priestId = checkPriestInRange(p);
 
-  if (traderId == -1) return; // escribir mensaje en el player
+  if (traderId == -1 && priestId == -1) return; // escribir mensaje en el player
 
-  traders.at(traderId)->listItems(p);
+  if (traderId != -1){
+    traders.at(traderId)->listItems(p);
+    return;
+  }
+
+  priests.at(priestId)->listItems(p);
+}
+
+int GameModel::checkPriestInRange(Player &p){
+  const GlobalConfig& c = GC::get();
+
+  for (auto &it : priests){
+    bool inRange = priests.at(it.first)->checkInRange(
+      p,
+      c.traderBankerPriestMinRangeToInteract);
+    if (inRange) return it.first;
+  } 
+  return -1;
 }
 
 int GameModel::checkTraderInRange(Player &p){
@@ -449,13 +469,30 @@ void GameModel::sell(size_t playerId, size_t itemPosition){
 void GameModel::buy(size_t playerId, size_t itemPosition){
   Player &p = *players.at(playerId);
   int traderId = checkTraderInRange(p);
+  int priestId = checkPriestInRange(p);
 
-  if (traderId == -1){
+  if (traderId == -1 && priestId == -1){
     ChatManager::invalidCommandBuy(p.chat);
     return;
   }
-   
-  traders.at(traderId)->sell(itemPosition, p);
+
+  if (traderId != -1){
+    traders.at(traderId)->sell(itemPosition, p);
+    return;
+  }
+
+  priests.at(priestId)->sell(itemPosition, p);
+}
+
+void GameModel::heal(size_t playerId){
+  Player &p = *players.at(playerId);
+  
+  int priestId = checkPriestInRange(p);
+  if (priestId == -1){
+    ChatManager::invalidCommandHeal(p.chat);
+    return;
+  }
+  p.heal();
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  

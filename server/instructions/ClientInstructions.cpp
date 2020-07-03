@@ -114,3 +114,9 @@ BuyInstruction::BuyInstruction(
 void BuyInstruction::run(GameModel& game) {
   game.buy(playerId, itemNumber);
 }
+
+HealInstruction::HealInstruction(size_t id) : playerId(id) {}
+
+void HealInstruction::run(GameModel& game) {
+  game.heal(playerId);
+}

@@ -45,6 +45,7 @@ struct ChatMessages {
   std::string traderDontBuyThatItem;
   std::string successfullBuy;
   std::string maxGold;
+  std::string invalidCommandHeal;
 };
 
 struct DropSizes{
@@ -116,6 +117,7 @@ struct GlobalConfig {
   std::map<PlayerClass, ClassSkillsData> classSkills;
   std::map<int, std::unique_ptr<Item>> items;
   std::vector<TraderItem> traderItems;
+  std::vector<TraderItem> priestItems;
   ChatMessages chatMessages;
   DropSizes dropSizes;
   EquationsData equations;

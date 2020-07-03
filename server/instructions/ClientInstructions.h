@@ -182,7 +182,7 @@ class BuyInstruction : public Instruction {
   public:
     BuyInstruction(size_t id, std::string itemNumber);
     BuyInstruction(const BuyInstruction&) = delete;
-    BuyInstruction& operator=(const SellInstruction&) 
+    BuyInstruction& operator=(const BuyInstruction&) 
       = delete;
     BuyInstruction&& operator=(BuyInstruction&& other) 
       = delete;
@@ -191,6 +191,20 @@ class BuyInstruction : public Instruction {
   private:
     size_t playerId;
     size_t itemNumber;
+};
+
+class HealInstruction : public Instruction {
+  public:
+    HealInstruction(size_t id);
+    HealInstruction(const HealInstruction&) = delete;
+    HealInstruction& operator=(const HealInstruction&) 
+      = delete;
+    HealInstruction&& operator=(HealInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
 };
 
 #endif

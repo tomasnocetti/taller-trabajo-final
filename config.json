@@ -48,7 +48,8 @@
       "invalidCommandSell": "Acerquese al comerciante mas cercano para realizar esta acción",
       "traderDontBuyThatItem": "Este comerciante no compra ese tipo de elementos.",
       "successfullBuy": "Elemento comprado por: ",
-      "maxGold": "Atención! Ha llegado a su máximo de oro."
+      "maxGold": "Atención! Ha llegado a su máximo de oro.",
+      "invalidCommandHeal": "Acerquese al sacerdote mas cercano para curarse."
     },
     "equations": {
       "limitForNextLevel": 1.8,
@@ -229,6 +230,16 @@
       "value": 200
     }, {
       "itemId": 18,
+      "value": 150
+    }],
+    "priestItems": [{
+      "itemId": 6,
+      "value": 500
+    }, {
+      "itemId": 18,
+      "value": 300
+    }, {
+      "itemId": 19,
       "value": 150
     }],
     "defaultItems":[{

@@ -150,3 +150,8 @@ void ServerProxy::sell(std::string itemNumber){
   InstructionData instruction = {SELL, {x}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::heal(){
+  InstructionData instruction = {HEAL, {}};
+  writeBQ.push(instruction);
+}

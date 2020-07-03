@@ -56,7 +56,6 @@ void Trader::sell(size_t option, Player &p) {
 }
 
 std::vector<std::string>& Trader::getItemsList() {
-  std::cout << "ITEMS LIST" << std::endl;
   return readableItems;
 }
 

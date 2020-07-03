@@ -32,6 +32,7 @@ class ChatManager{
     static void traderDontBuyThatITem(ChatData &chat);
     static void successfullBuy(ChatData &chat, size_t itemValue);
     static void maxGold(ChatData &chat);
+    static void invalidCommandHeal(ChatData &chat);
 
   private:
 };

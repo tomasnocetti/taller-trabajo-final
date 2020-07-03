@@ -114,3 +114,9 @@ void ChatManager::maxGold(ChatData &chat){
   chat.entries.push_back({INFO,
   c.chatMessages.maxGold});  
 }
+
+void ChatManager::invalidCommandHeal(ChatData &chat){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+  c.chatMessages.invalidCommandHeal});  
+}

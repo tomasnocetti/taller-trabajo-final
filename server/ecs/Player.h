@@ -32,6 +32,7 @@ class Player : public LiveEntity{
     friend struct ManaPotion;
     friend class GameModel;
     friend class Trader;
+    friend class Priest;
   public:
     Player(MainPlayerData playerData, size_t id);
     Player(const Player&) = delete;
@@ -80,6 +81,7 @@ class Player : public LiveEntity{
     void buy(size_t itemValue, size_t itemId);
     void sell(size_t inventoryPos, size_t itemValue);
     size_t inventoryItemId(size_t inventoryPosition);
+    void heal();
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

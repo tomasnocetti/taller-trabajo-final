@@ -24,6 +24,7 @@ void GC::load(const char* src) {
   const Json::Value classes = gameConfig["classes"];
   const Json::Value items = gameConfig["items"];
   const Json::Value traderItems = gameConfig["traderItems"];
+  const Json::Value priestItems = gameConfig["priestItems"];
   const Json::Value chatMessages = gameConfig["chatMessages"];
   const Json::Value dropSizes = gameConfig["dropSizes"];
   const Json::Value itemsToDropNPC = gameConfig["itemsToDropNPC"];
@@ -103,6 +104,8 @@ void GC::load(const char* src) {
     chatMessages["successfullBuy"].asString();
   instance->g.chatMessages.maxGold =
     chatMessages["maxGold"].asString();
+  instance->g.chatMessages.invalidCommandHeal =
+    chatMessages["invalidCommandHeal"].asString();
 
   instance->g.equations.critickAttackProb =
     equations["critickAttackProb"].asDouble();
@@ -137,6 +140,18 @@ void GC::load(const char* src) {
       traderItem["value"].asInt()
     };
     instance->g.traderItems.push_back(item);
+  }
+
+  // PARSE PRIEST ITEMS
+  for (const Json::Value &traderItem : priestItems) {
+    int itemId = traderItem["itemId"].asInt();
+    if (!instance->g.items.count(itemId)) continue;
+
+    TraderItem item = {
+      itemId,
+      traderItem["value"].asInt()
+    };
+    instance->g.priestItems.push_back(item);
   }
 
   parseRaces(instance->g, races);
