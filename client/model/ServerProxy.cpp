@@ -138,3 +138,9 @@ void ServerProxy::list(){
   InstructionData instruction = {LIST, {}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::buy(std::string itemNumber){
+  ParamData x = {itemNumber};
+  InstructionData instruction = {BUY, {x}};
+  writeBQ.push(instruction);
+}

@@ -163,4 +163,19 @@ class ListInstruction : public Instruction {
     size_t playerId;
 };
 
+class BuyInstruction : public Instruction {
+  public:
+    explicit BuyInstruction(size_t id, std::string itemNumber);
+    BuyInstruction(const BuyInstruction&) = delete;
+    BuyInstruction& operator=(const BuyInstruction&) 
+      = delete;
+    BuyInstruction&& operator=(BuyInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    size_t itemNumber;
+};
+
 #endif

@@ -77,6 +77,7 @@ class Player : public LiveEntity{
     void setDeadDefaults();
     bool eraseInventoryItem(size_t inventoryPosition);
     void sendMessage(MessageType type, std::string msg);
+    void buy(size_t itemValue, size_t itemId);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

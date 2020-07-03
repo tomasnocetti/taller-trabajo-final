@@ -99,6 +99,11 @@ void ChatController::handleCommand() {
 
   if (action == "/listar")
     model.list();
+
+  if (action == "/comprar"){
+    std::string itemNumber = command.erase(0, pos+delimiter.length());
+    model.buy(itemNumber);
+  }
 }
 
 EntityList& ChatController::getEntities() {

@@ -30,7 +30,7 @@
     "npcDropItem": 0.05,
     "npcDropGoldRandMinValue": 3,
     "npcDropGoldRandMaxValue": 4,
-    "playerInitialGold": 0,
+    "playerInitialGold": 1000,
     "estimateTimeToPriestConst": 0.01,
     "maxInventoryDifferentItems": 9,
     "traderBankerPriestMinRangeToInteract": 200,

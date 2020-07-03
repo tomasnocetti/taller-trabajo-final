@@ -433,6 +433,14 @@ int GameModel::checkTraderInRange(Player &p){
   return -1;
 }
 
+void GameModel::buy(size_t playerId, size_t itemPosition){
+  Player &p = *players.at(playerId);
+  int traderId = checkTraderInRange(p);
+
+  if (traderId == -1) return; // escribir mensaje en el player
+
+  traders.at(traderId)->sell(itemPosition, p);
+}
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
     NPC& n = *npcMap.at(id);

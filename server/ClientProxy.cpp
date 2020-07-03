@@ -117,6 +117,9 @@ void ClientProxyRead::handleAuthInstruction(
       client.instructionQueue.push(std::move(i));
       break;
     case BUY:
+      i = std::unique_ptr<Instruction>(new BuyInstruction(
+        client.playerId, instruction.params[0].value));
+      client.instructionQueue.push(std::move(i));
       break;
     case DEPOSIT_GOLD:
       break;

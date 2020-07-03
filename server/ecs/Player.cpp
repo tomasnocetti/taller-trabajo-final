@@ -409,3 +409,18 @@ bool Player::isAlive(){
 void Player::sendMessage(MessageType type, std::string msg){
   ChatManager::otherMessages(chat, msg, type);
 }
+
+void Player::buy(size_t itemValue, size_t itemId){
+  if (gold < itemValue){
+    ChatManager::insufficientFunds(chat);
+    return;
+  }
+
+  InventoryElementData newItem = {1, false, (int)itemId};
+  bool success = addItemToInventory(newItem);
+
+  if (!success) return;
+
+  gold -= itemValue;
+}
+

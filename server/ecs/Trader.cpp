@@ -45,8 +45,14 @@ void Trader::buy(Player& p, size_t option) {
   std::cout << "Elemento no valido" << option << std::endl;
 }
 
-void Trader::sell(size_t option) {
-  std::cout << "Selling option " << option << std::endl;
+void Trader::sell(size_t option, Player &p) {
+  const GlobalConfig& c = GC::get();
+  if (option >= c.traderItems.size()) {
+    ChatManager::invalidOption(p.chat);
+  }
+
+  const TraderItem& traderItem = c.traderItems[option];
+  p.buy(traderItem.value, traderItem.itemId);
 }
 
 std::vector<std::string>& Trader::getItemsList() {
