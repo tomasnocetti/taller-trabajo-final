@@ -110,6 +110,12 @@ struct GlobalConfig {
   std::vector<InventoryElementData> defaultInventory;
 };
 
+struct SystemConfig {
+  std::string port;
+  std::string indexFile;
+  std::string dbFile;
+};
+
 class GC {
   public:
     GC() {}
@@ -118,11 +124,12 @@ class GC {
     GC&& operator=(GC&& other) = delete;
     static void load(const char* src);
     static const GlobalConfig& get();
-
+    static const SystemConfig& getS();
   private:
     GlobalConfig g;
-    std::map<char, RaceSkillsData> raceData;
+    SystemConfig s;
     static GC* instance;
+    static void parseItems(GlobalConfig& g, const Json::Value& val);
     static void parseRaces(GlobalConfig& g, const Json::Value& val);
     static void parseClasses(GlobalConfig& g, const Json::Value& val);
 };

@@ -1,5 +1,9 @@
-{
-  "port": "7777",
+{ 
+  "systemConfig": {
+    "port": "7777",
+    "indexFilePath": "path/to/file",
+    "dbFilePath": "path/to/file"
+  },
   "gameConfig": {
     "attackZoneWidth": 30,
     "attackZoneHeight": 30,
