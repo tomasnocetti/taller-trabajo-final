@@ -21,7 +21,7 @@
 #define INVALID_INDEX_FILE "Invalid index file path"
 #define INVALID_MAP_FILE_P "Invalid map file path"
 
-struct TraderItem {
+struct InterchangeableItem {
   int itemId;
   int value;
 };
@@ -116,8 +116,8 @@ struct GlobalConfig {
   std::map<PlayerRace, RaceSkillsData> raceSkills;
   std::map<PlayerClass, ClassSkillsData> classSkills;
   std::map<int, std::unique_ptr<Item>> items;
-  std::vector<TraderItem> traderItems;
-  std::vector<TraderItem> priestItems;
+  std::vector<InterchangeableItem> traderItems;
+  std::vector<InterchangeableItem> priestItems;
   ChatMessages chatMessages;
   DropSizes dropSizes;
   EquationsData equations;

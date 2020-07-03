@@ -23,6 +23,7 @@ class Player : public LiveEntity{
     BodyEquipmentSkills bodySkills;
     HeadEquipmentSkills headSkills;
     ResurrectionData resurrection;
+    std::map<size_t, size_t> bankAccount;
     ChatData chat;
     friend struct RightHandItem;
     friend struct LeftHandItem;
@@ -33,6 +34,7 @@ class Player : public LiveEntity{
     friend class GameModel;
     friend class Trader;
     friend class Priest;
+    friend class Banker;
   public:
     Player(MainPlayerData playerData, size_t id);
     Player(const Player&) = delete;

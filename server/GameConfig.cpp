@@ -131,25 +131,25 @@ void GC::load(const char* src) {
   parseItems(instance->g, items);
 
   // PARSE TRADER ITEMS
-  for (const Json::Value &traderItem : traderItems) {
-    int itemId = traderItem["itemId"].asInt();
+  for (const Json::Value &it : traderItems) {
+    int itemId = it["itemId"].asInt();
     if (!instance->g.items.count(itemId)) continue;
 
-    TraderItem item = {
+    InterchangeableItem item = {
       itemId,
-      traderItem["value"].asInt()
+      it["value"].asInt()
     };
     instance->g.traderItems.push_back(item);
   }
 
   // PARSE PRIEST ITEMS
-  for (const Json::Value &traderItem : priestItems) {
-    int itemId = traderItem["itemId"].asInt();
+  for (const Json::Value &it : priestItems) {
+    int itemId = it["itemId"].asInt();
     if (!instance->g.items.count(itemId)) continue;
 
-    TraderItem item = {
+    InterchangeableItem item = {
       itemId,
-      traderItem["value"].asInt()
+      it["value"].asInt()
     };
     instance->g.priestItems.push_back(item);
   }
