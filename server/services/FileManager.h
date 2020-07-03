@@ -21,6 +21,8 @@ struct Data{
 class FileManager{
   private:
     std::string filename;
+    std::ofstream indexFile;
+    std::ofstream dbFile;
     int offset;
   public:
     FileManager();

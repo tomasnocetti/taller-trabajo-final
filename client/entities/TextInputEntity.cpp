@@ -82,6 +82,8 @@ void TextInputEntity::handleInput(const SDL_Event& e) {
 }
 
 void TextInputEntity::clearInput() {
+  inside = false;
+  SDL_StopTextInput();
   input.clear();
 }
 

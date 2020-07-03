@@ -17,7 +17,7 @@ void GC::load(const char* src) {
 
   instance = std::unique_ptr<GC>(new GC());
   file >> root;
-  
+
   const Json::Value gameConfig = root["gameConfig"];
   const Json::Value systemConfig = root["systemConfig"];
   const Json::Value races = gameConfig["races"];
@@ -65,9 +65,9 @@ void GC::load(const char* src) {
     gameConfig["npcDropGoldRandMinValue"].asDouble();
   instance->g.npcDropGoldRandMaxValue =
     gameConfig["npcDropGoldRandMaxValue"].asDouble();
-  instance->g.estimateTimeToPriestConst = 
+  instance->g.estimateTimeToPriestConst =
     gameConfig["estimateTimeToPriestConst"].asDouble();
-  instance->g.maxInventoryDifferentItems = 
+  instance->g.maxInventoryDifferentItems =
     gameConfig["maxInventoryDifferentItems"].asInt();
 
   instance->g.chatMessages.initialMsg =
