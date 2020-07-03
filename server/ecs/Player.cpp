@@ -251,8 +251,20 @@ void Player::setTimeToResurrect(double minDistanceToPriest){
   resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
 }
 
-void Player::throwObj(size_t inventoryPosition){
-  if ((unsigned int)inventoryPosition >= inventory.size()) return;
+bool Player::throwObj(size_t inventoryPosition, 
+  InventoryElementData &itemToDrop, PositionData &dropFirstPos){
+    if ((unsigned int)inventoryPosition >= inventory.size()) return false;
+
+    itemToDrop = inventory.at(inventoryPosition);
+    dropFirstPos = position;
+
+    bool success = eraseInventoryItem(inventoryPosition);
+    return success;    
+}
+
+bool Player::eraseInventoryItem(size_t inventoryPosition){
+  if ((unsigned int)inventoryPosition >= inventory.size()) return false;
+  
   Equipable type;
   const GlobalConfig& c = GC::get();
 
@@ -267,9 +279,10 @@ void Player::throwObj(size_t inventoryPosition){
     case MANA_POTION:
       inventory[inventoryPosition].amount -= 1;
 
-      if (inventory[inventoryPosition].amount > 0) return;
+      if (inventory[inventoryPosition].amount > 0) return true;
 
       inventory.erase(inventory.begin() + inventoryPosition);
+      return true;
       break;
     case WEAPON:
     case LEFT_HAND_DEFENSE:
@@ -277,16 +290,17 @@ void Player::throwObj(size_t inventoryPosition){
     case BODY_ARMOUR:
       inventory[inventoryPosition].amount -= 1;
 
-      if (inventory[inventoryPosition].amount > 0) return;
+      if (inventory[inventoryPosition].amount > 0) return true;
 
       if (!inventory[inventoryPosition].isEquiped){
         inventory.erase(inventory.begin() + inventoryPosition);
-        return;
+        return true;
       }
 
       item->unEquip(*this);
       inventory.erase(inventory.begin() + inventoryPosition);
   }
+  return true;
 }
 
 void Player::setPlayerGameModelData(PlayerGameModelData &modelData){

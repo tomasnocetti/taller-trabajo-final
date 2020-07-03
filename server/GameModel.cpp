@@ -372,16 +372,16 @@ void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
   Player &p = *players.at(playerId);
   const GlobalConfig& c = GC::get();
   p.stopMeditating();
-  InventoryElementData inventoryItem(p.inventory.at(inventoryPosition));
+  InventoryElementData itemToDrop;
+  PositionData dropFirstPos;
   
-  p.throwObj(inventoryPosition);
+  bool success = p.throwObj(inventoryPosition, itemToDrop, dropFirstPos);
+  if (!success) return;
 
-  DropItemData item;
-  item.id = inventoryItem.itemId;
-  item.amount = 1;
-  item.position = p.position;
-  item.position.w = c.dropSizes.weight;
-  item.position.h = c.dropSizes.height;
+  dropFirstPos.w = c.dropZoneWidth;
+  dropFirstPos.h = c.dropZoneHeight;
+  
+  DropItemData item = {dropFirstPos, 1, itemToDrop.itemId};
   getDropPosition(item.position);
   drops.push_back(std::move(item));
 }
