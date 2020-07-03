@@ -455,11 +455,12 @@ int GameModel::checkTraderInRange(Player &p){
 }
 
 void GameModel::sell(size_t playerId, size_t itemPosition){
+  const GlobalConfig& c = GC::get();
   Player &p = *players.at(playerId);
   int traderId = checkTraderInRange(p);
 
   if (traderId == -1){
-    ChatManager::invalidCommandSell(p.chat);
+    p.sendMessage(INFO, c.chatMessages.invalidCommandSell);
     return;
   }
 
@@ -467,12 +468,13 @@ void GameModel::sell(size_t playerId, size_t itemPosition){
 }
 
 void GameModel::buy(size_t playerId, size_t itemPosition){
+  const GlobalConfig& c = GC::get(); 
   Player &p = *players.at(playerId);
   int traderId = checkTraderInRange(p);
   int priestId = checkPriestInRange(p);
 
   if (traderId == -1 && priestId == -1){
-    ChatManager::invalidCommandBuy(p.chat);
+    p.sendMessage(INFO, c.chatMessages.invalidCommandBuy);
     return;
   }
 
@@ -485,14 +487,19 @@ void GameModel::buy(size_t playerId, size_t itemPosition){
 }
 
 void GameModel::heal(size_t playerId){
+  const GlobalConfig& c = GC::get(); 
   Player &p = *players.at(playerId);
   
   int priestId = checkPriestInRange(p);
   if (priestId == -1){
-    ChatManager::invalidCommandHeal(p.chat);
+    p.sendMessage(INFO, c.chatMessages.invalidCommandHeal);
     return;
   }
   p.heal();
+}
+
+void GameModel::commandError(size_t playerId){
+  players.at(playerId)->sendMessage(INFO, "Comando invalido.");
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  

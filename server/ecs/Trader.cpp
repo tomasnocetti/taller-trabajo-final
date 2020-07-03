@@ -24,6 +24,10 @@ Trader::Trader(PositionData position) :
 
 void Trader::buy(Player& p, size_t inventoryPos) {
   const GlobalConfig& c = GC::get();
+  if (inventoryPos >= p.inventory.size()){
+    ChatManager::invalidOption(p.chat);
+    return;
+  }
   
   int itemToSellId = p.inventoryItemId(inventoryPos);
   size_t itemValue = 0;
@@ -47,11 +51,12 @@ void Trader::buy(Player& p, size_t inventoryPos) {
 
 void Trader::sell(size_t option, Player &p) {
   const GlobalConfig& c = GC::get();
-  if (option >= c.traderItems.size()) {
+  if (option > c.traderItems.size()) {
     ChatManager::invalidOption(p.chat);
+    return;
   }
 
-  const TraderItem& traderItem = c.traderItems[option];
+  const TraderItem& traderItem = c.traderItems[option - 1];
   p.buy(traderItem.value, traderItem.itemId);
 }
 

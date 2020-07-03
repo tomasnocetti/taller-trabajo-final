@@ -24,11 +24,12 @@ Priest::Priest(PositionData position) :
 
 void Priest::sell(size_t option, Player &p) {
   const GlobalConfig& c = GC::get();
-  if (option >= c.traderItems.size()) {
+  if (option > c.priestItems.size()) {
     ChatManager::invalidOption(p.chat);
+    return;
   }
 
-  const TraderItem& traderItem = c.priestItems[option];
+  const TraderItem& traderItem = c.priestItems[option - 1];
   p.buy(traderItem.value, traderItem.itemId);
 }
 

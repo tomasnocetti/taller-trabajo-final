@@ -98,21 +98,33 @@ void ListInstruction::run(GameModel& game) {
 }
 
 SellInstruction::SellInstruction(
-  size_t id, std::string itemNumber) :
-    playerId(id),
-    itemNumber(std::stoi(itemNumber)){}
+  size_t id, std::string itemNumber) : playerId(id) {
+    valid = isValid(itemNumber);
+    if (valid) this->itemNumber = std::stoi(itemNumber);
+}
 
 void SellInstruction::run(GameModel& game) {
-  game.sell(playerId, itemNumber);
+  if (valid){
+    game.sell(playerId, itemNumber);
+    return;
+  }
+
+  game.commandError(playerId);
 }
 
 BuyInstruction::BuyInstruction(
-  size_t id, std::string itemNumber) :
-    playerId(id),
-    itemNumber(std::stoi(itemNumber)-1){}
+  size_t id, std::string itemNumber) : playerId(id) {
+    valid = isValid(itemNumber);
+    if (valid) this->itemNumber = std::stoi(itemNumber);
+}
 
 void BuyInstruction::run(GameModel& game) {
-  game.buy(playerId, itemNumber);
+  if (valid){
+    game.buy(playerId, itemNumber);
+    return;
+  }
+
+  game.commandError(playerId);
 }
 
 HealInstruction::HealInstruction(size_t id) : playerId(id) {}

@@ -79,18 +79,6 @@ void ChatManager::successfullSell(ChatData &chat, size_t itemValue){
   c.chatMessages.successfullSell + std::to_string(itemValue) + " monedas."});  
 }
 
-void ChatManager::invalidCommandBuy(ChatData &chat){
-  const GlobalConfig& c = GC::get();
-  chat.entries.push_back({INFO,
-  c.chatMessages.invalidCommandBuy});  
-}
-
-void ChatManager::invalidCommandSell(ChatData &chat){
-  const GlobalConfig& c = GC::get();
-  chat.entries.push_back({INFO,
-  c.chatMessages.invalidCommandSell});  
-}
-
 void ChatManager::resurrecting(ChatData &chat, size_t estimateTime){
   const GlobalConfig& c = GC::get();
   chat.entries.push_back({INFO,
@@ -113,10 +101,4 @@ void ChatManager::maxGold(ChatData &chat){
   const GlobalConfig& c = GC::get();
   chat.entries.push_back({INFO,
   c.chatMessages.maxGold});  
-}
-
-void ChatManager::invalidCommandHeal(ChatData &chat){
-  const GlobalConfig& c = GC::get();
-  chat.entries.push_back({INFO,
-  c.chatMessages.invalidCommandHeal});  
 }

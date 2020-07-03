@@ -107,6 +107,7 @@ class GameModel{
     int checkPriestInRange(Player &p);
     /* Handle heal instruction */
     void heal(size_t playerId);
+    void commandError(size_t playerId);
 };
 
 #endif

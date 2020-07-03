@@ -26,13 +26,10 @@ class ChatManager{
       std::string &msg, 
       MessageType &type);
     static void successfullSell(ChatData &chat, size_t itemValue);
-    static void invalidCommandBuy(ChatData &chat);
-    static void invalidCommandSell(ChatData &chat);
     static void resurrecting(ChatData &chat, size_t estimateTime);
     static void traderDontBuyThatITem(ChatData &chat);
     static void successfullBuy(ChatData &chat, size_t itemValue);
     static void maxGold(ChatData &chat);
-    static void invalidCommandHeal(ChatData &chat);
 
   private:
 };
