@@ -63,6 +63,7 @@ class ServerProxy{
     void buy(std::string itemNumber);
     void sell(std::string itemNumber);
     void heal();
+    void depositGold(std::string amount);
 
     /** Client GETTERS */
     MapData getMapData() const;

@@ -207,4 +207,19 @@ class HealInstruction : public Instruction {
     size_t playerId;
 };
 
+class DepositGoldInstruction : public Instruction {
+  public:
+    explicit DepositGoldInstruction(size_t id, std::string amount);
+    DepositGoldInstruction(const DepositGoldInstruction&) = delete;
+    DepositGoldInstruction& operator=(const DepositGoldInstruction&) 
+      = delete;
+    DepositGoldInstruction&& operator=(DepositGoldInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    size_t amount;
+};
+
 #endif

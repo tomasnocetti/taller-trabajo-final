@@ -112,6 +112,14 @@ void ChatController::handleCommand() {
 
   if (action == "/curar")
     model.heal();
+
+  if (action == "/depositar"){
+    std::string opt = command.erase(0, pos+delimiter.length());
+    if (opt == "oro"){
+      std::string amount = command.erase(0, pos+delimiter.length());
+      model.depositGold(amount);
+    }
+  }
 }
 
 EntityList& ChatController::getEntities() {

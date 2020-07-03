@@ -455,3 +455,13 @@ void Player::heal(){
   health.currentHP = health.totalHP;
   health.currentMP = health.totalMP;
 }
+
+void Player::depositGold(size_t amount){
+  if (amount > gold){
+    // mensaje de invalido
+    return;
+  }
+  goldInBank += amount;
+  gold -= gold;
+  // mensaje de transaccion exitosa y cantidad de dinero
+}

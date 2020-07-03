@@ -77,6 +77,13 @@ void GameModel::parseMapData() {
         traders.insert(std::pair<size_t,
         std::unique_ptr<Trader>>(Trader::getNewId(), std::move(trader)));
       }
+
+      if (layer.name == BANKER_LAYER){
+        std::unique_ptr<Banker> banker(
+          new Banker(p));
+        bankers.insert(std::pair<size_t,
+        std::unique_ptr<Banker>>(Banker::getNewId(), std::move(banker)));
+      }
     }
   }
 }
@@ -497,6 +504,11 @@ void GameModel::heal(size_t playerId){
   }
   p.heal();
 }
+
+void GameModel::depositGold(size_t playerId, size_t amount){
+  
+}
+
 
 void GameModel::commandError(size_t playerId){
   players.at(playerId)->sendMessage(INFO, "Comando invalido.");

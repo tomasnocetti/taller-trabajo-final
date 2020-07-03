@@ -17,6 +17,8 @@ class Player : public LiveEntity{
     ExperienceData experience;
     PlayerRootData rootd;
     std::vector<InventoryElementData> inventory;
+    std::vector<InventoryElementData> itemsInBank;
+    size_t goldInBank;
     EquipmentData equipment;
     RightHandEquipmentSkills rightSkills;
     LeftHandEquipmentSkills leftSkills;
@@ -83,6 +85,7 @@ class Player : public LiveEntity{
     void sell(size_t inventoryPos, size_t itemValue);
     size_t inventoryItemId(size_t inventoryPosition);
     void heal();
+    void depositGold(size_t amount);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

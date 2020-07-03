@@ -139,3 +139,18 @@ HealInstruction::HealInstruction(size_t id) : playerId(id) {}
 void HealInstruction::run(GameModel& game) {
   game.heal(playerId);
 }
+
+DepositGoldInstruction::DepositGoldInstruction(
+  size_t id, std::string amount) : playerId(id) {
+    valid = isValid(amount);
+    if (valid) this->amount = std::stoi(amount);
+}
+
+void DepositGoldInstruction::run(GameModel& game) {
+  if (valid){
+    game.depositGold(playerId, amount);
+    return;
+  }
+
+  game.commandError(playerId);
+}

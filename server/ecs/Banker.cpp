@@ -17,3 +17,13 @@ size_t Banker::getNewId(){
 }
 
 void Banker::listItems(Player &player){}
+
+void Banker::deposit(Player &player) {}
+
+void Banker::withdraw(Player &player) {}
+
+void Banker::depositGold(Player &player, size_t amount) {
+  player.depositGold(amount);
+}
+
+void Banker::withDrawGold(Player &player, size_t amount) {}

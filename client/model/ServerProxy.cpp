@@ -155,3 +155,9 @@ void ServerProxy::heal(){
   InstructionData instruction = {HEAL, {}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::depositGold(std::string amount){
+  ParamData x = {amount};
+  InstructionData instruction = {DEPOSIT_GOLD, {x}};
+  writeBQ.push(instruction);
+}
