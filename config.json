@@ -219,21 +219,34 @@
       "id": 12,
       "type": "W",
       "name": "Baculo Nudoso",
-      "minDamage": 2,
-      "maxDamage": 4,
+      "minDamage": 4,
+      "maxDamage": 8,
       "range": 300,
-      "mana": 5
+      "mana": 15
     }, {
       "id": 13,
       "type": "W",
       "name": "Flauta Elfica",
-      "minDamage": 2,
-      "maxDamage": 4,
-      "range": 300,
       "mana": 100
+    }, {
+      "id": 14,
+      "type": "W",
+      "name": "Baculo Engarzado",
+      "minDamage": 8,
+      "maxDamage": 20,
+      "range": 300,
+      "mana": 30
+    }, {
+      "id": 15,
+      "type": "W",
+      "name": "Hacha",
+      "minDamage": 4,
+      "maxDamage": 5,
+      "range": 100,
+      "mana": 0
     }],
     "goldItemId": 5000,
-    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
     "potionsToDropNPC": [18, 19],
     "traderItems": [{
       "itemId": 0,
@@ -262,7 +275,7 @@
       "itemId": 1,
       "amount": 1
     }, {
-      "itemId": 13,
+      "itemId": 15,
       "amount": 1 
     },{
       "itemId": 7,

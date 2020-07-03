@@ -170,6 +170,14 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
 			weapon = Weapon(manager.getTexture("elfic-flute"), 
         34, 27, 14, 11, 0, 0, 0, 0, 36, 164, 10, 6, 16, 15, 0, 0, 8, 17);
     break;
+		case 14:
+			weapon = Weapon(manager.getTexture("socketed-staff"), 
+        4, 7, 12, 27, 66, 46, 7, 28, 8, 143, 15, 28, 13, 5, 19, 0, 3, 5);
+    break;
+		case 15:
+			weapon = Weapon(manager.getTexture("axe"), 
+        34, 18, 17, 15, 0, 0, 0, 0, 9, 158, 16, 20, 17, 13, 18, 18, 2, 15);
+    break;
     default:
 			weapon = Weapon(nullptr, 
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
