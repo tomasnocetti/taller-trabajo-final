@@ -23,8 +23,26 @@ Trader::Trader(PositionData position) :
 }
 
 void Trader::buy(Player& p, size_t inventoryPos) {
-  std::cout << "Comprando elemento: " << p.inventory[inventoryPos].itemId 
-    << std::endl;
+  const GlobalConfig& c = GC::get();
+  
+  int itemToSellId = p.inventoryItemId(inventoryPos);
+  size_t itemValue = 0;
+
+  for (unsigned int i = 0; i < c.traderItems.size(); i++) {
+    std::stringstream ss;
+    const TraderItem& traderItem = c.traderItems[i];
+    if (traderItem.itemId == itemToSellId){
+      itemValue = traderItem.value;
+      break;
+    }
+  } 
+
+  if (itemValue == 0){
+    ChatManager::traderDontBuyThatITem(p.chat);
+    return;
+  }
+
+  p.sell(inventoryPos, itemValue * c.traderFactorWhenSelling);
 }
 
 void Trader::sell(size_t option, Player &p) {

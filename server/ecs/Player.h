@@ -78,6 +78,8 @@ class Player : public LiveEntity{
     bool eraseInventoryItem(size_t inventoryPosition);
     void sendMessage(MessageType type, std::string msg);
     void buy(size_t itemValue, size_t itemId);
+    void sell(size_t inventoryPos, size_t itemValue);
+    size_t inventoryItemId(size_t inventoryPosition);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

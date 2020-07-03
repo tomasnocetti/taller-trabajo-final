@@ -98,8 +98,10 @@ class GameModel{
     /* Handle list instruction */
     void list(size_t playerId);
     int checkTraderInRange(Player &p);
-    /* Handle buy and sell instruction */
-    void sellAndBuy(size_t playerId, size_t itemPosition, int opt);
+    /* Handle sell instruction */
+    void sell(size_t playerId, size_t itemPosition);
+    /* Handle buy instruction */
+    void buy(size_t playerId, size_t itemPosition);
 };
 
 #endif

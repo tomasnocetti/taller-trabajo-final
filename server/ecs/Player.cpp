@@ -246,9 +246,12 @@ int Player::calculateExcessGold(){
 void Player::setTimeToResurrect(double minDistanceToPriest){
   const GlobalConfig& c = GC::get();
   resurrection.resurrect = true;
-  std::chrono::seconds 
-    sec(int(minDistanceToPriest * c.estimateTimeToPriestConst));
+  
+  int resurrectionTime = minDistanceToPriest * c.estimateTimeToPriestConst;
+  std::chrono::seconds sec(resurrectionTime);
   resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
+
+  ChatManager::resurrecting(chat, resurrectionTime);
 }
 
 bool Player::throwObj(size_t inventoryPosition, 
@@ -367,10 +370,11 @@ bool Player::pickUp(DropItemData &drop){
   if (drop.id == c.goldItemId){
     gold += drop.amount; 
 
-    unsigned int maxGold = Equations::maxGold(level, gold);
+    unsigned int maxGold = Equations::maxGold(level);
     if (gold < maxGold) return true;
     
     gold = maxGold;
+    ChatManager::maxGold(chat);
     return true;
   }
 
@@ -422,5 +426,26 @@ void Player::buy(size_t itemValue, size_t itemId){
   if (!success) return;
 
   gold -= itemValue;
+  ChatManager::successfullBuy(chat, itemValue);
 }
 
+void Player::sell(size_t inventoryPos, size_t itemValue){
+  if (inventoryPos > inventory.size()){
+    ChatManager::invalidOption(chat);
+  }
+
+  eraseInventoryItem(inventoryPos);
+  gold += itemValue;
+
+  ChatManager::successfullSell(chat, itemValue);
+  
+  unsigned int maxGold = Equations::maxGold(level);
+  if (gold > maxGold){
+    gold = maxGold;
+    ChatManager::maxGold(chat);
+  }
+}
+
+size_t Player::inventoryItemId(size_t inventoryPosition){
+  return inventory.at(inventoryPosition).itemId;
+}

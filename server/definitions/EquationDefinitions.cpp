@@ -39,7 +39,7 @@ int Equations::damage(
     const GlobalConfig& c = GC::get();
     const RaceSkillsData& race = c.raceSkills.at(root.prace);
     int rand = random(weaponSkills.minDamage, weaponSkills.maxDamage);
-    return std::max(race.strength * rand, 2);
+    return std::max(race.strength * rand, race.strength);
 }
 
 int Equations::attackExperience(
@@ -105,13 +105,14 @@ bool Equations::criticAttack(){
 
 int Equations::excessGold(int level, int gold){
   const GlobalConfig& c = GC::get();
-  return std::max(gold - (int)(100 * pow(level,
+  return std::max(gold - (int)(c.equations.baseGoldConst * pow(level,
     c.equations.excessGoldConstPow)), 0);
 }
 
-int Equations::maxGold(int level, int gold){
+int Equations::maxGold(int level){
   const GlobalConfig& c = GC::get();
-  return 100 * pow(level, c.equations.excessGoldConstPow) * 1.5;
+  return c.equations.baseGoldConst * 
+    pow(level, c.equations.excessGoldConstPow) * c.equations.maxGoldFactor;
 }
 
 int Equations::recoverMana(PlayerRootData& root, bool isMeditating) {

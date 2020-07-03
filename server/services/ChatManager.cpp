@@ -72,3 +72,45 @@ void ChatManager::otherMessages(
   MessageType &type){
     chat.entries.push_back({type, msg});  
 }
+
+void ChatManager::successfullSell(ChatData &chat, size_t itemValue){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({SUCCESS,
+  c.chatMessages.successfullSell + std::to_string(itemValue) + " monedas."});  
+}
+
+void ChatManager::invalidCommandBuy(ChatData &chat){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+  c.chatMessages.invalidCommandBuy});  
+}
+
+void ChatManager::invalidCommandSell(ChatData &chat){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+  c.chatMessages.invalidCommandSell});  
+}
+
+void ChatManager::resurrecting(ChatData &chat, size_t estimateTime){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+  c.chatMessages.resurrecting + std::to_string(estimateTime) + " segundos."});  
+}
+
+void ChatManager::traderDontBuyThatITem(ChatData &chat){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+  c.chatMessages.traderDontBuyThatItem});  
+}
+
+void ChatManager::successfullBuy(ChatData &chat, size_t itemValue){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({SUCCESS,
+  c.chatMessages.successfullBuy + std::to_string(itemValue) + " monedas."});  
+}
+
+void ChatManager::maxGold(ChatData &chat){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({INFO,
+  c.chatMessages.maxGold});  
+}

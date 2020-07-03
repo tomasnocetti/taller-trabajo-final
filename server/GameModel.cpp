@@ -7,9 +7,7 @@
 #include <random>
 #include <stdlib.h>
 #include <utility>
-
-#define BUY_OPT 0
-#define SELL_OPT 1
+#include "services/ChatManager.h"
 
 GameModel::GameModel(CronBQ& cronBQ) :
   cronBQ(cronBQ),
@@ -436,18 +434,28 @@ int GameModel::checkTraderInRange(Player &p){
   return -1;
 }
 
-void GameModel::sellAndBuy(size_t playerId, size_t itemPosition, int opt){
+void GameModel::sell(size_t playerId, size_t itemPosition){
   Player &p = *players.at(playerId);
   int traderId = checkTraderInRange(p);
 
-  if (traderId == -1) return; // escribir mensaje en el player
+  if (traderId == -1){
+    ChatManager::invalidCommandSell(p.chat);
+    return;
+  }
 
-  if (opt == BUY_OPT){
-    traders.at(traderId)->sell(itemPosition-1, p);
+  traders.at(traderId)->buy(p, itemPosition - 1);
+}
+
+void GameModel::buy(size_t playerId, size_t itemPosition){
+  Player &p = *players.at(playerId);
+  int traderId = checkTraderInRange(p);
+
+  if (traderId == -1){
+    ChatManager::invalidCommandBuy(p.chat);
     return;
   }
    
-  traders.at(traderId)->buy(p, itemPosition);
+  traders.at(traderId)->sell(itemPosition, p);
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
