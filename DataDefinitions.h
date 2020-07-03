@@ -20,7 +20,8 @@ typedef enum {
   RESURRECT,
   MEDITATE,
   THROW_OBJECT,
-  PICK_UP
+  PICK_UP,
+  LIST
 } ActionTypeT;
 
 typedef enum {

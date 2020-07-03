@@ -64,3 +64,10 @@ void ChatManager::inventoryIsFull(ChatData &chat){
   chat.entries.push_back({NORMAL,
   c.chatMessages.inventoryIsFull});  
 }
+
+void ChatManager::otherMessages(
+  ChatData &chat,
+  std::string &msg,
+  MessageType &type){
+    chat.entries.push_back({type, msg});  
+}

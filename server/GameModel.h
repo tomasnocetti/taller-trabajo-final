@@ -9,12 +9,14 @@
 #include "responses/Response.h"
 #include "ecs/Player.h"
 #include "ecs/Npc.h"
+#include "ecs/Trader.h"
 #include "../DataDefinitions.h"
 #include "definitions/EquationDefinitions.h"
 #include <map>
 
 class Player;
 class NPC;
+class Trader;
 
 class GameModel{
   private:
@@ -27,6 +29,7 @@ class GameModel{
     std::map<size_t, std::unique_ptr<Player>> players;
     std::vector<OtherPlayersData> otherPlayers;
     std::vector<std::unique_ptr<Entity>> priests;
+    std::map<size_t, std::unique_ptr<Trader>> traders;
     MapParser m;
     CronBQ& cronBQ;
     void parseMapData();
@@ -92,6 +95,9 @@ class GameModel{
     void throwInventoryObj(size_t playerId, size_t inventoryPosition);
     /* Handle pickUp instruction */
     void pickUpObj(size_t playerId);
+    /* Handle list instruction */
+    void list(size_t playerId);
+    int checkTraderInRange(Player &p);
 };
 
 #endif

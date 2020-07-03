@@ -33,7 +33,6 @@ void GameModel::parseMapData() {
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 10, SPIDER));
         npcMap.insert(std::pair<size_t,
-
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
@@ -41,7 +40,6 @@ void GameModel::parseMapData() {
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 15, GOBLIN));
         npcMap.insert(std::pair<size_t,
-
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
@@ -49,7 +47,6 @@ void GameModel::parseMapData() {
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 8, SKELETON));
         npcMap.insert(std::pair<size_t,
-
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
@@ -57,7 +54,6 @@ void GameModel::parseMapData() {
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 8, ZOMBIE));
         npcMap.insert(std::pair<size_t,
-
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
@@ -71,6 +67,12 @@ void GameModel::parseMapData() {
         std::unique_ptr<Entity> priest(
           new Entity(p));
         priests.push_back(std::move(priest));
+      }
+      if (layer.name == MERCHANT_LAYER){
+        std::unique_ptr<Trader> trader(
+          new Trader(p));
+        traders.insert(std::pair<size_t,
+        std::unique_ptr<Trader>>(Trader::getNewId(), std::move(trader)));
       }
     }
   }
@@ -380,7 +382,7 @@ void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
 
   dropFirstPos.w = c.dropZoneWidth;
   dropFirstPos.h = c.dropZoneHeight;
-  
+
   DropItemData item = {dropFirstPos, 1, itemToDrop.itemId};
   getDropPosition(item.position);
   drops.push_back(std::move(item));
@@ -409,6 +411,28 @@ void GameModel::pickUpObj(size_t playerId){
         return true;
   }), drops.end());
 }
+
+void GameModel::list(size_t playerId){
+  Player &p = *players.at(playerId);
+  int traderId = checkTraderInRange(p);
+
+  if (traderId == -1) return; // escribir mensaje en el player
+
+  traders.at(traderId)->listItems(p);
+}
+
+int GameModel::checkTraderInRange(Player &p){
+  const GlobalConfig& c = GC::get();
+
+  for (auto &it : traders){
+    bool inRange = traders.at(it.first)->checkInRange(
+      p,
+      c.traderBankerPriestMinRangeToInteract);
+    if (inRange) return it.first;
+  } 
+  return -1;
+}
+
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  
     NPC& n = *npcMap.at(id);

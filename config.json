@@ -33,6 +33,7 @@
     "playerInitialGold": 0,
     "estimateTimeToPriestConst": 0.01,
     "maxInventoryDifferentItems": 9,
+    "traderBankerPriestMinRangeToInteract": 200,
     "chatMessages": {
       "initialMsg": "Bienvenido a las tierras de ARGENTUM",
       "damageRcvMsg": "Nos estan atacando! Daño recibido: ",
@@ -213,6 +214,12 @@
     }, {
       "itemId": 1,
       "value": 300
+    }, {
+      "itemId": 2,
+      "value": 200
+    }, {
+      "itemId": 18,
+      "value": 150
     }],
     "defaultItems":[{
       "itemId": 1,

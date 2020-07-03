@@ -89,3 +89,10 @@ PickUpInstruction::PickUpInstruction(size_t id) :
 void PickUpInstruction::run(GameModel& game) {
   game.pickUpObj(playerId);
 }
+
+ListInstruction::ListInstruction(size_t id) :
+  playerId(id) {}
+
+void ListInstruction::run(GameModel& game) {
+  game.list(playerId);
+}

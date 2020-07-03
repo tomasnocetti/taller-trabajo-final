@@ -133,3 +133,8 @@ void ServerProxy::pickUp(){
   InstructionData instruction = {PICK_UP, {}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::list(){
+  InstructionData instruction = {LIST, {}};
+  writeBQ.push(instruction);
+}

@@ -18,6 +18,8 @@ class Trader : public Entity {
     void buy(Player& p, size_t option);
     void sell(size_t option);
     std::vector<std::string>& getItemsList();
+    static size_t getNewId();
+    void listItems(Player &player);
 
   private:
     std::vector<std::string> readableItems;

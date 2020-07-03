@@ -149,4 +149,18 @@ class PickUpInstruction : public Instruction {
     size_t playerId;
 };
 
+class ListInstruction : public Instruction {
+  public:
+    explicit ListInstruction(size_t id);
+    ListInstruction(const ListInstruction&) = delete;
+    ListInstruction& operator=(const ListInstruction&) 
+      = delete;
+    ListInstruction&& operator=(ListInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+};
+
 #endif

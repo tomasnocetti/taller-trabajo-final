@@ -405,3 +405,7 @@ bool Player::inventoryIsFull(){
 bool Player::isAlive(){
   return health.currentHP > 0;
 }
+
+void Player::sendMessage(MessageType type, std::string msg){
+  ChatManager::otherMessages(chat, msg, type);
+}

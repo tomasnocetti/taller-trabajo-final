@@ -101,6 +101,7 @@ struct GlobalConfig {
   double npcDropGoldRandMaxValue;
   double estimateTimeToPriestConst;
   unsigned int maxInventoryDifferentItems;
+  unsigned int traderBankerPriestMinRangeToInteract;
   std::map<PlayerRace, RaceSkillsData> raceSkills;
   std::map<PlayerClass, ClassSkillsData> classSkills;
   std::map<int, std::unique_ptr<Item>> items;

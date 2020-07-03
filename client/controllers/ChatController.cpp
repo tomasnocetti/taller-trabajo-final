@@ -96,6 +96,9 @@ void ChatController::handleCommand() {
   if (action == "/tomar"){
     model.pickUp();
   }
+
+  if (action == "/listar")
+    model.list();
 }
 
 EntityList& ChatController::getEntities() {

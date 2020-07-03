@@ -17,7 +17,7 @@ Trader::Trader(PositionData position) :
     const TraderItem& traderItem = c.traderItems[i];
     const std::unique_ptr<Item> &item = c.items.at(traderItem.itemId);
 
-    ss << "   " << i << ". " << item->name << " <" << traderItem.value << ">";
+    ss << "   " << i+1 << ". " << item->name << " <" << traderItem.value << ">";
     readableItems.push_back(ss.str());
   }
 }
@@ -52,4 +52,19 @@ void Trader::sell(size_t option) {
 std::vector<std::string>& Trader::getItemsList() {
   std::cout << "ITEMS LIST" << std::endl;
   return readableItems;
+}
+
+size_t Trader::idGenerator = 0;
+
+size_t Trader::getNewId(){
+  Trader::idGenerator ++;
+  return Trader::idGenerator;
+}
+
+void Trader::listItems(Player &player){
+  std::vector<std::string> items;
+  items = getItemsList();
+  for (std::string &str : items){
+    player.sendMessage(NORMAL, str);
+  }
 }

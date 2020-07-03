@@ -59,6 +59,7 @@ class ServerProxy{
     void meditate();
     void throwObject(std::string inventoryPosition);
     void pickUp();
+    void list();
 
     /** Client GETTERS */
     MapData getMapData() const;

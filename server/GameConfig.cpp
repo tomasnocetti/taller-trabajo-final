@@ -69,6 +69,8 @@ void GC::load(const char* src) {
     gameConfig["estimateTimeToPriestConst"].asDouble();
   instance->g.maxInventoryDifferentItems =
     gameConfig["maxInventoryDifferentItems"].asInt();
+  instance->g.traderBankerPriestMinRangeToInteract =
+    gameConfig["traderBankerPriestMinRangeToInteract"].asInt();
 
   instance->g.chatMessages.initialMsg =
     chatMessages["initialMsg"].asString();
