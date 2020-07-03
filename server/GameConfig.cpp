@@ -6,7 +6,7 @@
 #include <string>
 #include <vector>
 
-GC* GC::instance = nullptr;
+std::unique_ptr<GC> GC::instance = nullptr;
 
 void GC::load(const char* src) {
   Json::Value root;
@@ -15,10 +15,11 @@ void GC::load(const char* src) {
   if ((file.rdstate() & std::ifstream::failbit ) != 0)
     throw std::invalid_argument(INVALID_CONFIG_FILE);
 
-  instance = new GC();
+  instance = std::unique_ptr<GC>(new GC());
   file >> root;
 
   const Json::Value gameConfig = root["gameConfig"];
+  const Json::Value systemConfig = root["systemConfig"];
   const Json::Value races = gameConfig["races"];
   const Json::Value classes = gameConfig["classes"];
   const Json::Value items = gameConfig["items"];
@@ -29,6 +30,8 @@ void GC::load(const char* src) {
   const Json::Value potionsToDropNPC = gameConfig["potionsToDropNPC"];
   const Json::Value equations = gameConfig["equations"];
   const Json::Value defaultItems = gameConfig["defaultItems"];
+
+  parseSystem(instance->s, systemConfig);
 
   instance->g.attackZoneWidth = gameConfig["attackZoneWidth"].asInt();
   instance->g.attackZoneHeight = gameConfig["attackZoneHeight"].asInt();
@@ -62,9 +65,9 @@ void GC::load(const char* src) {
     gameConfig["npcDropGoldRandMinValue"].asDouble();
   instance->g.npcDropGoldRandMaxValue =
     gameConfig["npcDropGoldRandMaxValue"].asDouble();
-  instance->g.estimateTimeToPriestConst = 
+  instance->g.estimateTimeToPriestConst =
     gameConfig["estimateTimeToPriestConst"].asDouble();
-  instance->g.maxInventoryDifferentItems = 
+  instance->g.maxInventoryDifferentItems =
     gameConfig["maxInventoryDifferentItems"].asInt();
 
   instance->g.chatMessages.initialMsg =
@@ -102,7 +105,75 @@ void GC::load(const char* src) {
     equations["npcDamageConst"].asDouble();
 
   /** PARSE ITEMS */
-  for (const Json::Value &item : items) {
+  parseItems(instance->g, items);
+
+  // PARSE TRADER ITEMS
+  for (const Json::Value &traderItem : traderItems) {
+    int itemId = traderItem["itemId"].asInt();
+    if (!instance->g.items.count(itemId)) continue;
+
+    TraderItem item = {
+      itemId,
+      traderItem["value"].asInt()
+    };
+    instance->g.traderItems.push_back(item);
+  }
+
+  parseRaces(instance->g, races);
+  parseClasses(instance->g, classes);
+
+  // PARSE ITEMSTODROPNPC
+  for (const Json::Value &item : itemsToDropNPC) {
+    instance->g.itemsToDropNPC.push_back(item.asInt());
+  }
+
+  // PARSE POTIONSTODROPNPC
+  for (const Json::Value &potion : potionsToDropNPC) {
+    instance->g.potionsToDropNPC.push_back(potion.asInt());
+  }
+
+  // DEFAULT INVENTORY
+  for (const Json::Value &inventoryItem : defaultItems) {
+    int itemId = inventoryItem["itemId"].asInt();
+    int amount = inventoryItem["amount"].asInt();
+
+    InventoryElementData item = {
+      size_t(amount),
+      true,
+      itemId,
+    };
+    instance->g.defaultInventory.push_back(item);
+  }
+}
+
+const GlobalConfig& GC::get() {
+  if (instance == nullptr) {
+    throw std::runtime_error(ERROR_MSG);
+  }
+
+  return instance->g;
+}
+
+const SystemConfig& GC::getS() {
+  if (instance == nullptr) {
+    throw std::runtime_error(ERROR_MSG);
+  }
+
+  return instance->s;
+}
+
+void GC::parseSystem(SystemConfig& s, const Json::Value& val) {
+  s.dbFile = val["dbFilePath"].asString();
+  s.indexFile = val["indexFilePath"].asString();
+  s.mapFile = val["mapFilePath"].asString();
+
+  if (s.dbFile.empty()) throw std::runtime_error(INVALID_DB_FILE);
+  if (s.indexFile.empty()) throw std::runtime_error(INVALID_INDEX_FILE);
+  if (s.mapFile.empty()) throw std::runtime_error(INVALID_MAP_FILE_P);
+}
+
+void GC::parseItems(GlobalConfig& g, const Json::Value& val) {
+  for (const Json::Value &item : val) {
     std::string t = item["type"].asString();
     Equipable type =
       static_cast<Equipable> (t[0]);
@@ -171,60 +242,6 @@ void GC::load(const char* src) {
       return;
     }
   }
-
-  // PARSE TRADER ITEMS
-  for (const Json::Value &traderItem : traderItems) {
-    int itemId = traderItem["itemId"].asInt();
-    if (!instance->g.items.count(itemId)) continue;
-
-    TraderItem item = {
-      itemId,
-      traderItem["value"].asInt()
-    };
-    instance->g.traderItems.push_back(item);
-  }
-
-  parseRaces(instance->g, races);
-  parseClasses(instance->g, classes);
-
-  // PARSE ITEMSTODROPNPC
-  for (const Json::Value &item : itemsToDropNPC) {
-    instance->g.itemsToDropNPC.push_back(item.asInt());
-  }
-
-  // PARSE POTIONSTODROPNPC
-  for (const Json::Value &potion : potionsToDropNPC) {
-    instance->g.potionsToDropNPC.push_back(potion.asInt());
-  }
-
-  // DEFAULT INVENTORY
-  for (const Json::Value &inventoryItem : defaultItems) {
-    int itemId = inventoryItem["itemId"].asInt();
-    int amount = inventoryItem["amount"].asInt();
-
-    InventoryElementData item = {
-      size_t(amount),
-      true,
-      itemId,
-    };
-    instance->g.defaultInventory.push_back(item);
-  }
-}
-
-// RaceSkillsData GC::getRaceSkills(PlayerRace race){
-//   return raceData.at(race);
-// }
-
-// void Player::getClassSkills(PlayerClass class){
-//   return classData.at(class);
-// }
-
-const GlobalConfig& GC::get() {
-  if (instance == nullptr) {
-    throw std::runtime_error(ERROR_MSG);
-  }
-
-  return instance->g;
 }
 
 void GC::parseRaces(GlobalConfig& g, const Json::Value& val) {

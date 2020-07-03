@@ -8,6 +8,7 @@
 #include <jsoncpp/json/json.h>
 #endif
 
+#include <memory>
 #include <vector>
 #include <map>
 #include <string>
@@ -16,7 +17,9 @@
 
 #define ERROR_MSG "No valid instance"
 #define INVALID_CONFIG_FILE "Invalid config file"
-
+#define INVALID_DB_FILE "Invalid db file path"
+#define INVALID_INDEX_FILE "Invalid index file path"
+#define INVALID_MAP_FILE_P "Invalid map file path"
 
 struct TraderItem {
   int itemId;
@@ -110,6 +113,12 @@ struct GlobalConfig {
   std::vector<InventoryElementData> defaultInventory;
 };
 
+struct SystemConfig {
+  std::string mapFile;
+  std::string indexFile;
+  std::string dbFile;
+};
+
 class GC {
   public:
     GC() {}
@@ -117,12 +126,15 @@ class GC {
     GC& operator=(const GC&) = delete;
     GC&& operator=(GC&& other) = delete;
     static void load(const char* src);
+    static void clean();
     static const GlobalConfig& get();
-
+    static const SystemConfig& getS();
   private:
     GlobalConfig g;
-    std::map<char, RaceSkillsData> raceData;
-    static GC* instance;
+    SystemConfig s;
+    static std::unique_ptr<GC> instance;
+    static void parseSystem(SystemConfig& s, const Json::Value& val);
+    static void parseItems(GlobalConfig& g, const Json::Value& val);
     static void parseRaces(GlobalConfig& g, const Json::Value& val);
     static void parseClasses(GlobalConfig& g, const Json::Value& val);
 };

@@ -34,7 +34,7 @@ class GameModel{
     unsigned int randomSeed;
 
   public:
-    GameModel(char* mapPath, CronBQ& cronBQ);
+    explicit GameModel(CronBQ& cronBQ);
     ~GameModel();
     GameModel(const GameModel&) = delete;
     GameModel& operator=(const GameModel&) = delete;

@@ -8,10 +8,9 @@
 #include <stdlib.h>
 #include <utility>
 
-GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
+GameModel::GameModel(CronBQ& cronBQ) :
   cronBQ(cronBQ),
   randomSeed(0){
-  m.loadMap(mapPath);
   parseMapData();
 }
 

@@ -23,7 +23,7 @@ class GameServer : public Thread{
     GameModel game;
     ClientAcceptor clientAcceptor;
   public:
-    GameServer(char* port, char* mapPath);
+    explicit GameServer(char* port);
     ~GameServer();
     GameServer(const GameServer&) = delete;
     GameServer& operator=(const GameServer&) = delete;

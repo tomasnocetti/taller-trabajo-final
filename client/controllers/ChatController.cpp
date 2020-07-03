@@ -61,6 +61,7 @@ void ChatController::handleEvent(const SDL_Event &e) {
 
   if (e.type == SDL_KEYDOWN &&
     e.key.keysym.sym == SDLK_RETURN) {
+    active = false;
     handleCommand();
     userInputField->clearInput();
   }

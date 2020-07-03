@@ -1,20 +1,24 @@
 #include "MapParser.h"
+#include "../GameConfig.h"
 #include <fstream>
 #include <algorithm>
 #include <string>
 #include <vector>
 
-MapParser::MapParser() {}
+MapParser::MapParser() {
+  const SystemConfig& c = GC::getS();
+  loadMap(c.mapFile);
+}
 
 MapParser::~MapParser() {}
 
-void MapParser::loadMap(char* src) {
+void MapParser::loadMap(const std::string& path) {
   Json::Value root;
 
-  std::ifstream file(src, std::ifstream::binary);
+  std::ifstream file(path, std::ifstream::binary);
   if ((file.rdstate() & std::ifstream::failbit ) != 0)
     throw std::invalid_argument(INVALID_MAP_FILE);
-  
+
   file >> root;
 
   mapData.height = root["height"].asInt();
