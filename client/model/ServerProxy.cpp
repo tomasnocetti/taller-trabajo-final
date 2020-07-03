@@ -133,3 +133,25 @@ void ServerProxy::pickUp(){
   InstructionData instruction = {PICK_UP, {}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::list(){
+  InstructionData instruction = {LIST, {}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::buy(std::string itemNumber){
+  ParamData x = {itemNumber};
+  InstructionData instruction = {BUY, {x}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::sell(std::string itemNumber){
+  ParamData x = {itemNumber};
+  InstructionData instruction = {SELL, {x}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::heal(){
+  InstructionData instruction = {HEAL, {}};
+  writeBQ.push(instruction);
+}

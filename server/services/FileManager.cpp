@@ -6,11 +6,7 @@
 #include <sstream>
 #include <algorithm>
 
-FileManager::FileManager() : offset(0){
-
-
-
-}
+FileManager::FileManager() : offset(0){}
 
 void FileManager::create(const char* nickName){
   bool exist = checkIfNickExists(nickName);

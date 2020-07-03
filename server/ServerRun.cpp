@@ -21,5 +21,4 @@ void serverRun(char *port, char *configFilePath) {
   game.start();
   waitToFinish();
   game.stop();
-
 }

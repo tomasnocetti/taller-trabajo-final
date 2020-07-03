@@ -76,11 +76,18 @@ void MeditateInstruction::run(GameModel& game) {
 }
 
 ThrowObjInstruction::ThrowObjInstruction(size_t id, std::string inventoryPos) :
-  playerId(id),
-  inventoryPosition(std::stoi(inventoryPos)-1){}
+  playerId(id) {
+    valid = isValid(inventoryPos);
+    if (valid) inventoryPosition = (std::stoi(inventoryPos)-1);
+}
 
 void ThrowObjInstruction::run(GameModel& game) {
-  game.throwInventoryObj(playerId, inventoryPosition);
+  if (valid){
+    game.throwInventoryObj(playerId, inventoryPosition);
+    return;
+  }
+
+  game.commandError(playerId);
 }
 
 PickUpInstruction::PickUpInstruction(size_t id) :
@@ -88,4 +95,47 @@ PickUpInstruction::PickUpInstruction(size_t id) :
 
 void PickUpInstruction::run(GameModel& game) {
   game.pickUpObj(playerId);
+}
+
+ListInstruction::ListInstruction(size_t id) :
+  playerId(id) {}
+
+void ListInstruction::run(GameModel& game) {
+  game.list(playerId);
+}
+
+SellInstruction::SellInstruction(
+  size_t id, std::string itemNumber) : playerId(id) {
+    valid = isValid(itemNumber);
+    if (valid) this->itemNumber = std::stoi(itemNumber);
+}
+
+void SellInstruction::run(GameModel& game) {
+  if (valid){
+    game.sell(playerId, itemNumber);
+    return;
+  }
+
+  game.commandError(playerId);
+}
+
+BuyInstruction::BuyInstruction(
+  size_t id, std::string itemNumber) : playerId(id) {
+    valid = isValid(itemNumber);
+    if (valid) this->itemNumber = std::stoi(itemNumber);
+}
+
+void BuyInstruction::run(GameModel& game) {
+  if (valid){
+    game.buy(playerId, itemNumber);
+    return;
+  }
+
+  game.commandError(playerId);
+}
+
+HealInstruction::HealInstruction(size_t id) : playerId(id) {}
+
+void HealInstruction::run(GameModel& game) {
+  game.heal(playerId);
 }

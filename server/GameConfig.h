@@ -38,6 +38,14 @@ struct ChatMessages {
   std::string meditating;
   std::string stopMeditating;
   std::string inventoryIsFull; 
+  std::string successfullSell;
+  std::string resurrecting;
+  std::string invalidCommandBuy;
+  std::string invalidCommandSell;
+  std::string traderDontBuyThatItem;
+  std::string successfullBuy;
+  std::string maxGold;
+  std::string invalidCommandHeal;
 };
 
 struct DropSizes{
@@ -69,6 +77,13 @@ struct EquationsData{
   double npcDamageConst;
   double critickAttackProb;
   double excessGoldConstPow;
+  double npcDropGoldRandMinValue;
+  double npcDropGoldRandMaxValue;
+  double npcDropGold;
+  double npcDropPotion;
+  double npcDropItem;
+  double maxGoldFactor;
+  int baseGoldConst;
 };
 
 struct GlobalConfig {
@@ -92,19 +107,17 @@ struct GlobalConfig {
   int playerInitialLevel;
   size_t newbieLevel;
   size_t fairPlayLevel;
-  double npcDropGold;
-  double npcDropPotion;
-  double npcDropItem;
   int goldItemId;
   int playerInitialGold;
-  double npcDropGoldRandMinValue;
-  double npcDropGoldRandMaxValue;
   double estimateTimeToPriestConst;
   unsigned int maxInventoryDifferentItems;
+  unsigned int traderBankerPriestMinRangeToInteract;
+  double traderFactorWhenSelling;
   std::map<PlayerRace, RaceSkillsData> raceSkills;
   std::map<PlayerClass, ClassSkillsData> classSkills;
   std::map<int, std::unique_ptr<Item>> items;
   std::vector<TraderItem> traderItems;
+  std::vector<TraderItem> priestItems;
   ChatMessages chatMessages;
   DropSizes dropSizes;
   EquationsData equations;

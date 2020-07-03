@@ -96,6 +96,22 @@ void ChatController::handleCommand() {
   if (action == "/tomar"){
     model.pickUp();
   }
+
+  if (action == "/listar")
+    model.list();
+
+  if (action == "/comprar"){
+    std::string itemNumber = command.erase(0, pos+delimiter.length());
+    model.buy(itemNumber);
+  }
+
+  if (action == "/vender"){
+    std::string itemNumber = command.erase(0, pos+delimiter.length());
+    model.sell(itemNumber);
+  }
+
+  if (action == "/curar")
+    model.heal();
 }
 
 EntityList& ChatController::getEntities() {

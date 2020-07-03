@@ -9,12 +9,16 @@
 #include "responses/Response.h"
 #include "ecs/Player.h"
 #include "ecs/Npc.h"
+#include "ecs/Trader.h"
+#include "ecs/Priest.h"
 #include "../DataDefinitions.h"
 #include "definitions/EquationDefinitions.h"
 #include <map>
 
 class Player;
 class NPC;
+class Trader;
+class Priest;
 
 class GameModel{
   private:
@@ -26,7 +30,8 @@ class GameModel{
     std::map<size_t, ResponseBQ&> clientsBQ;
     std::map<size_t, std::unique_ptr<Player>> players;
     std::vector<OtherPlayersData> otherPlayers;
-    std::vector<std::unique_ptr<Entity>> priests;
+    std::map<size_t, std::unique_ptr<Priest>> priests;
+    std::map<size_t, std::unique_ptr<Trader>> traders;
     MapParser m;
     CronBQ& cronBQ;
     void parseMapData();
@@ -37,7 +42,7 @@ class GameModel{
     explicit GameModel(CronBQ& cronBQ);
     ~GameModel();
     GameModel(const GameModel&) = delete;
-    GameModel& operator=(const GameModel&) = delete;
+    GameModel& operator=(const GameModel&) = delete;    
     /* Handle move DIRECTION instruction. */
     void move(size_t playerId, int x, int y);
     /* Handle stop_movement instruction */
@@ -92,6 +97,17 @@ class GameModel{
     void throwInventoryObj(size_t playerId, size_t inventoryPosition);
     /* Handle pickUp instruction */
     void pickUpObj(size_t playerId);
+    /* Handle list instruction */
+    void list(size_t playerId);
+    int checkTraderInRange(Player &p);
+    /* Handle sell instruction */
+    void sell(size_t playerId, size_t itemPosition);
+    /* Handle buy instruction */
+    void buy(size_t playerId, size_t itemPosition);
+    int checkPriestInRange(Player &p);
+    /* Handle heal instruction */
+    void heal(size_t playerId);
+    void commandError(size_t playerId);
 };
 
 #endif
