@@ -17,8 +17,9 @@ void GC::load(const char* src) {
 
   instance = new GC();
   file >> root;
-
+  
   const Json::Value gameConfig = root["gameConfig"];
+  const Json::Value systemConfig = root["systemConfig"];
   const Json::Value races = gameConfig["races"];
   const Json::Value classes = gameConfig["classes"];
   const Json::Value items = gameConfig["items"];
@@ -29,6 +30,8 @@ void GC::load(const char* src) {
   const Json::Value potionsToDropNPC = gameConfig["potionsToDropNPC"];
   const Json::Value equations = gameConfig["equations"];
   const Json::Value defaultItems = gameConfig["defaultItems"];
+
+  parseSystem(instance->s, systemConfig);
 
   instance->g.attackZoneWidth = gameConfig["attackZoneWidth"].asInt();
   instance->g.attackZoneHeight = gameConfig["attackZoneHeight"].asInt();
@@ -157,6 +160,16 @@ const SystemConfig& GC::getS() {
   }
 
   return instance->s;
+}
+
+void GC::parseSystem(SystemConfig& s, const Json::Value& val) {
+  s.dbFile = val["dbFilePath"].asString();
+  s.indexFile = val["indexFilePath"].asString();
+  s.mapFile = val["mapFilePath"].asString();
+
+  if (s.dbFile.empty()) throw std::runtime_error(INVALID_DB_FILE);
+  if (s.indexFile.empty()) throw std::runtime_error(INVALID_INDEX_FILE);
+  if (s.mapFile.empty()) throw std::runtime_error(INVALID_MAP_FILE_P);
 }
 
 void GC::parseItems(GlobalConfig& g, const Json::Value& val) {
