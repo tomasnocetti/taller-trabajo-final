@@ -76,11 +76,18 @@ void MeditateInstruction::run(GameModel& game) {
 }
 
 ThrowObjInstruction::ThrowObjInstruction(size_t id, std::string inventoryPos) :
-  playerId(id),
-  inventoryPosition(std::stoi(inventoryPos)-1){}
+  playerId(id) {
+    valid = isValid(inventoryPos);
+    if (valid) inventoryPosition = (std::stoi(inventoryPos)-1);
+}
 
 void ThrowObjInstruction::run(GameModel& game) {
-  game.throwInventoryObj(playerId, inventoryPosition);
+  if (valid){
+    game.throwInventoryObj(playerId, inventoryPosition);
+    return;
+  }
+
+  game.commandError(playerId);
 }
 
 PickUpInstruction::PickUpInstruction(size_t id) :
