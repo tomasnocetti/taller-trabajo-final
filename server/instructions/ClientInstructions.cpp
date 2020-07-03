@@ -82,3 +82,10 @@ ThrowObjInstruction::ThrowObjInstruction(size_t id, std::string inventoryPos) :
 void ThrowObjInstruction::run(GameModel& game) {
   game.throwInventoryObj(playerId, inventoryPosition);
 }
+
+PickUpInstruction::PickUpInstruction(size_t id) :
+  playerId(id) {}
+
+void PickUpInstruction::run(GameModel& game) {
+  game.pickUpObj(playerId);
+}

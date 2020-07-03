@@ -94,6 +94,11 @@ void MainPlayerController::handleEvent(const SDL_Event &e) {
     }
   }
 
+  if (e.type == SDL_KEYDOWN &&
+    e.key.keysym.sym == SDLK_RETURN) {
+    active = true;
+  }
+
   if (e.type == SDL_KEYUP) {
     const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
     if (!currentKeyStates[SDL_SCANCODE_W] &&

@@ -67,6 +67,10 @@ class Player : public LiveEntity{
     void throwObj(size_t inventoryPosition);
     void meditate();
     void stopMeditating();
+    bool pickUp(DropItemData &drop);
+    bool inventoryIsFull();
+    bool isAlive();
+    void setDeadDefaults();
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

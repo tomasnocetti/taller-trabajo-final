@@ -7,10 +7,9 @@
 #include <random>
 #include <stdlib.h>
 
-GameModel::GameModel(char* mapPath, CronBQ& cronBQ) :
+GameModel::GameModel(CronBQ& cronBQ) :
   cronBQ(cronBQ),
   randomSeed(0){
-  m.loadMap(mapPath);
   parseMapData();
 }
 
@@ -119,7 +118,6 @@ bool GameModel::checkCityCollisions(Entity &entity){
 
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
-  p.stopMeditating();
   const GlobalConfig& c = GC::get();
   if (p.health.currentHP <= 0) return;
 
@@ -146,6 +144,8 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     bool success = p.attack(*it.second, xPos, yPos);
     if (!success) continue;
 
+    p.stopMeditating();
+
     if (auxp.health.currentHP > 0) break;
 
     addPlayerDrops(auxp);
@@ -162,6 +162,8 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
 
     bool success = p.attack(*it.second, xPos, yPos);
     if (!success) continue;
+
+    p.stopMeditating();
 
     if (npc.health.currentHP <= 0)
       npc.setNextRespawn();
@@ -367,8 +369,43 @@ void GameModel::meditate(size_t id){
 
 void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
   Player &p = *players.at(playerId);
+  const GlobalConfig& c = GC::get();
   p.stopMeditating();
+  InventoryElementData inventoryItem(p.inventory.at(inventoryPosition));
+  
   p.throwObj(inventoryPosition);
+
+  DropItemData item;
+  item.id = inventoryItem.itemId;
+  item.amount = 1;
+  item.position = p.position;
+  item.position.w = c.dropSizes.weight;
+  item.position.h = c.dropSizes.height;
+  getDropPosition(item.position);
+  drops.push_back(std::move(item));
+}
+
+void GameModel::pickUpObj(size_t playerId){
+  Player &p = *players.at(playerId);
+  const GlobalConfig& c = GC::get();
+  int i = 0;
+  
+  if (!p.isAlive()) return;
+
+  for (auto& it : drops){
+    int goldPlayerBeforeDrop = p.gold;
+
+    bool success = p.pickUp(it);
+    if (success){
+      if (it.id == c.goldItemId){
+        it.amount -= (p.gold - goldPlayerBeforeDrop);
+        if (it.amount != 0) return;
+      }
+      drops.erase(drops.begin() + i);
+      return;
+    }
+    i++;
+  }
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  

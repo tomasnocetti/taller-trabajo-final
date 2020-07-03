@@ -61,6 +61,7 @@ void ChatController::handleEvent(const SDL_Event &e) {
 
   if (e.type == SDL_KEYDOWN &&
     e.key.keysym.sym == SDLK_RETURN) {
+    active = false;
     handleCommand();
     userInputField->clearInput();
   }
@@ -90,6 +91,10 @@ void ChatController::handleCommand() {
   if (action == "/tirar"){
     std::string inventoryPosition = command.erase(0, pos+delimiter.length());
     model.throwObject(inventoryPosition);
+  }
+
+  if (action == "/tomar"){
+    model.pickUp();
   }
 }
 

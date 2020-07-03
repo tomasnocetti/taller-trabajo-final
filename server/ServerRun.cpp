@@ -14,11 +14,12 @@ void waitToFinish() {
   }
 }
 
-void serverRun(char *port, char *mapPath) {
-  GC::load("config.json");
-  GameServer game(port, mapPath);
-  game.start();
+void serverRun(char *port, char *configFilePath) {
+  GC::load(configFilePath);
+  GameServer game(port);
 
+  game.start();
   waitToFinish();
   game.stop();
+
 }

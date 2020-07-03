@@ -74,15 +74,7 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
-  unsigned int aux = drops.size();
   drops = gameModelData.drops;
-  if (aux != drops.size()){
-    std::cout << "drop contains: ";
-    for (unsigned int i = 0; i < drops.size(); i++){
-      std::cout << " " << drops[i].id;
-    }
-    std::cout << std::endl;
-  }
 }
 
 void ServerProxy::setMapData(MapData& mapData){
@@ -134,5 +126,10 @@ void ServerProxy::meditate(){
 void ServerProxy::throwObject(std::string inventoryPosition){
   ParamData x = {inventoryPosition};
   InstructionData instruction = {THROW_OBJECT, {x}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::pickUp(){
+  InstructionData instruction = {PICK_UP, {}};
   writeBQ.push(instruction);
 }

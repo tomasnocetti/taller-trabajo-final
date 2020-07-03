@@ -1,10 +1,16 @@
 {
-  "port": "7777",
+  "systemConfig": {
+    "indexFilePath": "path/to/file",
+    "dbFilePath": "path/to/file",
+    "mapFilePath": "client/assets/map/game_map.json"
+  },
   "gameConfig": {
     "attackZoneWidth": 30,
     "attackZoneHeight": 30,
     "attackNpcZoneWidth": 50,
     "attackNpcZoneHeight": 50,
+    "dropZoneWidth": 30,
+    "dropZoneHeight": 30,
     "maxRangeZone": 800,
     "offsetToRespawn": 30,
     "minDistanceNpc": 200,
@@ -19,13 +25,14 @@
     "playerInitialLevel": 1,
     "newbieLevel": 2,
     "fairPlayLevel": 3,
-    "npcDropGold": 0.3,
-    "npcDropPotion": 0.2,
-    "npcDropItem": 0.2,
-    "npcDropGoldRandMinValue": 0.01,
-    "npcDropGoldRandMaxValue": 0.2,
+    "npcDropGold": 0.8,
+    "npcDropPotion": 0.1,
+    "npcDropItem": 0.05,
+    "npcDropGoldRandMinValue": 3,
+    "npcDropGoldRandMaxValue": 4,
     "playerInitialGold": 0,
     "estimateTimeToPriestConst": 0.01,
+    "maxInventoryDifferentItems": 9,
     "chatMessages": {
       "initialMsg": "Bienvenido a las tierras de ARGENTUM",
       "damageRcvMsg": "Nos estan atacando! Daño recibido: ",
@@ -36,7 +43,8 @@
       "noInventorySpace": "No hay espaio en tu inventario",
       "invalidOption": "La opcion selecionada es invalida",
       "meditating": "Meditando..",
-      "stopMeditating": "Saliste del estado de meditación."
+      "stopMeditating": "Saliste del estado de meditación.",
+      "inventoryIsFull": "El inventario esta lleno!"
     },
     "equations": {
       "limitForNextLevel": 1.8,
@@ -223,16 +231,31 @@
       "value": 300
     }],
     "defaultItems":[{
-      "itemId": 2,
+      "itemId": 1,
       "amount": 1
     }, {
       "itemId": 13,
       "amount": 1 
     },{
       "itemId": 7,
-      "amount": 1
+      "amount": 2
     }, {
       "itemId": 8,
+      "amount": 3
+    }, {
+      "itemId": 9,
+      "amount": 2
+    }, {
+      "itemId": 2,
+      "amount": 1
+    }, {
+      "itemId": 18,
+      "amount": 9
+    }, {
+      "itemId": 3,
+      "amount": 1
+    }, {
+      "itemId": 10,
       "amount": 1
     }]
   }

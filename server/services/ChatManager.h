@@ -19,6 +19,7 @@ class ChatManager{
     static void damageCaused(ChatData &data, int damage);
     static void meditating(ChatData &chat);
     static void stopMeditating(ChatData &chat);
+    static void inventoryIsFull(ChatData &chat);
 
   private:
 };

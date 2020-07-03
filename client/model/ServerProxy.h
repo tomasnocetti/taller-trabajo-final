@@ -5,7 +5,6 @@
 #include <vector>
 #include <atomic>
 #include "Response.h"
-#include "../MapParser.h"
 #include "../../common/BlockingQueue.h"
 #include "../../common/Thread.h"
 #include "../../common/common_socket.h"
@@ -59,6 +58,7 @@ class ServerProxy{
     void resurrect();
     void meditate();
     void throwObject(std::string inventoryPosition);
+    void pickUp();
 
     /** Client GETTERS */
     const MapData& getMapData() const;
