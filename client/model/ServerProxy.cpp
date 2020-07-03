@@ -65,7 +65,7 @@ void ServerProxy::equip(int inventoryPosition){
   writeBQ.push(instruction);
 }
 
-MainPlayerData ServerProxy::getMainPlayerData() const {
+const MainPlayerData& ServerProxy::getMainPlayerData() const {
   return mainPlayer;
 }
 
@@ -90,19 +90,19 @@ void ServerProxy::setMapData(MapData& mapData){
   map = mapData;
 }
 
-MapData ServerProxy::getMapData() const {
+const MapData& ServerProxy::getMapData() const {
   return map;
 }
 
-std::vector<EnemyData> ServerProxy::getNPCData() const {
+const std::vector<EnemyData>& ServerProxy::getNPCData() const {
   return npcs;
 }
 
-std::vector<OtherPlayersData> ServerProxy::getOtherPlayersData() const {
+const std::vector<OtherPlayersData>& ServerProxy::getOtherPlayersData() const {
   return otherPlayers;
 }
 
-std::vector<DropItemData> ServerProxy::getDrops() const {
+const std::vector<DropItemData>& ServerProxy::getDrops() const {
   return drops;
 }
 

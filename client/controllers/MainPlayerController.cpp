@@ -52,8 +52,9 @@ void MainPlayerController::update() {
   }
 
   if (!model.isAuthenticated()) return;
+  if (!playerView.isAuthenticated()) playerView.authenticate();
 
-  MainPlayerData data = model.getMainPlayerData();
+  const MainPlayerData& data = model.getMainPlayerData();
 
   playerView.move(data.position.x, data.position.y);
 

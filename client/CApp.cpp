@@ -162,6 +162,7 @@ void CApp::LoadAssets() {
   manager.addTexture("simple-bow", "client/assets/simpleBow.png");
   manager.addTexture("ash-stick", "client/assets/ash_stick.png");
   manager.addTexture("gnarled-staff", "client/assets/gnarled_staff.png");
+  manager.addTexture("elfic-flute", "client/assets/elfic_flute.png");
   manager.addTexture("sword", "client/assets/sword.png");
   manager.addTextTexture("invText_1");
   manager.addTextTexture("invText_2");
@@ -171,7 +172,7 @@ void CApp::LoadAssets() {
   manager.addTextTexture("invText_6");
   manager.addTextTexture("invText_7");
   manager.addTextTexture("invText_8");
-  manager.addTextTexture("invText_5000");
+  manager.addTextTexture("invText_9");
   manager.addTexture("check", "client/assets/check.png");
   manager.addTexture("item_1", "client/assets/bow_inv.png");
   manager.addTexture("item_2", "client/assets/sword_inv.png");
@@ -184,6 +185,8 @@ void CApp::LoadAssets() {
   manager.addTexture("item_9", "client/assets/leather_armor_inv.png");
   manager.addTexture("item_10", "client/assets/plate_armor_inv.png");
   manager.addTexture("item_11", "client/assets/turtle_shield_inv.png");
+  manager.addTexture("item_12", "client/assets/gnarled_staff_inv.png");
+  manager.addTexture("item_13", "client/assets/elfic_flute_inv.png");
   manager.addTexture("item_18", "client/assets/mana_potion.png");
   manager.addTexture("item_19", "client/assets/health_potion.png");
   manager.addTexture("item_5000", "client/assets/gold.png");

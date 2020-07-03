@@ -20,14 +20,14 @@ MapController::~MapController() {
 }
 
 void MapController::init(){
-  MapData map = model.getMapData();
+  const MapData& map = model.getMapData();
 
   for (unsigned int i = 0; i < map.tileSets.size(); i++){
     std::string src = "client/assets/map/" + map.tileSets[i].image;
     manager.addTexture(map.tileSets[i].image, src.data());
   }
 
-  std::vector<struct TileLayerData>& layers = map.layers;
+  std::vector<struct TileLayerData> layers = map.layers;
 
   std::for_each(layers.begin(), layers.end(), [this, &map]
     (struct TileLayerData& layer){
@@ -75,8 +75,8 @@ void MapController::update(){
 }
 
 void MapController::updateDrops() {
-  std::vector<DropItemData> items = model.getDrops();
-
+  const std::vector<DropItemData>& items = model.getDrops();
+  
   drops.clear();
   for (unsigned int i = 0; i < items.size(); i++)
     generateDrop(items[i]);
