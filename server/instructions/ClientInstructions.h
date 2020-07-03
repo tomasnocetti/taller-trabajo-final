@@ -195,7 +195,7 @@ class BuyInstruction : public Instruction {
 
 class HealInstruction : public Instruction {
   public:
-    HealInstruction(size_t id);
+    explicit HealInstruction(size_t id);
     HealInstruction(const HealInstruction&) = delete;
     HealInstruction& operator=(const HealInstruction&) 
       = delete;
