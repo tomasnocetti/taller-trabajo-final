@@ -20,7 +20,7 @@ void EnemyController::update() {
 
 EntityList& EnemyController::getNPCs(){
 	enemyVector.clear();
-	std::vector<EnemyData> npcs = model.getNPCData();
+	const std::vector<EnemyData>& npcs = model.getNPCData();
 	for(unsigned int i = 0; i < npcs.size(); i++){
 		if (npcs[i].healthAndManaData.currentHP > 0){
 			enemyVector.emplace_back(enemies.at(npcs[i].id));
@@ -41,7 +41,7 @@ EntityList& EnemyController::getOtherPlayers(){
 }
 
 void EnemyController::updateNPCs(){
-	std::vector<EnemyData> npcs = model.getNPCData();
+	const std::vector<EnemyData>& npcs = model.getNPCData();
 	for(unsigned int i = 0; i < npcs.size(); i++){
 		if(enemies.count(npcs[i].id) <= 0){
 		std::shared_ptr<EnemyView> enemy(new EnemyView(
@@ -78,12 +78,13 @@ Animation* EnemyController::checkType(NPCClass type){
 }
 
 void EnemyController::updateOtherPlayers(){
-	std::vector<OtherPlayersData> others = model.getOtherPlayersData();
+	const std::vector<OtherPlayersData>& others = model.getOtherPlayersData();
 	for(unsigned int i = 0; i < others.size(); i++){
 		if(others[i].id != model.getMainPlayerData().id){
 			if(otherPlayers.count(others[i].id) <= 0){
 				std::shared_ptr<PlayerView> player(new PlayerView(manager));
 				player->init();
+				player->authenticate();
 				otherPlayers.emplace(others[i].id, player);
 			}
 			otherPlayers.at(others[i].id)->move(others[i].position.x, 
