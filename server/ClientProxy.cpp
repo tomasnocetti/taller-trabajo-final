@@ -117,6 +117,14 @@ void ClientProxyRead::handleAuthInstruction(
       client.instructionQueue.push(std::move(i));
       break;
     case BUY:
+      i = std::unique_ptr<Instruction>(new BuyInstruction(
+        client.playerId, instruction.params[0].value));
+      client.instructionQueue.push(std::move(i));
+      break;
+    case SELL:
+      i = std::unique_ptr<Instruction>(new SellInstruction(
+        client.playerId, instruction.params[0].value));
+      client.instructionQueue.push(std::move(i));
       break;
     case DEPOSIT_GOLD:
       break;
@@ -168,6 +176,16 @@ void ClientProxyRead::handleAuthInstruction(
       break;
     case PICK_UP:
       i = std::unique_ptr<Instruction>(new PickUpInstruction(
+        client.playerId));
+      client.instructionQueue.push(std::move(i));      
+      break; 
+    case LIST:
+      i = std::unique_ptr<Instruction>(new ListInstruction(
+        client.playerId));
+      client.instructionQueue.push(std::move(i));      
+      break; 
+    case HEAL:
+      i = std::unique_ptr<Instruction>(new HealInstruction(
         client.playerId));
       client.instructionQueue.push(std::move(i));      
       break; 

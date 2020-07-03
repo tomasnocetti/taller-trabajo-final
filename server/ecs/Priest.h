@@ -1,5 +1,5 @@
-#ifndef TRADER_H
-#define TRADER_H
+#ifndef PRIEST_H
+#define PRIEST_H
 
 #include "Entity.h"
 #include "Player.h"
@@ -10,12 +10,11 @@
 
 class Player;
 
-class Trader : public Entity {
+class Priest : public Entity {
   public:
-    explicit Trader(PositionData position);
-    Trader(const Trader&) = delete;
-    Trader& operator=(const Trader&) = delete;
-    void buy(Player& p, size_t inventoryPos);
+    explicit Priest(PositionData position);
+    Priest(const Priest&) = delete;
+    Priest& operator=(const Priest&) = delete;
     void sell(size_t option, Player &player);
     std::vector<std::string>& getItemsList();
     static size_t getNewId();

@@ -32,6 +32,7 @@ class Player : public LiveEntity{
     friend struct ManaPotion;
     friend class GameModel;
     friend class Trader;
+    friend class Priest;
   public:
     Player(MainPlayerData playerData, size_t id);
     Player(const Player&) = delete;
@@ -64,13 +65,23 @@ class Player : public LiveEntity{
     void setOtherPlayersData(OtherPlayersData &otherData);
     int calculateExcessGold();
     void recover();
-    void throwObj(size_t inventoryPosition);
+    bool throwObj(
+      size_t inventoryPosition, 
+      InventoryElementData &itemToDrop, 
+      PositionData &dropFirstPos);
     void meditate();
     void stopMeditating();
     bool pickUp(DropItemData &drop);
+    bool addItemToInventory(InventoryElementData &item);
     bool inventoryIsFull();
     bool isAlive();
     void setDeadDefaults();
+    bool eraseInventoryItem(size_t inventoryPosition);
+    void sendMessage(MessageType type, std::string msg);
+    void buy(size_t itemValue, size_t itemId);
+    void sell(size_t inventoryPos, size_t itemValue);
+    size_t inventoryItemId(size_t inventoryPosition);
+    void heal();
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 
