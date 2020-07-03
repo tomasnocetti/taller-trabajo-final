@@ -23,7 +23,6 @@ class Player : public LiveEntity{
     BodyEquipmentSkills bodySkills;
     HeadEquipmentSkills headSkills;
     ResurrectionData resurrection;
-    std::map<size_t, size_t> bankAccount;
     ChatData chat;
     friend struct RightHandItem;
     friend struct LeftHandItem;
