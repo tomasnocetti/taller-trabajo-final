@@ -1,14 +1,13 @@
 #include "GameServer.h"
 
-#include "GameConfig.h"
 #include <utility>
 #include <iostream>
 #include <vector>
 
-GameServer::GameServer(char* port, char* mapPath) :
+GameServer::GameServer(char* port) :
   running(true),
   cron(instructionQueue),
-  game(mapPath, cron.getBQ()),
+  game(cron.getBQ()),
   clientAcceptor(port, instructionQueue) {}
 
 GameServer::~GameServer(){}

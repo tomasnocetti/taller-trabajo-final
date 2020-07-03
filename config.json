@@ -1,5 +1,9 @@
-{
-  "port": "7777",
+{ 
+  "systemConfig": {
+    "indexFilePath": "path/to/file",
+    "dbFilePath": "path/to/file",
+    "mapFilePath": "client/assets/map/game_map.json"
+  },
   "gameConfig": {
     "attackZoneWidth": 30,
     "attackZoneHeight": 30,
