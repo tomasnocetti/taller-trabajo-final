@@ -22,27 +22,9 @@ Trader::Trader(PositionData position) :
   }
 }
 
-void Trader::buy(Player& p, size_t option) {
-  const GlobalConfig& c = GC::get();
-  if (option >= c.traderItems.size()) {
-    ChatManager::invalidOption(p.chat);
-    return;
-  }
-  if (p.inventory.size() >= INVENTORY_MAX_SIZE) {
-    ChatManager::noInventorySpace(p.chat);
-    return;
-  }
-
-  const TraderItem& item = c.traderItems[option];
-  if (item.value > (int)p.gold) {
-    ChatManager::insufficientFunds(p.chat);
-    return;
-  }
-  p.gold -= item.value;
-
-  // p.inventory.push_back();
-
-  std::cout << "Elemento no valido" << option << std::endl;
+void Trader::buy(Player& p, size_t inventoryPos) {
+  std::cout << "Comprando elemento: " << p.inventory[inventoryPos].itemId 
+    << std::endl;
 }
 
 void Trader::sell(size_t option, Player &p) {

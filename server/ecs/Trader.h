@@ -15,7 +15,7 @@ class Trader : public Entity {
     explicit Trader(PositionData position);
     Trader(const Trader&) = delete;
     Trader& operator=(const Trader&) = delete;
-    void buy(Player& p, size_t option);
+    void buy(Player& p, size_t inventoryPos);
     void sell(size_t option, Player &player);
     std::vector<std::string>& getItemsList();
     static size_t getNewId();

@@ -163,19 +163,20 @@ class ListInstruction : public Instruction {
     size_t playerId;
 };
 
-class BuyInstruction : public Instruction {
+class SellAndBuyInstruction : public Instruction {
   public:
-    explicit BuyInstruction(size_t id, std::string itemNumber);
-    BuyInstruction(const BuyInstruction&) = delete;
-    BuyInstruction& operator=(const BuyInstruction&) 
+    SellAndBuyInstruction(size_t id, std::string itemNumber, int opt);
+    SellAndBuyInstruction(const SellAndBuyInstruction&) = delete;
+    SellAndBuyInstruction& operator=(const SellAndBuyInstruction&) 
       = delete;
-    BuyInstruction&& operator=(BuyInstruction&& other) 
+    SellAndBuyInstruction&& operator=(SellAndBuyInstruction&& other) 
       = delete;
     void run(GameModel& game) override;
 
   private:
     size_t playerId;
     size_t itemNumber;
+    int opt;
 };
 
 #endif

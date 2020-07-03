@@ -8,6 +8,9 @@
 #include <stdlib.h>
 #include <utility>
 
+#define BUY_OPT 0
+#define SELL_OPT 1
+
 GameModel::GameModel(CronBQ& cronBQ) :
   cronBQ(cronBQ),
   randomSeed(0){
@@ -433,13 +436,18 @@ int GameModel::checkTraderInRange(Player &p){
   return -1;
 }
 
-void GameModel::buy(size_t playerId, size_t itemPosition){
+void GameModel::sellAndBuy(size_t playerId, size_t itemPosition, int opt){
   Player &p = *players.at(playerId);
   int traderId = checkTraderInRange(p);
 
   if (traderId == -1) return; // escribir mensaje en el player
 
-  traders.at(traderId)->sell(itemPosition, p);
+  if (opt == BUY_OPT){
+    traders.at(traderId)->sell(itemPosition-1, p);
+    return;
+  }
+   
+  traders.at(traderId)->buy(p, itemPosition);
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  

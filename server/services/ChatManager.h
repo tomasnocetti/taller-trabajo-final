@@ -2,6 +2,7 @@
 #define CHAT_MANAGER_H
 
 #include "../../definitions/ChatDefinitions.h"
+#include <string>
 
 class ChatManager{
   public:
@@ -20,7 +21,10 @@ class ChatManager{
     static void meditating(ChatData &chat);
     static void stopMeditating(ChatData &chat);
     static void inventoryIsFull(ChatData &chat);
-    static void otherMessages(ChatData &chat, std::string &msg, MessageType &type);
+    static void otherMessages(
+      ChatData &chat,
+      std::string &msg, 
+      MessageType &type);
 
   private:
 };

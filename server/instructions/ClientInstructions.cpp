@@ -97,10 +97,12 @@ void ListInstruction::run(GameModel& game) {
   game.list(playerId);
 }
 
-BuyInstruction::BuyInstruction(size_t id, std::string itemNumber) :
-  playerId(id),
-  itemNumber(std::stoi(itemNumber)-1) {}
+SellAndBuyInstruction::SellAndBuyInstruction(
+  size_t id, std::string itemNumber, int opt) :
+    playerId(id),
+    itemNumber(std::stoi(itemNumber)),
+    opt(opt) {}
 
-void BuyInstruction::run(GameModel& game) {
-  game.buy(playerId, itemNumber);
+void SellAndBuyInstruction::run(GameModel& game) {
+  game.sellAndBuy(playerId, itemNumber, opt);
 }

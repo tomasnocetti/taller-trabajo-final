@@ -1,6 +1,7 @@
 #include "ChatManager.h"
 
 #include "../GameConfig.h"
+#include <string>
 
 void ChatManager::initialMessage(ChatData &chat){
   const GlobalConfig& c = GC::get();

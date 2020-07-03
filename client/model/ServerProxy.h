@@ -61,6 +61,7 @@ class ServerProxy{
     void pickUp();
     void list();
     void buy(std::string itemNumber);
+    void sell(std::string itemNumber);
 
     /** Client GETTERS */
     MapData getMapData() const;

@@ -40,7 +40,7 @@ class GameModel{
     explicit GameModel(CronBQ& cronBQ);
     ~GameModel();
     GameModel(const GameModel&) = delete;
-    GameModel& operator=(const GameModel&) = delete;
+    GameModel& operator=(const GameModel&) = delete;    
     /* Handle move DIRECTION instruction. */
     void move(size_t playerId, int x, int y);
     /* Handle stop_movement instruction */
@@ -98,8 +98,8 @@ class GameModel{
     /* Handle list instruction */
     void list(size_t playerId);
     int checkTraderInRange(Player &p);
-    /* Handle buy instruction */
-    void buy(size_t playerId, size_t itemPosition);
+    /* Handle buy and sell instruction */
+    void sellAndBuy(size_t playerId, size_t itemPosition, int opt);
 };
 
 #endif

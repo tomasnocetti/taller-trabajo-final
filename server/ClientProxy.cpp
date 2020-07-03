@@ -7,6 +7,9 @@
 
 #include "../common/common_utils.h"
 
+#define BUY_OPT 0
+#define SELL_OPT 1
+
 ClientProxy::ClientProxy(InstructionBQ &instructionQueue, Socket&& socket):
   running(true),
   authenticated(false),
@@ -117,8 +120,13 @@ void ClientProxyRead::handleAuthInstruction(
       client.instructionQueue.push(std::move(i));
       break;
     case BUY:
-      i = std::unique_ptr<Instruction>(new BuyInstruction(
-        client.playerId, instruction.params[0].value));
+      i = std::unique_ptr<Instruction>(new SellAndBuyInstruction(
+        client.playerId, instruction.params[0].value, BUY_OPT));
+      client.instructionQueue.push(std::move(i));
+      break;
+    case SELL:
+      i = std::unique_ptr<Instruction>(new SellAndBuyInstruction(
+        client.playerId, instruction.params[0].value, SELL_OPT));
       client.instructionQueue.push(std::move(i));
       break;
     case DEPOSIT_GOLD:
