@@ -1,4 +1,4 @@
-{ 
+{
   "systemConfig": {
     "indexFilePath": "path/to/file",
     "dbFilePath": "path/to/file",
