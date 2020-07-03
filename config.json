@@ -195,9 +195,25 @@
       "name": "Escudo de Tortuga",
       "minDefense": 1,
       "maxDefense": 2
+    }, {
+      "id": 12,
+      "type": "W",
+      "name": "Baculo Nudoso",
+      "minDamage": 2,
+      "maxDamage": 4,
+      "range": 300,
+      "mana": 5
+    }, {
+      "id": 13,
+      "type": "W",
+      "name": "Flauta Elfica",
+      "minDamage": 2,
+      "maxDamage": 4,
+      "range": 300,
+      "mana": 100
     }],
     "goldItemId": 5000,
-    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
     "potionsToDropNPC": [18, 19],
     "traderItems": [{
       "itemId": 0,
@@ -210,7 +226,7 @@
       "itemId": 2,
       "amount": 1
     }, {
-      "itemId": 4,
+      "itemId": 13,
       "amount": 1 
     },{
       "itemId": 7,
