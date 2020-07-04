@@ -95,14 +95,20 @@ bool GameModel::authenticate(
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  playerId  = Equations::random(1, 100);
 
+  if (!f.authenticate(nick, "asdf")) {
+    PlayerRootData root = {CLERIC, HUMAN};
+    PositionData position = {2600, 2600, 0, 0};
+    f.create(nick, "asdf", root, position);
+  }
+
+  PlayerPersistData p = f.getData(nick);
+  playerId = p.id; //!IMPORTANTE SETEAR EL ID PARA LA COMUNICACION
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
-  clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
+  clientsBQ.insert(std::pair<size_t, ResponseBQ&>(p.id, responseBQ));
 
-  PlayerRootData root = {CLERIC, HUMAN};
+  std::unique_ptr<Player> player(Player::createPlayer(p, nick));
 
-  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root));
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
@@ -633,6 +639,9 @@ void GameModel::npcRespawn(size_t npcId){
 }
 
 void GameModel::eraseClient(size_t playerID){
+  Player& p = *players.at(playerID);
+  PlayerPersistData d = p.generatePersistData();
+  f.saveData(p.nick, d);
   players.erase(playerID);
   clientsBQ.erase(playerID);
 }

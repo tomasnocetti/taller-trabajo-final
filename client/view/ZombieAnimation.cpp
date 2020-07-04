@@ -12,12 +12,12 @@ ZombieAnimation::ZombieAnimation(LTexture* texture) :
 }
 
 void ZombieAnimation::cropAnimationFrames() {
-	for(int i = 0; i < forwardFrames; i++){
+	for (int i = 0; i < forwardFrames; i++){
 		SDL_Rect frame = {1 + i * 27, 0, 27, 64};
 		forwardAnim.emplace_back(frame);
 	}
 
-	for(int i = 0; i < backwardFrames; i++){
+	for (int i = 0; i < backwardFrames; i++){
 		SDL_Rect frame = {1 + i * 27, 70, 27, 64};
 		backwardAnim.emplace_back(frame);
 	}

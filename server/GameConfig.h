@@ -110,13 +110,13 @@ struct GlobalConfig {
   double npcRandomDrop;
   int npcInitHealthPoints;
   size_t npcInitSkills;
-  int playerInitialLevel;
+  size_t playerInitialLevel;
   size_t newbieLevel;
   size_t fairPlayLevel;
   int goldItemId;
-  int playerInitialGold;
   double estimateTimeToPriestConst;
   unsigned int maxInventoryDifferentItems;
+  size_t playerInitialGold;
   unsigned int traderBankerPriestMinRangeToInteract;
   double traderFactorWhenSelling;
   std::map<PlayerRace, RaceSkillsData> raceSkills;

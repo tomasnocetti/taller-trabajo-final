@@ -5,6 +5,7 @@
 #include "../definitions/EquationDefinitions.h"
 #include "../definitions/Items.h"
 #include "../GameModel.h"
+#include "../services/FileManager.h"
 #include <string>
 #include <vector>
 
@@ -37,7 +38,7 @@ class Player : public LiveEntity{
     friend class Priest;
     friend class Banker;
   public:
-    Player(MainPlayerData playerData, size_t id);
+    Player(MainPlayerData& playerData, size_t id);
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
     /* Cheque si la posición a la que se quiere atacar contiene un npc
@@ -85,20 +86,16 @@ class Player : public LiveEntity{
     void sell(size_t inventoryPos, size_t itemValue);
     size_t inventoryItemId(size_t inventoryPosition, int opt);
     void heal();
+    PlayerPersistData generatePersistData();
     void depositGold(size_t amount);
     void depositItem(size_t inventoryPos);
     void withdrawGold(size_t amount);
     void withdrawItem(size_t inventoryPos);
     static std::unique_ptr<Player> createPlayer(
-      size_t id, 
-      std::string nick, 
-      PlayerRootData root);
+      PlayerPersistData& dataP, std::string& nick);
     static void setInitEquipment(EquipmentData &equipment, 
       PlayerRootData &root);   
     static void setExperienceData(size_t &level, ExperienceData &experience);
-    static void setPositionData(PlayerRootData &root, PositionData &position);
-    static void setDefaultEquipment
-      (std::vector<InventoryElementData> &inventory);
 };
 
 #endif

@@ -21,7 +21,7 @@ void EnemyController::update() {
 EntityList& EnemyController::getNPCs(){
 	enemyVector.clear();
 	const std::vector<EnemyData>& npcs = model.getNPCData();
-	for(unsigned int i = 0; i < npcs.size(); i++){
+	for (unsigned int i = 0; i < npcs.size(); i++){
 		if (npcs[i].healthAndManaData.currentHP > 0){
 			enemyVector.emplace_back(enemies.at(npcs[i].id));
 		}
@@ -33,7 +33,7 @@ EntityList& EnemyController::getNPCs(){
 EntityList& EnemyController::getOtherPlayers(){
 	otherPlayersVector.clear();
 	std::unordered_map<size_t, std::shared_ptr<Entity>>::iterator it;
-	for(it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
+	for (it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
     otherPlayersVector.emplace_back(it->second);
   }
 
@@ -42,8 +42,8 @@ EntityList& EnemyController::getOtherPlayers(){
 
 void EnemyController::updateNPCs(){
 	const std::vector<EnemyData>& npcs = model.getNPCData();
-	for(unsigned int i = 0; i < npcs.size(); i++){
-		if(enemies.count(npcs[i].id) <= 0){
+	for (unsigned int i = 0; i < npcs.size(); i++){
+		if (enemies.count(npcs[i].id) <= 0){
 		std::shared_ptr<EnemyView> enemy(new EnemyView(
 			npcs[i].position.x, npcs[i].position.y, checkType(npcs[i].type)));
 		enemies.emplace(npcs[i].id, enemy);
@@ -79,9 +79,9 @@ Animation* EnemyController::checkType(NPCClass type){
 
 void EnemyController::updateOtherPlayers(){
 	const std::vector<OtherPlayersData>& others = model.getOtherPlayersData();
-	for(unsigned int i = 0; i < others.size(); i++){
-		if(others[i].id != model.getMainPlayerData().id){
-			if(otherPlayers.count(others[i].id) <= 0){
+	for (unsigned int i = 0; i < others.size(); i++){
+		if (others[i].id != model.getMainPlayerData().id){
+			if (otherPlayers.count(others[i].id) <= 0){
 				std::shared_ptr<PlayerView> player(new PlayerView(manager));
 				player->init();
 				player->authenticate();
@@ -99,7 +99,7 @@ void EnemyController::updateOtherPlayers(){
 
 	std::vector<size_t> eraseVector;
 	std::unordered_map<size_t, std::shared_ptr<Entity>>::iterator it;
-	for(it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
+	for (it = otherPlayers.begin(); it != otherPlayers.end(); ++it) {
 		bool erase = true;
     for (unsigned int i = 0; i < others.size(); i++){
     	if (it->first == others[i].id){
