@@ -208,6 +208,14 @@ void ClientProxyRead::handleAuthInstruction(
         client.playerId));
       client.instructionQueue.push(std::move(i));      
       break; 
+    case SEND_MESSAGE:
+      i = std::unique_ptr<Instruction>(
+        new SendMessageInstruction(
+          client.playerId, 
+          instruction.params[0].value, 
+          instruction.params[1].value));
+      client.instructionQueue.push(std::move(i));      
+      break; 
     default:
       std::cout << "El jugador quiere realizar otra accion. " << std::endl;
       break;
@@ -229,12 +237,13 @@ void ClientProxyRead::handleNonAuthInstruction(
       client.instructionQueue.push(std::move(i));
       break;
     case CREATE_PLAYER:
-      i = std::unique_ptr<Instruction>(new CreatePlayerInstruction(
-        client,
-        instruction.params[0].value,
-        instruction.params[1].value,
-        instruction.params[2].value,
-        instruction.params[3].value));
+      i = std::unique_ptr<Instruction>(
+        new CreatePlayerInstruction(
+          client,
+          instruction.params[0].value,
+          instruction.params[1].value,
+          instruction.params[2].value,
+          instruction.params[3].value));
       client.instructionQueue.push(std::move(i));   
       break; 
     default:

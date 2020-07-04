@@ -118,6 +118,10 @@ void GC::load(const char* src) {
     chatMessages["successfullGoldExtraction"].asString();
   instance->g.chatMessages.successfullItemExtraction =
     chatMessages["successfullItemExtraction"].asString();
+  instance->g.chatMessages.playerDoesNotExit =
+    chatMessages["playerDoesNotExit"].asString();
+  instance->g.chatMessages.playerNotOnline =
+    chatMessages["playerNotOnline"].asString();
 
   instance->g.equations.critickAttackProb =
     equations["critickAttackProb"].asDouble();

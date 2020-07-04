@@ -167,6 +167,16 @@ void ChatController::handleCommand() {
       model.withDrawItem(item);
     }
   }
+
+  if (command.substr(0, 1) == "@"){
+    std::string aux = command.erase(0, 1);
+    pos = aux.find(" ");
+    std::string nick = command.substr(0, pos);
+
+    std::string message = command.erase(0, pos + delimiter.length());
+    
+    model.sendMessageToPlayer(nick, message);
+  }
 }
 
 EntityList& ChatController::getEntities() {

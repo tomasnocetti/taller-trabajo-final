@@ -55,7 +55,9 @@
       "invalidCommandDepositWithdraw": "Acerquese al banquero mas cercano para realizar esta acción.",
       "depositItemSuccess": "Elemento depositado en el banco exitosamente.",
       "successfullGoldExtraction": "Extracción exitosa. Oro disponible en su cuenta corriente: ",
-      "successfullItemExtraction": "Elemento retirado del banco exitosamente."
+      "successfullItemExtraction": "Elemento retirado del banco exitosamente.",
+      "playerNotOnline": "El jugador no se encuentra en linea.",
+      "playerDoesNotExit": "El jugador no existe."
     },
     "equations": {
       "limitForNextLevel": 1.8,

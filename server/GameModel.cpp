@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <utility>
 #include "services/ChatManager.h"
+#include <map>
 
 GameModel::GameModel(CronBQ& cronBQ) :
   cronBQ(cronBQ),
@@ -615,6 +616,31 @@ void GameModel::withdrawItem(size_t playerId, size_t inventoryPos){
   }
 
   bankers.at(bankerId)->withdraw(p, inventoryPos);
+}
+
+void GameModel::sendMessageToPlayer(
+  size_t &id, 
+  std::string &nick, 
+  std::string &message){
+    const GlobalConfig& c = GC::get(); 
+    Player &p = *players.at(id);
+    size_t addresseeId;
+    bool addresseeExist = f.getPlayerId(nick, addresseeId);
+
+    if (!addresseeExist){
+      p.sendMessage(NORMAL, c.chatMessages.playerDoesNotExit);
+      return;
+    }
+
+    std::map<size_t, std::unique_ptr<Player>>::iterator it;
+    it = players.find(addresseeId);
+    if (it == players.end()){
+      p.sendMessage(NORMAL, c.chatMessages.playerNotOnline);
+      return;
+    }    
+    
+    p.sendMessage(NORMAL, "Yo: " + message);
+    players.at(addresseeId)->sendMessage(NORMAL, p.nick + ": " + message);
 }
 
 void GameModel::commandError(size_t playerId){

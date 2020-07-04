@@ -230,3 +230,15 @@ void WithdrawItemInstruction::run(GameModel& game) {
 
   game.commandError(playerId);
 }
+
+SendMessageInstruction::SendMessageInstruction(
+  size_t id, 
+  std::string nick,
+  std::string message) :
+    playerId(id), 
+    nick(nick),
+    message(message) {}
+
+void SendMessageInstruction::run(GameModel& game) {
+  game.sendMessageToPlayer(playerId, nick, message);
+}

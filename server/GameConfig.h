@@ -52,6 +52,8 @@ struct ChatMessages {
   std::string depositItemSuccess;
   std::string successfullGoldExtraction;
   std::string successfullItemExtraction;
+  std::string playerNotOnline;
+  std::string playerDoesNotExit;
 };
 
 struct DropSizes{
