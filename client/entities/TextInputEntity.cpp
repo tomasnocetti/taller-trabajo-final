@@ -49,7 +49,7 @@ void TextInputEntity::handleClick(int xCoord, int yCoord) {
   inside = inRect(src, xCoord, yCoord);
 
   if (inside) {
-    activateInput();
+    activateInput("");
   } else {
     SDL_StopTextInput();
   }
@@ -86,11 +86,11 @@ void TextInputEntity::clearInput() {
   input.clear();
 }
 
-void TextInputEntity::activateInput() {
+void TextInputEntity::activateInput(const std::string& c) {
   inside = true;
   SDL_StartTextInput();
   lastRenderTime = SDL_GetTicks();
-  input += "/";
+  input += c;
 }
 
 std::string TextInputEntity::getInput() {
