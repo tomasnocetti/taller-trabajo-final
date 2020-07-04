@@ -17,11 +17,13 @@ void ServerProxy::init() {
   serverProxyRead.start();
 }
 
-void ServerProxy::authentificate(std::string& alias) {
+void ServerProxy::authentificate(std::string& alias, std::string& password) {
   if (authentificated) return;
-  std::cout << "Player " << alias << " Autenticando" << std::endl;
+  std::cout << "Player " << alias << " autenticando con contraseña " << 
+    password << std::endl;
   ParamData nick = {alias};
-  InstructionData instruction = {AUTHENTICATE, {nick}};
+  ParamData pw = {password};
+  InstructionData instruction = {AUTHENTICATE, {nick, pw}};
   writeBQ.push(instruction);
 }
 

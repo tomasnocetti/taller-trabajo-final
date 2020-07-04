@@ -15,15 +15,43 @@ void MoveInstruction::run(GameModel& game) {
   game.move(playerId, x, y);
 }
 
-AuthInstruction::AuthInstruction(ClientProxy& client, std::string nick) :
-  client(client), nick(nick) {}
+AuthInstruction::AuthInstruction(
+  ClientProxy& client, 
+  std::string nick, 
+  std::string password) :
+    client(client), nick(nick), password(password) {}
 
 void AuthInstruction::run(GameModel& game) {
   size_t playerId;
 
-  bool success = game.authenticate(nick, client.getUpdateBQ(), playerId);
+  bool success = game.authenticate(password, nick, 
+    client.getUpdateBQ(), playerId);
 
   if (success) {
+    client.setPlayerId(playerId);
+    return;
+  }
+}
+
+CreatePlayerInstruction::CreatePlayerInstruction(
+  ClientProxy& client,
+  std::string nick, 
+  std::string password,
+  std::string race, 
+  std::string classType) : 
+    client(client),
+    nick(nick),
+    password(password),
+    race(static_cast<PlayerRace> (race[0])),
+    classType(static_cast<PlayerClass> (classType[0])){}
+
+void CreatePlayerInstruction::run(GameModel& game) {
+  size_t playerId;
+  
+  bool success = game.createPlayer(
+    client.getUpdateBQ(), playerId, nick, password, classType, race);
+
+  if (success){
     client.setPlayerId(playerId);
     return;
   }
@@ -202,15 +230,3 @@ void WithdrawItemInstruction::run(GameModel& game) {
 
   game.commandError(playerId);
 }
-
-CreatePlayerInstruction::CreatePlayerInstruction(
-  std::string nick, 
-  std::string password,
-  std::string race, 
-  std::string classType) : 
-    nick(nick),
-    password(password),
-    race((PlayerRace)*&race[0]),
-    classType((PlayerClass)*&classType[0]){}
-
-void CreatePlayerInstruction::run(GameModel& game) {}

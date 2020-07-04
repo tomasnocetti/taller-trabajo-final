@@ -91,16 +91,13 @@ void GameModel::parseMapData() {
 GameModel::~GameModel(){}
 
 bool GameModel::authenticate(
+  std::string& password,
   std::string& nick,
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
 
-  if (!f.authenticate(nick, "asdf")) {
-    PlayerRootData root = {CLERIC, HUMAN};
-    PositionData position = {2600, 2600, 0, 0};
-    f.create(nick, "asdf", root, position);
-  }
+  if (!f.authenticate(nick, password)) return false;
 
   PlayerPersistData p = f.getData(nick);
   playerId = p.id; //!IMPORTANTE SETEAR EL ID PARA LA COMUNICACION
@@ -115,6 +112,46 @@ bool GameModel::authenticate(
   responseBQ.push(
     std::unique_ptr<MapResponse> (new MapResponse(m.getMapData())));
   return true;
+}
+
+bool GameModel::createPlayer(
+  ResponseBQ& responseBQ,
+  size_t& playerId,
+  std::string nick, 
+  std::string password, 
+  PlayerClass classType,
+  PlayerRace race){
+    switch (race){
+      case HUMAN:
+      case ELF:
+      case GNOME:
+      case DWARF:
+        break;   
+      default:
+        std::cout << "Error al crear al jugador" << std::endl;
+        return false;
+    }
+    switch (classType){
+      case MAGE:
+      case CLERIC:
+      case PALADIN:
+      case WARRIOR:
+        break;
+      default:
+        std::cout << "Error al crear al jugador" << std::endl;
+        return false;
+    }
+    
+    if (f.checkIfNickExists(nick)){
+      std::cout << "El nick ya existe." << std::endl;
+      return false;
+    } 
+
+    PositionData position = {2600, 2600, 0, 0};
+    f.create(nick, password, {classType, race}, position);
+
+    authenticate(password, nick, responseBQ, playerId);
+    return true;
 }
 
 void GameModel::move(size_t playerId, int x, int y) {

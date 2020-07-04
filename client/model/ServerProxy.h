@@ -51,7 +51,7 @@ class ServerProxy{
     bool isMapSet() const;
 
     /** Client ACTIONS */
-    void authentificate(std::string& alias);
+    void authentificate(std::string& alias, std::string& password);
     void move(int xDir, int yDir);
     void attack(int xPos, int yPos);
     void equip(int inventoryPosition);
