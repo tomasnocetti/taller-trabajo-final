@@ -233,8 +233,8 @@
       "id": 13,
       "type": "W",
       "name": "Flauta Elfica",
-      "minDamage": 2,
-      "maxDamage": 4,
+      "minDamage": 0,
+      "maxDamage": 0,
       "range": 300,
       "mana": 100
     }],

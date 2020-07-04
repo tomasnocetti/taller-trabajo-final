@@ -267,4 +267,25 @@ class WithdrawItemInstruction : public Instruction {
     size_t inventoryPosition;
 };
 
+class CreatePlayerInstruction : public Instruction {
+  public:
+    CreatePlayerInstruction(
+      std::string nick, 
+      std::string password,
+      std::string race, 
+      std::string classType);
+    CreatePlayerInstruction(const CreatePlayerInstruction&) = delete;
+    CreatePlayerInstruction& operator=(const CreatePlayerInstruction&) 
+      = delete;
+    CreatePlayerInstruction&& operator=(CreatePlayerInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    std::string nick;
+    std::string password;
+    PlayerRace race;
+    PlayerClass classType;
+};
+
 #endif

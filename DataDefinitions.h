@@ -25,7 +25,8 @@ typedef enum {
   PICK_UP,
   LIST, 
   SELL,
-  HEAL
+  HEAL, 
+  CREATE_PLAYER,
 } ActionTypeT;
 
 typedef enum {

@@ -179,3 +179,16 @@ void ServerProxy::withDrawItem(std::string inventoryPos){
   InstructionData instruction = {WITHDRAW_ITEM, {x}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::createPlayer(
+  std::string nick, 
+  std::string password, 
+  std::string race,
+  std::string typeClass){
+  ParamData n = {nick};
+  ParamData p = {password};
+  ParamData r = {race};
+  ParamData c = {typeClass};
+  InstructionData instruction = {CREATE_PLAYER, {n, p, r, c}};
+  writeBQ.push(instruction);
+}

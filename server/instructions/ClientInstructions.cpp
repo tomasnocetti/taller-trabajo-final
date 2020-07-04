@@ -202,3 +202,15 @@ void WithdrawItemInstruction::run(GameModel& game) {
 
   game.commandError(playerId);
 }
+
+CreatePlayerInstruction::CreatePlayerInstruction(
+  std::string nick, 
+  std::string password,
+  std::string race, 
+  std::string classType) : 
+    nick(nick),
+    password(password),
+    race((PlayerRace)*&race[0]),
+    classType((PlayerClass)*&classType[0]){}
+
+void CreatePlayerInstruction::run(GameModel& game) {}

@@ -222,6 +222,14 @@ void ClientProxyRead::handleNonAuthInstruction(
         new AuthInstruction(client, instruction.params[0].value));
       client.instructionQueue.push(std::move(i));
       break;
+    case CREATE_PLAYER:
+      i = std::unique_ptr<Instruction>(new CreatePlayerInstruction(
+        instruction.params[0].value,
+        instruction.params[1].value,
+        instruction.params[2].value,
+        instruction.params[3].value));
+      client.instructionQueue.push(std::move(i));      
+      break; 
     default:
       std::cout << "El jugador quiere realizar otra accion. " << std::endl;
       break;
