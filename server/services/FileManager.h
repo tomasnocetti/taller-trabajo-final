@@ -23,10 +23,10 @@ struct PlayerPersistData {
   size_t currentMP;
   size_t currentExperience;
   PlayerRootData rootd;
+  int positionX;
+  int positionY;
   std::vector<InventoryElementData> inventory;
   std::vector<InventoryElementData> savedInventory;
-  // PositionData position;
-
 };
 
 struct FileIndex {
@@ -48,7 +48,9 @@ class FileManager{
     void createIndex(
       const std::string& nick,
       const std::string& password);
-    void createData(const PlayerRootData& rootd);
+    void createData(
+      const PlayerRootData& rootd,
+      const PositionData& position);
     void getBufferSize();
     void getBufferDbSize();
   public:
@@ -58,7 +60,8 @@ class FileManager{
     void create(
       const std::string& nick,
       const std::string& password,
-      const PlayerRootData& rootd);
+      const PlayerRootData& rootd,
+      const PositionData& position);
     /* Devuelve verdadero si el usuario ya existe, falso caso contrario. */
     bool checkIfNickExists(const std::string& nick);
     /* Devuelve el objeto de persistencia, si nick no exite lanza error. */
@@ -68,7 +71,7 @@ class FileManager{
     /* Autenticar */
     bool authenticate(const std::string& nick, const std::string& password);
     /* Get ID from Nick */
-    bool getPlayerId(size_t& id);
+    bool getPlayerId(const std::string& nick, size_t& id);
 };
 
 #endif

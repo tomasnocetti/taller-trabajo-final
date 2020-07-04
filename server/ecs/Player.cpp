@@ -28,15 +28,16 @@ Player::Player(MainPlayerData& playerData, size_t id):
 std::unique_ptr<Player> Player::createPlayer(
   PlayerPersistData& dataP, std::string& nick) {
     MainPlayerData data;
-    const GlobalConfig& c = GC::get();
-
+    data.id = dataP.id;
     data.rootd = dataP.rootd;
     data.nick = nick;
     data.gold = dataP.savedGold;
     data.level = dataP.level;
     data.inventory = dataP.inventory;
-
-    Player::setDefaultEquipment(data.inventory);
+    data.position = {
+      dataP.positionX,
+      dataP.positionY,
+      PLAYER_WIDTH, PLAYER_HEIGHT};
 
     data.experience.currentExperience = dataP.currentExperience;
     Player::setExperienceData(data.level, data.experience);
@@ -45,8 +46,8 @@ std::unique_ptr<Player> Player::createPlayer(
     data.points.currentHP = dataP.currentHP;
 
     data.points.totalMP = Equations::maxMana(data.rootd, data.level);
-    //data.points.currentMP = data.points.totalMP;
     data.points.currentMP = dataP.currentMP;
+
     data.points.recoverTime = std::chrono::system_clock::now();
     data.points.nextRespawn = std::chrono::system_clock::now();
     data.points.meditating = false;
@@ -56,6 +57,24 @@ std::unique_ptr<Player> Player::createPlayer(
     std::unique_ptr<Player> player(new Player(data, dataP.id));
 
     return player;
+}
+
+PlayerPersistData Player::generatePersistData(){
+  PlayerPersistData p = {
+    id,
+    gold,
+    0, // SAVEDGOLD
+    level,
+    static_cast<size_t>(health.currentHP),
+    static_cast<size_t>(health.currentMP),
+    experience.currentExperience,
+    rootd,
+    position.x,
+    position.y,
+    inventory,
+    {}
+  };
+  return p;
 }
 
 void Player::setExperienceData(size_t &level, ExperienceData &experience){
@@ -85,7 +104,7 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   health.currentMP -= rightSkills.mana;
 
   int damage = Equations::damage(rootd, rightSkills);
-    
+
   entity.rcvDamage(damage);
   if (damage == -1){
     ChatManager::enemyDodgedTheAttack(chat);
@@ -152,18 +171,12 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
     }
 }
 
-void Player::setDefaultEquipment(std::vector<InventoryElementData>
-  &inventory){
-    const GlobalConfig& c = GC::get();
-    inventory = c.defaultInventory;
-} 
-
 void Player::equipDefault(){
   const GlobalConfig& c = GC::get();
 
   for (unsigned int i = 0; i < inventory.size(); i++){
     bool canEquip = true;
-    
+
     for (auto& it : c.potionsToDropNPC){
       if (inventory.at(i).itemId == it){
         canEquip = false;
@@ -171,9 +184,9 @@ void Player::equipDefault(){
         break;
       }
     }
-    
+
     if (!canEquip) continue;
-    
+
     equip(i);
   }
 }
@@ -235,7 +248,7 @@ int Player::calculateExcessGold(){
 void Player::setTimeToResurrect(double minDistanceToPriest){
   const GlobalConfig& c = GC::get();
   resurrection.resurrect = true;
-  
+
   int resurrectionTime = minDistanceToPriest * c.estimateTimeToPriestConst;
   std::chrono::seconds sec(resurrectionTime);
   resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
@@ -243,7 +256,7 @@ void Player::setTimeToResurrect(double minDistanceToPriest){
   ChatManager::resurrecting(chat, resurrectionTime);
 }
 
-bool Player::throwObj(size_t inventoryPosition, 
+bool Player::throwObj(size_t inventoryPosition,
   InventoryElementData &itemToDrop, PositionData &dropFirstPos){
     if ((unsigned int)inventoryPosition >= inventory.size()) return false;
 
@@ -251,7 +264,7 @@ bool Player::throwObj(size_t inventoryPosition,
     dropFirstPos = position;
 
     bool success = eraseInventoryItem(inventoryPosition);
-    return success;    
+    return success;
 }
 
 bool Player::eraseInventoryItem(size_t inventoryPosition){
@@ -357,17 +370,17 @@ bool Player::pickUp(DropItemData &drop){
   if (!canPickUp) return false;
 
   if (drop.id == c.goldItemId){
-    gold += drop.amount; 
+    gold += drop.amount;
 
     unsigned int maxGold = Equations::maxGold(level);
     if (gold < maxGold) return true;
-    
+
     gold = maxGold;
     ChatManager::maxGold(chat);
     return true;
   }
 
-  InventoryElementData item = {(size_t)drop.amount, false, drop.id};
+  InventoryElementData item = {drop.amount, false, drop.id};
 
   return addItemToInventory(item);
 }
@@ -427,7 +440,7 @@ void Player::sell(size_t inventoryPos, size_t itemValue){
   gold += itemValue;
 
   ChatManager::successfullSell(chat, itemValue);
-  
+
   unsigned int maxGold = Equations::maxGold(level);
   if (gold > maxGold){
     gold = maxGold;

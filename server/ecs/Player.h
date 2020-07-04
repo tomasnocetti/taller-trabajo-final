@@ -83,14 +83,12 @@ class Player : public LiveEntity{
     void sell(size_t inventoryPos, size_t itemValue);
     size_t inventoryItemId(size_t inventoryPosition);
     void heal();
+    PlayerPersistData generatePersistData();
     static std::unique_ptr<Player> createPlayer(
       PlayerPersistData& dataP, std::string& nick);
     static void setInitEquipment(EquipmentData &equipment, 
       PlayerRootData &root);   
     static void setExperienceData(size_t &level, ExperienceData &experience);
-    static void setPositionData(PlayerRootData &root, PositionData &position);
-    static void setDefaultEquipment
-      (std::vector<InventoryElementData> &inventory);
 };
 
 #endif

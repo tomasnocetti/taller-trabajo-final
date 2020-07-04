@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "GameCron.h"
 #include "services/MapParser.h"
+#include "services/FileManager.h"
 #include "responses/Response.h"
 #include "ecs/Player.h"
 #include "ecs/Npc.h"
@@ -33,6 +34,7 @@ class GameModel{
     std::map<size_t, std::unique_ptr<Priest>> priests;
     std::map<size_t, std::unique_ptr<Trader>> traders;
     MapParser m;
+    FileManager f;
     CronBQ& cronBQ;
     void parseMapData();
     bool checkCityCollisions(Entity &entity);

@@ -56,17 +56,19 @@ namespace msgpack {
           o.via.array.ptr[5].as<std::size_t>(),
           o.via.array.ptr[6].as<std::size_t>(),
           o.via.array.ptr[7].as<PlayerRootData>(),
+          o.via.array.ptr[8].as<int>(),
+          o.via.array.ptr[9].as<int>(),
           {},
           {}
         };
         for (int i = 0; i < INVENTORY_SIZE; i++) {
-          InventoryElementData inv = o.via.array.ptr[8 + i].as<InventoryElementData>();
+          InventoryElementData inv = o.via.array.ptr[10 + i].as<InventoryElementData>();
           if (inv.itemId == 0) continue;
           a.inventory.push_back(inv);
         }
         for (int i = 0; i < INVENTORY_SIZE; i++) {
           InventoryElementData inv = o.via.array.ptr[
-            8 + INVENTORY_SIZE + i].as<InventoryElementData>();
+            10 + INVENTORY_SIZE + i].as<InventoryElementData>();
           if (inv.itemId == 0) continue;
           a.savedInventory.push_back(inv);
         }
@@ -79,7 +81,7 @@ namespace msgpack {
     struct pack<PlayerPersistData> {
       template <typename Stream>
       packer<Stream>& operator()(msgpack::packer<Stream>& o, PlayerPersistData const& v) const {
-        o.pack_array(8 + INVENTORY_SIZE * 2);
+        o.pack_array(10 + INVENTORY_SIZE * 2);
         o.pack_fix_uint32(v.id);
         o.pack_fix_uint32(v.gold);
         o.pack_fix_uint32(v.savedGold);
@@ -88,6 +90,8 @@ namespace msgpack {
         o.pack_fix_uint32(v.currentMP);
         o.pack_fix_uint32(v.currentExperience);
         o.pack(v.rootd);
+        o.pack_fix_uint32(v.positionX);
+        o.pack_fix_uint32(v.positionY);
         for (int i = 0; i < INVENTORY_SIZE; i++) {
           InventoryElementData inv = {0, 0, 0};
           if (v.inventory.size() > i) {
@@ -168,12 +172,13 @@ void FileManager::getBufferDbSize() {
 void FileManager::create(
   const std::string& nick, 
   const std::string& password, 
-  const PlayerRootData& rootd){
+  const PlayerRootData& rootd,
+  const PositionData& position){
     if (checkIfNickExists(nick)) return;
 
     std::cout << "CREAND PLAYER:  " << playerIdIndex << std::endl;
     createIndex(nick, password);
-    createData(rootd);
+    createData(rootd, position);
     playerIdIndex ++;
 }
 
@@ -194,7 +199,9 @@ void FileManager::createIndex(
     throw std::runtime_error(ERROR_WR_IFILE);
 }
 
-void FileManager::createData(const PlayerRootData& rootd) {
+void FileManager::createData(
+  const PlayerRootData& rootd,
+  const PositionData& position) {
   const GlobalConfig& c = GC::get();
 
   PlayerPersistData data = {
@@ -206,7 +213,9 @@ void FileManager::createData(const PlayerRootData& rootd) {
     0,
     0,
     rootd,
-    {},
+    position.x,
+    position.y,
+    c.defaultInventory,
     {}
   };
   /** position file */
@@ -261,7 +270,7 @@ bool FileManager::checkIfNickExists(const std::string& nick){
 }
 
 bool FileManager::getPlayerId(const std::string& nick, size_t& id) {
-
+  return true;
 }
 
 FileManager::~FileManager(){
