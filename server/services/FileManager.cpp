@@ -98,14 +98,14 @@ namespace msgpack {
         o.pack(v.rootd);
         o.pack_fix_uint32(v.positionX);
         o.pack_fix_uint32(v.positionY);
-        for (int i = 0; i < INVENTORY_SIZE; i++) {
+        for (size_t i = 0; i < INVENTORY_SIZE; i++) {
           InventoryElementData inv = {0, 0, 0};
           if (v.inventory.size() > i) {
             inv = v.inventory[i];
           }
           o.pack(inv);
         }
-        for (int i = 0; i < INVENTORY_SIZE; i++) {
+        for (size_t i = 0; i < INVENTORY_SIZE; i++) {
           InventoryElementData inv = {0, 0, 0};
           if (v.savedInventory.size() > i) {
             inv = v.savedInventory[i];

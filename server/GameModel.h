@@ -74,12 +74,6 @@ class GameModel{
     void meditate(size_t playerId);
     /* Handle increaseManaMeditation instruction - GameCron Instruction */
     void increaseManaByMeditation(size_t playerId);
-    /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
-      Devuelve true si pudo o es valido, false de lo contrario. */
-    bool authenticate(
-      std::string& nick,
-      ResponseBQ& responseBQ,
-      size_t& playerId);
     /* Elimina al jugador del juego activo. */
     void deAuthenticate(size_t playerId);
     /* En base al id del jugador, va a armar una estructura con los datos
@@ -122,6 +116,20 @@ class GameModel{
     void withdrawGold(size_t playerId, size_t inventoryPos);
     /* Handle withdraw item instruction */
     void withdrawItem(size_t playerId, size_t inventoryPos);
+    /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
+      Devuelve true si pudo o es valido, false de lo contrario. */
+    bool authenticate(
+      std::string& password,
+      std::string& nick,
+      ResponseBQ& responseBQ,
+      size_t& playerId);
+    bool createPlayer(
+      ResponseBQ& responseBQ,
+      size_t& playerId,
+      std::string nick, 
+      std::string password, 
+      PlayerClass classType,
+      PlayerRace race);
 };
 
 #endif

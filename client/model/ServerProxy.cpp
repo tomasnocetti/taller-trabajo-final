@@ -17,11 +17,13 @@ void ServerProxy::init() {
   serverProxyRead.start();
 }
 
-void ServerProxy::authentificate(std::string& alias) {
+void ServerProxy::authentificate(std::string& alias, std::string& password) {
   if (authentificated) return;
-  std::cout << "Player " << alias << " Autenticando" << std::endl;
+  std::cout << "Player " << alias << " autenticando con contraseña " << 
+    password << std::endl;
   ParamData nick = {alias};
-  InstructionData instruction = {AUTHENTICATE, {nick}};
+  ParamData pw = {password};
+  InstructionData instruction = {AUTHENTICATE, {nick, pw}};
   writeBQ.push(instruction);
 }
 
@@ -177,5 +179,18 @@ void ServerProxy::withDrawGold(std::string amount){
 void ServerProxy::withDrawItem(std::string inventoryPos){
   ParamData x = {inventoryPos};
   InstructionData instruction = {WITHDRAW_ITEM, {x}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::createPlayer(
+  std::string nick, 
+  std::string password, 
+  std::string race,
+  std::string typeClass){
+  ParamData n = {nick};
+  ParamData p = {password};
+  ParamData r = {race};
+  ParamData c = {typeClass};
+  InstructionData instruction = {CREATE_PLAYER, {n, p, r, c}};
   writeBQ.push(instruction);
 }
