@@ -24,7 +24,10 @@ class MoveInstruction: public Instruction {
 
 class AuthInstruction: public Instruction {
   public:
-    explicit AuthInstruction(ClientProxy& client, std::string nick);
+    AuthInstruction(
+      ClientProxy& client,
+      std::string nick, 
+      std::string password);
     AuthInstruction(const AuthInstruction&) = delete;
     AuthInstruction& operator=(const AuthInstruction&) = delete;
     AuthInstruction&& operator=(AuthInstruction&& other) = delete;
@@ -33,6 +36,7 @@ class AuthInstruction: public Instruction {
   private:
     ClientProxy& client;
     std::string nick;
+    std::string password;
 };
 
 class CloseInstruction : public Instruction {
@@ -265,6 +269,29 @@ class WithdrawItemInstruction : public Instruction {
   private:
     size_t playerId;
     size_t inventoryPosition;
+};
+
+class CreatePlayerInstruction : public Instruction {
+  public:
+    CreatePlayerInstruction(
+      ClientProxy& client,
+      std::string nick, 
+      std::string password,
+      std::string race, 
+      std::string classType);
+    CreatePlayerInstruction(const CreatePlayerInstruction&) = delete;
+    CreatePlayerInstruction& operator=(const CreatePlayerInstruction&) 
+      = delete;
+    CreatePlayerInstruction&& operator=(CreatePlayerInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    ClientProxy& client;
+    std::string nick;
+    std::string password;
+    PlayerRace race;
+    PlayerClass classType;
 };
 
 #endif
