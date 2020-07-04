@@ -46,6 +46,10 @@ struct ChatMessages {
   std::string successfullBuy;
   std::string maxGold;
   std::string invalidCommandHeal;
+  std::string depositGoldSuccess;
+  std::string invalidCommand;
+  std::string invalidCommandDepositWithdraw;
+  std::string depositItemSuccess;
 };
 
 struct DropSizes{

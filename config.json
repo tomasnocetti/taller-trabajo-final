@@ -49,7 +49,11 @@
       "traderDontBuyThatItem": "Este comerciante no compra ese tipo de elementos.",
       "successfullBuy": "Elemento comprado por: ",
       "maxGold": "Atención! Ha llegado a su máximo de oro.",
-      "invalidCommandHeal": "Acerquese al sacerdote mas cercano para curarse."
+      "invalidCommandHeal": "Acerquese al sacerdote mas cercano para curarse.",
+      "depositGoldSuccess": "Transacción exitosa! La cantidad de oro disponible en su cuenta bancaria es: ",
+      "invalidCommand": "El comando ingresado es invaĺido.",
+      "invalidCommandDepositWithdraw": "Acerquese al banquero mas cercano para realizar esta acción.",
+      "depositItemSuccess": "Elemento depositado en el banco exitosamente."
     },
     "equations": {
       "limitForNextLevel": 1.8,

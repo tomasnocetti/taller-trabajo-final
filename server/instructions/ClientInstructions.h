@@ -222,4 +222,19 @@ class DepositGoldInstruction : public Instruction {
     size_t amount;
 };
 
+class DepositItemInstruction : public Instruction {
+  public:
+    explicit DepositItemInstruction(size_t id, std::string inventoryPos);
+    DepositItemInstruction(const DepositItemInstruction&) = delete;
+    DepositItemInstruction& operator=(const DepositItemInstruction&) 
+      = delete;
+    DepositItemInstruction&& operator=(DepositItemInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    size_t inventoryPosition;
+};
+
 #endif

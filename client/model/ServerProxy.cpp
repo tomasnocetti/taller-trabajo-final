@@ -161,3 +161,9 @@ void ServerProxy::depositGold(std::string amount){
   InstructionData instruction = {DEPOSIT_GOLD, {x}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::depositItem(std::string inventoryPos){
+  ParamData x = {inventoryPos};
+  InstructionData instruction = {DEPOSIT_ITEM, {x}};
+  writeBQ.push(instruction);
+}

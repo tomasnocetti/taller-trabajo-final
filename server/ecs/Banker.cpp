@@ -16,9 +16,22 @@ size_t Banker::getNewId(){
   return Banker::idGenerator;
 }
 
-void Banker::listItems(Player &player){}
+void Banker::listItems(Player &player){
+  const GlobalConfig& c = GC::get();
 
-void Banker::deposit(Player &player) {}
+  for (InventoryElementData &it : player.itemsInBank){
+    const InventoryElementData& bankItem = it;
+    const std::unique_ptr<Item> &item = c.items.at(bankItem.itemId);
+
+    player.sendMessage(NORMAL, item->name + " : " + std::to_string(it.amount));
+  }
+  player.sendMessage(NORMAL, "Cantidad de oro disponible: " + 
+    std::to_string(player.goldInBank));
+}
+
+void Banker::deposit(Player &player, size_t inventoryPos) {
+  player.depositItem(inventoryPos);
+}
 
 void Banker::withdraw(Player &player) {}
 

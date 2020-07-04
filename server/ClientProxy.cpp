@@ -131,8 +131,10 @@ void ClientProxyRead::handleAuthInstruction(
         client.playerId, instruction.params[0].value));
       client.instructionQueue.push(std::move(i));
       break;
-      break;
     case DEPOSIT_ITEM:
+      i = std::unique_ptr<Instruction>(new DepositItemInstruction(
+        client.playerId, instruction.params[0].value));
+      client.instructionQueue.push(std::move(i));
       break;
     case ATTACK:
       i = std::unique_ptr<Instruction>(new AttackInstrucion(

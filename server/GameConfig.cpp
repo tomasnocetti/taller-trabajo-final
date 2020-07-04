@@ -106,7 +106,15 @@ void GC::load(const char* src) {
     chatMessages["maxGold"].asString();
   instance->g.chatMessages.invalidCommandHeal =
     chatMessages["invalidCommandHeal"].asString();
-
+  instance->g.chatMessages.depositGoldSuccess =
+    chatMessages["depositGoldSuccess"].asString();
+  instance->g.chatMessages.invalidCommand =
+    chatMessages["invalidCommand"].asString();
+  instance->g.chatMessages.invalidCommandDepositWithdraw =
+    chatMessages["invalidCommandDepositWithdraw"].asString();
+  instance->g.chatMessages.depositItemSuccess =
+    chatMessages["depositItemSuccess"].asString();
+  
   instance->g.equations.critickAttackProb =
     equations["critickAttackProb"].asDouble();
   instance->g.equations.dodgeAttackComparisonValue =

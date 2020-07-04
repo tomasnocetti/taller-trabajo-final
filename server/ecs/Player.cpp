@@ -6,6 +6,9 @@
 #include "../services/ChatManager.h"
 #include "../GameConfig.h"
 
+#define BANK_INVENTORY 0
+#define PLAYER_INVENTORY 1
+
 Player::Player(MainPlayerData playerData, size_t id):
   LiveEntity(playerData.position, playerData.points,
   playerData.level, id),
@@ -380,26 +383,32 @@ bool Player::pickUp(DropItemData &drop){
 
   InventoryElementData item = {(size_t)drop.amount, false, drop.id};
 
-  return addItemToInventory(item);
+  return addItemToInventory(item, PLAYER_INVENTORY);
 }
 
-bool Player::addItemToInventory(InventoryElementData &item){
-  for (auto& it : inventory){
+bool Player::addItemToInventory(InventoryElementData &item, int opt){
+  std::vector<InventoryElementData> &aux =
+    (opt == PLAYER_INVENTORY) ? inventory : itemsInBank;   
+
+  for (auto& it : aux){
     if (it.itemId == item.itemId){
       it.amount += item.amount;
       return true;
     }
   }
 
-  if (inventoryIsFull()) return false;
+  if (inventoryIsFull(opt)) return false;
 
-  inventory.push_back(std::move(item));
+  aux.push_back(std::move(item));
   return true;
 }
 
-bool Player::inventoryIsFull(){
+bool Player::inventoryIsFull(size_t opt){
+  std::vector<InventoryElementData> &aux =
+    (opt == PLAYER_INVENTORY) ? inventory : itemsInBank;  
+
   const GlobalConfig& c = GC::get();
-  if (inventory.size() >= c.maxInventoryDifferentItems){
+  if (aux.size() >= c.maxInventoryDifferentItems){
     ChatManager::inventoryIsFull(chat);
     return true;
   }
@@ -421,7 +430,7 @@ void Player::buy(size_t itemValue, size_t itemId){
   }
 
   InventoryElementData newItem = {1, false, (int)itemId};
-  bool success = addItemToInventory(newItem);
+  bool success = addItemToInventory(newItem, PLAYER_INVENTORY);
 
   if (!success) return;
 
@@ -458,10 +467,31 @@ void Player::heal(){
 
 void Player::depositGold(size_t amount){
   if (amount > gold){
-    // mensaje de invalido
+    ChatManager::insufficientFunds(chat);
     return;
   }
   goldInBank += amount;
-  gold -= gold;
-  // mensaje de transaccion exitosa y cantidad de dinero
+  gold -= amount;
+  ChatManager::depositGoldSuccess(chat, goldInBank);
+}
+
+void Player::depositItem(size_t inventoryPos){
+  if (inventoryPos >= inventory.size()){
+    ChatManager::invalidOption(chat);
+    return;
+  }
+
+  InventoryElementData newItem = {
+    1, 
+    false, 
+    (int)inventoryItemId(inventoryPos)};
+  bool success = addItemToInventory(newItem, BANK_INVENTORY);
+
+  if (!success){
+    ChatManager::inventoryIsFull(chat);
+    return;
+  }
+
+  eraseInventoryItem(inventoryPos);
+  ChatManager::depositItemSuccess(chat);
 }

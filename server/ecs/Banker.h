@@ -17,7 +17,7 @@ class Banker : public Entity {
     Banker& operator=(const Banker&) = delete;
     static size_t getNewId();
     void listItems(Player &player);
-    void deposit(Player &player);
+    void deposit(Player &player, size_t inventoryPos);
     void withdraw(Player &player);
     void depositGold(Player &player, size_t amount);
     void withDrawGold(Player &player, size_t amount);
