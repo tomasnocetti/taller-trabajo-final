@@ -9,7 +9,7 @@
 #define BANK_INVENTORY 0
 #define PLAYER_INVENTORY 1
 
-Player::Player(MainPlayerData playerData, size_t id):
+Player::Player(MainPlayerData& playerData, size_t id):
   LiveEntity(playerData.position, playerData.points,
   playerData.level, id),
   nick(playerData.nick),
@@ -29,54 +29,64 @@ Player::Player(MainPlayerData playerData, size_t id):
 }
 
 std::unique_ptr<Player> Player::createPlayer(
-  size_t id,
-  std::string nick,
-  PlayerRootData root) {
+  PlayerPersistData& dataP, std::string& nick) {
     MainPlayerData data;
-    const GlobalConfig& c = GC::get();
-
-    data.rootd = root;
+    data.id = dataP.id;
+    data.rootd = dataP.rootd;
     data.nick = nick;
-    data.gold = c.playerInitialGold;
-    data.level = c.playerInitialLevel;
+    data.gold = dataP.gold;
+    
+    data.level = dataP.level;
+    data.inventory = dataP.inventory;
+    data.position = {
+      dataP.positionX,
+      dataP.positionY,
+      PLAYER_WIDTH, PLAYER_HEIGHT};
 
-    Player::setDefaultEquipment(data.inventory);
-
-    data.experience.maxLevelExperience = 0;
-    data.experience.currentExperience = 0;
+    data.experience.currentExperience = dataP.currentExperience;
     Player::setExperienceData(data.level, data.experience);
 
-    Player::setPositionData(root, data.position);
-
     data.points.totalHP = Equations::maxLife(data.rootd, data.level);
-    //data.points.currentHP = data.points.totalHP;
-    data.points.currentHP = 1;
+    data.points.currentHP = dataP.currentHP;
 
     data.points.totalMP = Equations::maxMana(data.rootd, data.level);
-    //data.points.currentMP = data.points.totalMP;
-    data.points.currentMP = 0;
+    data.points.currentMP = dataP.currentMP;
+
     data.points.recoverTime = std::chrono::system_clock::now();
     data.points.nextRespawn = std::chrono::system_clock::now();
     data.points.meditating = false;
 
     ChatManager::initialMessage(data.chat);
 
-    std::unique_ptr<Player> player(new Player(data, id));
-
+    std::unique_ptr<Player> player(new Player(data, dataP.id));
+    player->itemsInBank = dataP.savedInventory;
+    player->goldInBank = dataP.savedGold;
     return player;
 }
 
-void Player::setExperienceData(size_t &level, ExperienceData &experience){
-  experience.minLevelExperience = experience.maxLevelExperience;
-  experience.maxLevelExperience =
-  Equations::maxLevelExperience(level);
+PlayerPersistData Player::generatePersistData(){
+  PlayerPersistData p = {
+    id,
+    gold,
+    goldInBank,
+    level,
+    static_cast<size_t>(health.currentHP),
+    static_cast<size_t>(health.currentMP),
+    experience.currentExperience,
+    rootd,
+    position.x,
+    position.y,
+    inventory,
+    itemsInBank
+  };
+  return p;
 }
 
-void Player::setPositionData(PlayerRootData &root, PositionData &position){
-  position.w = PLAYER_WIDTH;
-  position.h = PLAYER_HEIGHT;
-  position.x = 2600;
-  position.y = 2600;
+void Player::setExperienceData(size_t &level, ExperienceData &experience){
+  experience.minLevelExperience =
+    level == 0 ? 0 : Equations::maxLevelExperience(level - 1);
+  experience.maxLevelExperience =
+    Equations::maxLevelExperience(level);
 }
 
 bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
@@ -99,7 +109,7 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
   health.currentMP -= rightSkills.mana;
 
   int damage = Equations::damage(rootd, rightSkills);
-    
+
   entity.rcvDamage(damage);
   if (damage == -1){
     ChatManager::enemyDodgedTheAttack(chat);
@@ -166,18 +176,12 @@ void Player::addExperience(int &damage, size_t &otherLevel, int &otherHealth,
     }
 }
 
-void Player::setDefaultEquipment(std::vector<InventoryElementData>
-  &inventory){
-    const GlobalConfig& c = GC::get();
-    inventory = c.defaultInventory;
-} 
-
 void Player::equipDefault(){
   const GlobalConfig& c = GC::get();
 
   for (unsigned int i = 0; i < inventory.size(); i++){
     bool canEquip = true;
-    
+
     for (auto& it : c.potionsToDropNPC){
       if (inventory.at(i).itemId == it){
         canEquip = false;
@@ -185,9 +189,9 @@ void Player::equipDefault(){
         break;
       }
     }
-    
+
     if (!canEquip) continue;
-    
+
     equip(i);
   }
 }
@@ -249,7 +253,7 @@ int Player::calculateExcessGold(){
 void Player::setTimeToResurrect(double minDistanceToPriest){
   const GlobalConfig& c = GC::get();
   resurrection.resurrect = true;
-  
+
   int resurrectionTime = minDistanceToPriest * c.estimateTimeToPriestConst;
   std::chrono::seconds sec(resurrectionTime);
   resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
@@ -257,7 +261,7 @@ void Player::setTimeToResurrect(double minDistanceToPriest){
   ChatManager::resurrecting(chat, resurrectionTime);
 }
 
-bool Player::throwObj(size_t inventoryPosition, 
+bool Player::throwObj(size_t inventoryPosition,
   InventoryElementData &itemToDrop, PositionData &dropFirstPos){
     if ((unsigned int)inventoryPosition >= inventory.size()) return false;
 
@@ -374,17 +378,17 @@ bool Player::pickUp(DropItemData &drop){
   if (!canPickUp) return false;
 
   if (drop.id == c.goldItemId){
-    gold += drop.amount; 
+    gold += drop.amount;
 
     unsigned int maxGold = Equations::maxGold(level);
     if (gold < maxGold) return true;
-    
+
     gold = maxGold;
     ChatManager::maxGold(chat);
     return true;
   }
 
-  InventoryElementData item = {(size_t)drop.amount, false, drop.id};
+  InventoryElementData item = {drop.amount, false, drop.id};
 
   return addItemToInventory(item, PLAYER_INVENTORY);
 }
@@ -450,7 +454,7 @@ void Player::sell(size_t inventoryPos, size_t itemValue){
   gold += itemValue;
 
   ChatManager::successfullSell(chat, itemValue);
-  
+
   unsigned int maxGold = Equations::maxGold(level);
   if (gold > maxGold){
     gold = maxGold;

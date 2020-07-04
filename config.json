@@ -1,7 +1,7 @@
 {
   "systemConfig": {
-    "indexFilePath": "path/to/file",
-    "dbFilePath": "path/to/file",
+    "indexFilePath": "indexfile.bin",
+    "dbFilePath": "dbfile.bin",
     "mapFilePath": "client/assets/map/game_map.json"
   },
   "gameConfig": {

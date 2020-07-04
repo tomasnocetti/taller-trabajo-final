@@ -77,7 +77,9 @@ LiveEntity::LiveEntity(PositionData& p, HealthAndManaData& h,
     level(level),
     movement(Entity::getInitMovement()),
     health(h),
-    id(id) {}
+    id(id) {
+      stop();
+    }
 
 void LiveEntity::stop() {
   movement = Entity::getInitMovement();
