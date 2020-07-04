@@ -9,9 +9,9 @@ InventoryController::InventoryController(ServerProxy& model,
   SdlAssetsManager& manager) : model(model), manager(manager) {}
 
 void InventoryController::update() {
-  std::vector<InventoryElementData> inventory = 
+  const std::vector<InventoryElementData>& inventory = 
     model.getMainPlayerData().inventory;
-
+  
   items.clear();
   for (unsigned int i = 0; i < inventory.size(); i++){
     generateImage(inventory[i], i);

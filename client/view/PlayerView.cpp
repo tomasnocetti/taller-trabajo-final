@@ -45,6 +45,8 @@ void PlayerView::move(int x, int y){
 }
 
 void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
+	if(!authenticated) return;
+
 	animation->paint(x - camera.getX(), y - camera.getY(), 
 		scaleW, scaleH);
 
@@ -160,10 +162,14 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
 			weapon = Weapon(manager.getTexture("ash-stick"), 
         4, 4, 4, 37, 17, 50, 4, 39, 51, 143, 20, 30, 16, 0, 18, 0, 0, 3);
     break;
-		/*case GNARLED_STAFF:
+		case 12:
 			weapon = Weapon(manager.getTexture("gnarled-staff"), 
-        4, 4, 4, 37, 17, 50, 4, 39, 51, 143, 20, 30, 16, 0, 18, 0, 0, 3);
-    break;*/
+        4, 2, 4, 39, 17, 50, 4, 39, 51, 143, 23, 30, 16, 0, 17, 0, -2, 1);
+    break;
+		case 13:
+			weapon = Weapon(manager.getTexture("elfic-flute"), 
+        34, 27, 14, 11, 0, 0, 0, 0, 36, 164, 10, 6, 16, 15, 0, 0, 8, 17);
+    break;
     default:
 			weapon = Weapon(nullptr, 
         0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
@@ -175,6 +181,14 @@ void PlayerView::setBodyWear(LTexture* texture) {
 	if (ghost) return;
 	
 	animation->changeTexture(texture);
+}
+
+bool PlayerView::isAuthenticated() {
+	return authenticated;
+}
+
+void PlayerView::authenticate() {
+	authenticated = true;
 }
 
 PlayerView::~PlayerView() {}

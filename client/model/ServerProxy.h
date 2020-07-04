@@ -69,11 +69,11 @@ class ServerProxy{
     void withDrawItem(std::string inventoryPos);
     
     /** Client GETTERS */
-    MapData getMapData() const;
-    MainPlayerData getMainPlayerData() const;
-    std::vector<EnemyData> getNPCData() const;
-    std::vector<OtherPlayersData> getOtherPlayersData() const;
-    std::vector<DropItemData> getDrops() const;
+    const MapData& getMapData() const;
+    const MainPlayerData& getMainPlayerData() const;
+    const std::vector<EnemyData>& getNPCData() const;
+    const std::vector<OtherPlayersData>& getOtherPlayersData() const;
+    const std::vector<DropItemData>& getDrops() const;
 
     /** Server SETTERS */
     void setGameModelData(PlayerGameModelData &gameModelData);
