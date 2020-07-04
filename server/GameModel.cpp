@@ -6,6 +6,8 @@
 #include <vector>
 #include <random>
 #include <stdlib.h>
+#include <utility>
+#include "services/ChatManager.h"
 
 GameModel::GameModel(CronBQ& cronBQ) :
   cronBQ(cronBQ),
@@ -32,7 +34,6 @@ void GameModel::parseMapData() {
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 10, SPIDER));
         npcMap.insert(std::pair<size_t,
-
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
@@ -40,7 +41,6 @@ void GameModel::parseMapData() {
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 15, GOBLIN));
         npcMap.insert(std::pair<size_t,
-
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
@@ -48,7 +48,6 @@ void GameModel::parseMapData() {
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 8, SKELETON));
         npcMap.insert(std::pair<size_t,
-
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
@@ -56,7 +55,6 @@ void GameModel::parseMapData() {
         std::unique_ptr<NPC> npc(NPC::createNPC(
           NPC::getNewId(), p, 8, ZOMBIE));
         npcMap.insert(std::pair<size_t,
-
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
@@ -67,9 +65,17 @@ void GameModel::parseMapData() {
       }
 
       if (layer.name == PRIESTS_LAYER){
-        std::unique_ptr<Entity> priest(
-          new Entity(p));
-        priests.push_back(std::move(priest));
+        std::unique_ptr<Priest> priest(
+          new Priest(p));
+        priests.insert(std::pair<size_t,
+        std::unique_ptr<Priest>>(Priest::getNewId(), std::move(priest)));
+      }
+
+      if (layer.name == MERCHANT_LAYER){
+        std::unique_ptr<Trader> trader(
+          new Trader(p));
+        traders.insert(std::pair<size_t,
+        std::unique_ptr<Trader>>(Trader::getNewId(), std::move(trader)));
       }
     }
   }
@@ -284,7 +290,7 @@ bool GameModel::checkEntityCollisions(LiveEntity &entity){
   }
 
   for (auto &it : priests){
-    collission = entity.checkCollision(*it);
+    collission = entity.checkCollision(*it.second);
     if (collission) return true;
   }
 
@@ -314,10 +320,10 @@ void GameModel::resurrect(size_t playerId){
   PositionData resurrectionPos = {};
 
   for (auto& it : priests){
-    double distance = p.getPositionDistance(it->position, p.position);
+    double distance = p.getPositionDistance(it.second->position, p.position);
     if (distance >= minDistanceToPriest && minDistanceToPriest != 0) continue;
     minDistanceToPriest = distance;
-    resurrectionPos = it->position;
+    resurrectionPos = it.second->position;
   }
   getRespawnPosition(resurrectionPos, p);
   p.position = resurrectionPos;
@@ -371,16 +377,16 @@ void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
   Player &p = *players.at(playerId);
   const GlobalConfig& c = GC::get();
   p.stopMeditating();
-  InventoryElementData inventoryItem(p.inventory.at(inventoryPosition));
+  InventoryElementData itemToDrop;
+  PositionData dropFirstPos;
   
-  p.throwObj(inventoryPosition);
+  bool success = p.throwObj(inventoryPosition, itemToDrop, dropFirstPos);
+  if (!success) return;
 
-  DropItemData item;
-  item.id = inventoryItem.itemId;
-  item.amount = 1;
-  item.position = p.position;
-  item.position.w = c.dropSizes.weight;
-  item.position.h = c.dropSizes.height;
+  dropFirstPos.w = c.dropZoneWidth;
+  dropFirstPos.h = c.dropZoneHeight;
+
+  DropItemData item = {dropFirstPos, 1, itemToDrop.itemId};
   getDropPosition(item.position);
   drops.push_back(std::move(item));
 }
@@ -388,24 +394,112 @@ void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
 void GameModel::pickUpObj(size_t playerId){
   Player &p = *players.at(playerId);
   const GlobalConfig& c = GC::get();
-  int i = 0;
   
   if (!p.isAlive()) return;
 
-  for (auto& it : drops){
-    int goldPlayerBeforeDrop = p.gold;
+  drops.erase(
+    std::remove_if(
+      drops.begin(), 
+      drops.end(),
+      [&p, &c](DropItemData &it) {
+        int goldPlayerBeforeDrop = p.gold;
 
-    bool success = p.pickUp(it);
-    if (success){
-      if (it.id == c.goldItemId){
-        it.amount -= (p.gold - goldPlayerBeforeDrop);
-        if (it.amount != 0) return;
-      }
-      drops.erase(drops.begin() + i);
-      return;
-    }
-    i++;
+        bool success = p.pickUp(it);
+        if (!success) return false;
+
+        if (it.id == c.goldItemId){
+          it.amount -= (p.gold - goldPlayerBeforeDrop);
+          if (it.amount != 0) return false;
+        }
+        return true;
+  }), drops.end());
+}
+
+void GameModel::list(size_t playerId){
+  Player &p = *players.at(playerId);
+  int traderId = checkTraderInRange(p);
+  int priestId = checkPriestInRange(p);
+
+  if (traderId == -1 && priestId == -1) return; // escribir mensaje en el player
+
+  if (traderId != -1){
+    traders.at(traderId)->listItems(p);
+    return;
   }
+
+  priests.at(priestId)->listItems(p);
+}
+
+int GameModel::checkPriestInRange(Player &p){
+  const GlobalConfig& c = GC::get();
+
+  for (auto &it : priests){
+    bool inRange = priests.at(it.first)->checkInRange(
+      p,
+      c.traderBankerPriestMinRangeToInteract);
+    if (inRange) return it.first;
+  } 
+  return -1;
+}
+
+int GameModel::checkTraderInRange(Player &p){
+  const GlobalConfig& c = GC::get();
+
+  for (auto &it : traders){
+    bool inRange = traders.at(it.first)->checkInRange(
+      p,
+      c.traderBankerPriestMinRangeToInteract);
+    if (inRange) return it.first;
+  } 
+  return -1;
+}
+
+void GameModel::sell(size_t playerId, size_t itemPosition){
+  const GlobalConfig& c = GC::get();
+  Player &p = *players.at(playerId);
+  int traderId = checkTraderInRange(p);
+
+  if (traderId == -1){
+    p.sendMessage(INFO, c.chatMessages.invalidCommandSell);
+    return;
+  }
+
+  traders.at(traderId)->buy(p, itemPosition - 1);
+}
+
+void GameModel::buy(size_t playerId, size_t itemPosition){
+  const GlobalConfig& c = GC::get(); 
+  Player &p = *players.at(playerId);
+  int traderId = checkTraderInRange(p);
+  int priestId = checkPriestInRange(p);
+
+  if (traderId == -1 && priestId == -1){
+    p.sendMessage(INFO, c.chatMessages.invalidCommandBuy);
+    return;
+  }
+
+  if (traderId != -1){
+    traders.at(traderId)->sell(itemPosition, p);
+    return;
+  }
+
+  priests.at(priestId)->sell(itemPosition, p);
+}
+
+void GameModel::heal(size_t playerId){
+  const GlobalConfig& c = GC::get(); 
+  Player &p = *players.at(playerId);
+  
+  int priestId = checkPriestInRange(p);
+  if (priestId == -1){
+    p.sendMessage(INFO, c.chatMessages.invalidCommandHeal);
+    return;
+  }
+  p.heal();
+}
+
+void GameModel::commandError(size_t playerId){
+  players.at(playerId)->sendMessage(INFO, "Comando invalido.");
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  

@@ -149,4 +149,62 @@ class PickUpInstruction : public Instruction {
     size_t playerId;
 };
 
+class ListInstruction : public Instruction {
+  public:
+    explicit ListInstruction(size_t id);
+    ListInstruction(const ListInstruction&) = delete;
+    ListInstruction& operator=(const ListInstruction&) 
+      = delete;
+    ListInstruction&& operator=(ListInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+};
+
+class SellInstruction : public Instruction {
+  public:
+    SellInstruction(size_t id, std::string itemNumber);
+    SellInstruction(const SellInstruction&) = delete;
+    SellInstruction& operator=(const SellInstruction&) 
+      = delete;
+    SellInstruction&& operator=(SellInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    size_t itemNumber;
+};
+
+class BuyInstruction : public Instruction {
+  public:
+    BuyInstruction(size_t id, std::string itemNumber);
+    BuyInstruction(const BuyInstruction&) = delete;
+    BuyInstruction& operator=(const BuyInstruction&) 
+      = delete;
+    BuyInstruction&& operator=(BuyInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    size_t itemNumber;
+};
+
+class HealInstruction : public Instruction {
+  public:
+    explicit HealInstruction(size_t id);
+    HealInstruction(const HealInstruction&) = delete;
+    HealInstruction& operator=(const HealInstruction&) 
+      = delete;
+    HealInstruction&& operator=(HealInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+};
+
 #endif

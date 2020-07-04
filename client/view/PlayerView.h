@@ -23,6 +23,8 @@ class PlayerView : public Entity {
 		void checkRace(PlayerRace race);
 		void checkHealth(int health);
 		void checkEquipment(EquipmentData equipment);
+		bool isAuthenticated();
+		void authenticate();
 		PlayerView(const PlayerView&) = delete;
     PlayerView& operator=(const PlayerView&) = delete;
 
@@ -35,6 +37,7 @@ class PlayerView : public Entity {
 		Weapon weapon;
 	  SDL_Rect headFrame;
 		bool ghost;
+		bool authenticated = false;
 };
 
 #endif

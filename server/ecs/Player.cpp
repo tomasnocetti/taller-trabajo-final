@@ -235,13 +235,28 @@ int Player::calculateExcessGold(){
 void Player::setTimeToResurrect(double minDistanceToPriest){
   const GlobalConfig& c = GC::get();
   resurrection.resurrect = true;
-  std::chrono::seconds 
-    sec(int(minDistanceToPriest * c.estimateTimeToPriestConst));
+  
+  int resurrectionTime = minDistanceToPriest * c.estimateTimeToPriestConst;
+  std::chrono::seconds sec(resurrectionTime);
   resurrection.timeToResurrection = std::chrono::system_clock::now() + sec;
+
+  ChatManager::resurrecting(chat, resurrectionTime);
 }
 
-void Player::throwObj(size_t inventoryPosition){
-  if ((unsigned int)inventoryPosition >= inventory.size()) return;
+bool Player::throwObj(size_t inventoryPosition, 
+  InventoryElementData &itemToDrop, PositionData &dropFirstPos){
+    if ((unsigned int)inventoryPosition >= inventory.size()) return false;
+
+    itemToDrop = inventory.at(inventoryPosition);
+    dropFirstPos = position;
+
+    bool success = eraseInventoryItem(inventoryPosition);
+    return success;    
+}
+
+bool Player::eraseInventoryItem(size_t inventoryPosition){
+  if ((unsigned int)inventoryPosition >= inventory.size()) return false;
+
   Equipable type;
   const GlobalConfig& c = GC::get();
 
@@ -256,9 +271,10 @@ void Player::throwObj(size_t inventoryPosition){
     case MANA_POTION:
       inventory[inventoryPosition].amount -= 1;
 
-      if (inventory[inventoryPosition].amount > 0) return;
+      if (inventory[inventoryPosition].amount > 0) return true;
 
       inventory.erase(inventory.begin() + inventoryPosition);
+      return true;
       break;
     case WEAPON:
     case LEFT_HAND_DEFENSE:
@@ -266,16 +282,17 @@ void Player::throwObj(size_t inventoryPosition){
     case BODY_ARMOUR:
       inventory[inventoryPosition].amount -= 1;
 
-      if (inventory[inventoryPosition].amount > 0) return;
+      if (inventory[inventoryPosition].amount > 0) return true;
 
       if (!inventory[inventoryPosition].isEquiped){
         inventory.erase(inventory.begin() + inventoryPosition);
-        return;
+        return true;
       }
 
       item->unEquip(*this);
       inventory.erase(inventory.begin() + inventoryPosition);
   }
+  return true;
 }
 
 void Player::setPlayerGameModelData(PlayerGameModelData &modelData){
@@ -342,23 +359,25 @@ bool Player::pickUp(DropItemData &drop){
   if (drop.id == c.goldItemId){
     gold += drop.amount; 
 
-    unsigned int maxGold = Equations::maxGold(level, gold);
+    unsigned int maxGold = Equations::maxGold(level);
     if (gold < maxGold) return true;
     
     gold = maxGold;
+    ChatManager::maxGold(chat);
     return true;
   }
 
-  InventoryElementData item;
-  item.amount = drop.amount;
-  item.isEquiped = false;
-  item.itemId = drop.id;
+  InventoryElementData item = {(size_t)drop.amount, false, drop.id};
 
+  return addItemToInventory(item);
+}
+
+bool Player::addItemToInventory(InventoryElementData &item){
   for (auto& it : inventory){
     if (it.itemId == item.itemId){
-      it.amount += drop.amount;
+      it.amount += item.amount;
       return true;
-    };
+    }
   }
 
   if (inventoryIsFull()) return false;
@@ -378,4 +397,50 @@ bool Player::inventoryIsFull(){
 
 bool Player::isAlive(){
   return health.currentHP > 0;
+}
+
+void Player::sendMessage(MessageType type, std::string msg){
+  ChatManager::otherMessages(chat, msg, type);
+}
+
+void Player::buy(size_t itemValue, size_t itemId){
+  if (gold < itemValue){
+    ChatManager::insufficientFunds(chat);
+    return;
+  }
+
+  InventoryElementData newItem = {1, false, (int)itemId};
+  bool success = addItemToInventory(newItem);
+
+  if (!success) return;
+
+  gold -= itemValue;
+  ChatManager::successfullBuy(chat, itemValue);
+}
+
+void Player::sell(size_t inventoryPos, size_t itemValue){
+  if (inventoryPos > inventory.size()){
+    ChatManager::invalidOption(chat);
+  }
+
+  eraseInventoryItem(inventoryPos);
+  gold += itemValue;
+
+  ChatManager::successfullSell(chat, itemValue);
+  
+  unsigned int maxGold = Equations::maxGold(level);
+  if (gold > maxGold){
+    gold = maxGold;
+    ChatManager::maxGold(chat);
+  }
+}
+
+size_t Player::inventoryItemId(size_t inventoryPosition){
+  return inventory.at(inventoryPosition).itemId;
+}
+
+void Player::heal(){
+  stopMeditating();
+  health.currentHP = health.totalHP;
+  health.currentMP = health.totalMP;
 }

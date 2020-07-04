@@ -65,7 +65,7 @@ void ServerProxy::equip(int inventoryPosition){
   writeBQ.push(instruction);
 }
 
-MainPlayerData ServerProxy::getMainPlayerData() const {
+const MainPlayerData& ServerProxy::getMainPlayerData() const {
   return mainPlayer;
 }
 
@@ -82,19 +82,19 @@ void ServerProxy::setMapData(MapData& mapData){
   map = mapData;
 }
 
-MapData ServerProxy::getMapData() const {
+const MapData& ServerProxy::getMapData() const {
   return map;
 }
 
-std::vector<EnemyData> ServerProxy::getNPCData() const {
+const std::vector<EnemyData>& ServerProxy::getNPCData() const {
   return npcs;
 }
 
-std::vector<OtherPlayersData> ServerProxy::getOtherPlayersData() const {
+const std::vector<OtherPlayersData>& ServerProxy::getOtherPlayersData() const {
   return otherPlayers;
 }
 
-std::vector<DropItemData> ServerProxy::getDrops() const {
+const std::vector<DropItemData>& ServerProxy::getDrops() const {
   return drops;
 }
 
@@ -131,5 +131,27 @@ void ServerProxy::throwObject(std::string inventoryPosition){
 
 void ServerProxy::pickUp(){
   InstructionData instruction = {PICK_UP, {}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::list(){
+  InstructionData instruction = {LIST, {}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::buy(std::string itemNumber){
+  ParamData x = {itemNumber};
+  InstructionData instruction = {BUY, {x}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::sell(std::string itemNumber){
+  ParamData x = {itemNumber};
+  InstructionData instruction = {SELL, {x}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::heal(){
+  InstructionData instruction = {HEAL, {}};
   writeBQ.push(instruction);
 }

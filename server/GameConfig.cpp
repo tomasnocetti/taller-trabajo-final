@@ -24,6 +24,7 @@ void GC::load(const char* src) {
   const Json::Value classes = gameConfig["classes"];
   const Json::Value items = gameConfig["items"];
   const Json::Value traderItems = gameConfig["traderItems"];
+  const Json::Value priestItems = gameConfig["priestItems"];
   const Json::Value chatMessages = gameConfig["chatMessages"];
   const Json::Value dropSizes = gameConfig["dropSizes"];
   const Json::Value itemsToDropNPC = gameConfig["itemsToDropNPC"];
@@ -54,21 +55,18 @@ void GC::load(const char* src) {
   instance->g.playerInitialLevel = gameConfig["playerInitialLevel"].asInt();
   instance->g.newbieLevel = gameConfig["newbieLevel"].asInt();
   instance->g.fairPlayLevel = gameConfig["fairPlayLevel"].asInt();
-  instance->g.npcDropGold = gameConfig["npcDropGold"].asDouble();
-  instance->g.npcDropPotion = gameConfig["npcDropPotion"].asDouble();
-  instance->g.npcDropItem = gameConfig["npcDropItem"].asDouble();
   instance->g.goldItemId = gameConfig["goldItemId"].asInt();
   instance->g.playerInitialGold = gameConfig["playerInitialGold"].asInt();
   instance->g.dropSizes.weight = dropSizes["weight"].asInt();
   instance->g.dropSizes.height = dropSizes["height"].asInt();
-  instance->g.npcDropGoldRandMinValue =
-    gameConfig["npcDropGoldRandMinValue"].asDouble();
-  instance->g.npcDropGoldRandMaxValue =
-    gameConfig["npcDropGoldRandMaxValue"].asDouble();
   instance->g.estimateTimeToPriestConst =
     gameConfig["estimateTimeToPriestConst"].asDouble();
   instance->g.maxInventoryDifferentItems =
     gameConfig["maxInventoryDifferentItems"].asInt();
+  instance->g.traderBankerPriestMinRangeToInteract =
+    gameConfig["traderBankerPriestMinRangeToInteract"].asInt();
+  instance->g.traderFactorWhenSelling =
+    gameConfig["traderFactorWhenSelling"].asDouble();
 
   instance->g.chatMessages.initialMsg =
     chatMessages["initialMsg"].asString();
@@ -92,6 +90,22 @@ void GC::load(const char* src) {
     chatMessages["stopMeditating"].asString();
   instance->g.chatMessages.inventoryIsFull =
     chatMessages["inventoryIsFull"].asString();
+  instance->g.chatMessages.successfullSell =
+    chatMessages["successfullSell"].asString();
+  instance->g.chatMessages.resurrecting =
+    chatMessages["resurrecting"].asString();
+  instance->g.chatMessages.invalidCommandBuy =
+    chatMessages["invalidCommandBuy"].asString();
+  instance->g.chatMessages.invalidCommandSell =
+    chatMessages["invalidCommandSell"].asString();
+  instance->g.chatMessages.traderDontBuyThatItem =
+    chatMessages["traderDontBuyThatItem"].asString();
+  instance->g.chatMessages.successfullBuy =
+    chatMessages["successfullBuy"].asString();
+  instance->g.chatMessages.maxGold =
+    chatMessages["maxGold"].asString();
+  instance->g.chatMessages.invalidCommandHeal =
+    chatMessages["invalidCommandHeal"].asString();
 
   instance->g.equations.critickAttackProb =
     equations["critickAttackProb"].asDouble();
@@ -103,6 +117,15 @@ void GC::load(const char* src) {
     equations["limitForNextLevel"].asDouble();
   instance->g.equations.npcDamageConst =
     equations["npcDamageConst"].asDouble();
+  instance->g.equations.npcDropGoldRandMinValue =
+    equations["npcDropGoldRandMinValue"].asDouble();
+  instance->g.equations.npcDropGoldRandMaxValue =
+    equations["npcDropGoldRandMaxValue"].asDouble();
+  instance->g.equations.npcDropGold = equations["npcDropGold"].asDouble();
+  instance->g.equations.npcDropPotion = equations["npcDropPotion"].asDouble();
+  instance->g.equations.npcDropItem = equations["npcDropItem"].asDouble();
+  instance->g.equations.maxGoldFactor = equations["maxGoldFactor"].asDouble();
+  instance->g.equations.baseGoldConst = equations["baseGoldConst"].asInt();
 
   /** PARSE ITEMS */
   parseItems(instance->g, items);
@@ -117,6 +140,18 @@ void GC::load(const char* src) {
       traderItem["value"].asInt()
     };
     instance->g.traderItems.push_back(item);
+  }
+
+  // PARSE PRIEST ITEMS
+  for (const Json::Value &traderItem : priestItems) {
+    int itemId = traderItem["itemId"].asInt();
+    if (!instance->g.items.count(itemId)) continue;
+
+    TraderItem item = {
+      itemId,
+      traderItem["value"].asInt()
+    };
+    instance->g.priestItems.push_back(item);
   }
 
   parseRaces(instance->g, races);

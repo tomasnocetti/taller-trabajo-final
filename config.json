@@ -5,34 +5,31 @@
     "mapFilePath": "client/assets/map/game_map.json"
   },
   "gameConfig": {
-    "attackZoneWidth": 30,
-    "attackZoneHeight": 30,
-    "attackNpcZoneWidth": 50,
+    "attackInterval": 1,
     "attackNpcZoneHeight": 50,
-    "dropZoneWidth": 30,
+    "attackNpcZoneWidth": 50,
+    "attackZoneHeight": 30,
+    "attackZoneWidth": 30,
     "dropZoneHeight": 30,
+    "dropZoneWidth": 30,
+    "estimateTimeToPriestConst": 0.01,
+    "fairPlayLevel": 3,
+    "maxInventoryDifferentItems": 9,
     "maxRangeZone": 800,
-    "offsetToRespawn": 30,
     "minDistanceNpc": 200,
     "minDistanceToAttackPlayer": 100,
-    "speed": 10,
-    "speedNpc": 5,
-    "respawnTimeNpc": 10,
-    "attackInterval": 1,
-    "npcRandomDrop": 0.2,
+    "newbieLevel": 2,
     "npcInitHealthPoints": 100,
     "npcInitSkills": 10,
+    "npcRandomDrop": 0.2,
+    "offsetToRespawn": 30,
+    "playerInitialGold": 1000,
     "playerInitialLevel": 1,
-    "newbieLevel": 2,
-    "fairPlayLevel": 3,
-    "npcDropGold": 0.8,
-    "npcDropPotion": 0.1,
-    "npcDropItem": 0.05,
-    "npcDropGoldRandMinValue": 3,
-    "npcDropGoldRandMaxValue": 4,
-    "playerInitialGold": 0,
-    "estimateTimeToPriestConst": 0.01,
-    "maxInventoryDifferentItems": 9,
+    "respawnTimeNpc": 10,
+    "speed": 10,
+    "speedNpc": 5,
+    "traderBankerPriestMinRangeToInteract": 200,
+    "traderFactorWhenSelling": 0.8,
     "chatMessages": {
       "initialMsg": "Bienvenido a las tierras de ARGENTUM",
       "damageRcvMsg": "Nos estan atacando! Daño recibido: ",
@@ -44,14 +41,29 @@
       "invalidOption": "La opcion selecionada es invalida",
       "meditating": "Meditando..",
       "stopMeditating": "Saliste del estado de meditación.",
-      "inventoryIsFull": "El inventario esta lleno!"
+      "inventoryIsFull": "El inventario esta lleno!",
+      "successfullSell": "Venta exitosa! Elemento vendido por: ",
+      "resurrecting": "Resucitando... Tiempo estimado: ",
+      "invalidCommandBuy": "Acerquese al comerciante o sacerdote mas cercano para realizar esta acción.",
+      "invalidCommandSell": "Acerquese al comerciante mas cercano para realizar esta acción",
+      "traderDontBuyThatItem": "Este comerciante no compra ese tipo de elementos.",
+      "successfullBuy": "Elemento comprado por: ",
+      "maxGold": "Atención! Ha llegado a su máximo de oro.",
+      "invalidCommandHeal": "Acerquese al sacerdote mas cercano para curarse."
     },
     "equations": {
       "limitForNextLevel": 1.8,
       "dodgeAttackComparisonValue": 0.001,
       "npcDamageConst": 0.2,
       "critickAttackProb": 0.5,
-      "excessGoldConstPow": 1.1
+      "excessGoldConstPow": 1.1,
+      "maxGoldFactor": 1.5,
+      "baseGoldConst": 100,
+      "npcDropGoldRandMaxValue": 0.02,
+      "npcDropGoldRandMinValue": 0,
+      "npcDropGold": 0.2,
+      "npcDropItem": 0.2,
+      "npcDropPotion": 0.2
     },
     "dropSizes": {
       "weight": 32,
@@ -203,9 +215,25 @@
       "name": "Escudo de Tortuga",
       "minDefense": 1,
       "maxDefense": 2
+    }, {
+      "id": 12,
+      "type": "W",
+      "name": "Baculo Nudoso",
+      "minDamage": 2,
+      "maxDamage": 4,
+      "range": 300,
+      "mana": 5
+    }, {
+      "id": 13,
+      "type": "W",
+      "name": "Flauta Elfica",
+      "minDamage": 2,
+      "maxDamage": 4,
+      "range": 300,
+      "mana": 100
     }],
     "goldItemId": 5000,
-    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11],
+    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
     "potionsToDropNPC": [18, 19],
     "traderItems": [{
       "itemId": 0,
@@ -213,12 +241,28 @@
     }, {
       "itemId": 1,
       "value": 300
+    }, {
+      "itemId": 2,
+      "value": 200
+    }, {
+      "itemId": 18,
+      "value": 150
+    }],
+    "priestItems": [{
+      "itemId": 6,
+      "value": 500
+    }, {
+      "itemId": 18,
+      "value": 300
+    }, {
+      "itemId": 19,
+      "value": 150
     }],
     "defaultItems":[{
       "itemId": 1,
       "amount": 1
     }, {
-      "itemId": 4,
+      "itemId": 13,
       "amount": 1 
     },{
       "itemId": 7,
