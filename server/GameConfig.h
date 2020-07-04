@@ -89,14 +89,14 @@ struct GlobalConfig {
   double npcRandomDrop;
   int npcInitHealthPoints;
   size_t npcInitSkills;
-  int playerInitialLevel;
+  size_t playerInitialLevel;
   size_t newbieLevel;
   size_t fairPlayLevel;
   double npcDropGold;
   double npcDropPotion;
   double npcDropItem;
   int goldItemId;
-  int playerInitialGold;
+  size_t playerInitialGold;
   double npcDropGoldRandMinValue;
   double npcDropGoldRandMaxValue;
   double estimateTimeToPriestConst;

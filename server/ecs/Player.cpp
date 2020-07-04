@@ -6,7 +6,7 @@
 #include "../services/ChatManager.h"
 #include "../GameConfig.h"
 
-Player::Player(MainPlayerData playerData, size_t id):
+Player::Player(MainPlayerData& playerData, size_t id):
   LiveEntity(playerData.position, playerData.points,
   playerData.level, id),
   nick(playerData.nick),
@@ -26,54 +26,43 @@ Player::Player(MainPlayerData playerData, size_t id):
 }
 
 std::unique_ptr<Player> Player::createPlayer(
-  size_t id,
-  std::string nick,
-  PlayerRootData root) {
+  PlayerPersistData& dataP, std::string& nick) {
     MainPlayerData data;
     const GlobalConfig& c = GC::get();
 
-    data.rootd = root;
+    data.rootd = dataP.rootd;
     data.nick = nick;
-    data.gold = c.playerInitialGold;
-    data.level = c.playerInitialLevel;
+    data.gold = dataP.savedGold;
+    data.level = dataP.level;
+    data.inventory = dataP.inventory;
 
     Player::setDefaultEquipment(data.inventory);
 
-    data.experience.maxLevelExperience = 0;
-    data.experience.currentExperience = 0;
+    data.experience.currentExperience = dataP.currentExperience;
     Player::setExperienceData(data.level, data.experience);
 
-    Player::setPositionData(root, data.position);
-
     data.points.totalHP = Equations::maxLife(data.rootd, data.level);
-    //data.points.currentHP = data.points.totalHP;
-    data.points.currentHP = 1;
+    data.points.currentHP = dataP.currentHP;
 
     data.points.totalMP = Equations::maxMana(data.rootd, data.level);
     //data.points.currentMP = data.points.totalMP;
-    data.points.currentMP = 0;
+    data.points.currentMP = dataP.currentMP;
     data.points.recoverTime = std::chrono::system_clock::now();
     data.points.nextRespawn = std::chrono::system_clock::now();
     data.points.meditating = false;
 
     ChatManager::initialMessage(data.chat);
 
-    std::unique_ptr<Player> player(new Player(data, id));
+    std::unique_ptr<Player> player(new Player(data, dataP.id));
 
     return player;
 }
 
 void Player::setExperienceData(size_t &level, ExperienceData &experience){
-  experience.minLevelExperience = experience.maxLevelExperience;
+  experience.minLevelExperience =
+    level == 0 ? 0 : Equations::maxLevelExperience(level - 1);
   experience.maxLevelExperience =
-  Equations::maxLevelExperience(level);
-}
-
-void Player::setPositionData(PlayerRootData &root, PositionData &position){
-  position.w = PLAYER_WIDTH;
-  position.h = PLAYER_HEIGHT;
-  position.x = 2600;
-  position.y = 2600;
+    Equations::maxLevelExperience(level);
 }
 
 bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){

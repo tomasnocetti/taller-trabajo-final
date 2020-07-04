@@ -36,10 +36,9 @@ struct ResurrectionData{
 };
 
 struct InventoryElementData{
-  size_t amount;
+  int amount;
   bool isEquiped;
   int itemId;
-  MSGPACK_DEFINE(amount, isEquiped, itemId)
 };
 
 struct ExperienceData{
@@ -97,5 +96,38 @@ struct PlayerGameModelData {
   std::vector<DropItemData> drops;
   MSGPACK_DEFINE(playerData, npcs, otherPlayers, drops)
 };
+
+namespace msgpack {
+  MSGPACK_API_VERSION_NAMESPACE(MSGPACK_DEFAULT_API_NS) {
+  namespace adaptor {
+
+    template<>
+    struct convert<InventoryElementData> {
+      msgpack::object const& operator()(msgpack::object const& o, InventoryElementData& v) const {
+          InventoryElementData b {
+            o.via.array.ptr[0].as<std::int32_t>(),
+            o.via.array.ptr[1].as<bool>(),
+            o.via.array.ptr[2].as<std::int32_t>()
+          };
+          v = b;
+          return o;
+      }
+    };
+
+    template<>
+    struct pack<InventoryElementData> {
+      template <typename Stream>
+      packer<Stream>& operator()(msgpack::packer<Stream>& o, InventoryElementData const& v) const {
+        // packing member variables as an array.
+        // std::cout << "ACA1: " << v.amount << std::endl;
+        o.pack_array(3);
+        o.pack_fix_uint32(v.amount);
+        v.isEquiped ? o.pack_true() : o.pack_false();
+        o.pack_fix_uint32(v.itemId);
+        return o;
+      }
+    };
+  }}
+}
 
 #endif

@@ -5,6 +5,7 @@
 #include "../definitions/EquationDefinitions.h"
 #include "../definitions/Items.h"
 #include "../GameModel.h"
+#include "../services/FileManager.h"
 #include <string>
 #include <vector>
 
@@ -33,7 +34,7 @@ class Player : public LiveEntity{
     friend class GameModel;
     friend class Trader;
   public:
-    Player(MainPlayerData playerData, size_t id);
+    Player(MainPlayerData& playerData, size_t id);
     Player(const Player&) = delete;
     Player& operator=(const Player&) = delete;
     /* Cheque si la posición a la que se quiere atacar contiene un npc
@@ -72,9 +73,7 @@ class Player : public LiveEntity{
     bool isAlive();
     void setDeadDefaults();
     static std::unique_ptr<Player> createPlayer(
-      size_t id, 
-      std::string nick, 
-      PlayerRootData root);
+      PlayerPersistData& dataP, std::string& nick);
     static void setInitEquipment(EquipmentData &equipment, 
       PlayerRootData &root);   
     static void setExperienceData(size_t &level, ExperienceData &experience);
