@@ -7,6 +7,8 @@
 #include <sstream>
 #include <string>
 
+#define PLAYER_INVENTORY 1
+
 Trader::Trader(PositionData position) :
   Entity(position) {
   const GlobalConfig& c = GC::get();
@@ -29,7 +31,7 @@ void Trader::buy(Player& p, size_t inventoryPos) {
     return;
   }
   
-  int itemToSellId = p.inventoryItemId(inventoryPos);
+  int itemToSellId = p.inventoryItemId(inventoryPos, PLAYER_INVENTORY);
   size_t itemValue = 0;
 
   for (unsigned int i = 0; i < c.traderItems.size(); i++) {

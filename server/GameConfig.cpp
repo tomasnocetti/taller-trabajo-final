@@ -114,7 +114,11 @@ void GC::load(const char* src) {
     chatMessages["invalidCommandDepositWithdraw"].asString();
   instance->g.chatMessages.depositItemSuccess =
     chatMessages["depositItemSuccess"].asString();
-  
+  instance->g.chatMessages.successfullGoldExtraction =
+    chatMessages["successfullGoldExtraction"].asString();
+  instance->g.chatMessages.successfullItemExtraction =
+    chatMessages["successfullItemExtraction"].asString();
+
   instance->g.equations.critickAttackProb =
     equations["critickAttackProb"].asDouble();
   instance->g.equations.dodgeAttackComparisonValue =

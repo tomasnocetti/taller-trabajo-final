@@ -32,7 +32,9 @@ class ChatManager{
     static void maxGold(ChatData &chat);
     static void depositGoldSuccess(ChatData &chat, size_t bankGold);
     static void depositItemSuccess(ChatData &chat);
-    
+    static void successfullGoldExtraction(ChatData &chat, size_t bankGold);
+    static void successfullItemExtraction(ChatData &chat);
+
   private:
 };
 

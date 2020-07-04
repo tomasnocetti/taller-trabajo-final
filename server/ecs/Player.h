@@ -79,14 +79,16 @@ class Player : public LiveEntity{
     bool inventoryIsFull(size_t opt);
     bool isAlive();
     void setDeadDefaults();
-    bool eraseInventoryItem(size_t inventoryPosition);
+    bool eraseInventoryItem(size_t inventoryPosition, int opt);
     void sendMessage(MessageType type, std::string msg);
     void buy(size_t itemValue, size_t itemId);
     void sell(size_t inventoryPos, size_t itemValue);
-    size_t inventoryItemId(size_t inventoryPosition);
+    size_t inventoryItemId(size_t inventoryPosition, int opt);
     void heal();
     void depositGold(size_t amount);
     void depositItem(size_t inventoryPos);
+    void withdrawGold(size_t amount);
+    void withdrawItem(size_t inventoryPos);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 

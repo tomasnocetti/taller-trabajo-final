@@ -65,7 +65,9 @@ class ServerProxy{
     void heal();
     void depositGold(std::string amount);
     void depositItem(std::string inventoryPos);
-
+    void withDrawGold(std::string amount);
+    void withDrawItem(std::string inventoryPos);
+    
     /** Client GETTERS */
     MapData getMapData() const;
     MainPlayerData getMainPlayerData() const;

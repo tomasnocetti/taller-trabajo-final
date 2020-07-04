@@ -116,6 +116,10 @@ class GameModel{
     int checkBankerInRange(Player &p);
     /* Handle deposit item instruction */
     void depositItem(size_t playerId, size_t inventoryPos);
+    /* Handle withdraw gold instruction */
+    void withdrawGold(size_t playerId, size_t inventoryPos);
+    /* Handle withdraw item instruction */
+    void withdrawItem(size_t playerId, size_t inventoryPos);
 };
 
 #endif

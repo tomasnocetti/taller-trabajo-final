@@ -237,4 +237,34 @@ class DepositItemInstruction : public Instruction {
     size_t inventoryPosition;
 };
 
+class WithdrawGoldInstruction : public Instruction {
+  public:
+    explicit WithdrawGoldInstruction(size_t id, std::string inventoryPos);
+    WithdrawGoldInstruction(const WithdrawGoldInstruction&) = delete;
+    WithdrawGoldInstruction& operator=(const WithdrawGoldInstruction&) 
+      = delete;
+    WithdrawGoldInstruction&& operator=(WithdrawGoldInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    size_t amount;
+};
+
+class WithdrawItemInstruction : public Instruction {
+  public:
+    explicit WithdrawItemInstruction(size_t id, std::string inventoryPos);
+    WithdrawItemInstruction(const WithdrawItemInstruction&) = delete;
+    WithdrawItemInstruction& operator=(const WithdrawItemInstruction&) 
+      = delete;
+    WithdrawItemInstruction&& operator=(WithdrawItemInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    size_t inventoryPosition;
+};
+
 #endif

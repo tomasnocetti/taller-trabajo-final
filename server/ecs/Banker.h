@@ -18,7 +18,7 @@ class Banker : public Entity {
     static size_t getNewId();
     void listItems(Player &player);
     void deposit(Player &player, size_t inventoryPos);
-    void withdraw(Player &player);
+    void withdraw(Player &player, size_t inventoryPos);
     void depositGold(Player &player, size_t amount);
     void withDrawGold(Player &player, size_t amount);
 

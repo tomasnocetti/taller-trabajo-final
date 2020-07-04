@@ -170,3 +170,35 @@ void DepositItemInstruction::run(GameModel& game) {
 
   game.commandError(playerId);
 }
+
+WithdrawGoldInstruction::WithdrawGoldInstruction(size_t id, 
+  std::string amount) :
+    playerId(id) {
+      valid = isValid(amount);
+      if (valid) this->amount = (std::stoi(amount));
+}
+
+void WithdrawGoldInstruction::run(GameModel& game) {
+  if (valid){
+    game.withdrawGold(playerId, amount);
+    return;
+  }
+
+  game.commandError(playerId);
+}
+
+WithdrawItemInstruction::WithdrawItemInstruction(size_t id, 
+  std::string inventoryPos) :
+    playerId(id) {
+      valid = isValid(inventoryPos);
+      if (valid) inventoryPosition = (std::stoi(inventoryPos)-1);
+}
+
+void WithdrawItemInstruction::run(GameModel& game) {
+  if (valid){
+    game.withdrawItem(playerId, inventoryPosition);
+    return;
+  }
+
+  game.commandError(playerId);
+}

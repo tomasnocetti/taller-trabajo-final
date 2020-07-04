@@ -126,6 +126,20 @@ void ChatController::handleCommand() {
       model.depositItem(item);
     }
   }
+
+  if (action == "/retirar"){
+    std::string aux = command.erase(0, pos+delimiter.length());
+    pos = aux.find(" ");
+    
+    std::string item = command.substr(0, pos);
+    if (item == "oro"){
+      std::string amount = aux.erase(0, pos+delimiter.length());
+      
+      model.withDrawGold(amount);
+    } else {
+      model.withDrawItem(item);
+    }
+  }
 }
 
 EntityList& ChatController::getEntities() {

@@ -549,6 +549,31 @@ void GameModel::depositItem(size_t playerId, size_t inventoryPos){
   bankers.at(bankerId)->deposit(p, inventoryPos);
 }
 
+void GameModel::withdrawGold(size_t playerId, size_t amount){
+  const GlobalConfig& c = GC::get(); 
+  Player &p = *players.at(playerId);
+  
+  int bankerId = checkBankerInRange(p);
+  if (bankerId == -1){
+    p.sendMessage(INFO, c.chatMessages.invalidCommandDepositWithdraw);
+    return;
+  }
+  bankers.at(bankerId)->withDrawGold(p, amount);
+}
+
+void GameModel::withdrawItem(size_t playerId, size_t inventoryPos){
+  const GlobalConfig& c = GC::get(); 
+  Player &p = *players.at(playerId);
+  
+  int bankerId = checkBankerInRange(p);
+  if (bankerId == -1){
+    p.sendMessage(INFO, c.chatMessages.invalidCommandDepositWithdraw);
+    return;
+  }
+
+  bankers.at(bankerId)->withdraw(p, inventoryPos);
+}
+
 void GameModel::commandError(size_t playerId){
   const GlobalConfig& c = GC::get(); 
   players.at(playerId)->sendMessage(INFO, c.chatMessages.invalidCommand);
