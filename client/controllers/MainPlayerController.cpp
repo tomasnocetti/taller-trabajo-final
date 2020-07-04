@@ -99,8 +99,8 @@ void MainPlayerController::handleEvent(const SDL_Event &e) {
     active = true;
   }
   if (e.type == SDL_KEYDOWN &&
-    e.key.keysym.sym == SDLK_SLASH) {
-    std::cout << "ACA!" << std::endl;
+    (e.key.keysym.sym == SDLK_SLASH ||
+    e.key.keysym.sym == SDLK_KP_AT)) {
     active = false;
   }
 
