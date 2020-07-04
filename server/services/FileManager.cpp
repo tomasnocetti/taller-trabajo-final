@@ -270,6 +270,9 @@ bool FileManager::checkIfNickExists(const std::string& nick){
 }
 
 bool FileManager::getPlayerId(const std::string& nick, size_t& id) {
+  if (!checkIfNickExists(nick)) return false;
+  FileIndex& index = indexList.at(nick);
+  id = index.playerId;
   return true;
 }
 

@@ -6,6 +6,9 @@
 #include "../services/ChatManager.h"
 #include "../GameConfig.h"
 
+#define BANK_INVENTORY 0
+#define PLAYER_INVENTORY 1
+
 Player::Player(MainPlayerData& playerData, size_t id):
   LiveEntity(playerData.position, playerData.points,
   playerData.level, id),
@@ -31,7 +34,8 @@ std::unique_ptr<Player> Player::createPlayer(
     data.id = dataP.id;
     data.rootd = dataP.rootd;
     data.nick = nick;
-    data.gold = dataP.savedGold;
+    data.gold = dataP.gold;
+    
     data.level = dataP.level;
     data.inventory = dataP.inventory;
     data.position = {
@@ -55,7 +59,8 @@ std::unique_ptr<Player> Player::createPlayer(
     ChatManager::initialMessage(data.chat);
 
     std::unique_ptr<Player> player(new Player(data, dataP.id));
-
+    player->itemsInBank = dataP.savedInventory;
+    player->goldInBank = dataP.savedGold;
     return player;
 }
 
@@ -63,7 +68,7 @@ PlayerPersistData Player::generatePersistData(){
   PlayerPersistData p = {
     id,
     gold,
-    0, // SAVEDGOLD
+    goldInBank,
     level,
     static_cast<size_t>(health.currentHP),
     static_cast<size_t>(health.currentMP),
@@ -72,7 +77,7 @@ PlayerPersistData Player::generatePersistData(){
     position.x,
     position.y,
     inventory,
-    {}
+    itemsInBank
   };
   return p;
 }
@@ -263,17 +268,20 @@ bool Player::throwObj(size_t inventoryPosition,
     itemToDrop = inventory.at(inventoryPosition);
     dropFirstPos = position;
 
-    bool success = eraseInventoryItem(inventoryPosition);
-    return success;
+    bool success = eraseInventoryItem(inventoryPosition, PLAYER_INVENTORY);
+    return success;    
 }
 
-bool Player::eraseInventoryItem(size_t inventoryPosition){
-  if ((unsigned int)inventoryPosition >= inventory.size()) return false;
+bool Player::eraseInventoryItem(size_t inventoryPosition, int opt){
+  std::vector<InventoryElementData> &aux =
+    (opt == PLAYER_INVENTORY) ? inventory : itemsInBank;  
+
+  if ((unsigned int)inventoryPosition >= aux.size()) return false;
 
   Equipable type;
   const GlobalConfig& c = GC::get();
 
-  InventoryElementData& i = inventory[inventoryPosition];
+  InventoryElementData& i = aux[inventoryPosition];
 
   const std::unique_ptr<Item> &item = c.items.at(i.itemId);
 
@@ -282,28 +290,28 @@ bool Player::eraseInventoryItem(size_t inventoryPosition){
   switch (type) {
     case HEALTH_POTION:
     case MANA_POTION:
-      inventory[inventoryPosition].amount -= 1;
+      aux[inventoryPosition].amount -= 1;
 
-      if (inventory[inventoryPosition].amount > 0) return true;
+      if (aux[inventoryPosition].amount > 0) return true;
 
-      inventory.erase(inventory.begin() + inventoryPosition);
+      aux.erase(aux.begin() + inventoryPosition);
       return true;
       break;
     case WEAPON:
     case LEFT_HAND_DEFENSE:
     case HEAD_DEFENSE:
     case BODY_ARMOUR:
-      inventory[inventoryPosition].amount -= 1;
+      aux[inventoryPosition].amount -= 1;
 
-      if (inventory[inventoryPosition].amount > 0) return true;
+      if (aux[inventoryPosition].amount > 0) return true;
 
-      if (!inventory[inventoryPosition].isEquiped){
-        inventory.erase(inventory.begin() + inventoryPosition);
+      if (!aux[inventoryPosition].isEquiped){
+        aux.erase(aux.begin() + inventoryPosition);
         return true;
       }
 
       item->unEquip(*this);
-      inventory.erase(inventory.begin() + inventoryPosition);
+      aux.erase(inventory.begin() + inventoryPosition);
   }
   return true;
 }
@@ -382,26 +390,32 @@ bool Player::pickUp(DropItemData &drop){
 
   InventoryElementData item = {drop.amount, false, drop.id};
 
-  return addItemToInventory(item);
+  return addItemToInventory(item, PLAYER_INVENTORY);
 }
 
-bool Player::addItemToInventory(InventoryElementData &item){
-  for (auto& it : inventory){
+bool Player::addItemToInventory(InventoryElementData &item, int opt){
+  std::vector<InventoryElementData> &aux =
+    (opt == PLAYER_INVENTORY) ? inventory : itemsInBank;   
+
+  for (auto& it : aux){
     if (it.itemId == item.itemId){
       it.amount += item.amount;
       return true;
     }
   }
 
-  if (inventoryIsFull()) return false;
+  if (inventoryIsFull(opt)) return false;
 
-  inventory.push_back(std::move(item));
+  aux.push_back(std::move(item));
   return true;
 }
 
-bool Player::inventoryIsFull(){
+bool Player::inventoryIsFull(size_t opt){
+  std::vector<InventoryElementData> &aux =
+    (opt == PLAYER_INVENTORY) ? inventory : itemsInBank;  
+
   const GlobalConfig& c = GC::get();
-  if (inventory.size() >= c.maxInventoryDifferentItems){
+  if (aux.size() >= c.maxInventoryDifferentItems){
     ChatManager::inventoryIsFull(chat);
     return true;
   }
@@ -423,7 +437,7 @@ void Player::buy(size_t itemValue, size_t itemId){
   }
 
   InventoryElementData newItem = {1, false, (int)itemId};
-  bool success = addItemToInventory(newItem);
+  bool success = addItemToInventory(newItem, PLAYER_INVENTORY);
 
   if (!success) return;
 
@@ -436,7 +450,7 @@ void Player::sell(size_t inventoryPos, size_t itemValue){
     ChatManager::invalidOption(chat);
   }
 
-  eraseInventoryItem(inventoryPos);
+  eraseInventoryItem(inventoryPos, PLAYER_INVENTORY);
   gold += itemValue;
 
   ChatManager::successfullSell(chat, itemValue);
@@ -448,12 +462,74 @@ void Player::sell(size_t inventoryPos, size_t itemValue){
   }
 }
 
-size_t Player::inventoryItemId(size_t inventoryPosition){
-  return inventory.at(inventoryPosition).itemId;
+size_t Player::inventoryItemId(size_t inventoryPosition, int opt){
+  std::vector<InventoryElementData> &aux =
+    (opt == PLAYER_INVENTORY) ? inventory : itemsInBank;  
+
+  return aux.at(inventoryPosition).itemId;
 }
 
 void Player::heal(){
   stopMeditating();
   health.currentHP = health.totalHP;
   health.currentMP = health.totalMP;
+}
+
+void Player::depositGold(size_t amount){
+  if (amount > gold){
+    ChatManager::insufficientFunds(chat);
+    return;
+  }
+  goldInBank += amount;
+  gold -= amount;
+  ChatManager::depositGoldSuccess(chat, goldInBank);
+}
+
+void Player::depositItem(size_t inventoryPos){
+  if (inventoryPos >= inventory.size()){
+    ChatManager::invalidOption(chat);
+    return;
+  }
+
+  InventoryElementData newItem = {
+    1, 
+    false, 
+    (int)inventoryItemId(inventoryPos, PLAYER_INVENTORY)};
+  bool success = addItemToInventory(newItem, BANK_INVENTORY);
+
+  if (!success) return;
+
+  eraseInventoryItem(inventoryPos, PLAYER_INVENTORY);
+  ChatManager::depositItemSuccess(chat);
+}
+
+void Player::withdrawGold(size_t amount){
+  if (amount > goldInBank){
+    ChatManager::insufficientFunds(chat);
+    return;
+  }
+  goldInBank -= amount;
+  gold += amount;
+  ChatManager::successfullGoldExtraction(chat, goldInBank);
+}
+
+void Player::withdrawItem(size_t inventoryPos){
+  if (inventoryPos >= itemsInBank.size()){
+    ChatManager::invalidOption(chat);
+    return;
+  }
+
+  InventoryElementData newItem = {
+    1, 
+    false, 
+    (int)inventoryItemId(inventoryPos, BANK_INVENTORY)};
+  bool success = addItemToInventory(newItem, PLAYER_INVENTORY);
+
+  if (!success){
+    ChatManager::inventoryIsFull(chat);
+    return;
+  }
+
+  eraseInventoryItem(inventoryPos, BANK_INVENTORY);
+  ChatManager::successfullItemExtraction(chat);
 }

@@ -106,6 +106,18 @@ void GC::load(const char* src) {
     chatMessages["maxGold"].asString();
   instance->g.chatMessages.invalidCommandHeal =
     chatMessages["invalidCommandHeal"].asString();
+  instance->g.chatMessages.depositGoldSuccess =
+    chatMessages["depositGoldSuccess"].asString();
+  instance->g.chatMessages.invalidCommand =
+    chatMessages["invalidCommand"].asString();
+  instance->g.chatMessages.invalidCommandDepositWithdraw =
+    chatMessages["invalidCommandDepositWithdraw"].asString();
+  instance->g.chatMessages.depositItemSuccess =
+    chatMessages["depositItemSuccess"].asString();
+  instance->g.chatMessages.successfullGoldExtraction =
+    chatMessages["successfullGoldExtraction"].asString();
+  instance->g.chatMessages.successfullItemExtraction =
+    chatMessages["successfullItemExtraction"].asString();
 
   instance->g.equations.critickAttackProb =
     equations["critickAttackProb"].asDouble();
@@ -131,25 +143,25 @@ void GC::load(const char* src) {
   parseItems(instance->g, items);
 
   // PARSE TRADER ITEMS
-  for (const Json::Value &traderItem : traderItems) {
-    int itemId = traderItem["itemId"].asInt();
+  for (const Json::Value &it : traderItems) {
+    int itemId = it["itemId"].asInt();
     if (!instance->g.items.count(itemId)) continue;
 
-    TraderItem item = {
+    InterchangeableItem item = {
       itemId,
-      traderItem["value"].asInt()
+      it["value"].asInt()
     };
     instance->g.traderItems.push_back(item);
   }
 
   // PARSE PRIEST ITEMS
-  for (const Json::Value &traderItem : priestItems) {
-    int itemId = traderItem["itemId"].asInt();
+  for (const Json::Value &it : priestItems) {
+    int itemId = it["itemId"].asInt();
     if (!instance->g.items.count(itemId)) continue;
 
-    TraderItem item = {
+    InterchangeableItem item = {
       itemId,
-      traderItem["value"].asInt()
+      it["value"].asInt()
     };
     instance->g.priestItems.push_back(item);
   }
