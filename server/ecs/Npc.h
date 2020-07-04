@@ -20,7 +20,6 @@ class NPC : public LiveEntity {
     static std::unique_ptr<NPC> createNPC(
       size_t id,
       PositionData position,
-      size_t level,
       NPCClass npcType);
     static size_t getNewId();
     

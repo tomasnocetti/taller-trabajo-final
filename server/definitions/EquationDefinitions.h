@@ -18,13 +18,13 @@ class Equations{
     static int attackExperience(int damage, int otherLevel, int level);
     static int killExperience(int maxHealthOther, int otherLevel, int level);
     static bool dodgeAttackPlayer(PlayerRootData& root);
-    static bool dodgeAttackNPC();
+    static bool dodgeAttackNPC(NPCClass& npcType);
     static int defend(
       BodyEquipmentSkills bodySkills, 
       LeftHandEquipmentSkills leftSkills, HeadEquipmentSkills headSkills);
     static int random(int minValue, int maxValue);
     static float randomFloat(float a, float b);
-    static int NPCDamage(int level);
+    static int NPCDamage(NPCClass& npcType);
     static bool criticAttack();
     static int excessGold(int level, int gold);
     static int maxGold(int level);

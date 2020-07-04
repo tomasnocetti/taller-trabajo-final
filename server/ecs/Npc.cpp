@@ -40,7 +40,7 @@ bool NPC::attack(LiveEntity &entity, int xCoord, int yCoord) {
 
   lastAttack = std::chrono::system_clock::now();
 
-  int damage = Equations::NPCDamage(level);
+  int damage = Equations::NPCDamage(type);
   entity.rcvDamage(damage);
 
   return true;
@@ -54,7 +54,7 @@ void NPC::rcvDamage(int &damage) {
     return;
   }
 
-  bool dodged = Equations::dodgeAttackNPC();
+  bool dodged = Equations::dodgeAttackNPC(type);
   if (dodged){
     damage = -1;
     return;
@@ -105,21 +105,22 @@ void NPC::setNextRespawn(){
 }
 
 std::unique_ptr<NPC> NPC::createNPC(size_t id, PositionData position,
-  size_t level, NPCClass npcType) {
+  NPCClass npcType) {
     EnemyData data;
     const GlobalConfig& c = GC::get();
+    const NPCData& npcD = c.npcs.at(npcType);
     data.id = id;
     data.position = position;
     data.type = npcType;
     data.healthAndManaData = {
-      c.npcInitHealthPoints,
-      c.npcInitHealthPoints,
+      npcD.health,
+      npcD.health,
       0,
       0,
       std::chrono::system_clock::now()};
     data.lastAttack = std::chrono::system_clock::now();
 
-    std::unique_ptr<NPC> npc(new NPC(data, level));
+    std::unique_ptr<NPC> npc(new NPC(data, npcD.level));
 
     return npc;
 }

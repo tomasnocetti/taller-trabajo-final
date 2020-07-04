@@ -19,8 +19,6 @@
     "minDistanceNpc": 200,
     "minDistanceToAttackPlayer": 100,
     "newbieLevel": 2,
-    "npcInitHealthPoints": 100,
-    "npcInitSkills": 10,
     "npcRandomDrop": 0.2,
     "offsetToRespawn": 30,
     "playerInitialGold": 1000,
@@ -140,6 +138,27 @@
       "mana": 0,
       "meditation": 0,
       "health": 5
+    }],
+    "npcs": [{
+      "type": "G",
+      "level": 15,
+      "health": 100,
+      "skills": 10
+    }, {
+      "type": "S",
+      "level": 8,
+      "health": 100,
+      "skills": 10
+    }, {
+      "type": "Z",
+      "level": 8,
+      "health": 100,
+      "skills": 10
+    }, {
+      "type": "A",
+      "level": 10,
+      "health": 100,
+      "skills": 10
     }],
     "items": [{
       "id": 1,

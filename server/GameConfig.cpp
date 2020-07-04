@@ -22,6 +22,7 @@ void GC::load(const char* src) {
   const Json::Value systemConfig = root["systemConfig"];
   const Json::Value races = gameConfig["races"];
   const Json::Value classes = gameConfig["classes"];
+  const Json::Value npcs = gameConfig["npcs"];
   const Json::Value items = gameConfig["items"];
   const Json::Value traderItems = gameConfig["traderItems"];
   const Json::Value priestItems = gameConfig["priestItems"];
@@ -50,13 +51,11 @@ void GC::load(const char* src) {
   instance->g.respawnTimeNpc = gameConfig["respawnTimeNpc"].asInt();
   instance->g.attackInterval = gameConfig["attackInterval"].asInt();
   instance->g.npcRandomDrop = gameConfig["npcRandomDrop"].asDouble();
-  instance->g.npcInitHealthPoints = gameConfig["npcInitHealthPoints"].asInt();
-  instance->g.npcInitSkills = gameConfig["npcInitSkills"].asInt();
   instance->g.playerInitialLevel = gameConfig["playerInitialLevel"].asInt();
+  instance->g.playerInitialGold = gameConfig["playerInitialGold"].asInt();
   instance->g.newbieLevel = gameConfig["newbieLevel"].asInt();
   instance->g.fairPlayLevel = gameConfig["fairPlayLevel"].asInt();
   instance->g.goldItemId = gameConfig["goldItemId"].asInt();
-  instance->g.playerInitialGold = gameConfig["playerInitialGold"].asInt();
   instance->g.dropSizes.weight = dropSizes["weight"].asInt();
   instance->g.dropSizes.height = dropSizes["height"].asInt();
   instance->g.estimateTimeToPriestConst =
@@ -77,6 +76,7 @@ void GC::load(const char* src) {
   parseDefaultInv(instance->g, defaultItems);
   parseRaces(instance->g, races);
   parseClasses(instance->g, classes);
+  parseNPCS(instance->g, npcs);
 
   // PARSE ITEMSTODROPNPC
   for (const Json::Value &item : itemsToDropNPC) {
@@ -203,6 +203,20 @@ void GC::parseRaces(GlobalConfig& g, const Json::Value& val) {
           race["inteligence"].asInt(),
           race["strength"].asInt(),
           race["agility"].asInt()}));
+  }
+}
+
+void GC::parseNPCS(GlobalConfig& g, const Json::Value& val) {
+  for (const Json::Value &npc : val) {
+    std::string t = npc["type"].asString();
+    NPCClass type =
+      static_cast<NPCClass> (t[0]);
+    g.npcs.insert(
+      std::pair<NPCClass, NPCData>(
+        type,
+        { npc["level"].asInt(),
+         npc["health"].asInt(),
+         npc["skills"].asInt() }));
   }
 }
 

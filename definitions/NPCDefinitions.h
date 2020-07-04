@@ -4,10 +4,10 @@
 #include "EntityDefinitions.h"
 
 typedef enum {
-  GOBLIN,
-  SKELETON,
-  ZOMBIE,
-  SPIDER
+  GOBLIN = 'G',
+  SKELETON = 'S',
+  ZOMBIE = 'Z',
+  SPIDER = 'A'
 } NPCClass;
 
 MSGPACK_ADD_ENUM(NPCClass)

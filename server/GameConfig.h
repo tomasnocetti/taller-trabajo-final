@@ -56,6 +56,8 @@ struct ChatMessages {
 
 struct NPCData {
   int level;
+  int health;
+  int skills;
 };
 
 struct DropSizes{
@@ -112,8 +114,6 @@ struct GlobalConfig {
   int respawnTimeNpc;
   int attackInterval;
   double npcRandomDrop;
-  int npcInitHealthPoints;
-  size_t npcInitSkills;
   size_t playerInitialLevel;
   size_t newbieLevel;
   size_t fairPlayLevel;
@@ -125,6 +125,7 @@ struct GlobalConfig {
   double traderFactorWhenSelling;
   std::map<PlayerRace, RaceSkillsData> raceSkills;
   std::map<PlayerClass, ClassSkillsData> classSkills;
+  std::map<NPCClass, NPCData> npcs;
   std::map<int, std::unique_ptr<Item>> items;
   std::vector<InterchangeableItem> traderItems;
   std::vector<InterchangeableItem> priestItems;
@@ -160,6 +161,7 @@ class GC {
     static void parseItems(GlobalConfig& g, const Json::Value& val);
     static void parseRaces(GlobalConfig& g, const Json::Value& val);
     static void parseClasses(GlobalConfig& g, const Json::Value& val);
+    static void parseNPCS(GlobalConfig& g, const Json::Value& val);
     static void parsePriestItems(GlobalConfig& g, const Json::Value& val);
     static void parseTraderItems(GlobalConfig& g, const Json::Value& val);
     static void parseChatMessages(
