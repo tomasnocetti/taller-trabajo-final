@@ -68,108 +68,12 @@ void GC::load(const char* src) {
   instance->g.traderFactorWhenSelling =
     gameConfig["traderFactorWhenSelling"].asDouble();
 
-  instance->g.chatMessages.initialMsg =
-    chatMessages["initialMsg"].asString();
-  instance->g.chatMessages.damageRcvMsg =
-    chatMessages["damageRcvMsg"].asString();
-  instance->g.chatMessages.enemyDodgedAttack =
-    chatMessages["enemyDodgedAttack"].asString();
-  instance->g.chatMessages.attackDodged =
-    chatMessages["attackDodged"].asString();
-  instance->g.chatMessages.damageCaused =
-    chatMessages["damageCaused"].asString();
-  instance->g.chatMessages.insufficientFunds =
-    chatMessages["insufficientFunds"].asString();
-  instance->g.chatMessages.noInventorySpace =
-    chatMessages["noInventorySpace"].asString();
-  instance->g.chatMessages.invalidOption =
-    chatMessages["invalidOption"].asString();
-  instance->g.chatMessages.meditating =
-    chatMessages["meditating"].asString();
-  instance->g.chatMessages.stopMeditating =
-    chatMessages["stopMeditating"].asString();
-  instance->g.chatMessages.inventoryIsFull =
-    chatMessages["inventoryIsFull"].asString();
-  instance->g.chatMessages.successfullSell =
-    chatMessages["successfullSell"].asString();
-  instance->g.chatMessages.resurrecting =
-    chatMessages["resurrecting"].asString();
-  instance->g.chatMessages.invalidCommandBuy =
-    chatMessages["invalidCommandBuy"].asString();
-  instance->g.chatMessages.invalidCommandSell =
-    chatMessages["invalidCommandSell"].asString();
-  instance->g.chatMessages.traderDontBuyThatItem =
-    chatMessages["traderDontBuyThatItem"].asString();
-  instance->g.chatMessages.successfullBuy =
-    chatMessages["successfullBuy"].asString();
-  instance->g.chatMessages.maxGold =
-    chatMessages["maxGold"].asString();
-  instance->g.chatMessages.invalidCommandHeal =
-    chatMessages["invalidCommandHeal"].asString();
-  instance->g.chatMessages.depositGoldSuccess =
-    chatMessages["depositGoldSuccess"].asString();
-  instance->g.chatMessages.invalidCommand =
-    chatMessages["invalidCommand"].asString();
-  instance->g.chatMessages.invalidCommandDepositWithdraw =
-    chatMessages["invalidCommandDepositWithdraw"].asString();
-  instance->g.chatMessages.depositItemSuccess =
-    chatMessages["depositItemSuccess"].asString();
-  instance->g.chatMessages.successfullGoldExtraction =
-    chatMessages["successfullGoldExtraction"].asString();
-  instance->g.chatMessages.successfullItemExtraction =
-    chatMessages["successfullItemExtraction"].asString();
-  instance->g.chatMessages.playerDoesNotExit =
-    chatMessages["playerDoesNotExit"].asString();
-  instance->g.chatMessages.playerNotOnline =
-    chatMessages["playerNotOnline"].asString();
-
-  instance->g.equations.critickAttackProb =
-    equations["critickAttackProb"].asDouble();
-  instance->g.equations.dodgeAttackComparisonValue =
-    equations["dodgeAttackComparisonValue"].asDouble();
-  instance->g.equations.excessGoldConstPow =
-    equations["excessGoldConstPow"].asDouble();
-  instance->g.equations.limitForNextLevel =
-    equations["limitForNextLevel"].asDouble();
-  instance->g.equations.npcDamageConst =
-    equations["npcDamageConst"].asDouble();
-  instance->g.equations.npcDropGoldRandMinValue =
-    equations["npcDropGoldRandMinValue"].asDouble();
-  instance->g.equations.npcDropGoldRandMaxValue =
-    equations["npcDropGoldRandMaxValue"].asDouble();
-  instance->g.equations.npcDropGold = equations["npcDropGold"].asDouble();
-  instance->g.equations.npcDropPotion = equations["npcDropPotion"].asDouble();
-  instance->g.equations.npcDropItem = equations["npcDropItem"].asDouble();
-  instance->g.equations.maxGoldFactor = equations["maxGoldFactor"].asDouble();
-  instance->g.equations.baseGoldConst = equations["baseGoldConst"].asInt();
-
-  /** PARSE ITEMS */
+  parseEquationsData(instance->g, equations);
+  parseChatMessages(instance->g, chatMessages);
   parseItems(instance->g, items);
-
-  // PARSE TRADER ITEMS
-  for (const Json::Value &it : traderItems) {
-    int itemId = it["itemId"].asInt();
-    if (!instance->g.items.count(itemId)) continue;
-
-    InterchangeableItem item = {
-      itemId,
-      it["value"].asInt()
-    };
-    instance->g.traderItems.push_back(item);
-  }
-
-  // PARSE PRIEST ITEMS
-  for (const Json::Value &it : priestItems) {
-    int itemId = it["itemId"].asInt();
-    if (!instance->g.items.count(itemId)) continue;
-
-    InterchangeableItem item = {
-      itemId,
-      it["value"].asInt()
-    };
-    instance->g.priestItems.push_back(item);
-  }
-
+  parseTraderItems(instance->g, traderItems);
+  parsePriestItems(instance->g, priestItems);
+  parseDefaultInv(instance->g, defaultItems);
   parseRaces(instance->g, races);
   parseClasses(instance->g, classes);
 
@@ -181,19 +85,6 @@ void GC::load(const char* src) {
   // PARSE POTIONSTODROPNPC
   for (const Json::Value &potion : potionsToDropNPC) {
     instance->g.potionsToDropNPC.push_back(potion.asInt());
-  }
-
-  // DEFAULT INVENTORY
-  for (const Json::Value &inventoryItem : defaultItems) {
-    int itemId = inventoryItem["itemId"].asInt();
-    int amount = inventoryItem["amount"].asInt();
-
-    InventoryElementData item = {
-      amount,
-      true,
-      itemId,
-    };
-    instance->g.defaultInventory.push_back(item);
   }
 }
 
@@ -327,4 +218,128 @@ void GC::parseClasses(GlobalConfig& g, const Json::Value& val) {
           classT["meditation"].asInt(),
           classT["health"].asInt() }));
   }
+}
+
+void GC::parseTraderItems(GlobalConfig& g, const Json::Value& val) {
+  // PARSE TRADER ITEMS
+  for (const Json::Value &it : val) {
+    int itemId = it["itemId"].asInt();
+    if (!g.items.count(itemId)) continue;
+
+    InterchangeableItem item = {
+      itemId,
+      it["value"].asInt()
+    };
+    g.traderItems.push_back(item);
+  }
+}
+
+void GC::parsePriestItems(GlobalConfig& g, const Json::Value& val) {
+   // PARSE PRIEST ITEMS
+  for (const Json::Value &it : val) {
+    int itemId = it["itemId"].asInt();
+    if (!g.items.count(itemId)) continue;
+
+    InterchangeableItem item = {
+      itemId,
+      it["value"].asInt()
+    };
+    g.priestItems.push_back(item);
+  }
+}
+
+void GC::parseDefaultInv(GlobalConfig& g, const Json::Value& val) {
+    // DEFAULT INVENTORY
+  for (const Json::Value &inventoryItem : val) {
+    int itemId = inventoryItem["itemId"].asInt();
+    int amount = inventoryItem["amount"].asInt();
+    if (!g.items.count(itemId)) continue;
+
+    InventoryElementData item = {
+      amount,
+      true,
+      itemId,
+    };
+    instance->g.defaultInventory.push_back(item);
+  }
+}
+
+void GC::parseChatMessages(
+  GlobalConfig& g, const Json::Value& chatMessages) {
+  g.chatMessages.initialMsg =
+    chatMessages["initialMsg"].asString();
+  g.chatMessages.damageRcvMsg =
+    chatMessages["damageRcvMsg"].asString();
+  g.chatMessages.enemyDodgedAttack =
+    chatMessages["enemyDodgedAttack"].asString();
+  g.chatMessages.attackDodged =
+    chatMessages["attackDodged"].asString();
+  g.chatMessages.damageCaused =
+    chatMessages["damageCaused"].asString();
+  g.chatMessages.insufficientFunds =
+    chatMessages["insufficientFunds"].asString();
+  g.chatMessages.noInventorySpace =
+    chatMessages["noInventorySpace"].asString();
+  g.chatMessages.invalidOption =
+    chatMessages["invalidOption"].asString();
+  g.chatMessages.meditating =
+    chatMessages["meditating"].asString();
+  g.chatMessages.stopMeditating =
+    chatMessages["stopMeditating"].asString();
+  g.chatMessages.inventoryIsFull =
+    chatMessages["inventoryIsFull"].asString();
+  g.chatMessages.successfullSell =
+    chatMessages["successfullSell"].asString();
+  g.chatMessages.resurrecting =
+    chatMessages["resurrecting"].asString();
+  g.chatMessages.invalidCommandBuy =
+    chatMessages["invalidCommandBuy"].asString();
+  g.chatMessages.invalidCommandSell =
+    chatMessages["invalidCommandSell"].asString();
+  g.chatMessages.traderDontBuyThatItem =
+    chatMessages["traderDontBuyThatItem"].asString();
+  g.chatMessages.successfullBuy =
+    chatMessages["successfullBuy"].asString();
+  g.chatMessages.maxGold =
+    chatMessages["maxGold"].asString();
+  g.chatMessages.invalidCommandHeal =
+    chatMessages["invalidCommandHeal"].asString();
+  g.chatMessages.depositGoldSuccess =
+    chatMessages["depositGoldSuccess"].asString();
+  g.chatMessages.invalidCommand =
+    chatMessages["invalidCommand"].asString();
+  g.chatMessages.invalidCommandDepositWithdraw =
+    chatMessages["invalidCommandDepositWithdraw"].asString();
+  g.chatMessages.depositItemSuccess =
+    chatMessages["depositItemSuccess"].asString();
+  g.chatMessages.successfullGoldExtraction =
+    chatMessages["successfullGoldExtraction"].asString();
+  g.chatMessages.successfullItemExtraction =
+    chatMessages["successfullItemExtraction"].asString();
+  g.chatMessages.playerDoesNotExit =
+    chatMessages["playerDoesNotExit"].asString();
+  g.chatMessages.playerNotOnline =
+    chatMessages["playerNotOnline"].asString();
+}
+
+void GC::parseEquationsData(GlobalConfig& g, const Json::Value& equations) {
+  g.equations.critickAttackProb =
+    equations["critickAttackProb"].asDouble();
+  g.equations.dodgeAttackComparisonValue =
+    equations["dodgeAttackComparisonValue"].asDouble();
+  g.equations.excessGoldConstPow =
+    equations["excessGoldConstPow"].asDouble();
+  g.equations.limitForNextLevel =
+    equations["limitForNextLevel"].asDouble();
+  g.equations.npcDamageConst =
+    equations["npcDamageConst"].asDouble();
+  g.equations.npcDropGoldRandMinValue =
+    equations["npcDropGoldRandMinValue"].asDouble();
+  g.equations.npcDropGoldRandMaxValue =
+    equations["npcDropGoldRandMaxValue"].asDouble();
+  g.equations.npcDropGold = equations["npcDropGold"].asDouble();
+  g.equations.npcDropPotion = equations["npcDropPotion"].asDouble();
+  g.equations.npcDropItem = equations["npcDropItem"].asDouble();
+  g.equations.maxGoldFactor = equations["maxGoldFactor"].asDouble();
+  g.equations.baseGoldConst = equations["baseGoldConst"].asInt();
 }

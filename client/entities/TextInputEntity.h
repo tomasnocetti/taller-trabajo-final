@@ -25,6 +25,7 @@ class TextInputEntity: public Entity {
     TextInputEntity&& operator=(TextInputEntity&& other);
     std::string getInput();
     void clearInput();
+    void activateInput(const std::string& c);
     void handleClick(int xCoord, int yCoord);
     void handleInput(const SDL_Event &e);
     void paint(double scaleW, double scaleH) override;

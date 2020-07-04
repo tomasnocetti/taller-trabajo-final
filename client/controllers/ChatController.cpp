@@ -56,6 +56,16 @@ void ChatController::handleEvent(const SDL_Event &e) {
   if (e.type == SDL_MOUSEBUTTONUP) {
     userChatArea->handleClickClear();
   }
+  if (e.type == SDL_KEYUP &&
+    (e.key.keysym.sym == SDLK_SLASH ||
+    e.key.keysym.sym == SDLK_AT)
+    && !active) {
+    
+    active = true;
+    const std::string c =
+      e.key.keysym.sym == SDLK_AT ? "@" : "/";
+    userInputField->activateInput(c);
+  }
   if (!active) return;
   userInputField->handleInput(e);
 
@@ -65,6 +75,7 @@ void ChatController::handleEvent(const SDL_Event &e) {
     handleCommand();
     userInputField->clearInput();
   }
+
 }
 
 void ChatController::handleCommand() {
@@ -143,11 +154,11 @@ void ChatController::handleCommand() {
   if (action == "/depositar"){
     std::string aux = command.erase(0, pos+delimiter.length());
     pos = aux.find(" ");
-    
+
     std::string item = command.substr(0, pos);
     if (item == "oro"){
       std::string amount = aux.erase(0, pos+delimiter.length());
-      
+
       model.depositGold(amount);
     } else {
       model.depositItem(item);
@@ -157,11 +168,11 @@ void ChatController::handleCommand() {
   if (action == "/retirar"){
     std::string aux = command.erase(0, pos+delimiter.length());
     pos = aux.find(" ");
-    
+
     std::string item = command.substr(0, pos);
     if (item == "oro"){
       std::string amount = aux.erase(0, pos+delimiter.length());
-      
+
       model.withDrawGold(amount);
     } else {
       model.withDrawItem(item);
