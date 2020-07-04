@@ -60,7 +60,6 @@ void ChatController::handleEvent(const SDL_Event &e) {
     (e.key.keysym.sym == SDLK_SLASH ||
     e.key.keysym.sym == SDLK_AT)
     && !active) {
-    
     active = true;
     const std::string c =
       e.key.keysym.sym == SDLK_AT ? "@" : "/";
@@ -75,7 +74,6 @@ void ChatController::handleEvent(const SDL_Event &e) {
     handleCommand();
     userInputField->clearInput();
   }
-
 }
 
 void ChatController::handleCommand() {
@@ -185,7 +183,7 @@ void ChatController::handleCommand() {
     std::string nick = command.substr(0, pos);
 
     std::string message = command.erase(0, pos + delimiter.length());
-    
+
     model.sendMessageToPlayer(nick, message);
   }
 }

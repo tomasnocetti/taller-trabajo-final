@@ -154,6 +154,7 @@ class GC {
     static void clean();
     static const GlobalConfig& get();
     static const SystemConfig& getS();
+    
   private:
     GlobalConfig g;
     SystemConfig s;
