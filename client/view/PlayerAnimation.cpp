@@ -11,12 +11,12 @@ PlayerAnimation::PlayerAnimation(LTexture* texture) :
 }
 
 void PlayerAnimation::cropAnimationFrames() {
-	for(int i = 0; i < forwardFrames; i++){
+	for (int i = 0; i < forwardFrames; i++){
 		 SDL_Rect frame = {2 + i * 25, 4, 21, 39};
 		 forwardAnim.push_back(frame);
 	}
 
-	for(int i = 0; i < backwardFrames; i++){
+	for (int i = 0; i < backwardFrames; i++){
 		SDL_Rect frame = {i * 25, 48, 25, 48};
 		backwardAnim.emplace_back(frame);
 	}

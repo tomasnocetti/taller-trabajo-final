@@ -2,6 +2,8 @@
 #define FILE_MANAGER_H
 
 #include <string>
+#include <map>
+#include <vector>
 #include <msgpack.hpp>
 #include <fstream>
 #include "../../DataDefinitions.h"
@@ -53,6 +55,7 @@ class FileManager{
       const PositionData& position);
     void getBufferSize();
     void getBufferDbSize();
+
   public:
     FileManager();
     ~FileManager();

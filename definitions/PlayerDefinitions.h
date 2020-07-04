@@ -103,7 +103,8 @@ namespace msgpack {
 
     template<>
     struct convert<InventoryElementData> {
-      msgpack::object const& operator()(msgpack::object const& o, InventoryElementData& v) const {
+      msgpack::object const& operator()(
+        msgpack::object const& o, InventoryElementData& v) const {
           InventoryElementData b {
             o.via.array.ptr[0].as<std::int32_t>(),
             o.via.array.ptr[1].as<bool>(),
@@ -117,7 +118,8 @@ namespace msgpack {
     template<>
     struct pack<InventoryElementData> {
       template <typename Stream>
-      packer<Stream>& operator()(msgpack::packer<Stream>& o, InventoryElementData const& v) const {
+      packer<Stream>& operator()(
+        msgpack::packer<Stream>& o, InventoryElementData const& v) const {
         // packing member variables as an array.
         // std::cout << "ACA1: " << v.amount << std::endl;
         o.pack_array(3);

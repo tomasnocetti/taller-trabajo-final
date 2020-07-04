@@ -11,12 +11,12 @@ SpiderAnimation::SpiderAnimation(LTexture* texture) :
 }
 
 void SpiderAnimation::cropAnimationFrames() {
-	for(int i = 0; i < forwardFrames; i++){
+	for (int i = 0; i < forwardFrames; i++){
 		 SDL_Rect frame = {i * 53, 0, 53, 35};
 		 forwardAnim.push_back(frame);
 	}
 
-	for(int i = 0; i < backwardFrames; i++){
+	for (int i = 0; i < backwardFrames; i++){
 		SDL_Rect frame = {i * 53, 35, 53, 35};
 		backwardAnim.push_back(frame);
 	}

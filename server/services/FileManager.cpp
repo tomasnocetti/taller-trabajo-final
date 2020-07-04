@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <sstream>
+#include <vector>
+#include <utility>
 #include <algorithm>
 
 // User defined class template specialization
@@ -12,7 +14,8 @@ namespace msgpack {
   namespace adaptor {
     template<>
     struct convert<FileIndex> {
-      msgpack::object const& operator()(msgpack::object const& o, FileIndex& v) const {
+      msgpack::object const& operator()(
+        msgpack::object const& o, FileIndex& v) const {
         FileIndex a = {
           o.via.array.ptr[0].as<std::size_t>()
         };
@@ -31,7 +34,8 @@ namespace msgpack {
     template<>
     struct pack<FileIndex> {
       template <typename Stream>
-      packer<Stream>& operator()(msgpack::packer<Stream>& o, FileIndex const& v) const {
+      packer<Stream>& operator()(
+        msgpack::packer<Stream>& o, FileIndex const& v) const {
         o.pack_array(3);
         o.pack_fix_uint32(v.playerId);
         o.pack_str(STR_LEN);
@@ -45,8 +49,8 @@ namespace msgpack {
 
     template<>
     struct convert<PlayerPersistData> {
-      msgpack::object const& operator()(msgpack::object const& o, PlayerPersistData& v) const {
-
+      msgpack::object const& operator()(
+        msgpack::object const& o, PlayerPersistData& v) const {
         PlayerPersistData a = {
           o.via.array.ptr[0].as<std::size_t>(),
           o.via.array.ptr[1].as<std::size_t>(),
@@ -62,7 +66,8 @@ namespace msgpack {
           {}
         };
         for (int i = 0; i < INVENTORY_SIZE; i++) {
-          InventoryElementData inv = o.via.array.ptr[10 + i].as<InventoryElementData>();
+          InventoryElementData inv =
+            o.via.array.ptr[10 + i].as<InventoryElementData>();
           if (inv.itemId == 0) continue;
           a.inventory.push_back(inv);
         }
@@ -80,7 +85,8 @@ namespace msgpack {
     template<>
     struct pack<PlayerPersistData> {
       template <typename Stream>
-      packer<Stream>& operator()(msgpack::packer<Stream>& o, PlayerPersistData const& v) const {
+      packer<Stream>& operator()(
+        msgpack::packer<Stream>& o, PlayerPersistData const& v) const {
         o.pack_array(10 + INVENTORY_SIZE * 2);
         o.pack_fix_uint32(v.id);
         o.pack_fix_uint32(v.gold);
@@ -116,10 +122,12 @@ FileManager::FileManager() : playerIdIndex(0){
   const SystemConfig& s = GC::getS();
   indexFile.open(
     s.indexFile,
-    std::fstream::in | std::fstream::out | std::fstream::binary | std::fstream::app);
+    std::fstream::in | std::fstream::out |
+    std::fstream::binary | std::fstream::app);
   dbFile.open(
     s.dbFile,
-    std::fstream::in | std::fstream::out | std::fstream::binary);
+    std::fstream::in | std::fstream::out
+    | std::fstream::binary);
 
   getBufferSize();
   getBufferDbSize();
@@ -170,8 +178,8 @@ void FileManager::getBufferDbSize() {
 }
 
 void FileManager::create(
-  const std::string& nick, 
-  const std::string& password, 
+  const std::string& nick,
+  const std::string& password,
   const PlayerRootData& rootd,
   const PositionData& position){
     if (checkIfNickExists(nick)) return;
@@ -229,7 +237,6 @@ void FileManager::createData(
 
 bool FileManager::authenticate(
   const std::string& nick, const std::string& password) {
-
     if (!checkIfNickExists(nick)) return false;
     FileIndex& index = indexList.at(nick);
     std::string savedPassword(index.password);
