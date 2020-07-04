@@ -74,6 +74,7 @@ void GC::load(const char* src) {
   parseItems(instance->g, items);
   parseTraderItems(instance->g, traderItems);
   parsePriestItems(instance->g, priestItems);
+  parseDefaultInv(instance->g, defaultItems);
   parseRaces(instance->g, races);
   parseClasses(instance->g, classes);
 
@@ -85,19 +86,6 @@ void GC::load(const char* src) {
   // PARSE POTIONSTODROPNPC
   for (const Json::Value &potion : potionsToDropNPC) {
     instance->g.potionsToDropNPC.push_back(potion.asInt());
-  }
-
-  // DEFAULT INVENTORY
-  for (const Json::Value &inventoryItem : defaultItems) {
-    int itemId = inventoryItem["itemId"].asInt();
-    int amount = inventoryItem["amount"].asInt();
-
-    InventoryElementData item = {
-      amount,
-      true,
-      itemId,
-    };
-    instance->g.defaultInventory.push_back(item);
   }
 }
 
@@ -258,6 +246,22 @@ void GC::parsePriestItems(GlobalConfig& g, const Json::Value& val) {
       it["value"].asInt()
     };
     g.priestItems.push_back(item);
+  }
+}
+
+void GC::parseDefaultInv(GlobalConfig& g, const Json::Value& val) {
+    // DEFAULT INVENTORY
+  for (const Json::Value &inventoryItem : val) {
+    int itemId = inventoryItem["itemId"].asInt();
+    int amount = inventoryItem["amount"].asInt();
+    if (!g.items.count(itemId)) continue;
+
+    InventoryElementData item = {
+      amount,
+      true,
+      itemId,
+    };
+    instance->g.defaultInventory.push_back(item);
   }
 }
 

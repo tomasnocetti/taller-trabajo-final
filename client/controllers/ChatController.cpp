@@ -56,6 +56,12 @@ void ChatController::handleEvent(const SDL_Event &e) {
   if (e.type == SDL_MOUSEBUTTONUP) {
     userChatArea->handleClickClear();
   }
+  if (e.type == SDL_KEYUP &&
+    e.key.keysym.sym == SDLK_SLASH && !active) {
+    std::cout << "ACA!" << std::endl;
+    active = true;
+    userInputField->activateInput();
+  }
   if (!active) return;
   userInputField->handleInput(e);
 
@@ -65,6 +71,7 @@ void ChatController::handleEvent(const SDL_Event &e) {
     handleCommand();
     userInputField->clearInput();
   }
+  
 }
 
 void ChatController::handleCommand() {

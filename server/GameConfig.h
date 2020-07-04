@@ -166,6 +166,7 @@ class GC {
       GlobalConfig& g, const Json::Value& chatMessages);
     static void parseEquationsData(
       GlobalConfig& g, const Json::Value& equations);
+    static void parseDefaultInv(GlobalConfig& g, const Json::Value& val);
 };
 
 #endif
