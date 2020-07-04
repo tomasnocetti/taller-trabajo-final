@@ -78,6 +78,7 @@ void CApp::OnLoop() {
   chatController.update();
   enemyController.update();
   inventoryController.update();
+  globalController.update();
 }
 
 void CApp::OnRender() {
@@ -194,6 +195,8 @@ void CApp::LoadAssets() {
   manager.addTexture("item_18", "client/assets/mana_potion.png");
   manager.addTexture("item_19", "client/assets/health_potion.png");
   manager.addTexture("item_5000", "client/assets/gold.png");
+
+  manager.addMusic("main-music", "client/assets/music/main_music.mp3");
 }
 
 CApp::~CApp() {}

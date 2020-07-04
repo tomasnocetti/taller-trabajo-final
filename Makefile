@@ -126,6 +126,7 @@ LDFLAGS += -lSDL2_ttf
 # LDFLAGS += -ltmx
 LDFLAGS += -lSDL2
 LDFLAGS += -lSDL2_ttf
+LDFLAGS += -lSDL2_mixer
 endif
 
 # Si no especifica archivos, tomo todos.
@@ -151,7 +152,7 @@ endif
 # REGLAS
 #########
 
-.PHONY: all clean
+.PHONY: all clean install
 
 all: client server
 
@@ -186,3 +187,8 @@ clean-server:
 clean-common:
 	$(RM) -f $(o_common_files)
 
+install:
+	mkdir /etc/argentum
+	cp -f tpclient /usr/bin
+	cp -f tpserver /usr/bin
+	cp -f config.json /etc/argentum

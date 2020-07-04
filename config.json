@@ -167,8 +167,8 @@
       "id": 4,
       "type": "L",
       "name": "Escudo de Hierro",
-      "minDefense": 2,
-      "maxDefense": 5
+      "minDefense": 1,
+      "maxDefense": 4
     }, {
       "id": 5,
       "type": "B",
@@ -255,14 +255,38 @@
     "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
     "potionsToDropNPC": [18, 19],
     "traderItems": [{
-      "itemId": 0,
-      "value": 200
-    }, {
       "itemId": 1,
       "value": 300
     }, {
       "itemId": 2,
       "value": 200
+    }, {
+      "itemId": 3,
+      "value": 400
+    }, {
+      "itemId": 4,
+      "value": 600
+    }, {
+      "itemId": 5,
+      "value": 700
+    }, {
+      "itemId": 7,
+      "value": 10000
+    }, {
+      "itemId": 8,
+      "value": 200
+    }, {
+      "itemId": 9,
+      "value": 400
+    }, {
+      "itemId": 10,
+      "value": 10000
+    }, {
+      "itemId": 11,
+      "value": 300
+    }, {
+      "itemId": 15,
+      "value": 300
     }, {
       "itemId": 18,
       "value": 150
@@ -270,6 +294,15 @@
     "priestItems": [{
       "itemId": 6,
       "value": 500
+    }, {
+      "itemId": 12,
+      "value": 300
+    }, {
+      "itemId": 13,
+      "value": 5000
+    }, {
+      "itemId": 14,
+      "value": 10000
     }, {
       "itemId": 18,
       "value": 300

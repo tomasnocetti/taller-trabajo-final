@@ -5,11 +5,9 @@
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
 #define EXP_BAR_Y 45
-//#define GOLD_X 105
 #define GOLD_X 93
 #define GOLD_Y 11
 #define GOLD_W 70
-//#define LEVEL_X 50
 #define LEVEL_X 13
 #define LEVEL_Y 24
 #define LEVEL_W 190
