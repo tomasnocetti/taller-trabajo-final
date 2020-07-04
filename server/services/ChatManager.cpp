@@ -102,3 +102,27 @@ void ChatManager::maxGold(ChatData &chat){
   chat.entries.push_back({INFO,
   c.chatMessages.maxGold});  
 }
+
+void ChatManager::depositGoldSuccess(ChatData &chat, size_t bankGold){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({SUCCESS,
+  c.chatMessages.depositGoldSuccess + std::to_string(bankGold)});   
+}
+
+void ChatManager::depositItemSuccess(ChatData &chat){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({SUCCESS,
+  c.chatMessages.depositItemSuccess});   
+}
+
+void ChatManager::successfullGoldExtraction(ChatData &chat, size_t bankGold){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({SUCCESS,
+  c.chatMessages.successfullGoldExtraction + std::to_string(bankGold)});   
+}
+
+void ChatManager::successfullItemExtraction(ChatData &chat){
+  const GlobalConfig& c = GC::get();
+  chat.entries.push_back({SUCCESS,
+  c.chatMessages.successfullItemExtraction});   
+}

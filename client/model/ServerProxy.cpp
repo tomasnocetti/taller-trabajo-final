@@ -155,3 +155,27 @@ void ServerProxy::heal(){
   InstructionData instruction = {HEAL, {}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::depositGold(std::string amount){
+  ParamData x = {amount};
+  InstructionData instruction = {DEPOSIT_GOLD, {x}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::depositItem(std::string inventoryPos){
+  ParamData x = {inventoryPos};
+  InstructionData instruction = {DEPOSIT_ITEM, {x}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::withDrawGold(std::string amount){
+  ParamData x = {amount};
+  InstructionData instruction = {WITHDRAW_GOLD, {x}};
+  writeBQ.push(instruction);
+}
+
+void ServerProxy::withDrawItem(std::string inventoryPos){
+  ParamData x = {inventoryPos};
+  InstructionData instruction = {WITHDRAW_ITEM, {x}};
+  writeBQ.push(instruction);
+}

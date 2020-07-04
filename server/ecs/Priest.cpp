@@ -14,10 +14,10 @@ Priest::Priest(PositionData position) :
   // Preparo items de manera legible
   for (unsigned int i = 0; i < c.priestItems.size(); i++) {
     std::stringstream ss;
-    const TraderItem& traderItem = c.priestItems[i];
-    const std::unique_ptr<Item> &item = c.items.at(traderItem.itemId);
+    const InterchangeableItem& priestItem = c.priestItems[i];
+    const std::unique_ptr<Item> &item = c.items.at(priestItem.itemId);
 
-    ss << "   " << i+1 << ". " << item->name << " <" << traderItem.value << ">";
+    ss << "   " << i+1 << ". " << item->name << " <" << priestItem.value << ">";
     readableItems.push_back(ss.str());
   }
 }
@@ -29,8 +29,8 @@ void Priest::sell(size_t option, Player &p) {
     return;
   }
 
-  const TraderItem& traderItem = c.priestItems[option - 1];
-  p.buy(traderItem.value, traderItem.itemId);
+  const InterchangeableItem& priestItem = c.priestItems[option - 1];
+  p.buy(priestItem.value, priestItem.itemId);
 }
 
 std::vector<std::string>& Priest::getItemsList() {

@@ -7,6 +7,8 @@
 #include <sstream>
 #include <string>
 
+#define PLAYER_INVENTORY 1
+
 Trader::Trader(PositionData position) :
   Entity(position) {
   const GlobalConfig& c = GC::get();
@@ -14,7 +16,7 @@ Trader::Trader(PositionData position) :
   // Preparo items de manera legible
   for (unsigned int i = 0; i < c.traderItems.size(); i++) {
     std::stringstream ss;
-    const TraderItem& traderItem = c.traderItems[i];
+    const InterchangeableItem& traderItem = c.traderItems[i];
     const std::unique_ptr<Item> &item = c.items.at(traderItem.itemId);
 
     ss << "   " << i+1 << ". " << item->name << " <" << traderItem.value << ">";
@@ -29,12 +31,12 @@ void Trader::buy(Player& p, size_t inventoryPos) {
     return;
   }
   
-  int itemToSellId = p.inventoryItemId(inventoryPos);
+  int itemToSellId = p.inventoryItemId(inventoryPos, PLAYER_INVENTORY);
   size_t itemValue = 0;
 
   for (unsigned int i = 0; i < c.traderItems.size(); i++) {
     std::stringstream ss;
-    const TraderItem& traderItem = c.traderItems[i];
+    const InterchangeableItem& traderItem = c.traderItems[i];
     if (traderItem.itemId == itemToSellId){
       itemValue = traderItem.value;
       break;
@@ -56,7 +58,7 @@ void Trader::sell(size_t option, Player &p) {
     return;
   }
 
-  const TraderItem& traderItem = c.traderItems[option - 1];
+  const InterchangeableItem& traderItem = c.traderItems[option - 1];
   p.buy(traderItem.value, traderItem.itemId);
 }
 

@@ -11,6 +11,7 @@
 #include "ecs/Npc.h"
 #include "ecs/Trader.h"
 #include "ecs/Priest.h"
+#include "ecs/Banker.h"
 #include "../DataDefinitions.h"
 #include "definitions/EquationDefinitions.h"
 #include <map>
@@ -19,6 +20,7 @@ class Player;
 class NPC;
 class Trader;
 class Priest;
+class Banker;
 
 class GameModel{
   private:
@@ -32,6 +34,7 @@ class GameModel{
     std::vector<OtherPlayersData> otherPlayers;
     std::map<size_t, std::unique_ptr<Priest>> priests;
     std::map<size_t, std::unique_ptr<Trader>> traders;
+    std::map<size_t, std::unique_ptr<Banker>> bankers;
     MapParser m;
     CronBQ& cronBQ;
     void parseMapData();
@@ -108,6 +111,15 @@ class GameModel{
     /* Handle heal instruction */
     void heal(size_t playerId);
     void commandError(size_t playerId);
+    /* Handle deposit gold instruction */
+    void depositGold(size_t playerId, size_t amount);
+    int checkBankerInRange(Player &p);
+    /* Handle deposit item instruction */
+    void depositItem(size_t playerId, size_t inventoryPos);
+    /* Handle withdraw gold instruction */
+    void withdrawGold(size_t playerId, size_t inventoryPos);
+    /* Handle withdraw item instruction */
+    void withdrawItem(size_t playerId, size_t inventoryPos);
 };
 
 #endif
