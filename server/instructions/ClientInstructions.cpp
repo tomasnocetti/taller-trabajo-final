@@ -155,10 +155,11 @@ void DepositGoldInstruction::run(GameModel& game) {
   game.commandError(playerId);
 }
 
-DepositItemInstruction::DepositItemInstruction(size_t id, std::string inventoryPos) :
-  playerId(id) {
-    valid = isValid(inventoryPos);
-    if (valid) inventoryPosition = (std::stoi(inventoryPos)-1);
+DepositItemInstruction::DepositItemInstruction(size_t id, 
+  std::string inventoryPos) :
+    playerId(id) {
+      valid = isValid(inventoryPos);
+      if (valid) inventoryPosition = (std::stoi(inventoryPos)-1);
 }
 
 void DepositItemInstruction::run(GameModel& game) {

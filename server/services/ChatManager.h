@@ -32,6 +32,7 @@ class ChatManager{
     static void maxGold(ChatData &chat);
     static void depositGoldSuccess(ChatData &chat, size_t bankGold);
     static void depositItemSuccess(ChatData &chat);
+    
   private:
 };
 

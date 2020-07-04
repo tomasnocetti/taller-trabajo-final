@@ -126,8 +126,6 @@ void ChatController::handleCommand() {
       model.depositItem(item);
     }
   }
-
-
 }
 
 EntityList& ChatController::getEntities() {
