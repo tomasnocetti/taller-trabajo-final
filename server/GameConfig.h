@@ -54,6 +54,10 @@ struct ChatMessages {
   std::string successfullItemExtraction;
 };
 
+struct NPCData {
+  int level;
+};
+
 struct DropSizes{
   int height;
   int weight;
@@ -156,6 +160,13 @@ class GC {
     static void parseItems(GlobalConfig& g, const Json::Value& val);
     static void parseRaces(GlobalConfig& g, const Json::Value& val);
     static void parseClasses(GlobalConfig& g, const Json::Value& val);
+    static void parsePriestItems(GlobalConfig& g, const Json::Value& val);
+    static void parseTraderItems(GlobalConfig& g, const Json::Value& val);
+    static void parseChatMessages(
+      GlobalConfig& g, const Json::Value& chatMessages);
+    static void parseEquationsData(
+      GlobalConfig& g, const Json::Value& equations);
+    static void parseDefaultInv(GlobalConfig& g, const Json::Value& val);
 };
 
 #endif
