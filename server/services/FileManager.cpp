@@ -120,6 +120,9 @@ namespace msgpack {
 
 FileManager::FileManager() : playerIdIndex(0){
   const SystemConfig& s = GC::getS();
+  std::ofstream f;
+  f.open(s.dbFile, std::fstream::app);
+  f.close();
   indexFile.open(
     s.indexFile,
     std::fstream::in | std::fstream::out |
