@@ -77,6 +77,13 @@ void GameModel::parseMapData() {
         traders.insert(std::pair<size_t,
         std::unique_ptr<Trader>>(Trader::getNewId(), std::move(trader)));
       }
+
+      if (layer.name == BANKER_LAYER){
+        std::unique_ptr<Banker> banker(
+          new Banker(p));
+        bankers.insert(std::pair<size_t,
+        std::unique_ptr<Banker>>(Banker::getNewId(), std::move(banker)));
+      }
     }
   }
 }
@@ -419,15 +426,22 @@ void GameModel::list(size_t playerId){
   Player &p = *players.at(playerId);
   int traderId = checkTraderInRange(p);
   int priestId = checkPriestInRange(p);
+  int bankerId = checkBankerInRange(p);
 
-  if (traderId == -1 && priestId == -1) return; // escribir mensaje en el player
+  if (traderId == -1 && priestId == -1 && bankerId == -1) return; 
+  // escribir mensaje en el player
 
   if (traderId != -1){
     traders.at(traderId)->listItems(p);
     return;
   }
 
-  priests.at(priestId)->listItems(p);
+  if (priestId != -1){
+    priests.at(priestId)->listItems(p);
+    return;
+  }
+
+  bankers.at(bankerId)->listItems(p);
 }
 
 int GameModel::checkPriestInRange(Player &p){
@@ -447,6 +461,18 @@ int GameModel::checkTraderInRange(Player &p){
 
   for (auto &it : traders){
     bool inRange = traders.at(it.first)->checkInRange(
+      p,
+      c.traderBankerPriestMinRangeToInteract);
+    if (inRange) return it.first;
+  } 
+  return -1;
+}
+
+int GameModel::checkBankerInRange(Player &p){
+  const GlobalConfig& c = GC::get();
+
+  for (auto &it : bankers){
+    bool inRange = bankers.at(it.first)->checkInRange(
       p,
       c.traderBankerPriestMinRangeToInteract);
     if (inRange) return it.first;
@@ -498,8 +524,59 @@ void GameModel::heal(size_t playerId){
   p.heal();
 }
 
+void GameModel::depositGold(size_t playerId, size_t amount){
+  const GlobalConfig& c = GC::get(); 
+  Player &p = *players.at(playerId);
+  
+  int bankerId = checkBankerInRange(p);
+  if (bankerId == -1){
+    p.sendMessage(INFO, c.chatMessages.invalidCommandDepositWithdraw);
+    return;
+  }
+  bankers.at(bankerId)->depositGold(p, amount);
+}
+
+void GameModel::depositItem(size_t playerId, size_t inventoryPos){
+  const GlobalConfig& c = GC::get(); 
+  Player &p = *players.at(playerId);
+  
+  int bankerId = checkBankerInRange(p);
+  if (bankerId == -1){
+    p.sendMessage(INFO, c.chatMessages.invalidCommandDepositWithdraw);
+    return;
+  }
+
+  bankers.at(bankerId)->deposit(p, inventoryPos);
+}
+
+void GameModel::withdrawGold(size_t playerId, size_t amount){
+  const GlobalConfig& c = GC::get(); 
+  Player &p = *players.at(playerId);
+  
+  int bankerId = checkBankerInRange(p);
+  if (bankerId == -1){
+    p.sendMessage(INFO, c.chatMessages.invalidCommandDepositWithdraw);
+    return;
+  }
+  bankers.at(bankerId)->withDrawGold(p, amount);
+}
+
+void GameModel::withdrawItem(size_t playerId, size_t inventoryPos){
+  const GlobalConfig& c = GC::get(); 
+  Player &p = *players.at(playerId);
+  
+  int bankerId = checkBankerInRange(p);
+  if (bankerId == -1){
+    p.sendMessage(INFO, c.chatMessages.invalidCommandDepositWithdraw);
+    return;
+  }
+
+  bankers.at(bankerId)->withdraw(p, inventoryPos);
+}
+
 void GameModel::commandError(size_t playerId){
-  players.at(playerId)->sendMessage(INFO, "Comando invalido.");
+  const GlobalConfig& c = GC::get(); 
+  players.at(playerId)->sendMessage(INFO, c.chatMessages.invalidCommand);
 }
 
 void GameModel::npcSetCoords(size_t id, int xPos, int yPos){  

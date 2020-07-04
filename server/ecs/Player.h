@@ -17,6 +17,8 @@ class Player : public LiveEntity{
     ExperienceData experience;
     PlayerRootData rootd;
     std::vector<InventoryElementData> inventory;
+    std::vector<InventoryElementData> itemsInBank;
+    size_t goldInBank;
     EquipmentData equipment;
     RightHandEquipmentSkills rightSkills;
     LeftHandEquipmentSkills leftSkills;
@@ -33,6 +35,7 @@ class Player : public LiveEntity{
     friend class GameModel;
     friend class Trader;
     friend class Priest;
+    friend class Banker;
   public:
     Player(MainPlayerData playerData, size_t id);
     Player(const Player&) = delete;
@@ -72,16 +75,20 @@ class Player : public LiveEntity{
     void meditate();
     void stopMeditating();
     bool pickUp(DropItemData &drop);
-    bool addItemToInventory(InventoryElementData &item);
-    bool inventoryIsFull();
+    bool addItemToInventory(InventoryElementData &item, int opt);
+    bool inventoryIsFull(size_t opt);
     bool isAlive();
     void setDeadDefaults();
-    bool eraseInventoryItem(size_t inventoryPosition);
+    bool eraseInventoryItem(size_t inventoryPosition, int opt);
     void sendMessage(MessageType type, std::string msg);
     void buy(size_t itemValue, size_t itemId);
     void sell(size_t inventoryPos, size_t itemValue);
-    size_t inventoryItemId(size_t inventoryPosition);
+    size_t inventoryItemId(size_t inventoryPosition, int opt);
     void heal();
+    void depositGold(size_t amount);
+    void depositItem(size_t inventoryPos);
+    void withdrawGold(size_t amount);
+    void withdrawItem(size_t inventoryPos);
     static std::unique_ptr<Player> createPlayer(
       size_t id, 
       std::string nick, 
