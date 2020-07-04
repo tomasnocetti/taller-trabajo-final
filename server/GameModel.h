@@ -123,6 +123,7 @@ class GameModel{
       std::string& nick,
       ResponseBQ& responseBQ,
       size_t& playerId);
+    /* Handle create intruction */
     bool createPlayer(
       ResponseBQ& responseBQ,
       size_t& playerId,
@@ -130,6 +131,11 @@ class GameModel{
       std::string password, 
       PlayerClass classType,
       PlayerRace race);
+    /* Handle send message instruction */
+    void sendMessageToPlayer(
+      size_t &id, 
+      std::string &nick, 
+      std::string &message);
 };
 
 #endif

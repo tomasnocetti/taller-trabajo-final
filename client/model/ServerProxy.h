@@ -72,6 +72,7 @@ class ServerProxy{
       std::string password, 
       std::string race,
       std::string typeClass);
+    void sendMessageToPlayer(std::string nick, std::string message);
     
     /** Client GETTERS */
     const MapData& getMapData() const;

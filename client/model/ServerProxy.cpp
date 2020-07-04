@@ -194,3 +194,10 @@ void ServerProxy::createPlayer(
   InstructionData instruction = {CREATE_PLAYER, {n, p, r, c}};
   writeBQ.push(instruction);
 }
+
+void ServerProxy::sendMessageToPlayer(std::string nick, std::string message){
+  ParamData n = {nick};
+  ParamData msg = {message};
+  InstructionData instruction = {SEND_MESSAGE, {n, msg}};
+  writeBQ.push(instruction);
+}

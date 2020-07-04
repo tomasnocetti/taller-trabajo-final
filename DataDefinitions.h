@@ -27,6 +27,7 @@ typedef enum {
   SELL,
   HEAL, 
   CREATE_PLAYER,
+  SEND_MESSAGE,
 } ActionTypeT;
 
 typedef enum {

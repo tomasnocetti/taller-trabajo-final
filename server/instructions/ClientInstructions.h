@@ -294,4 +294,23 @@ class CreatePlayerInstruction : public Instruction {
     PlayerClass classType;
 };
 
+class SendMessageInstruction : public Instruction {
+  public:
+    SendMessageInstruction(
+      size_t id, 
+      std::string nick, 
+      std::string message);
+    SendMessageInstruction(const SendMessageInstruction&) = delete;
+    SendMessageInstruction& operator=(const SendMessageInstruction&) 
+      = delete;
+    SendMessageInstruction&& operator=(SendMessageInstruction&& other) 
+      = delete;
+    void run(GameModel& game) override;
+
+  private:
+    size_t playerId;
+    std::string nick;
+    std::string message;
+};
+
 #endif

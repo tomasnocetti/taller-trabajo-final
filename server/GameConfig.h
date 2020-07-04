@@ -52,6 +52,8 @@ struct ChatMessages {
   std::string depositItemSuccess;
   std::string successfullGoldExtraction;
   std::string successfullItemExtraction;
+  std::string playerNotOnline;
+  std::string playerDoesNotExit;
 };
 
 struct NPCData {
@@ -152,6 +154,7 @@ class GC {
     static void clean();
     static const GlobalConfig& get();
     static const SystemConfig& getS();
+    
   private:
     GlobalConfig g;
     SystemConfig s;

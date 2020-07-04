@@ -68,7 +68,6 @@ void GC::load(const char* src) {
   instance->g.traderFactorWhenSelling =
     gameConfig["traderFactorWhenSelling"].asDouble();
 
-
   parseEquationsData(instance->g, equations);
   parseChatMessages(instance->g, chatMessages);
   parseItems(instance->g, items);
@@ -317,6 +316,10 @@ void GC::parseChatMessages(
     chatMessages["successfullGoldExtraction"].asString();
   g.chatMessages.successfullItemExtraction =
     chatMessages["successfullItemExtraction"].asString();
+  g.chatMessages.playerDoesNotExit =
+    chatMessages["playerDoesNotExit"].asString();
+  g.chatMessages.playerNotOnline =
+    chatMessages["playerNotOnline"].asString();
 }
 
 void GC::parseEquationsData(GlobalConfig& g, const Json::Value& equations) {
