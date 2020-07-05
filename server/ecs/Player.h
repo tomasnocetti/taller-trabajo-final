@@ -92,7 +92,7 @@ class Player : public LiveEntity{
     void withdrawGold(size_t amount);
     void withdrawItem(size_t inventoryPos);
     bool specialWeapon(size_t rightHandId);
-    bool specialAttack( int xCoord, int yCoord);
+    bool specialAttack(int xCoord, int yCoord);
     static std::unique_ptr<Player> createPlayer(
       PlayerPersistData& dataP, std::string& nick);
     static void setInitEquipment(EquipmentData &equipment, 

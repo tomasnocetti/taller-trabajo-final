@@ -145,7 +145,6 @@ bool Player::specialAttack(int xCoord, int yCoord){
   return true;
 }
 
-
 bool Player::specialWeapon(size_t rightHandId){
   return (rightHandId == FLAUTA_ELFICA_ID);
 }
