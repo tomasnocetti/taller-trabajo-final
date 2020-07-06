@@ -2,7 +2,6 @@
 #define __DATADEF_H
 
 #include "definitions/CronDefinitions.h"
-#include "server/GameDefinitions.h"
 #include <string>
 #include <vector>
 
