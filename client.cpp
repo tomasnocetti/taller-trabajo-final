@@ -4,12 +4,14 @@
 #include <iostream>
 
 #define EXIT_FAILURE 1
+#define ARGUMENTS_ERROR "Para ejecutar el programa debe proveer el host "\
+  "y el puerto del servidor. \n   * argentum-client <host> <port>"
 
 int main(int argc, char const *argv[]) {
-  if (argc != 3) return EXIT_FAILURE;
-  std::string host = argv[1];
-  std::string port = argv[2];
   try {
+    if (argc != 3) throw std::invalid_argument(ARGUMENTS_ERROR);
+    std::string host = argv[1];
+    std::string port = argv[2];
     CApp theApp(host, port);
     theApp.OnExecute();
   } catch(const std::exception& e) {
