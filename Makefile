@@ -182,6 +182,8 @@ install:
 	install -m 755 argentum-server /usr/bin
 	install -m 755 config.json /etc/argentum
 	cp -r client/assets /var/argentum
+	touch dbfile.bin
+	touch indexfile.bin
 	install -m 666 dbfile.bin /var/argentum
 	install -m 666 indexfile.bin /var/argentum
 
