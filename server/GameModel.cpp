@@ -10,6 +10,9 @@
 #include "services/ChatManager.h"
 #include <map>
 
+#define INIT_MAPCOORD_X 2600
+#define INIT_MAPCOORD_Y 2600
+
 GameModel::GameModel(CronBQ& cronBQ) :
   cronBQ(cronBQ),
   randomSeed(0){
@@ -110,7 +113,11 @@ bool GameModel::authenticate(
 
   std::unique_ptr<Player> player(Player::createPlayer(p, nick));
 
-  PositionData initialPos = {2600, 2600, PLAYER_WIDTH, PLAYER_HEIGHT};
+  PositionData initialPos = {
+    INIT_MAPCOORD_X,
+    INIT_MAPCOORD_Y, 
+    PLAYER_WIDTH, 
+    PLAYER_HEIGHT};
   getRespawnPosition(initialPos, *player);
 
   players.insert(std::pair<size_t,

@@ -6,7 +6,7 @@
 #define EXIT_FAILURE 1
 
 int main(int argc, char const *argv[]) {
-  if(argc != 3) return EXIT_FAILURE;
+  if (argc != 3) return EXIT_FAILURE;
   std::string host = argv[1];
   std::string port = argv[2];
   try {

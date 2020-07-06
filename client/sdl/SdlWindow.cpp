@@ -55,10 +55,10 @@ SdlWindow::SdlWindow(int width, int height) :
       throw SdlException("Error en la inicialización SDL_TTF", TTF_GetError());
     }
 
-    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
-      throw SdlException("Error en la inicialización SDL_Mixer", Mix_GetError());          
+    if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+      throw SdlException("Error en la inicialización SDL_Mixer", 
+        Mix_GetError());          
     }
-
 }
 
 SdlWindow::~SdlWindow() {

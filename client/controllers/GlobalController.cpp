@@ -15,7 +15,7 @@ void GlobalController::init() {
 void GlobalController::update() {
   if (!model.isAuthenticated()) return;
   
-  if(Mix_PlayingMusic() == 0){
+  if (Mix_PlayingMusic() == 0){
     Mix_Music* music = manager.getMusic("main-music");
     Mix_VolumeMusic(10);
     Mix_PlayMusic(music, -1);

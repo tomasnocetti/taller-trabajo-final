@@ -175,7 +175,7 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
     break;
 		case 15:
 			weapon = Weapon(manager.getTexture("axe"), 
-        34, 18, 17, 15, 0, 0, 0, 0, 9, 158, 16, 20, 17, 13, 0, 0, 2, 15);	//18 18
+        34, 18, 17, 15, 0, 0, 0, 0, 9, 158, 16, 20, 17, 13, 0, 0, 2, 15);
     break;
 		case 16:
 			weapon = Weapon(manager.getTexture("mace"), 
