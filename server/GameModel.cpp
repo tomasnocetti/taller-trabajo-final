@@ -112,8 +112,8 @@ bool GameModel::authenticate(
   std::unique_ptr<Player> player(Player::createPlayer(p, nick));
 
   PositionData initialPos = {
-    INIT_MAPCOORD_X,
-    INIT_MAPCOORD_Y, 
+    p.positionX,
+    p.positionY, 
     PLAYER_WIDTH, 
     PLAYER_HEIGHT};
   getRespawnPosition(initialPos, *player);

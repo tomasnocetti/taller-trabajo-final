@@ -112,7 +112,7 @@ endif
 # REGLAS
 #########
 
-.PHONY: all clean install
+.PHONY: all clean install uninstall
 
 all: client server
 
@@ -140,7 +140,7 @@ install:
 	mkdir -p /var/argentum
 	install -m 755 argentum-client /usr/bin
 	install -m 755 argentum-server /usr/bin
-	install -m 755 config.json /etc/argentum
+	install -m 666 config.json /etc/argentum
 	cp -r client/assets /var/argentum
 	touch dbfile.bin
 	touch indexfile.bin
