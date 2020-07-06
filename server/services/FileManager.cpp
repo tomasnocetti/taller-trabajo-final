@@ -187,7 +187,6 @@ void FileManager::create(
   const PositionData& position){
     if (checkIfNickExists(nick)) return;
 
-    std::cout << "CREAND PLAYER:  " << playerIdIndex << std::endl;
     createIndex(nick, password);
     createData(rootd, position);
     playerIdIndex ++;

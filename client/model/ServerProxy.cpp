@@ -8,7 +8,6 @@ ServerProxy::ServerProxy(std::string& host, std::string& port) :
   running(true),
   serverProxyWrite(*this, writeBQ),
   serverProxyRead(*this){
-    std::cout << "Connected to: " << host << ":" << port << std::endl;
     socket.connect(host.c_str(), port.c_str());
 }
 
@@ -19,8 +18,6 @@ void ServerProxy::init() {
 
 void ServerProxy::authentificate(std::string& alias, std::string& password) {
   if (authentificated) return;
-  std::cout << "Player " << alias << " autenticando con contraseña " << 
-    password << std::endl;
   ParamData nick = {alias};
   ParamData pw = {password};
   InstructionData instruction = {AUTHENTICATE, {nick, pw}};
