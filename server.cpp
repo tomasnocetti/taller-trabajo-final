@@ -6,7 +6,7 @@
 
 int main(int argc, char* argv[]) {
   try {
-    if(argc != 3) return EXIT_FAILURE;
+    if (argc != 3) return EXIT_FAILURE;
     char* mapPath = argv[1];
     //char mapPath[] = "/etc/argentum/config.json";
     //char port[] = "7777";

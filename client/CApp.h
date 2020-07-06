@@ -19,11 +19,6 @@ typedef enum {
 } GameMode;
 
 #define ASSETS_PATH "/var/argentum/assets"
-//#define MAIN_SCREEN_PATH "/var/argentum/assets/main-screens/game-screen.jpg"
-//#define LOGIN_SCREEN_PATH "/var/argentum/client/assets/main-screens/login-screen.jpg"
-
-//#define FONT_PATH "client/assets/fonts/ringm.ttf"
-//#define ARIAL_PATH "client/assets/fonts/arial.ttf"
 
 class CApp {
   public:
