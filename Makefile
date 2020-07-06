@@ -184,6 +184,8 @@ install:
 	cp -r client/assets /var/argentum
 	touch dbfile.bin
 	touch indexfile.bin
+	touch argentum-client.log
+	touch argentum-server.log
 	install -m 666 dbfile.bin /var/argentum
 	install -m 666 indexfile.bin /var/argentum
 

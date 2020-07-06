@@ -23,9 +23,11 @@ void GameCron::run() {
       std::this_thread::sleep_for(std::chrono::milliseconds(60));
     }
   } catch(const std::exception& e) {
-    std::cout << "ERROR CRON GAME: " << e.what() << std::endl;
+    std::cerr << "Error en GameCron: \n" <<
+      " Error: " << e.what() << std::endl;
   } catch(...) {
-    std::cout << "UNKOWN ERROR CRON GAME." << std::endl;
+    std::cerr << "Error en GameCron: \n" <<
+      " Error Invalido" << std::endl;
   }
 }
 

@@ -81,3 +81,5 @@ dbfile.bin
 indexfile.bin
 argentum-server
 argentum-client
+argentum-client.log
+argentum-server.log

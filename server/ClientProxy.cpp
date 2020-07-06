@@ -57,8 +57,9 @@ void ClientProxyRead::run(){
       InstructionData i;
       bool success = getRawInstruction(buffer);
       if (!success) {
-        client.running = false;
+        client.stop();
         i = {CLOSE_SERVER, {}};
+        
       } else {
         i = getInstruction(buffer);
       }
@@ -71,9 +72,11 @@ void ClientProxyRead::run(){
       }
     }
   } catch(const std::exception& e) {
-    std::cout << "ERROR CLIENT PROXY READ: " << e.what() << std::endl;
+    std::cerr << "Error en ClientProxy READ: \n" <<
+      " Error: " << e.what() << std::endl;
   } catch(...) {
-    std::cout << "UNKOWN ERROR CLIENT PROXY READ" << std::endl;
+    std::cerr << "Error en ClientProxy READ: \n" <<
+      " Error Invalido" << std::endl;
   }
 }
 
@@ -216,7 +219,6 @@ void ClientProxyRead::handleAuthInstruction(
       client.instructionQueue.push(std::move(i));      
       break; 
     default:
-      std::cout << "El jugador quiere realizar otra accion. " << std::endl;
       break;
   }
 }
@@ -246,7 +248,6 @@ void ClientProxyRead::handleNonAuthInstruction(
       client.instructionQueue.push(std::move(i));   
       break; 
     default:
-      std::cout << "El jugador quiere realizar otra accion. " << std::endl;
       break;
   }
 }
@@ -266,9 +267,10 @@ void ClientProxyWrite::run(){
       client.acceptedSocket.send(response.c_str(), response.length());
     }
   } catch(const std::exception& e) {
-    if (errno == 9) return;
-    std::cout << "ERROR CLIENT PROXY WRITE: " << e.what() << std::endl;
+     std::cerr << "Error en ClientProxy Write: \n" <<
+      " Error: " << e.what() << std::endl;
   } catch(...) {
-    std::cout << "UNKOWN ERROR CLIENT PROXY WRITE" << std::endl;
+    std::cerr << "Error en ClientProxy Write: \n" <<
+      " Error Invalido" << std::endl;
   }
 }
