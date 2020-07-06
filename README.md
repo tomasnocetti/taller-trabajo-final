@@ -33,7 +33,7 @@ En caso de querer desinstalar el programa.
 
 3) sudo make uninstall
 
-### Ejecucion
+### Ejecución
 
 #### Servidor
 Iniciara una instancia servidor del juego Argentum. Esto es obligatorio para el correcto funcionamiento del juego.
