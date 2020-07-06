@@ -156,7 +156,6 @@ void FileManager::parseIndexFile(){
     FileIndex b = obj.as<FileIndex>();
     std::string nick(b.nick);
 
-    std::cout << nick << std::endl;
     indexList.insert(
       std::pair<std::string, FileIndex>(nick, b));
   }
@@ -164,7 +163,7 @@ void FileManager::parseIndexFile(){
 
 void FileManager::getBufferSize() {
   std::stringstream ss;
-  FileIndex index;
+  FileIndex index = {};
 
   msgpack::pack(ss, index);
   std::string const& str = ss.str();
@@ -172,7 +171,7 @@ void FileManager::getBufferSize() {
 }
 
 void FileManager::getBufferDbSize() {
-  PlayerPersistData data;
+  PlayerPersistData data = {};
   data.rootd = {PlayerClass::WARRIOR, PlayerRace::ELF};
   std::stringstream ss;
   msgpack::pack(ss, data);
@@ -194,7 +193,7 @@ void FileManager::create(
 
 void FileManager::createIndex(
   const std::string& nick, const std::string& password) {
-  FileIndex index;
+  FileIndex index = {};
   strncpy(index.nick, nick.c_str(), nick.size() + 1);
   strncpy(index.password, password.c_str(), password.size() + 1);
   index.playerId = playerIdIndex;

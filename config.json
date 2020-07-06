@@ -65,11 +65,11 @@
       "excessGoldConstPow": 1.1,
       "maxGoldFactor": 1.5,
       "baseGoldConst": 100,
-      "npcDropGoldRandMaxValue": 2,
-      "npcDropGoldRandMinValue": 1,
-      "npcDropGold": 0.2,
-      "npcDropItem": 0.5,
-      "npcDropPotion": 0.3
+      "npcDropGoldRandMaxValue": 0.2,
+      "npcDropGoldRandMinValue": 0.01,
+      "npcDropGold": 0.08,
+      "npcDropItem": 0.06,
+      "npcDropPotion": 0.06
     },
     "dropSizes": {
       "weight": 32,
