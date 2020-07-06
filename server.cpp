@@ -1,20 +1,20 @@
 #include <iostream>
-#include <sstream>
-#include <cassert>
 #include <syslog.h>
 #include "server/ServerRun.h"
 
+#define ARGUMENTS_ERROR "Para ejecutar el programa debe proveer el archivo "\
+  "de configuracion y el puerto del servidor. \n"\
+  "   * argentum-server <path/to/config> <port>"
+
 int main(int argc, char* argv[]) {
   try {
-    if (argc != 3) return EXIT_FAILURE;
+    if (argc != 3) throw std::invalid_argument(ARGUMENTS_ERROR);
     char* mapPath = argv[1];
-    //char mapPath[] = "/etc/argentum/config.json";
-    //char port[] = "7777";
     char* port = argv[2];
     serverRun(port, mapPath);
   } catch(const std::exception& e) {
     syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());
-    std::cout << "Error en el main thread: " << e.what() << std::endl;
+    std::cout << e.what() << std::endl;
     return EXIT_FAILURE;
   } catch(...) {
     syslog(LOG_CRIT, "[Crit] Unknown Error!");

@@ -77,3 +77,7 @@ execute.sh
 tp
 tpclient
 tpserver
+dbfile.bin
+indexfile.bin
+argentum-server
+argentum-client

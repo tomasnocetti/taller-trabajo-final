@@ -161,21 +161,9 @@ o_client_files = $(patsubst %.$(extension),%.o,$(fuentes_client))
 o_server_files = $(patsubst %.$(extension),%.o,$(fuentes_server))
 
 client: $(o_common_files) $(o_client_files)
-	@if [ -z "$(o_client_files)" ]; \
-	then \
-		echo "No hay archivos de entrada en el directorio actual para el cliente. Recuerde que los archivos deben respetar la forma 'client*.$(extension)' y que no se aceptan directorios anidados."; \
-		if [ -n "$(directorios)" ]; then echo "Directorios encontrados: $(directorios)"; fi; \
-		false; \
-	fi >&2
 	$(LD) $(o_common_files) $(o_client_files) -o argentum-client $(LDFLAGS)
 
 server: $(o_common_files) $(o_server_files)
-	@if [ -z "$(o_server_files)" ]; \
-	then \
-		echo "No hay archivos de entrada en el directorio actual para el servidor. Recuerde que los archivos deben respetar la forma 'server*.$(extension)' y que no se aceptan directorios anidados."; \
-		if [ -n "$(directorios)" ]; then echo "Directorios encontrados: $(directorios)"; fi; \
-		false; \
-	fi >&2
 	$(LD) $(o_common_files) $(o_server_files) -o argentum-server $(LDFLAGS)
 
 clean: clean-client clean-server clean-common
@@ -190,9 +178,17 @@ clean-common:
 install:
 	mkdir -p /etc/argentum
 	mkdir -p /var/argentum
-	install -m 777 argentum-client /usr/bin
-	install -m 777 argentum-server /usr/bin
-	install -m 777 config.json /etc/argentum
+	install -m 755 argentum-client /usr/bin
+	install -m 755 argentum-server /usr/bin
+	install -m 755 config.json /etc/argentum
 	cp -r client/assets /var/argentum
-	install -m 777 dbfile.bin /var/argentum
-	install -m 777 indexfile.bin /var/argentum
+	touch dbfile.bin
+	touch indexfile.bin
+	install -m 666 dbfile.bin /var/argentum
+	install -m 666 indexfile.bin /var/argentum
+
+uninstall:
+	rm -rf /etc/argentum
+	rm -rf /var/argentum
+	rm /usr/bin/argentum-client
+	rm /usr/bin/argentum-server
