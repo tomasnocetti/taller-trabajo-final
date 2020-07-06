@@ -20,7 +20,8 @@ int main(int argc, char const *argv[]) {
     std::cout << e.what() << std::endl;
   } catch(const std::exception& e) {
     std::cout << "Ups, parece que hubo un problema. Para mas informacion " <<
-    "puede chequear los logs del sistema ubicados en: \n  " << LOG_PATH << std::endl;
+    "puede chequear los logs del sistema ubicados en: \n  " <<
+    LOG_PATH << std::endl;
     std::cerr << e.what() << std::endl;
     return EXIT_FAILURE;
   } catch(...) {
