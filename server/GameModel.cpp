@@ -33,28 +33,28 @@ void GameModel::parseMapData() {
 
       if (layer.name == SPIDER_SPAWN_POINTS){
         std::unique_ptr<NPC> npc(NPC::createNPC(
-          NPC::getNewId(), p, 10, SPIDER));
+          NPC::getNewId(), p, SPIDER));
         npcMap.insert(std::pair<size_t,
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
       if (layer.name == GOBLIN_SPAWN_POINTS){
         std::unique_ptr<NPC> npc(NPC::createNPC(
-          NPC::getNewId(), p, 15, GOBLIN));
+          NPC::getNewId(), p, GOBLIN));
         npcMap.insert(std::pair<size_t,
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
       if (layer.name == SKELETON_SPAWN_POINTS){
         std::unique_ptr<NPC> npc(NPC::createNPC(
-          NPC::getNewId(), p, 8, SKELETON));
+          NPC::getNewId(), p, SKELETON));
         npcMap.insert(std::pair<size_t,
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
 
       if (layer.name == "zombie-spawn"){
         std::unique_ptr<NPC> npc(NPC::createNPC(
-          NPC::getNewId(), p, 8, ZOMBIE));
+          NPC::getNewId(), p, ZOMBIE));
         npcMap.insert(std::pair<size_t,
         std::unique_ptr<NPC>>(NPC::idGenerator, std::move(npc)));
       }
