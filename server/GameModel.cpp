@@ -107,15 +107,13 @@ bool GameModel::authenticate(
   playerId = p.id; //!IMPORTANTE SETEAR EL ID PARA LA COMUNICACION
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
 
-  
-
   clientsBQ.insert(std::pair<size_t, ResponseBQ&>(p.id, responseBQ));
 
   std::unique_ptr<Player> player(Player::createPlayer(p, nick));
 
   PositionData initialPos = {
-    INIT_MAPCOORD_X,
-    INIT_MAPCOORD_Y, 
+    p.positionX,
+    p.positionY, 
     PLAYER_WIDTH, 
     PLAYER_HEIGHT};
   getRespawnPosition(initialPos, *player);

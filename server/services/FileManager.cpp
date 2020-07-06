@@ -156,7 +156,6 @@ void FileManager::parseIndexFile(){
     FileIndex b = obj.as<FileIndex>();
     std::string nick(b.nick);
 
-    std::cout << nick << std::endl;
     indexList.insert(
       std::pair<std::string, FileIndex>(nick, b));
   }
