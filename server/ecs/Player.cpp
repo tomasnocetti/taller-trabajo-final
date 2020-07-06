@@ -8,6 +8,7 @@
 
 #define BANK_INVENTORY 0
 #define PLAYER_INVENTORY 1
+#define FLAUTA_ELFICA_ID 13
 
 Player::Player(MainPlayerData& playerData, size_t id):
   LiveEntity(playerData.position, playerData.points,
@@ -122,6 +123,30 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
     entity.health.totalHP);
 
   return true;
+}
+
+bool Player::specialAttack(int xCoord, int yCoord){
+  const GlobalConfig& c = GC::get();
+
+  if (!specialWeapon(equipment.rightHand)) return false;
+
+  PositionData attackZoneData = {
+    xCoord - c.attackZoneWidth / 2,
+    yCoord - c.attackZoneHeight / 2,
+    c.attackZoneWidth,
+    c.attackZoneHeight};
+  Entity attackZone(attackZoneData);
+
+  bool canAttack = checkCollision(attackZone);
+  if (!canAttack) return false;
+
+  health.currentHP = health.totalHP;
+  health.currentMP -= rightSkills.mana;
+  return true;
+}
+
+bool Player::specialWeapon(size_t rightHandId){
+  return (rightHandId == FLAUTA_ELFICA_ID);
 }
 
 void Player::rcvDamage(int &damage){
