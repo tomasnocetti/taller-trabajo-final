@@ -6,11 +6,9 @@
 #define EXIT_FAILURE 1
 
 int main(int argc, char const *argv[]) {
-  //std::string host("localhost");
-  //std::string port("7777");
+  if(argc != 3) return EXIT_FAILURE;
   std::string host = argv[1];
   std::string port = argv[2];
-  if(argc != 3) return EXIT_FAILURE;
   try {
     CApp theApp(host, port);
     theApp.OnExecute();

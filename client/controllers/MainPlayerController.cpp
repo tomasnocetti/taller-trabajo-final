@@ -1,5 +1,4 @@
 #include "MainPlayerController.h"
-#include <iostream>
 #include <vector>
 
 #define MANA_BAR_Y 58

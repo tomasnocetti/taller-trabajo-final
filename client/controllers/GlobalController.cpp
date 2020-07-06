@@ -17,7 +17,7 @@ void GlobalController::update() {
   
   if(Mix_PlayingMusic() == 0){
     Mix_Music* music = manager.getMusic("main-music");
-    Mix_VolumeMusic(MIX_MAX_VOLUME / 4);
+    Mix_VolumeMusic(10);
     Mix_PlayMusic(music, -1);
   }
 }

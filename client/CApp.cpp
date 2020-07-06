@@ -174,6 +174,7 @@ void CApp::LoadAssets() {
   manager.addTexture("axe", "/var/argentum/assets/axe.png");
   manager.addTexture("elfic-flute", "/var/argentum/assets/elfic_flute.png");
   manager.addTexture("sword", "/var/argentum/assets/sword.png");
+  manager.addTexture("mace", "/var/argentum/assets/mace.png");
   manager.addTextTexture("invText_1");
   manager.addTextTexture("invText_2");
   manager.addTextTexture("invText_3");
@@ -199,6 +200,8 @@ void CApp::LoadAssets() {
   manager.addTexture("item_13", "/var/argentum/assets/elfic_flute_inv.png");
   manager.addTexture("item_14", "/var/argentum/assets/socketed_staff_inv.png");
   manager.addTexture("item_15", "/var/argentum/assets/axe_inv.png");
+  manager.addTexture("item_16", "/var/argentum/assets/mace_inv.png");
+  manager.addTexture("item_17", "/var/argentum/assets/composite_bow_inv.png");
   manager.addTexture("item_18", "/var/argentum/assets/mana_potion.png");
   manager.addTexture("item_19", "/var/argentum/assets/health_potion.png");
   manager.addTexture("item_5000", "/var/argentum/assets/gold.png");

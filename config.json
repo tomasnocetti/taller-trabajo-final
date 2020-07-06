@@ -252,9 +252,25 @@
       "maxDamage": 5,
       "range": 100,
       "mana": 0
+    }, {
+      "id": 16,
+      "type": "W",
+      "name": "Martillo",
+      "minDamage": 1,
+      "maxDamage": 9,
+      "range": 100,
+      "mana": 0
+    }, {
+      "id": 17,
+      "type": "W",
+      "name": "Arco Compuesto",
+      "minDamage": 4,
+      "maxDamage": 16,
+      "range": 300,
+      "mana": 0
     }],
     "goldItemId": 5000,
-    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15],
+    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
     "potionsToDropNPC": [18, 19],
     "traderItems": [{
       "itemId": 1,
@@ -290,6 +306,12 @@
       "itemId": 15,
       "value": 300
     }, {
+      "itemId": 16,
+      "value": 400
+    }, {
+      "itemId": 17,
+      "value": 10000
+    }, {
       "itemId": 18,
       "value": 150
     }],
@@ -313,10 +335,10 @@
       "value": 150
     }],
     "defaultItems":[{
-      "itemId": 1,
+      "itemId": 17,
       "amount": 1
     }, {
-      "itemId": 15,
+      "itemId": 16,
       "amount": 1 
     },{
       "itemId": 7,

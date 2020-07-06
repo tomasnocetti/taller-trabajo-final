@@ -1,7 +1,6 @@
 #include "Animation.h"
 #include "AnimationTypes.h"
 #include <SDL2/SDL.h>
-#include <iostream>
 
 Animation::Animation(LTexture* texture) :
   texture(texture) {}

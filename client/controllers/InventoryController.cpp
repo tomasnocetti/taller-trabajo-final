@@ -1,7 +1,6 @@
 #include "InventoryController.h"
 #include "../../definitions/PlayerDefinitions.h"
 #include "../entities/InventoryEntity.h"
-#include <iostream>
 #include <string>
 #include <vector>
 

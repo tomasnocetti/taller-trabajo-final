@@ -2,7 +2,6 @@
 #include "../entities/TileEntity.h"
 #include "../entities/DropEntity.h"
 #include "../../definitions/MapDefinitions.h"
-#include <iostream>
 #include <algorithm>
 #include <string>
 #include <vector>

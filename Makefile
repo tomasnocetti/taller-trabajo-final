@@ -190,9 +190,9 @@ clean-common:
 install:
 	mkdir -p /etc/argentum
 	mkdir -p /var/argentum
-	cp -f argentum-client /usr/bin
-	cp -f argentum-server /usr/bin
+	install -m 777 argentum-client /usr/bin
+	install -m 777 argentum-server /usr/bin
 	install -m 777 config.json /etc/argentum
-	cp -r -f client/assets /var/argentum
+	cp -r client/assets /var/argentum
 	install -m 777 dbfile.bin /var/argentum
 	install -m 777 indexfile.bin /var/argentum
