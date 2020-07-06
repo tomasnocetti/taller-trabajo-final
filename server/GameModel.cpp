@@ -177,6 +177,8 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
   const GlobalConfig& c = GC::get();
   if (p.health.currentHP <= 0) return;
+  
+  if (p.specialAttack(xPos, yPos)) return;
 
   if (checkCityCollisions(p)) return;
 
