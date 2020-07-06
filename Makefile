@@ -126,6 +126,7 @@ LDFLAGS += -lSDL2_ttf
 # LDFLAGS += -ltmx
 LDFLAGS += -lSDL2
 LDFLAGS += -lSDL2_ttf
+LDFLAGS += -lSDL2_mixer
 endif
 
 # Si no especifica archivos, tomo todos.
@@ -151,7 +152,7 @@ endif
 # REGLAS
 #########
 
-.PHONY: all clean
+.PHONY: all clean install
 
 all: client server
 
@@ -166,7 +167,7 @@ client: $(o_common_files) $(o_client_files)
 		if [ -n "$(directorios)" ]; then echo "Directorios encontrados: $(directorios)"; fi; \
 		false; \
 	fi >&2
-	$(LD) $(o_common_files) $(o_client_files) -o tpclient $(LDFLAGS)
+	$(LD) $(o_common_files) $(o_client_files) -o argentum-client $(LDFLAGS)
 
 server: $(o_common_files) $(o_server_files)
 	@if [ -z "$(o_server_files)" ]; \
@@ -175,14 +176,23 @@ server: $(o_common_files) $(o_server_files)
 		if [ -n "$(directorios)" ]; then echo "Directorios encontrados: $(directorios)"; fi; \
 		false; \
 	fi >&2
-	$(LD) $(o_common_files) $(o_server_files) -o tpserver $(LDFLAGS)
+	$(LD) $(o_common_files) $(o_server_files) -o argentum-server $(LDFLAGS)
 
 clean: clean-client clean-server clean-common
 
 clean-client:
-	$(RM) -f $(o_client_files) tpclient
+	$(RM) -f $(o_client_files) argentum-client
 clean-server:
-	$(RM) -f $(o_server_files) tpserver
+	$(RM) -f $(o_server_files) argentum-server
 clean-common:
 	$(RM) -f $(o_common_files)
 
+install:
+	mkdir -p /etc/argentum
+	mkdir -p /var/argentum
+	install -m 777 argentum-client /usr/bin
+	install -m 777 argentum-server /usr/bin
+	install -m 777 config.json /etc/argentum
+	cp -r client/assets /var/argentum
+	install -m 777 dbfile.bin /var/argentum
+	install -m 777 indexfile.bin /var/argentum

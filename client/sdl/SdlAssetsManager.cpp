@@ -27,11 +27,33 @@ TTF_Font* SdlAssetsManager::getFont(std::string id) {
 	return fonts[id];
 }
 
+void SdlAssetsManager::addMusic(std::string id, std::string path) {
+  music.emplace(id, Mix_LoadMUS(path.c_str()));
+}
+
+Mix_Music* SdlAssetsManager::getMusic(std::string id){
+  return music.at(id);
+}
+
+void SdlAssetsManager::addSFX(std::string id, std::string path) {
+  sfx.emplace(id, Mix_LoadWAV(path.c_str()));
+}
+
+Mix_Chunk* SdlAssetsManager::getSFX(std::string id){
+  return sfx.at(id);
+}
+
 SdlAssetsManager::~SdlAssetsManager() {
   for (auto &i : textures) {
     delete i.second;
   }
   for (auto &i : fonts) {
     TTF_CloseFont(i.second);
+  }
+  for (auto &i : music) {
+    Mix_FreeMusic(i.second);
+  }
+  for (auto &i : sfx) {
+    Mix_FreeChunk(i.second);
   }
 }

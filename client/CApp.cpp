@@ -78,6 +78,7 @@ void CApp::OnLoop() {
   chatController.update();
   enemyController.update();
   inventoryController.update();
+  globalController.update();
 }
 
 void CApp::OnRender() {
@@ -120,50 +121,60 @@ void CApp::OnInit() {
 void CApp::OnCleanup() {}
 
 void CApp::LoadAssets() {
-  manager.addFont("main", FONT_PATH, 12);
-  manager.addFont("arial", ARIAL_PATH, 12);
-  manager.addTexture("main-screen-path", MAIN_SCREEN_PATH);
-  manager.addTexture("login-screen-path", LOGIN_SCREEN_PATH);
+  manager.addFont("main", "/var/argentum/assets/fonts/ringm.ttf", 12);
+  manager.addFont("arial", "/var/argentum/assets/fonts/arial.ttf", 12);
+  manager.addTexture("main-screen-path", 
+    "/var/argentum/assets/main-screens/game-screen.jpg");
+  manager.addTexture("login-screen-path", 
+    "/var/argentum/assets/main-screens/login-screen.jpg");
   manager.addTextTexture("user-input");
   manager.addTexture("scroll-button",
-    "client/assets/buttons/scroll-button.png");
+    "/var/argentum/assets/buttons/scroll-button.png");
   manager.addTexture("scroll-button-active",
-    "client/assets/buttons/scroll-button-active.png");
+    "/var/argentum/assets/buttons/scroll-button-active.png");
     manager.addTexture("scroll-button-down",
-    "client/assets/buttons/button-scroll-down.png");
+    "/var/argentum/assets/buttons/button-scroll-down.png");
   manager.addTexture("scroll-button-down-active",
-    "client/assets/buttons/button-scroll-down-active.png");
+    "/var/argentum/assets/buttons/button-scroll-down-active.png");
   manager.addTextTexture("healthText");
   manager.addTextTexture("manaText");
   manager.addTextTexture("goldText");
   manager.addTextTexture("levelText");
   manager.addTextTexture("expText");
-  manager.addTexture("clothes", "client/assets/clothes.png");
-  manager.addTexture("blue-tunic", "client/assets/blue_tunic.png");
-  manager.addTexture("plate-armor", "client/assets/plate_armor.png");
-  manager.addTexture("leather-armor", "client/assets/leather_armor.png");
-  manager.addTexture("ghost", "client/assets/ghost.png");
-  manager.addTexture("health", "client/assets/health.png");
-  manager.addTexture("mana", "client/assets/mana.png");
-  manager.addTexture("exp", "client/assets/exp.png");
-  manager.addTexture("dwarf-head", "client/assets/dwarf.png");
-  manager.addTexture("elf-head", "client/assets/elf.png");
-  manager.addTexture("human-head", "client/assets/human.png");
-  manager.addTexture("gnome-head", "client/assets/gnome.png");
-  manager.addTexture("skeleton-view", "client/assets/skeletonView.png");
-  manager.addTexture("goblin-view", "client/assets/goblinView.png");
-  manager.addTexture("spider-view", "client/assets/spiderView.png");
-  manager.addTexture("zombie-view", "client/assets/zombieView.png");
-  manager.addTexture("helmet", "client/assets/iron_helm.png");
-  manager.addTexture("hat", "client/assets/hat.png");
-  manager.addTexture("hood", "client/assets/hood.png");
-  manager.addTexture("turtle-shield", "client/assets/turtle_shield.png");
-  manager.addTexture("iron-shield", "client/assets/iron_shield.png");
-  manager.addTexture("simple-bow", "client/assets/simpleBow.png");
-  manager.addTexture("ash-stick", "client/assets/ash_stick.png");
-  manager.addTexture("gnarled-staff", "client/assets/gnarled_staff.png");
-  manager.addTexture("elfic-flute", "client/assets/elfic_flute.png");
-  manager.addTexture("sword", "client/assets/sword.png");
+  manager.addTexture("clothes", "/var/argentum/assets/clothes.png");
+  manager.addTexture("blue-tunic", "/var/argentum/assets/blue_tunic.png");
+  manager.addTexture("plate-armor", "/var/argentum/assets/plate_armor.png");
+  manager.addTexture("leather-armor", 
+    "/var/argentum/assets/leather_armor.png");
+  manager.addTexture("ghost", "/var/argentum/assets/ghost.png");
+  manager.addTexture("health", "/var/argentum/assets/health.png");
+  manager.addTexture("mana", "/var/argentum/assets/mana.png");
+  manager.addTexture("exp", "/var/argentum/assets/exp.png");
+  manager.addTexture("dwarf-head", "/var/argentum/assets/dwarf.png");
+  manager.addTexture("elf-head", "/var/argentum/assets/elf.png");
+  manager.addTexture("human-head", "/var/argentum/assets/human.png");
+  manager.addTexture("gnome-head", "/var/argentum/assets/gnome.png");
+  manager.addTexture("skeleton-view", "/var/argentum/assets/skeletonView.png");
+  manager.addTexture("goblin-view", "/var/argentum/assets/goblinView.png");
+  manager.addTexture("spider-view", "/var/argentum/assets/spiderView.png");
+  manager.addTexture("zombie-view", "/var/argentum/assets/zombieView.png");
+  manager.addTexture("helmet", "/var/argentum/assets/iron_helm.png");
+  manager.addTexture("hat", "/var/argentum/assets/hat.png");
+  manager.addTexture("hood", "/var/argentum/assets/hood.png");
+  manager.addTexture("turtle-shield", 
+    "/var/argentum/assets/turtle_shield.png");
+  manager.addTexture("iron-shield", 
+    "/var/argentum/assets/iron_shield.png");
+  manager.addTexture("simple-bow", "/var/argentum/assets/simpleBow.png");
+  manager.addTexture("ash-stick", "/var/argentum/assets/ash_stick.png");
+  manager.addTexture("gnarled-staff", 
+    "/var/argentum/assets/gnarled_staff.png");
+  manager.addTexture("socketed-staff", 
+    "/var/argentum/assets/socketed_staff.png");
+  manager.addTexture("axe", "/var/argentum/assets/axe.png");
+  manager.addTexture("elfic-flute", "/var/argentum/assets/elfic_flute.png");
+  manager.addTexture("sword", "/var/argentum/assets/sword.png");
+  manager.addTexture("mace", "/var/argentum/assets/mace.png");
   manager.addTextTexture("invText_1");
   manager.addTextTexture("invText_2");
   manager.addTextTexture("invText_3");
@@ -173,23 +184,29 @@ void CApp::LoadAssets() {
   manager.addTextTexture("invText_7");
   manager.addTextTexture("invText_8");
   manager.addTextTexture("invText_9");
-  manager.addTexture("check", "client/assets/check.png");
-  manager.addTexture("item_1", "client/assets/bow_inv.png");
-  manager.addTexture("item_2", "client/assets/sword_inv.png");
-  manager.addTexture("item_3", "client/assets/iron_helm_inv.png");
-  manager.addTexture("item_4", "client/assets/iron_shield_inv.png");
-  manager.addTexture("item_5", "client/assets/blue_tunic_inv.png");
-  manager.addTexture("item_6", "client/assets/ash_stick_inv.png");
-  manager.addTexture("item_7", "client/assets/hat_inv.png");
-  manager.addTexture("item_8", "client/assets/hood_inv.png");
-  manager.addTexture("item_9", "client/assets/leather_armor_inv.png");
-  manager.addTexture("item_10", "client/assets/plate_armor_inv.png");
-  manager.addTexture("item_11", "client/assets/turtle_shield_inv.png");
-  manager.addTexture("item_12", "client/assets/gnarled_staff_inv.png");
-  manager.addTexture("item_13", "client/assets/elfic_flute_inv.png");
-  manager.addTexture("item_18", "client/assets/mana_potion.png");
-  manager.addTexture("item_19", "client/assets/health_potion.png");
-  manager.addTexture("item_5000", "client/assets/gold.png");
+  manager.addTexture("check", "/var/argentum/assets/check.png");
+  manager.addTexture("item_1", "/var/argentum/assets/bow_inv.png");
+  manager.addTexture("item_2", "/var/argentum/assets/sword_inv.png");
+  manager.addTexture("item_3", "/var/argentum/assets/iron_helm_inv.png");
+  manager.addTexture("item_4", "/var/argentum/assets/iron_shield_inv.png");
+  manager.addTexture("item_5", "/var/argentum/assets/blue_tunic_inv.png");
+  manager.addTexture("item_6", "/var/argentum/assets/ash_stick_inv.png");
+  manager.addTexture("item_7", "/var/argentum/assets/hat_inv.png");
+  manager.addTexture("item_8", "/var/argentum/assets/hood_inv.png");
+  manager.addTexture("item_9", "/var/argentum/assets/leather_armor_inv.png");
+  manager.addTexture("item_10", "/var/argentum/assets/plate_armor_inv.png");
+  manager.addTexture("item_11", "/var/argentum/assets/turtle_shield_inv.png");
+  manager.addTexture("item_12", "/var/argentum/assets/gnarled_staff_inv.png");
+  manager.addTexture("item_13", "/var/argentum/assets/elfic_flute_inv.png");
+  manager.addTexture("item_14", "/var/argentum/assets/socketed_staff_inv.png");
+  manager.addTexture("item_15", "/var/argentum/assets/axe_inv.png");
+  manager.addTexture("item_16", "/var/argentum/assets/mace_inv.png");
+  manager.addTexture("item_17", "/var/argentum/assets/composite_bow_inv.png");
+  manager.addTexture("item_18", "/var/argentum/assets/mana_potion.png");
+  manager.addTexture("item_19", "/var/argentum/assets/health_potion.png");
+  manager.addTexture("item_5000", "/var/argentum/assets/gold.png");
+
+  manager.addMusic("main-music", "/var/argentum/assets/music/main_music.mp3");
 }
 
 CApp::~CApp() {}
