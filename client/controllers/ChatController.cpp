@@ -56,6 +56,15 @@ void ChatController::handleEvent(const SDL_Event &e) {
   if (e.type == SDL_MOUSEBUTTONUP) {
     userChatArea->handleClickClear();
   }
+  if (e.type == SDL_KEYUP &&
+    (e.key.keysym.sym == SDLK_SLASH ||
+    e.key.keysym.sym == SDLK_AT)
+    && !active) {
+    active = true;
+    const std::string c =
+      e.key.keysym.sym == SDLK_AT ? "@" : "/";
+    userInputField->activateInput(c);
+  }
   if (!active) return;
   userInputField->handleInput(e);
 
@@ -83,9 +92,36 @@ void ChatController::handleCommand() {
     model.meditate();
   }
 
+  if (action == "/crear"){
+    std::string aux = command.erase(0, pos + delimiter.length());
+    pos = aux.find(" ");
+    std::string alias = command.substr(0, pos);
+
+    aux = command.erase(0, pos + delimiter.length());
+    pos = aux.find(" ");
+    std::string password = command.substr(0, pos);
+
+    aux = command.erase(0, pos + delimiter.length());
+    pos = aux.find(" ");
+    std::string classType = command.substr(0, pos);
+
+    aux = command.erase(0, pos + delimiter.length());
+    pos = aux.find(" ");
+    std::string race = command.substr(0, pos);
+
+    model.createPlayer(alias, password, race, classType);
+  }
+
   if (action == "/iniciar"){
-    std::string alias = command.erase(0, pos + delimiter.length());
-    model.authentificate(alias);
+    std::string aux = command.erase(0, pos + delimiter.length());
+    pos = aux.find(" ");
+    std::string alias = command.substr(0, pos);
+
+    aux = command.erase(0, pos + delimiter.length());
+    pos = aux.find(" ");
+    std::string password = command.substr(0, pos);
+
+    model.authentificate(alias, password);
   }
 
   if (action == "/tirar"){
@@ -116,11 +152,11 @@ void ChatController::handleCommand() {
   if (action == "/depositar"){
     std::string aux = command.erase(0, pos+delimiter.length());
     pos = aux.find(" ");
-    
+
     std::string item = command.substr(0, pos);
     if (item == "oro"){
       std::string amount = aux.erase(0, pos+delimiter.length());
-      
+
       model.depositGold(amount);
     } else {
       model.depositItem(item);
@@ -130,15 +166,25 @@ void ChatController::handleCommand() {
   if (action == "/retirar"){
     std::string aux = command.erase(0, pos+delimiter.length());
     pos = aux.find(" ");
-    
+
     std::string item = command.substr(0, pos);
     if (item == "oro"){
       std::string amount = aux.erase(0, pos+delimiter.length());
-      
+
       model.withDrawGold(amount);
     } else {
       model.withDrawItem(item);
     }
+  }
+
+  if (command.substr(0, 1) == "@"){
+    std::string aux = command.erase(0, 1);
+    pos = aux.find(" ");
+    std::string nick = command.substr(0, pos);
+
+    std::string message = command.erase(0, pos + delimiter.length());
+
+    model.sendMessageToPlayer(nick, message);
   }
 }
 

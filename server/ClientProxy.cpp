@@ -162,7 +162,10 @@ void ClientProxyRead::handleAuthInstruction(
       break;
     case AUTHENTICATE:
       i = std::unique_ptr<Instruction>(
-        new AuthInstruction(client, instruction.params[0].value));
+        new AuthInstruction(
+          client,
+          instruction.params[0].value,
+          instruction.params[1].value));
       client.instructionQueue.push(std::move(i));
       break;
     case STOP_MOVEMENT:
@@ -205,6 +208,14 @@ void ClientProxyRead::handleAuthInstruction(
         client.playerId));
       client.instructionQueue.push(std::move(i));      
       break; 
+    case SEND_MESSAGE:
+      i = std::unique_ptr<Instruction>(
+        new SendMessageInstruction(
+          client.playerId, 
+          instruction.params[0].value, 
+          instruction.params[1].value));
+      client.instructionQueue.push(std::move(i));      
+      break; 
     default:
       std::cout << "El jugador quiere realizar otra accion. " << std::endl;
       break;
@@ -214,14 +225,27 @@ void ClientProxyRead::handleAuthInstruction(
 void ClientProxyRead::handleNonAuthInstruction(
   InstructionData& instruction) {
   ActionTypeT action = instruction.action;
-  std::unique_ptr<Instruction> i;
+  std::unique_ptr<Instruction> i, j;
 
   switch (action) {
     case AUTHENTICATE:
       i = std::unique_ptr<Instruction>(
-        new AuthInstruction(client, instruction.params[0].value));
+        new AuthInstruction(
+          client, 
+          instruction.params[0].value, 
+          instruction.params[1].value));
       client.instructionQueue.push(std::move(i));
       break;
+    case CREATE_PLAYER:
+      i = std::unique_ptr<Instruction>(
+        new CreatePlayerInstruction(
+          client,
+          instruction.params[0].value,
+          instruction.params[1].value,
+          instruction.params[2].value,
+          instruction.params[3].value));
+      client.instructionQueue.push(std::move(i));   
+      break; 
     default:
       std::cout << "El jugador quiere realizar otra accion. " << std::endl;
       break;

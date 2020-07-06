@@ -52,6 +52,12 @@ struct ChatMessages {
   std::string depositItemSuccess;
   std::string successfullGoldExtraction;
   std::string successfullItemExtraction;
+  std::string playerNotOnline;
+  std::string playerDoesNotExit;
+};
+
+struct NPCData {
+  int level;
 };
 
 struct DropSizes{
@@ -110,13 +116,13 @@ struct GlobalConfig {
   double npcRandomDrop;
   int npcInitHealthPoints;
   size_t npcInitSkills;
-  int playerInitialLevel;
+  size_t playerInitialLevel;
   size_t newbieLevel;
   size_t fairPlayLevel;
   int goldItemId;
-  int playerInitialGold;
   double estimateTimeToPriestConst;
   unsigned int maxInventoryDifferentItems;
+  size_t playerInitialGold;
   unsigned int traderBankerPriestMinRangeToInteract;
   double traderFactorWhenSelling;
   std::map<PlayerRace, RaceSkillsData> raceSkills;
@@ -148,6 +154,7 @@ class GC {
     static void clean();
     static const GlobalConfig& get();
     static const SystemConfig& getS();
+    
   private:
     GlobalConfig g;
     SystemConfig s;
@@ -156,6 +163,13 @@ class GC {
     static void parseItems(GlobalConfig& g, const Json::Value& val);
     static void parseRaces(GlobalConfig& g, const Json::Value& val);
     static void parseClasses(GlobalConfig& g, const Json::Value& val);
+    static void parsePriestItems(GlobalConfig& g, const Json::Value& val);
+    static void parseTraderItems(GlobalConfig& g, const Json::Value& val);
+    static void parseChatMessages(
+      GlobalConfig& g, const Json::Value& chatMessages);
+    static void parseEquationsData(
+      GlobalConfig& g, const Json::Value& equations);
+    static void parseDefaultInv(GlobalConfig& g, const Json::Value& val);
 };
 
 #endif

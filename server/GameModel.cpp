@@ -8,6 +8,7 @@
 #include <stdlib.h>
 #include <utility>
 #include "services/ChatManager.h"
+#include <map>
 
 GameModel::GameModel(CronBQ& cronBQ) :
   cronBQ(cronBQ),
@@ -91,24 +92,67 @@ void GameModel::parseMapData() {
 GameModel::~GameModel(){}
 
 bool GameModel::authenticate(
+  std::string& password,
   std::string& nick,
   ResponseBQ& responseBQ,
   size_t& playerId) {
   // TODO: BUSCAR EN LOS ARCHIVOS. VER SI EXISTE Y OBTENER DATA//
-  playerId  = Equations::random(1, 100);
 
+  if (!f.authenticate(nick, password)) return false;
+
+  PlayerPersistData p = f.getData(nick);
+  playerId = p.id; //!IMPORTANTE SETEAR EL ID PARA LA COMUNICACION
   // INSERTO EN EL MAPA DE COMUNICACIONES Y EN EL DE JUGADORES//
-  clientsBQ.insert(std::pair<size_t, ResponseBQ&>(playerId, responseBQ));
+  clientsBQ.insert(std::pair<size_t, ResponseBQ&>(p.id, responseBQ));
 
-  PlayerRootData root = {CLERIC, HUMAN};
+  std::unique_ptr<Player> player(Player::createPlayer(p, nick));
 
-  std::unique_ptr<Player> player(Player::createPlayer(playerId, nick, root));
   players.insert(std::pair<size_t,
     std::unique_ptr<Player>>(playerId, std::move(player)));
 
   responseBQ.push(
     std::unique_ptr<MapResponse> (new MapResponse(m.getMapData())));
   return true;
+}
+
+bool GameModel::createPlayer(
+  ResponseBQ& responseBQ,
+  size_t& playerId,
+  std::string nick, 
+  std::string password, 
+  PlayerClass classType,
+  PlayerRace race){
+    switch (race){
+      case HUMAN:
+      case ELF:
+      case GNOME:
+      case DWARF:
+        break;   
+      default:
+        std::cout << "Error al crear al jugador" << std::endl;
+        return false;
+    }
+    switch (classType){
+      case MAGE:
+      case CLERIC:
+      case PALADIN:
+      case WARRIOR:
+        break;
+      default:
+        std::cout << "Error al crear al jugador" << std::endl;
+        return false;
+    }
+    
+    if (f.checkIfNickExists(nick)){
+      std::cout << "El nick ya existe." << std::endl;
+      return false;
+    } 
+
+    PositionData position = {2600, 2600, 0, 0};
+    f.create(nick, password, {classType, race}, position);
+
+    authenticate(password, nick, responseBQ, playerId);
+    return true;
 }
 
 void GameModel::move(size_t playerId, int x, int y) {
@@ -574,6 +618,31 @@ void GameModel::withdrawItem(size_t playerId, size_t inventoryPos){
   bankers.at(bankerId)->withdraw(p, inventoryPos);
 }
 
+void GameModel::sendMessageToPlayer(
+  size_t &id, 
+  std::string &nick, 
+  std::string &message){
+    const GlobalConfig& c = GC::get(); 
+    Player &p = *players.at(id);
+    size_t addresseeId;
+    bool addresseeExist = f.getPlayerId(nick, addresseeId);
+
+    if (!addresseeExist){
+      p.sendMessage(NORMAL, c.chatMessages.playerDoesNotExit);
+      return;
+    }
+
+    std::map<size_t, std::unique_ptr<Player>>::iterator it;
+    it = players.find(addresseeId);
+    if (it == players.end()){
+      p.sendMessage(NORMAL, c.chatMessages.playerNotOnline);
+      return;
+    }    
+    
+    p.sendMessage(NORMAL, "Yo: " + message);
+    players.at(addresseeId)->sendMessage(NORMAL, p.nick + ": " + message);
+}
+
 void GameModel::commandError(size_t playerId){
   const GlobalConfig& c = GC::get(); 
   players.at(playerId)->sendMessage(INFO, c.chatMessages.invalidCommand);
@@ -633,6 +702,9 @@ void GameModel::npcRespawn(size_t npcId){
 }
 
 void GameModel::eraseClient(size_t playerID){
+  Player& p = *players.at(playerID);
+  PlayerPersistData d = p.generatePersistData();
+  f.saveData(p.nick, d);
   players.erase(playerID);
   clientsBQ.erase(playerID);
 }

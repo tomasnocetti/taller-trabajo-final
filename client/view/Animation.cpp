@@ -24,17 +24,8 @@ void Animation::set(int currentAnim){
 			index = (SDL_GetTicks() / 125) % rightFrames;
 			lastFrame = rightAnim[index];
 		break;
-		case BACK_STAND:
-			lastFrame = backwardAnim[0];
-		break;
 		case FORWARD_STAND:
 			lastFrame = forwardAnim[0];
-		break;
-		case LEFT_STAND:
-			lastFrame = leftAnim[0];
-	  break;
-		case RIGHT_STAND:
-			lastFrame = rightAnim[0];
 		break;
 	}
 }

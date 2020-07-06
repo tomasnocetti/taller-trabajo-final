@@ -23,7 +23,7 @@ void MapController::init(){
   const MapData& map = model.getMapData();
 
   for (unsigned int i = 0; i < map.tileSets.size(); i++){
-    std::string src = "client/assets/map/" + map.tileSets[i].image;
+    std::string src = "/var/argentum/assets/map/" + map.tileSets[i].image;
     manager.addTexture(map.tileSets[i].image, src.data());
   }
 

@@ -4,11 +4,13 @@
 #include <syslog.h>
 #include "server/ServerRun.h"
 
-int main() {
+int main(int argc, char* argv[]) {
   try {
-    char mapPath[] = "config.json";
-
-    char port[] = "7777";
+    if(argc != 3) return EXIT_FAILURE;
+    char* mapPath = argv[1];
+    //char mapPath[] = "/etc/argentum/config.json";
+    //char port[] = "7777";
+    char* port = argv[2];
     serverRun(port, mapPath);
   } catch(const std::exception& e) {
     syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());

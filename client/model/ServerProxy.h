@@ -51,7 +51,7 @@ class ServerProxy{
     bool isMapSet() const;
 
     /** Client ACTIONS */
-    void authentificate(std::string& alias);
+    void authentificate(std::string& alias, std::string& password);
     void move(int xDir, int yDir);
     void attack(int xPos, int yPos);
     void equip(int inventoryPosition);
@@ -67,6 +67,12 @@ class ServerProxy{
     void depositItem(std::string inventoryPos);
     void withDrawGold(std::string amount);
     void withDrawItem(std::string inventoryPos);
+    void createPlayer(
+      std::string nick, 
+      std::string password, 
+      std::string race,
+      std::string typeClass);
+    void sendMessageToPlayer(std::string nick, std::string message);
     
     /** Client GETTERS */
     const MapData& getMapData() const;

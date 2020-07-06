@@ -6,6 +6,7 @@
 #include <stdio.h>
 #include "GameCron.h"
 #include "services/MapParser.h"
+#include "services/FileManager.h"
 #include "responses/Response.h"
 #include "ecs/Player.h"
 #include "ecs/Npc.h"
@@ -36,6 +37,7 @@ class GameModel{
     std::map<size_t, std::unique_ptr<Trader>> traders;
     std::map<size_t, std::unique_ptr<Banker>> bankers;
     MapParser m;
+    FileManager f;
     CronBQ& cronBQ;
     void parseMapData();
     bool checkCityCollisions(Entity &entity);
@@ -72,12 +74,6 @@ class GameModel{
     void meditate(size_t playerId);
     /* Handle increaseManaMeditation instruction - GameCron Instruction */
     void increaseManaByMeditation(size_t playerId);
-    /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
-      Devuelve true si pudo o es valido, false de lo contrario. */
-    bool authenticate(
-      std::string& nick,
-      ResponseBQ& responseBQ,
-      size_t& playerId);
     /* Elimina al jugador del juego activo. */
     void deAuthenticate(size_t playerId);
     /* En base al id del jugador, va a armar una estructura con los datos
@@ -120,6 +116,26 @@ class GameModel{
     void withdrawGold(size_t playerId, size_t inventoryPos);
     /* Handle withdraw item instruction */
     void withdrawItem(size_t playerId, size_t inventoryPos);
+    /* Agrega un jugador al juego activo con su respectiva BQ de comuncacion.
+      Devuelve true si pudo o es valido, false de lo contrario. */
+    bool authenticate(
+      std::string& password,
+      std::string& nick,
+      ResponseBQ& responseBQ,
+      size_t& playerId);
+    /* Handle create intruction */
+    bool createPlayer(
+      ResponseBQ& responseBQ,
+      size_t& playerId,
+      std::string nick, 
+      std::string password, 
+      PlayerClass classType,
+      PlayerRace race);
+    /* Handle send message instruction */
+    void sendMessageToPlayer(
+      size_t &id, 
+      std::string &nick, 
+      std::string &message);
 };
 
 #endif

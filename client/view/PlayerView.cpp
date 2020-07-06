@@ -45,7 +45,7 @@ void PlayerView::move(int x, int y){
 }
 
 void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
-	if(!authenticated) return;
+	if (!authenticated) return;
 
 	animation->paint(x - camera.getX(), y - camera.getY(), 
 		scaleW, scaleH);

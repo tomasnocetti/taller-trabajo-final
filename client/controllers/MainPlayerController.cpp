@@ -96,6 +96,11 @@ void MainPlayerController::handleEvent(const SDL_Event &e) {
     e.key.keysym.sym == SDLK_RETURN) {
     active = true;
   }
+  if (e.type == SDL_KEYDOWN &&
+    (e.key.keysym.sym == SDLK_SLASH ||
+    e.key.keysym.sym == SDLK_KP_AT)) {
+    active = false;
+  }
 
   if (e.type == SDL_KEYUP) {
     const Uint8* currentKeyStates = SDL_GetKeyboardState(NULL);
