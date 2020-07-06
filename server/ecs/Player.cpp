@@ -104,8 +104,7 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
 
   double distanceAttackZone =  Entity::getPositionDistance(
     attackZoneData , position);
-  if ((distanceAttackZone > rightSkills.range)
-    && (rightSkills.range != 0)) return false;
+  if (distanceAttackZone > rightSkills.range) return false;
 
   if (health.currentMP < rightSkills.mana) return false;
   health.currentMP -= rightSkills.mana;
