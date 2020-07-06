@@ -58,9 +58,10 @@ int Equations::killExperience(
       std::max(otherLevel - level + 10, 0);
 }
 
-bool Equations::dodgeAttackNPC() {
+bool Equations::dodgeAttackNPC(NPCClass& npcType) {
   const GlobalConfig& c = GC::get();
-  float rand = pow(randomFloat(0, 1), c.npcInitSkills);
+  const NPCData& npcD = c.npcs.at(npcType);
+  float rand = pow(randomFloat(0, 1), npcD.skills);
   return rand < c.equations.dodgeAttackComparisonValue;
 }
 
@@ -93,9 +94,10 @@ float Equations::randomFloat(float a, float b) {
   return a + r;
 }
 
-int Equations::NPCDamage(int level){
+int Equations::NPCDamage(NPCClass& npcType){
   const GlobalConfig& c = GC::get();
-  return c.npcInitSkills * level * c.equations.npcDamageConst;
+  const NPCData& npcD = c.npcs.at(npcType);
+  return npcD.skills * npcD.level * c.equations.npcDamageConst;
 }
 
 bool Equations::criticAttack(){
