@@ -1,6 +1,5 @@
 #include "ServerProxy.h"
 #include <iostream>
-#include <syslog.h>
 #include <string>
 #include <vector>
 #include "../../common/common_utils.h"
@@ -19,15 +18,15 @@ void ServerProxyRead::run(){
      * code, so if the server is off and we get this error we skip.
     */
     if (server.running == false && e.code().value() == EBADF) return;
-
-    syslog(
-      LOG_CRIT,
-      "[Crit] Error!: \n Error Code: %i \n Message: %s",
-      e.code().value(), e.what());
+    std::cerr << "Error ServerProxy READ: \n" <<
+      " Codigo: " << e.code().value() <<
+      " Error: " << e.what() << std::endl;
   } catch(const std::exception& e) {
-    syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());
+    std::cerr << "Error en ServerProxy READ: \n" <<
+      " Error: " << e.what() << std::endl;
   } catch(...) {
-    syslog(LOG_CRIT, "[Crit] Unknown Error!");
+    std::cerr << "Error en ClientProxy READ: \n" <<
+      " Error Invalido" << std::endl;
   }
 }
 

@@ -1,6 +1,5 @@
 #include "ClientAcceptor.h"
 #include <utility>
-#include <syslog.h>
 #include <iostream>
 
 ClientAcceptor::ClientAcceptor(char* port, InstructionBQ &instructionQueue) :
@@ -24,15 +23,16 @@ void ClientAcceptor::run(){
      * EINVAL. This is common logic so it shouldn't be handled as an error.
     */
     if (e.code().value() != ECONNABORTED && e.code().value() != EINVAL) {
-      syslog(
-        LOG_CRIT,
-        "[Crit] Error!: \n Error Code: %i \n Message: %s",
-        e.code().value(), e.what());
+      std::cerr << "Error en ClientAcceptor: \n" <<
+        " Codigo: " << e.code().value() <<
+        " Error: " << e.what() << std::endl;
     }
   } catch(const std::exception& e) {
-    syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());
+    std::cerr << "Error en ClientAcceptor: \n" <<
+      " Error: " << e.what() << std::endl;
   } catch(...) {
-    syslog(LOG_CRIT, "[Crit] Unknown Error!");
+    std::cerr << "Error en ClientAcceptor: \n" <<
+      " Error Invalido" << std::endl;
   }
 }
 
@@ -56,13 +56,15 @@ void ClientAcceptor::cleanCloseClients(){
 
 void ClientAcceptor::stop(){
   running = false;
-  for (auto &i : clientProxies) {
-    i->stop();
-    i->join();
-  }
   /** Shutdown is needed for Linux */
   bindedSocket.shutdown();
   /** Close is needed for OSX */
   bindedSocket.close();
+  for (auto &i : clientProxies) {
+    i->join();
+  }
+  for (auto &i : clientProxies) {
+    i->stop();
+  }
   this->join();
 }

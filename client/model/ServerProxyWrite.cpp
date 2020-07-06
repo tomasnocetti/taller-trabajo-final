@@ -2,7 +2,6 @@
 #include <iostream>
 #include <string>
 #include <sstream>
-#include <syslog.h>
 #include "../../common/common_utils.h"
 
 ServerProxyWrite::ServerProxyWrite(ServerProxy& server,
@@ -26,16 +25,16 @@ void ServerProxyWrite::run(){
      * is being called and the bind socket get's closed an errno is thrown with
      * EINVAL. This is common logic so it shouldn't be handled as an error.
     */
-    if (e.code().value() != ECONNABORTED && e.code().value() != EINVAL) {
-      syslog(
-        LOG_CRIT,
-        "[Crit] Error!: \n Error Code: %i \n Message: %s",
-        e.code().value(), e.what());
-    }
+      if (server.running == false && e.code().value() == EBADF) return;
+    std::cerr << "Error ServerProxy WRITE: \n" <<
+      " Codigo: " << e.code().value() <<
+      " Error: " << e.what() << std::endl;
   } catch(const std::exception& e) {
-    syslog(LOG_CRIT, "[Crit] Error!: %s", e.what());
+    std::cerr << "Error en ServerProxy WRITE: \n" <<
+      " Error: " << e.what() << std::endl;
   } catch(...) {
-    syslog(LOG_CRIT, "[Crit] Unknown Error!");
+    std::cerr << "Error en ClientProxy WRITE: \n" <<
+      " Error Invalido" << std::endl;
   }
 }
 

@@ -26,9 +26,9 @@ void GameServer::run(){
   while (running){
     std::unique_ptr<Instruction> instruction;
     bool success = instructionQueue.try_front_pop(instruction);
-    
+
     if (!success) break;
-    
+
     instruction->run(game);
     game.propagate();
   }
@@ -36,8 +36,8 @@ void GameServer::run(){
 
 void GameServer::stop(){
   running = false;
-  instructionQueue.close();
   clientAcceptor.stop();
+  instructionQueue.close();
   cron.stop();
   this->join();
 }
