@@ -2,7 +2,6 @@
 #include "AnimationTypes.h"
 #include "PlayerAnimation.h"
 #include "GhostAnimation.h"
-#include <iostream>
 
 PlayerView::PlayerView(SdlAssetsManager& manager) : 
 	manager(manager),
@@ -169,6 +168,22 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
 		case 13:
 			weapon = Weapon(manager.getTexture("elfic-flute"), 
         34, 27, 14, 11, 0, 0, 0, 0, 36, 164, 10, 6, 16, 15, 0, 0, 8, 17);
+    break;
+		case 14:
+			weapon = Weapon(manager.getTexture("socketed-staff"), 
+        4, 7, 12, 27, 66, 46, 7, 28, 8, 143, 15, 28, 13, 5, 19, 0, 3, 5);
+    break;
+		case 15:
+			weapon = Weapon(manager.getTexture("axe"), 
+        34, 18, 17, 15, 0, 0, 0, 0, 9, 158, 16, 20, 17, 13, 0, 0, 2, 15);	//18 18
+    break;
+		case 16:
+			weapon = Weapon(manager.getTexture("mace"), 
+        12, 20, 18, 18, 0, 0, 0, 0, 10, 143, 12, 21, 17, 13, 0, 0, 2, 15);
+    break;
+		case 17:
+			weapon = Weapon(manager.getTexture("simple-bow"), 
+        2, 6, 10, 20, 15, 56, 10, 14, 101, 139, 11, 29, 13, 5, 15, 10, 0, 0);
     break;
     default:
 			weapon = Weapon(nullptr, 

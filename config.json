@@ -1,8 +1,8 @@
 {
   "systemConfig": {
-    "indexFilePath": "indexfile.bin",
-    "dbFilePath": "dbfile.bin",
-    "mapFilePath": "client/assets/map/game_map.json"
+    "indexFilePath": "/var/argentum/indexfile.bin",
+    "dbFilePath": "/var/argentum/dbfile.bin",
+    "mapFilePath": "/var/argentum/assets/map/game_map.json"
   },
   "gameConfig": {
     "attackInterval": 1,
@@ -188,8 +188,8 @@
       "id": 4,
       "type": "L",
       "name": "Escudo de Hierro",
-      "minDefense": 2,
-      "maxDefense": 5
+      "minDefense": 1,
+      "maxDefense": 4
     }, {
       "id": 5,
       "type": "B",
@@ -246,31 +246,90 @@
       "id": 12,
       "type": "W",
       "name": "Baculo Nudoso",
-      "minDamage": 2,
-      "maxDamage": 4,
+      "minDamage": 4,
+      "maxDamage": 8,
       "range": 300,
-      "mana": 5
+      "mana": 15
     }, {
       "id": 13,
       "type": "W",
       "name": "Flauta Elfica",
-      "minDamage": 0,
-      "maxDamage": 0,
-      "range": 300,
       "mana": 100
+    }, {
+      "id": 14,
+      "type": "W",
+      "name": "Baculo Engarzado",
+      "minDamage": 8,
+      "maxDamage": 20,
+      "range": 300,
+      "mana": 30
+    }, {
+      "id": 15,
+      "type": "W",
+      "name": "Hacha",
+      "minDamage": 4,
+      "maxDamage": 5,
+      "range": 100,
+      "mana": 0
+    }, {
+      "id": 16,
+      "type": "W",
+      "name": "Martillo",
+      "minDamage": 1,
+      "maxDamage": 9,
+      "range": 100,
+      "mana": 0
+    }, {
+      "id": 17,
+      "type": "W",
+      "name": "Arco Compuesto",
+      "minDamage": 4,
+      "maxDamage": 16,
+      "range": 300,
+      "mana": 0
     }],
     "goldItemId": 5000,
-    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13],
+    "itemsToDropNPC": [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17],
     "potionsToDropNPC": [18, 19],
     "traderItems": [{
-      "itemId": 0,
-      "value": 200
-    }, {
       "itemId": 1,
       "value": 300
     }, {
       "itemId": 2,
       "value": 200
+    }, {
+      "itemId": 3,
+      "value": 400
+    }, {
+      "itemId": 4,
+      "value": 600
+    }, {
+      "itemId": 5,
+      "value": 700
+    }, {
+      "itemId": 7,
+      "value": 10000
+    }, {
+      "itemId": 8,
+      "value": 200
+    }, {
+      "itemId": 9,
+      "value": 400
+    }, {
+      "itemId": 10,
+      "value": 10000
+    }, {
+      "itemId": 11,
+      "value": 300
+    }, {
+      "itemId": 15,
+      "value": 300
+    }, {
+      "itemId": 16,
+      "value": 400
+    }, {
+      "itemId": 17,
+      "value": 10000
     }, {
       "itemId": 18,
       "value": 150
@@ -279,6 +338,15 @@
       "itemId": 6,
       "value": 500
     }, {
+      "itemId": 12,
+      "value": 300
+    }, {
+      "itemId": 13,
+      "value": 5000
+    }, {
+      "itemId": 14,
+      "value": 10000
+    }, {
       "itemId": 18,
       "value": 300
     }, {
@@ -286,10 +354,10 @@
       "value": 150
     }],
     "defaultItems":[{
-      "itemId": 1,
+      "itemId": 17,
       "amount": 1
     }, {
-      "itemId": 13,
+      "itemId": 16,
       "amount": 1 
     },{
       "itemId": 7,

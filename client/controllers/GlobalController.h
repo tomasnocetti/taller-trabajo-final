@@ -12,6 +12,7 @@ class GlobalController {
     GlobalController(const GlobalController&) = delete;
     GlobalController& operator=(const GlobalController&) = delete;
     void init();
+    void update();
     void handleEvent(const SDL_Event &e);
     EntityList &getEntities();
 

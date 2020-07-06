@@ -4,6 +4,7 @@
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_image.h>
 #include <SDL2/SDL_ttf.h>
+#include <SDL2/SDL_mixer.h>
 #include "SdlException.h"
 #include "SdlWindow.h"
 #include <iostream>
@@ -15,7 +16,7 @@ SdlWindow::SdlWindow(int width, int height) :
   baseHeight(height),
   width(width),
   height(height) {
-    int errCode = SDL_Init(SDL_INIT_VIDEO);
+    int errCode = SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
     if (errCode) {
       throw SdlException("Error en la inicialización", SDL_GetError());
     }
@@ -53,6 +54,11 @@ SdlWindow::SdlWindow(int width, int height) :
     if (TTF_Init() == -1) {
       throw SdlException("Error en la inicialización SDL_TTF", TTF_GetError());
     }
+
+    if(Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048) < 0) {
+      throw SdlException("Error en la inicialización SDL_Mixer", Mix_GetError());          
+    }
+
 }
 
 SdlWindow::~SdlWindow() {
@@ -69,6 +75,7 @@ SdlWindow::~SdlWindow() {
   }
   IMG_Quit();
   TTF_Quit();
+  Mix_Quit();
   SDL_Quit();
 }
 
