@@ -62,8 +62,6 @@ SdlWindow::SdlWindow(int width, int height) :
 }
 
 SdlWindow::~SdlWindow() {
-  std::cout << "Destruyendo" << std::endl;
-
   if (this->renderer) {
     SDL_DestroyRenderer(this->renderer);
     this->renderer = nullptr;

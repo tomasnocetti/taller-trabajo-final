@@ -57,7 +57,6 @@ void ClientProxyRead::run(){
       InstructionData i;
       bool success = getRawInstruction(buffer);
       if (!success) {
-        std::cout << "CERRANDO!" << std::endl;
         client.running = false;
         i = {CLOSE_SERVER, {}};
       } else {

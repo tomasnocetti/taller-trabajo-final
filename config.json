@@ -21,7 +21,7 @@
     "newbieLevel": 2,
     "npcRandomDrop": 0.2,
     "offsetToRespawn": 30,
-    "playerInitialGold": 1000,
+    "playerInitialGold": 50,
     "playerInitialLevel": 1,
     "respawnTimeNpc": 10,
     "speed": 10,
@@ -65,11 +65,11 @@
       "excessGoldConstPow": 1.1,
       "maxGoldFactor": 1.5,
       "baseGoldConst": 100,
-      "npcDropGoldRandMaxValue": 0.02,
-      "npcDropGoldRandMinValue": 0,
+      "npcDropGoldRandMaxValue": 2,
+      "npcDropGoldRandMinValue": 1,
       "npcDropGold": 0.2,
-      "npcDropItem": 0.2,
-      "npcDropPotion": 0.2
+      "npcDropItem": 0.5,
+      "npcDropPotion": 0.3
     },
     "dropSizes": {
       "weight": 32,
@@ -354,31 +354,7 @@
       "value": 150
     }],
     "defaultItems":[{
-      "itemId": 17,
-      "amount": 1
-    }, {
-      "itemId": 16,
-      "amount": 1 
-    },{
-      "itemId": 7,
-      "amount": 2
-    }, {
-      "itemId": 8,
-      "amount": 3
-    }, {
-      "itemId": 9,
-      "amount": 2
-    }, {
       "itemId": 2,
-      "amount": 1
-    }, {
-      "itemId": 18,
-      "amount": 9
-    }, {
-      "itemId": 3,
-      "amount": 1
-    }, {
-      "itemId": 10,
       "amount": 1
     }]
   }
