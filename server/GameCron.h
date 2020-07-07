@@ -5,7 +5,6 @@
 #include "../common/BlockingQueue.h"
 #include "instructions/Instruction.h"
 #include "../DataDefinitions.h"
-#include "GameDefinitions.h"
 #include <vector>
 
 /** Game Cron es la clase que se va a encargar de manejar todas las acciones del juego

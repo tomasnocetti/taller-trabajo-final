@@ -17,21 +17,21 @@ El trabajo fue desarrollado para su correcto funcionamiento en el OS Linux.
 
 ### Dependencias
 * GCC 
-* SDL2 (para instalar ejecutar \texttt{sudo apt-get install libsdl2-dev} en la terminal)
-* SDL2_image (para instalar ejecutar \texttt{sudo apt-get install libsdl2-image-dev} en la terminal)
-* SDL2_ttf (para instalar ejecutar \texttt{sudo apt-get install libsdl2-ttf-dev} en la terminal)
-* SDL2_mixer (para instalar ejecutar \texttt{sudo apt-get install libsdl2-mixer-dev} en la terminal)
-* JsonCpp (para instalar ejecutar \texttt{sudo apt-get install libjsoncpp-dev} en la terminal)
+* SDL2 (para instalar ejecutar `sudo apt-get install libsdl2-dev` en la terminal)
+* SDL2_image (para instalar ejecutar `sudo apt-get install libsdl2-image-dev` en la terminal)
+* SDL2_ttf (para instalar ejecutar `sudo apt-get install libsdl2-ttf-dev` en la terminal)
+* SDL2_mixer (para instalar ejecutar `sudo apt-get install libsdl2-mixer-dev` en la terminal)
+* JsonCpp (para instalar ejecutar `sudo apt-get install libjsoncpp-dev` en la terminal)
 * MsgPack 
 
 ### Instalación
 
-1) make
-2) sudo make install
+1) `make`
+2) `sudo make install`
 
-En caso de querer desinstalar el programa.
+En caso de querer desinstalar el programa:
 
-3) sudo make uninstall
+3) `sudo make uninstall`
 
 ### Ejecución
 

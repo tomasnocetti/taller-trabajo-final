@@ -9,14 +9,6 @@
 # Extensión de los archivos a compilar (c para C, cpp o cc o cxx para C++).
 extension = cpp
 
-# Archivos con el código fuente que componen el ejecutable. Si no se especifica,
-# toma todos los archivos con la extensión mencionada. Para especificar hay que
-# descomentar la línea (quitarle el '#' del principio).
-# NOTA: No poner cabeceras (.h).
-#fuentes_client = entrada.cpp
-#fuentes_server = entrada.cpp
-#fuentes_common = entrada.cpp
-
 # Si usa funciones de math.h, descomentar (quitar el '#' a) la siguiente línea.
 math = si
 
@@ -27,16 +19,8 @@ sdl = si
 
 jsoncpp = si
 
-
-# Si es un programa GTK+, descomentar (quitar el '#' a) la siguiente línea.
-#gtk = si
-
-# Si es un programa gtkmm, descomentar (quitar el '#' a) la siguiente línea.
-#gtkmm = si
-
 # Descomentar si se quiere ver como se invoca al compilador
 #verbose = si
-
 
 # CONFIGURACION "AVANZADA"
 ###########################
@@ -49,9 +33,6 @@ CFLAGS += -O0
 
 # Para valgrind o debug
 CFLAGS += -ggdb -DDEBUG -fno-inline
-
-# Opciones del enlazador.
-#LDFLAGS =
 
 # Estandar de C a usar
 CSTD = c99
@@ -66,27 +47,6 @@ CXXSTD = c++11
 # VARIABLES CALCULADAS A PARTIR DE LA CONFIGURACION
 ####################################################
 
-# Agrega flags y libs de GTK+ de ser necesario.
-ifdef gtk
-CFLAGS += $(shell pkg-config --cflags gtk+-3.0) \
-	-DG_DISABLE_DEPRECATED 	 	\
-	-DGDK_DISABLE_DEPRECATED 	\
-	-DGDK_PIXBUF_DISABLE_DEPRECATED \
-	-DGTK_DISABLE_DEPRECATED
-LDFLAGS += $(shell pkg-config --libs gtk+-3.0)
-endif
-
-# Agrega flags y libs de GTK+ de ser necesario.
-ifdef gtkmm
-CFLAGS += $(shell pkg-config --cflags gtkmm-3.0) \
-	-DG_DISABLE_DEPRECATED 	 	\
-	-DGDK_DISABLE_DEPRECATED 	\
-	-DGDK_PIXBUF_DISABLE_DEPRECATED \
-	-DGTK_DISABLE_DEPRECATED	\
-	-DGDKMM_DISABLE_DEPRECATED 	\
-	-DGTKMM_DISABLE_DEPRECATED
-LDFLAGS += $(shell pkg-config --libs gtkmm-3.0)
-endif
 
 # Linkea con libm de ser necesario.
 ifdef math

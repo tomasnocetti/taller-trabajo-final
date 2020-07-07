@@ -1,6 +1,0 @@
-#ifndef GAME_DEFINITIONS_H
-#define GAME_DEFINITIONS_H
-
-#define INVENTORY_MAX_SIZE 9
-
-#endif

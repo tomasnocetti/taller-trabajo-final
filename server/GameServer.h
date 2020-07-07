@@ -27,7 +27,6 @@ class GameServer : public Thread{
     ~GameServer();
     GameServer(const GameServer&) = delete;
     GameServer& operator=(const GameServer&) = delete;
-    void init();
     void run();
     void stop();
 };

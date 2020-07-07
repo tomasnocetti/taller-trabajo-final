@@ -12,14 +12,6 @@ GameServer::GameServer(char* port) :
 
 GameServer::~GameServer(){}
 
-void GameServer::init(){
-  /* Cargar todo lo que el servidor necesite
-    Cargar Mapa en memoria.
-    Cargar Archivo con datos indexables del jugador.
-    Cargar Definiciones.
-  */
-}
-
 void GameServer::run(){
   clientAcceptor.start();
   cron.start();
