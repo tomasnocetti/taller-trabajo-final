@@ -11,4 +11,5 @@ valgrind \
 --suppressions=./scripts/supp/ubuntu-desktop3.supp \
 --suppressions=./scripts/supp/ubuntu-desktop4.supp \
 --suppressions=./scripts/supp/ubuntu-desktop5.supp \
---log-file=minimalraw.log ./tpclient
+--suppressions=./scripts/supp/ubuntu-desktop6.supp \
+--log-file=minimalraw.log ./argentum-client

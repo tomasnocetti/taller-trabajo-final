@@ -1,0 +1,1247 @@
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   fun:memset
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindow6renderEv
+   fun:_ZN9SdlWindow11handleEventER9SDL_Event
+   fun:_ZN4CApp7OnEventER9SDL_Event
+   fun:_ZN4CApp9OnExecuteEv
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libGLX_mesa.so.0.0.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindow6renderEv
+   fun:_ZN9SdlWindow11handleEventER9SDL_Event
+   fun:_ZN4CApp7OnEventER9SDL_Event
+   fun:_ZN4CApp9OnExecuteEv
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN8LTexture5paintEiiddP8SDL_RectdP9SDL_Point16SDL_RendererFlip
+   fun:_ZN16BackgroundEntity5paintEdd
+   fun:_ZN6Global5paintERSt6vectorISt10shared_ptrI6EntityESaIS3_EE
+   fun:_ZN4CApp8OnRenderEv
+   fun:_ZN4CApp9OnExecuteEv
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN8LTexture5paintEiiddP8SDL_RectdP9SDL_Point16SDL_RendererFlip
+   fun:_ZN16BackgroundEntity5paintEdd
+   fun:_ZN6Global5paintERSt6vectorISt10shared_ptrI6EntityESaIS3_EE
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN8LTexture5paintE8SDL_Rectdd
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN8LTexture5paintEiiddP8SDL_RectdP9SDL_Point16SDL_RendererFlip
+   fun:_ZN10TileEntity5paintERK6Cameradd
+   fun:_ZN3Map5paintER6CameraRSt6vectorISt10shared_ptrI6EntityESaIS5_EES8_RS4_S8_S8_
+   fun:_ZN4CApp8OnRenderEv
+   fun:_ZN4CApp9OnExecuteEv
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN8LTexture5paintEiiddP8SDL_RectdP9SDL_Point16SDL_RendererFlip
+   fun:_ZN10TileEntity5paintERK6Cameradd
+   fun:_ZN3Map5paintER6CameraRSt6vectorISt10shared_ptrI6EntityESaIS5_EES8_RS4_S8_S8_
+   fun:_ZN4CApp8OnRenderEv
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr4
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN8LTexture5paintEiiddP8SDL_RectdP9SDL_Point16SDL_RendererFlip
+   fun:_ZN10TileEntity5paintERK6Cameradd
+   fun:_ZN3Map5paintER6CameraRSt6vectorISt10shared_ptrI6EntityESaIS5_EES8_RS4_S8_S8_
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Addr8
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/dri/i965_dri.so
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN8LTexture5paintEiiddP8SDL_RectdP9SDL_Point16SDL_RendererFlip
+   fun:_ZN10TileEntity5paintERK6Cameradd
+   fun:_ZN3Map5paintER6CameraRSt6vectorISt10shared_ptrI6EntityESaIS5_EES8_RS4_S8_S8_
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4
+   fun:g_private_get
+   fun:g_slice_alloc
+   fun:g_hash_table_new_full
+   obj:/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4
+   fun:call_init
+   fun:_dl_init
+   obj:/lib/x86_64-linux-gnu/ld-2.27.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:add_to_pathlist
+   fun:Timidity_Init
+   fun:open_music
+   fun:Mix_OpenAudioDevice
+   fun:_ZN9SdlWindowC1Eii
+   fun:_ZN4CAppC1ERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES6_
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_log_set_ident
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_log_levelv_meta
+   fun:pa_log_level_meta
+   fun:pa_config_parse
+   fun:pa_client_conf_load
+   fun:pa_context_new_with_proplist
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_queue_push
+   fun:pa_pstream_send_packet
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_queue_push
+   fun:pa_pstream_send_packet
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_xmemdup
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_pstream_send_packet
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_xmemdup
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_queue_push
+   fun:pa_pstream_send_packet
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_xmemdup
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_packet_new
+   fun:pa_packet_new_data
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_xmemdup
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_idxset_put
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_xmemdup
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_hashmap_put
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memimport_attach_memfd
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_xmemdup
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   fun:pa_run_once
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindowC1Eii
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:g_malloc0
+   fun:g_hash_table_new_full
+   obj:/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4
+   fun:call_init
+   fun:_dl_init
+   obj:/lib/x86_64-linux-gnu/ld-2.27.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_aupdate_new
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memtrap_add
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memimport_attach_memfd
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_semaphore_new
+   fun:pa_aupdate_new
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memtrap_add
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memimport_attach_memfd
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_xmemdup
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_tagstruct_new
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_xmemdup
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_pdispatch_register_reply
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_xmemdup
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_memimport_get
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_init_i18n
+   fun:pa_mainloop_new
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindowC1Eii
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_log_levelv_meta
+   fun:pa_log_level_meta
+   fun:pa_config_parse
+   fun:pa_client_conf_load
+   fun:pa_context_new_with_proplist
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_page_size
+   fun:pa_mempool_new
+   fun:pa_context_new_with_proplist
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_run_once
+   fun:pa_tagstruct_new
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_run_once
+   fun:pa_packet_new
+   fun:pa_packet_new_data
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_run_once
+   fun:pa_pstream_send_packet
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_run_once
+   fun:pa_queue_push
+   fun:pa_pstream_send_packet
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_run_once
+   fun:pa_pdispatch_register_reply
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memtrap_add
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memimport_attach_memfd
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_aupdate_new
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memtrap_add
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memimport_attach_memfd
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_memtrap_add
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memimport_attach_memfd
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_run_once
+   fun:pa_hashmap_put
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memimport_attach_memfd
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_run_once
+   fun:pa_idxset_put
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_run_once
+   fun:pa_memimport_get
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_mutex_new
+   fun:pa_static_mutex_get
+   fun:pa_once_begin
+   fun:pa_run_once
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindowC1Eii
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:_Znwm
+   obj:/usr/lib/x86_64-linux-gnu/libjack.so.0.1.0
+   fun:call_init
+   fun:_dl_init
+   obj:/lib/x86_64-linux-gnu/ld-2.27.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_hashmap_put
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memimport_attach_memfd
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_hashmap_put
+   fun:pa_proplist_sets
+   fun:pa_init_proplist
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_hashmap_put
+   fun:pa_memimport_get
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_pdispatch_register_reply
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_memimport_get
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindowC1Eii
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_memimport_get
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:Mix_OpenAudioDevice
+   fun:_ZN9SdlWindowC1Eii
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2_mixer-2.0.so.0.2.0
+   fun:Mix_OpenAudioDevice
+   fun:_ZN9SdlWindowC1Eii
+   fun:_ZN4CAppC1ERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES6_
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:realloc
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2_mixer-2.0.so.0.2.0
+   fun:open_music
+   fun:Mix_OpenAudioDevice
+   fun:_ZN9SdlWindowC1Eii
+   fun:_ZN4CAppC1ERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES6_
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:g_malloc
+   fun:g_slice_alloc
+   fun:g_hash_table_new_full
+   obj:/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4
+   fun:call_init
+   fun:_dl_init
+   obj:/lib/x86_64-linux-gnu/ld-2.27.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindowC1Eii
+   fun:_ZN4CAppC1ERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES6_
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_hashmap_put
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memimport_attach_memfd
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_common_command_register_memfd_shmid
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_pstream_send_packet
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_pstream_send_packet
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:open_music
+   fun:Mix_OpenAudioDevice
+   fun:_ZN9SdlWindowC1Eii
+   fun:_ZN4CAppC1ERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES6_
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_idxset_put
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_packet_new
+   fun:pa_packet_new_data
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_packet_new
+   fun:pa_packet_new_data
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_fds
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_packet_new
+   fun:pa_packet_new_data
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_tagstruct_new
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_tagstruct_new
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_idxset_put
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_common_command_register_memfd_shmid
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:Mix_OpenAudioDevice
+   fun:_ZN9SdlWindowC1Eii
+   fun:_ZN4CAppC1ERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES6_
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:Timidity_Init_NoConfig
+   fun:Timidity_Init
+   fun:open_music
+   fun:Mix_OpenAudioDevice
+   fun:_ZN9SdlWindowC1Eii
+   fun:_ZN4CAppC1ERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES6_
+   fun:main
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:pa_xmalloc
+   fun:pa_hashmap_put
+   fun:pa_proplist_set
+   fun:pa_tagstruct_get_proplist
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:g_malloc0
+   fun:g_slice_alloc
+   fun:g_hash_table_new_full
+   obj:/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4
+   fun:call_init
+   fun:_dl_init
+   obj:/lib/x86_64-linux-gnu/ld-2.27.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:pa_xmalloc0
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_tagstruct_new
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:pa_xmalloc0
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_packet_new
+   fun:pa_packet_new_data
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:pa_xmalloc0
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_pstream_send_packet
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:pa_xmalloc0
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_queue_push
+   fun:pa_pstream_send_packet
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pstream_send_tagstruct_with_creds
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:pa_xmalloc0
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_pdispatch_register_reply
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:pa_xmalloc0
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_hashmap_put
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_memimport_attach_memfd
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:pa_xmalloc0
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_idxset_put
+   fun:pa_pstream_attach_memfd_shmid
+   fun:pa_pstream_register_memfd_mempool
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_pdispatch_run
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:pa_xmalloc0
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_run_once
+   fun:pa_memimport_get
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   obj:/usr/lib/x86_64-linux-gnu/pulseaudio/libpulsecommon-11.1.so
+   fun:pa_mainloop_dispatch
+   fun:pa_mainloop_iterate
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:calloc
+   fun:pa_xmalloc0
+   fun:pa_flist_new_with_name
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   fun:pa_run_once
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libpulse.so.0.20.2
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   obj:/usr/lib/x86_64-linux-gnu/libSDL2-2.0.so.0.8.0
+   fun:_ZN9SdlWindowC1Eii
+   fun:_ZN4CAppC1ERNSt7__cxx1112basic_stringIcSt11char_traitsIcESaIcEEES6_
+}
+{
+   <insert_a_suppression_name_here>
+   Memcheck:Leak
+   match-leak-kinds: reachable
+   fun:malloc
+   fun:g_malloc
+   obj:/usr/lib/x86_64-linux-gnu/libglib-2.0.so.0.5600.4
+   fun:call_init
+   fun:_dl_init
+   obj:/lib/x86_64-linux-gnu/ld-2.27.so
+}
