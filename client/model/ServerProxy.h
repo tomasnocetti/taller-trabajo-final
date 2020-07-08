@@ -48,10 +48,12 @@ class ServerProxy{
     void init();
     void update();
     bool isAuthenticated() const;
+    bool isInCreationMode() const;
     bool isMapSet() const;
 
     /** Client ACTIONS */
     void authentificate(std::string& alias, std::string& password);
+    void setInCreationMode();
     void move(int xDir, int yDir);
     void attack(int xPos, int yPos);
     void equip(int inventoryPosition);
@@ -89,9 +91,10 @@ class ServerProxy{
   private:
     friend class ServerProxyWrite;
     friend class ServerProxyRead;
-    bool authentificated = false;
-    bool mapSet = false;
     std::atomic<bool> running;
+    std::atomic<bool> authentificated;
+    std::atomic<bool> creationMode;
+    bool mapSet = false;
     MapData map;
     MainPlayerData mainPlayer;
     std::vector<EnemyData> npcs;

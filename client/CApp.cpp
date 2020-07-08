@@ -12,6 +12,7 @@ CApp::CApp(std::string& host, std::string& port) :
   inventoryViewport(window),
   chatViewport(window),
   loginController(model, manager),
+  createController(model, manager),
   chatController(model, manager),
   globalController(model, manager),
   mapController(model, manager),
@@ -57,53 +58,50 @@ void CApp::OnEvent(SDL_Event& e) {
   }
 
   window.handleEvent(e);
-  switch (mode) {
-    case GameMode::LOGIN:
-      loginController.handleEvent(e);
-      break;
-    case GameMode::CREATE:
-      break;
-    case GameMode::RUN:
-      playerController.handleEvent(e);
-      chatController.handleEvent(e);
-      break;
+  if (model.isAuthenticated()) {
+    playerController.handleEvent(e);
+    chatController.handleEvent(e);
+  } else if (model.isInCreationMode()) {
+    createController.handleEvent(e);
+  } else {
+    loginController.handleEvent(e);
   }
 }
 
 void CApp::OnLoop() {
   model.update();
-  mapController.update();
-  mapController.updateDrops();
-  playerController.update();
-  chatController.update();
-  enemyController.update();
-  inventoryController.update();
-  globalController.update();
+   if (model.isAuthenticated()) {
+    mapController.update();
+    mapController.updateDrops();
+    playerController.update();
+    chatController.update();
+    enemyController.update();
+    inventoryController.update();
+    globalController.update();
+  }
 }
 
 void CApp::OnRender() {
   window.clear();
-  switch (mode) {
-    case GameMode::LOGIN:
-      globalViewport.paint(loginController.getEntities());
-    break;
-    case GameMode::CREATE:
-    break;
-    case GameMode::RUN:
-      globalViewport.paint(globalController.getEntities());
-      mapViewport.paint(
-        playerController.getCamera(),
-        mapController.getEntities(),
-        mapController.getDrops(),
-        playerController.getEntity(),
-        enemyController.getNPCs(),
-        enemyController.getOtherPlayers());
-      lifeViewport.paint(playerController.getBars());
-      expViewport.paint(playerController.getExp());
-      inventoryViewport.paint(inventoryController.getItems());
-      chatViewport.paint(chatController.getEntities());
-      break;
+  if (model.isAuthenticated()) {
+    globalViewport.paint(globalController.getEntities());
+    mapViewport.paint(
+      playerController.getCamera(),
+      mapController.getEntities(),
+      mapController.getDrops(),
+      playerController.getEntity(),
+      enemyController.getNPCs(),
+      enemyController.getOtherPlayers());
+    lifeViewport.paint(playerController.getBars());
+    expViewport.paint(playerController.getExp());
+    inventoryViewport.paint(inventoryController.getItems());
+    chatViewport.paint(chatController.getEntities());
+  } else if (model.isInCreationMode()) {
+    globalViewport.paint(createController.getEntities());
+  } else {
+    globalViewport.paint(loginController.getEntities());
   }
+
   window.render();
 }
 
@@ -113,6 +111,7 @@ void CApp::OnInit() {
   model.init();
 
   loginController.init();
+  createController.init();
   chatController.init();
   globalController.init();
   playerController.init();
@@ -127,7 +126,20 @@ void CApp::LoadAssets() {
     "/var/argentum/assets/main-screens/game-screen.jpg");
   manager.addTexture("login-screen-path", 
     "/var/argentum/assets/main-screens/login-screen.jpg");
+  manager.addTexture("create-screen-path", 
+    "/var/argentum/assets/main-screens/create-screen.jpg");
   manager.addTextTexture("user-input");
+  manager.addTextTexture("password-input");
+  manager.addTexture("login-button", 
+    "/var/argentum/assets/buttons/button-login-hover.png");
+  manager.addTexture("login-button-active", 
+    "/var/argentum/assets/buttons/button-login-active.png");
+  manager.addTexture("create-button", 
+    "/var/argentum/assets/buttons/button-create-pj-hover.png");
+  manager.addTexture("create-button-active", 
+    "/var/argentum/assets/buttons/button-create-pj-active.png");
+  manager.addTexture("select-create", 
+    "/var/argentum/assets/buttons/select-create.png");
   manager.addTexture("scroll-button",
     "/var/argentum/assets/buttons/scroll-button.png");
   manager.addTexture("scroll-button-active",

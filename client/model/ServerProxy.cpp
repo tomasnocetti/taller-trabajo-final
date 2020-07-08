@@ -6,6 +6,8 @@
 
 ServerProxy::ServerProxy(std::string& host, std::string& port) :
   running(true),
+  authentificated(false),
+  creationMode(false),
   serverProxyWrite(*this, writeBQ),
   serverProxyRead(*this){
     socket.connect(host.c_str(), port.c_str());
@@ -70,6 +72,7 @@ const MainPlayerData& ServerProxy::getMainPlayerData() const {
 
 void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   authentificated = true;
+  creationMode = false;
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
@@ -99,6 +102,14 @@ const std::vector<DropItemData>& ServerProxy::getDrops() const {
 
 bool ServerProxy::isAuthenticated() const {
   return authentificated;
+}
+
+bool ServerProxy::isInCreationMode() const {
+  return creationMode;
+}
+
+void ServerProxy::setInCreationMode() {
+  creationMode = true;
 }
 
 bool ServerProxy::isMapSet() const {
