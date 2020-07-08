@@ -8,9 +8,6 @@
 #include "../sdl/SdlUtils.h"
 #include "../sdl/LTexture.h"
 
-#define BUTTON_WIDTH 100
-#define BUTTON_HEIGHT 50
-
 class TextInputEntity: public Entity {
   public:
     TextInputEntity(

@@ -17,12 +17,13 @@ ButtonEntity::ButtonEntity(
   h(h) {}
 
 void ButtonEntity::paint(double wScale, double hScale) {
+  SDL_Rect clip = {0, 0, w, h};
   if (click && activeT != nullptr) {
-    activeT->paint(xpos, ypos, wScale, hScale);
+    activeT->paint(xpos, ypos, wScale, hScale, &clip);
   } else if (inside && hoverT != nullptr) {
-    hoverT->paint(xpos, ypos, wScale, hScale);
+    hoverT->paint(xpos, ypos, wScale, hScale, &clip);
   } else if (mainT != nullptr) {
-    mainT->paint(xpos, ypos, wScale, hScale);
+    mainT->paint(xpos, ypos, wScale, hScale, &clip);
   }
 }
 

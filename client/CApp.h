@@ -12,12 +12,6 @@
 #define SCREEN_WIDTH 800
 #define SCREEN_HEIGHT 600
 
-typedef enum {
-  LOGIN,
-  CREATE,
-  RUN
-} GameMode;
-
 #define ASSETS_PATH "/var/argentum/assets"
 
 class CApp {
@@ -30,7 +24,6 @@ class CApp {
 
   private:
     bool Running;
-    GameMode mode = GameMode::RUN;
     ServerProxy model;
     SdlWindow window;
     SdlAssetsManager manager;
@@ -41,6 +34,7 @@ class CApp {
     InventoryViewport inventoryViewport;
     ChatViewport chatViewport;
     LoginController loginController;
+    CreateController createController;
     ChatController chatController;
     GlobalController globalController;
     MapController mapController;
