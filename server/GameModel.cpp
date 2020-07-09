@@ -187,6 +187,7 @@ bool GameModel::checkCityCollisions(Entity &entity){
 void GameModel::attack(size_t playerId, int xPos, int yPos){
   Player& p = *players.at(playerId);
   const GlobalConfig& c = GC::get();
+  
   if (p.health.currentHP <= 0) return;
   
   if (p.specialAttack(xPos, yPos)) return;
@@ -323,7 +324,7 @@ bool GameModel::checkDropCollisions(PositionData &dropPossiblePos){
 }
 
 void GameModel::playerSetCoords(size_t playerId, int x, int y) {
-  Player& p = *players.at(playerId);
+  Player& p = *players.at(playerId);  
   p.stopMeditating();
 
   int auxXPos = p.position.x;
@@ -367,7 +368,6 @@ bool GameModel::checkEntityCollisions(LiveEntity &entity){
 
 void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
   Player &p = *players.at(playerId);
-  
   p.stopMeditating();
 
   if (p.health.currentHP <= 0) return;
@@ -377,7 +377,6 @@ void GameModel::equipPlayer(size_t playerId, int inventoryPosition){
 
 void GameModel::resurrect(size_t playerId){
   Player &p = *players.at(playerId);
-
   if (p.health.currentHP > 0) return;
 
   double minDistanceToPriest = 0;
@@ -439,10 +438,11 @@ void GameModel::meditate(size_t id){
 
 void GameModel::throwInventoryObj(size_t playerId, size_t inventoryPosition){
   Player &p = *players.at(playerId);
-  const GlobalConfig& c = GC::get();
-  p.stopMeditating();
+  const GlobalConfig& c = GC::get(); 
   InventoryElementData itemToDrop;
   PositionData dropFirstPos;
+  
+  p.stopMeditating();
   
   bool success = p.throwObj(inventoryPosition, itemToDrop, dropFirstPos);
   if (!success) return;
@@ -481,6 +481,7 @@ void GameModel::pickUpObj(size_t playerId){
 
 void GameModel::list(size_t playerId){
   Player &p = *players.at(playerId);
+
   int traderId = checkTraderInRange(p);
   int priestId = checkPriestInRange(p);
   int bankerId = checkBankerInRange(p);
@@ -553,6 +554,7 @@ void GameModel::sell(size_t playerId, size_t itemPosition){
 void GameModel::buy(size_t playerId, size_t itemPosition){
   const GlobalConfig& c = GC::get(); 
   Player &p = *players.at(playerId);
+ 
   int traderId = checkTraderInRange(p);
   int priestId = checkPriestInRange(p);
 
@@ -584,7 +586,7 @@ void GameModel::heal(size_t playerId){
 void GameModel::depositGold(size_t playerId, size_t amount){
   const GlobalConfig& c = GC::get(); 
   Player &p = *players.at(playerId);
-  
+
   int bankerId = checkBankerInRange(p);
   if (bankerId == -1){
     p.sendMessage(INFO, c.chatMessages.invalidCommandDepositWithdraw);
@@ -596,13 +598,12 @@ void GameModel::depositGold(size_t playerId, size_t amount){
 void GameModel::depositItem(size_t playerId, size_t inventoryPos){
   const GlobalConfig& c = GC::get(); 
   Player &p = *players.at(playerId);
-  
+
   int bankerId = checkBankerInRange(p);
   if (bankerId == -1){
     p.sendMessage(INFO, c.chatMessages.invalidCommandDepositWithdraw);
     return;
   }
-
   bankers.at(bankerId)->deposit(p, inventoryPos);
 }
 
@@ -621,7 +622,7 @@ void GameModel::withdrawGold(size_t playerId, size_t amount){
 void GameModel::withdrawItem(size_t playerId, size_t inventoryPos){
   const GlobalConfig& c = GC::get(); 
   Player &p = *players.at(playerId);
-  
+
   int bankerId = checkBankerInRange(p);
   if (bankerId == -1){
     p.sendMessage(INFO, c.chatMessages.invalidCommandDepositWithdraw);
@@ -637,9 +638,9 @@ void GameModel::sendMessageToPlayer(
   std::string &message){
     const GlobalConfig& c = GC::get(); 
     Player &p = *players.at(id);
+  
     size_t addresseeId;
     bool addresseeExist = f.getPlayerId(nick, addresseeId);
-
     if (!addresseeExist){
       p.sendMessage(NORMAL, c.chatMessages.playerDoesNotExit);
       return;
@@ -739,6 +740,10 @@ void GameModel::propagate() {
       PlayerGameResponse(modelData));
 
     clientsBQ.at(it.first).push(std::move(response));
+  }
+
+  for (auto &it : players){
+    it.second->disableSound();
   }
 }
 

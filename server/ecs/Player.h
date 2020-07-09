@@ -27,6 +27,7 @@ class Player : public LiveEntity{
     HeadEquipmentSkills headSkills;
     ResurrectionData resurrection;
     ChatData chat;
+    SoundData sound;
     friend struct RightHandItem;
     friend struct LeftHandItem;
     friend struct BodyItem;
@@ -93,6 +94,7 @@ class Player : public LiveEntity{
     void withdrawItem(size_t inventoryPos);
     bool specialWeapon(size_t rightHandId);
     bool specialAttack(int xCoord, int yCoord);
+    void disableSound();
     static std::unique_ptr<Player> createPlayer(
       PlayerPersistData& dataP, std::string& nick);
     static void setInitEquipment(EquipmentData &equipment, 
