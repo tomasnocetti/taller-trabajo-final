@@ -235,6 +235,8 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     if (!success) continue;
 
     p.stopMeditating();
+    
+    gameSound = {p.equipment.rightHand, xPos, yPos};
 
     if (npc.health.currentHP <= 0)
       npc.setNextRespawn();
@@ -742,9 +744,11 @@ void GameModel::propagate() {
     clientsBQ.at(it.first).push(std::move(response));
   }
 
-  for (auto &it : players){
-    it.second->disableSound();
-  }
+  disableSound();
+}
+
+void GameModel::disableSound(){
+  gameSound = {0, 0, 0};
 }
 
 void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
@@ -752,6 +756,7 @@ void GameModel::generatePlayerModel(size_t id, PlayerGameModelData &modelData){
   modelData.drops = drops;
   players.at(id)->setPlayerGameModelData(modelData);
   modelData.otherPlayers = otherPlayers;
+  modelData.gameSound = gameSound;
 }
 
 void GameModel::generateOtherPlayersGameData(){

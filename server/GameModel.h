@@ -36,6 +36,7 @@ class GameModel{
     std::map<size_t, std::unique_ptr<Priest>> priests;
     std::map<size_t, std::unique_ptr<Trader>> traders;
     std::map<size_t, std::unique_ptr<Banker>> bankers;
+    SoundData gameSound;
     MapParser m;
     FileManager f;
     CronBQ& cronBQ;
@@ -136,6 +137,7 @@ class GameModel{
       size_t &id, 
       std::string &nick, 
       std::string &message);
+    void disableSound();
 };
 
 #endif

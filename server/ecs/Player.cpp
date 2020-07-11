@@ -20,8 +20,7 @@ Player::Player(MainPlayerData& playerData, size_t id):
   inventory(playerData.inventory),
   equipment(playerData.equipment),
   resurrection({std::chrono::system_clock::now(), false}),
-  chat(playerData.chat), 
-  sound(playerData.sound){
+  chat(playerData.chat){
     rightSkills = {0, 0, 0, 0};
     leftSkills = {0, 0};
     bodySkills = {0, 0};
@@ -57,8 +56,6 @@ std::unique_ptr<Player> Player::createPlayer(
     data.points.recoverTime = std::chrono::system_clock::now();
     data.points.nextRespawn = std::chrono::system_clock::now();
     data.points.meditating = false;
-
-    data.sound = {0, 0, 0};
 
     ChatManager::initialMessage(data.chat);
 
@@ -111,8 +108,6 @@ bool Player::attack(LiveEntity &entity, int xCoord, int yCoord){
 
   if (health.currentMP < rightSkills.mana) return false;
   health.currentMP -= rightSkills.mana;
-
-  sound = {equipment.rightHand, entity.position.x, entity.position.y};
 
   int damage = Equations::damage(rootd, rightSkills);
 
@@ -365,7 +360,6 @@ void Player::setPlayerGameModelData(PlayerGameModelData &modelData){
   modelData.playerData.movement = movement;
   modelData.playerData.equipment = equipment;
   modelData.playerData.chat = chat;
-  modelData.playerData.sound = sound;
 }
 
 void Player::setOtherPlayersData(OtherPlayersData &otherData){
@@ -569,8 +563,4 @@ void Player::withdrawItem(size_t inventoryPos){
 
   eraseInventoryItem(inventoryPos, BANK_INVENTORY);
   ChatManager::successfullItemExtraction(chat);
-}
-
-void Player::disableSound(){
-  sound = {0, 0, 0};
 }

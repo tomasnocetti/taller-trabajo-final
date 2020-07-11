@@ -74,9 +74,8 @@ struct MainPlayerData {
   MovementData movement;
   EquipmentData equipment;
   ChatData chat;
-  SoundData sound;
   MSGPACK_DEFINE(nick, id, gold, level, experience, rootd, inventory, 
-    points, position, movement, equipment, chat, sound)
+    points, position, movement, equipment, chat)
 };
 
 struct OtherPlayersData {
@@ -102,7 +101,8 @@ struct PlayerGameModelData {
   std::vector<EnemyData> npcs;
   std::vector<OtherPlayersData> otherPlayers;
   std::vector<DropItemData> drops;
-  MSGPACK_DEFINE(playerData, npcs, otherPlayers, drops)
+  SoundData gameSound;
+  MSGPACK_DEFINE(playerData, npcs, otherPlayers, drops, gameSound)
 };
 
 namespace msgpack {

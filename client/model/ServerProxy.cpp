@@ -77,10 +77,11 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
   drops = gameModelData.drops;
+  gameSound = gameModelData.gameSound;
 
-  std::cout << "Reproduciendo sonido de: " << mainPlayer.sound.itemId << 
-    " en la posición x: " << mainPlayer.sound.xPos << " y: " <<  
-    mainPlayer.sound.yPos << std::endl;
+  std::cout << "Reproduciendo sonido de: " << gameModelData.gameSound.itemId << 
+    " en la posición x: " << gameModelData.gameSound.xPos << " y: " <<  
+    gameModelData.gameSound.yPos << std::endl;
 }
 
 void ServerProxy::setMapData(MapData& mapData){
