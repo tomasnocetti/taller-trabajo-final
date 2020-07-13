@@ -1,7 +1,7 @@
 #include "Items.h"
 #include <string>
 
-Item::Item(int id, Equipable type, std::string name) :
+Item::Item(int id, Equipable type, std::string &name) :
   id(id),
   type(type),
   name(name) {}
@@ -9,7 +9,7 @@ Item::Item(int id, Equipable type, std::string name) :
 BodyItem::BodyItem(
   int id,
   Equipable type,
-  std::string name,
+  std::string &name,
   int minDefense,
   int maxDefense) :
   Item(id, type, name),
@@ -19,7 +19,7 @@ BodyItem::BodyItem(
 HeadItem::HeadItem(
   int id,
   Equipable type,
-  std::string name,
+  std::string &name,
   int minDefense,
   int maxDefense) :
   Item(id, type, name),
@@ -29,7 +29,7 @@ HeadItem::HeadItem(
 LeftHandItem::LeftHandItem(
   int id,
   Equipable type,
-  std::string name,
+  std::string &name,
   int minDefense,
   int maxDefense) :
   Item(id, type, name),
@@ -39,7 +39,7 @@ LeftHandItem::LeftHandItem(
 RightHandItem::RightHandItem(
     int id,
     Equipable type,
-    std::string name,
+    std::string &name,
     int minDamage,
     int maxDamage,
     int mana,
@@ -53,13 +53,13 @@ RightHandItem::RightHandItem(
 HealthPotion::HealthPotion(
     int id,
     Equipable type,
-    std::string name) :
+    std::string &name) :
   Item(id, type, name) {}
 
 ManaPotion::ManaPotion(
     int id,
     Equipable type,
-    std::string name) :
+    std::string &name) :
   Item(id, type, name) {}
 
 void RightHandItem::equip(Player& p) const {
