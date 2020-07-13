@@ -129,8 +129,8 @@ bool GameModel::authenticate(
 bool GameModel::createPlayer(
   ResponseBQ& responseBQ,
   size_t& playerId,
-  std::string nick, 
-  std::string password, 
+  std::string &nick, 
+  std::string &password, 
   PlayerClass classType,
   PlayerRace race){
     switch (race){
