@@ -128,8 +128,8 @@ class GameModel{
     bool createPlayer(
       ResponseBQ& responseBQ,
       size_t& playerId,
-      std::string nick, 
-      std::string password, 
+      std::string &nick, 
+      std::string &password, 
       PlayerClass classType,
       PlayerRace race);
     /* Handle send message instruction */
