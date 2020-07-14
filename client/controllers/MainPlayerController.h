@@ -43,6 +43,9 @@ class MainPlayerController {
     TextEntity gold;
     TextEntity level;
     Bar expBar;
+    int lastSound = 0;
+
+    void playSound();
 };
 
 #endif

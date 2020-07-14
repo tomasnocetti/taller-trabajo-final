@@ -1,6 +1,6 @@
 #include "MainPlayerController.h"
 #include <vector>
-
+#include <iostream>
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
 #define EXP_BAR_Y 45
@@ -14,6 +14,8 @@
 #define KEYCODE_OFFSET 48
 #define KEYCODE_1 49
 #define KEYCODE_9 57
+
+#define CHANNEL 1
 
 MainPlayerController::MainPlayerController(
   ServerProxy& model,
@@ -73,6 +75,8 @@ void MainPlayerController::update() {
 
   camera.setX(playerView.x - MAIN_SCREEN_BASE_MAP_W / 2);
   camera.setY(playerView.y - MAIN_SCREEN_BASE_MAP_H / 2);
+
+  playSound();
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e) {
@@ -137,6 +141,26 @@ void MainPlayerController::handleEvent(const SDL_Event &e) {
 		}
     return;
   }
+}
+
+void MainPlayerController::playSound() {
+  const SoundData data = model.getSound();
+  model.clearSound();
+  if(!camera.isInCameraRange(data.xPos, data.yPos)) return;
+  if((Mix_Playing(CHANNEL) && data.itemId == lastSound) || data.itemId == 0)
+    return;
+  
+  if (data.itemId == 2 || data.itemId == 15 || data.itemId == 16) {
+    Mix_Chunk* sfx = manager.getSFX("h2h-sound");
+    Mix_PlayChannel(CHANNEL, sfx, 0);
+  } else if (data.itemId == 1 || data.itemId == 17) {
+    Mix_Chunk* sfx = manager.getSFX("bow-sound");
+    Mix_PlayChannel(CHANNEL, sfx, 0);
+  } else if (data.itemId == 6 || data.itemId == 12 || data.itemId == 14) {
+    Mix_Chunk* sfx = manager.getSFX("magic-sound");
+    Mix_PlayChannel(CHANNEL, sfx, 0);
+  }
+  lastSound = data.itemId;
 }
 
 Entity &MainPlayerController::getEntity(){
