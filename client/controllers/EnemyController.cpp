@@ -6,7 +6,6 @@
 #include "../view/SpiderAnimation.h"
 #include "../view/ZombieAnimation.h"
 #include <vector>
-#include <iostream>
 
 EnemyController::EnemyController(
   ServerProxy& model,

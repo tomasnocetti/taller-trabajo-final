@@ -78,10 +78,6 @@ void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   otherPlayers = gameModelData.otherPlayers;
   drops = gameModelData.drops;
   gameSound = gameModelData.gameSound;
-
-  std::cout << "Reproduciendo sonido de: " << gameModelData.gameSound.itemId << 
-    " en la posición x: " << gameModelData.gameSound.xPos << " y: " <<  
-    gameModelData.gameSound.yPos << std::endl;
 }
 
 void ServerProxy::setMapData(MapData& mapData){
@@ -103,6 +99,16 @@ const std::vector<OtherPlayersData>& ServerProxy::getOtherPlayersData() const {
 
 const std::vector<DropItemData>& ServerProxy::getDrops() const {
   return drops;
+}
+
+const SoundData ServerProxy::getSound() const {
+  return gameSound;
+}
+
+void ServerProxy::clearSound() {
+  gameSound.itemId = 0;
+  gameSound.xPos = 0;
+  gameSound.yPos = 0;
 }
 
 bool ServerProxy::isAuthenticated() const {

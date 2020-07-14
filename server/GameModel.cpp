@@ -216,7 +216,7 @@ void GameModel::attack(size_t playerId, int xPos, int yPos){
     if (!success) continue;
 
     p.stopMeditating();
-
+    gameSound = {p.equipment.rightHand, xPos, yPos};
     if (auxp.health.currentHP > 0) break;
 
     addPlayerDrops(auxp);

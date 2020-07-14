@@ -219,6 +219,9 @@ void CApp::LoadAssets() {
   manager.addTexture("item_5000", "/var/argentum/assets/gold.png");
 
   manager.addMusic("main-music", "/var/argentum/assets/music/main_music.mp3");
+  manager.addSFX("h2h-sound", "/var/argentum/assets/sounds/h2h_sound.wav");
+  manager.addSFX("bow-sound", "/var/argentum/assets/sounds/bow_sound.wav");
+  manager.addSFX("magic-sound", "/var/argentum/assets/sounds/magic_sound.wav");
 }
 
 CApp::~CApp() {}

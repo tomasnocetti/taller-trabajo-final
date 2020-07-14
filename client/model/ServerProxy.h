@@ -75,6 +75,7 @@ class ServerProxy{
       std::string race,
       std::string typeClass);
     void sendMessageToPlayer(std::string nick, std::string message);
+    void clearSound();
     
     /** Client GETTERS */
     const MapData& getMapData() const;
@@ -82,6 +83,7 @@ class ServerProxy{
     const std::vector<EnemyData>& getNPCData() const;
     const std::vector<OtherPlayersData>& getOtherPlayersData() const;
     const std::vector<DropItemData>& getDrops() const;
+    const SoundData getSound() const;
 
     /** Server SETTERS */
     void setGameModelData(PlayerGameModelData &gameModelData);
