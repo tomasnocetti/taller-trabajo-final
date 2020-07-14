@@ -5,6 +5,8 @@
 
 #include "../../DataDefinitions.h"
 
+#define MOVEMENT_OFFSET 30
+
 /**
  * @brief Se define entidad como un objeto que participa en el juego 
  * de alguna manera, no necesariamente un NPC o un jugador.
