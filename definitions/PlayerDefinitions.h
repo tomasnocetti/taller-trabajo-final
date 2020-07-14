@@ -30,6 +30,13 @@ typedef enum {
 
 MSGPACK_ADD_ENUM(PlayerClass)
 
+struct SoundData{
+  int itemId;
+  int xPos;
+  int yPos;
+  MSGPACK_DEFINE(itemId, xPos, yPos)
+};
+
 struct ResurrectionData{
   std::chrono::system_clock::time_point timeToResurrection;
   bool resurrect;
@@ -94,7 +101,8 @@ struct PlayerGameModelData {
   std::vector<EnemyData> npcs;
   std::vector<OtherPlayersData> otherPlayers;
   std::vector<DropItemData> drops;
-  MSGPACK_DEFINE(playerData, npcs, otherPlayers, drops)
+  SoundData gameSound;
+  MSGPACK_DEFINE(playerData, npcs, otherPlayers, drops, gameSound)
 };
 
 namespace msgpack {

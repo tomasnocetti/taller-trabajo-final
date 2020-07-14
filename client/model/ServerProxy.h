@@ -59,22 +59,22 @@ class ServerProxy{
     void equip(int inventoryPosition);
     void resurrect();
     void meditate();
-    void throwObject(std::string inventoryPosition);
+    void throwObject(std::string &inventoryPosition);
     void pickUp();
     void list();
-    void buy(std::string itemNumber);
-    void sell(std::string itemNumber);
+    void buy(std::string &itemNumber);
+    void sell(std::string &itemNumber);
     void heal();
-    void depositGold(std::string amount);
-    void depositItem(std::string inventoryPos);
-    void withDrawGold(std::string amount);
-    void withDrawItem(std::string inventoryPos);
+    void depositGold(std::string &amount);
+    void depositItem(std::string &inventoryPos);
+    void withDrawGold(std::string &amount);
+    void withDrawItem(std::string &inventoryPos);
     void createPlayer(
-      std::string nick, 
-      std::string password, 
-      std::string race,
-      std::string typeClass);
-    void sendMessageToPlayer(std::string nick, std::string message);
+      std::string &nick, 
+      std::string &password, 
+      std::string &race,
+      std::string &typeClass);
+    void sendMessageToPlayer(std::string &nick, std::string &message);
     
     /** Client GETTERS */
     const MapData& getMapData() const;
@@ -100,6 +100,7 @@ class ServerProxy{
     std::vector<EnemyData> npcs;
     std::vector<OtherPlayersData> otherPlayers;
     std::vector<DropItemData> drops;
+    SoundData gameSound;
     BlockingQueueWrite writeBQ;
     ResponseQ readBQ;
     /** IMPORTANTE **/

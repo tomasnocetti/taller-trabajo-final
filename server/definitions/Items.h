@@ -8,7 +8,7 @@
 class Player;
 
 struct Item {
-  Item(int id, Equipable type, std::string name);
+  Item(int id, Equipable type, std::string &name);
   virtual ~Item() {}
   int id;
   Equipable type;
@@ -21,7 +21,7 @@ struct RightHandItem : Item {
   RightHandItem(
     int id,
     Equipable type,
-    std::string name,
+    std::string &name,
     int minDamage,
     int maxDamage,
     int mana,
@@ -38,7 +38,7 @@ struct LeftHandItem : Item {
   LeftHandItem(
     int id,
     Equipable type,
-    std::string name,
+    std::string &name,
     int minDefense,
     int maxDefense);
   int minDefense;
@@ -51,7 +51,7 @@ struct BodyItem : Item {
   BodyItem(
     int id,
     Equipable type,
-    std::string name,
+    std::string &name,
     int minDefense,
     int maxDefense);
   int minDefense;
@@ -64,7 +64,7 @@ struct HeadItem : Item {
   HeadItem(
     int id,
     Equipable type,
-    std::string name,
+    std::string &name,
     int minDefense,
     int maxDefense);
   int minDefense;
@@ -77,7 +77,7 @@ struct HealthPotion : Item {
   HealthPotion(
     int id,
     Equipable type,
-    std::string name);
+    std::string &name);
   int maxDefense;
   void equip(Player& player) const override;
   void unEquip(Player& player) const override {}
@@ -87,7 +87,7 @@ struct ManaPotion : Item {
   ManaPotion(
     int id,
     Equipable type,
-    std::string name);
+    std::string &name);
   int maxDefense;
   void equip(Player& player) const override;
   void unEquip(Player& player) const override {}

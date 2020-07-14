@@ -247,6 +247,12 @@ void Player::equip(int inventoryPosition){
     case LEFT_HAND_DEFENSE:
     case HEAD_DEFENSE:
     case BODY_ARMOUR:
+      if (i.isEquiped){
+        item->unEquip(*this);
+        i.isEquiped = false;
+        return;
+      }   
+
       item->equip(*this);
 
       for (auto& it : inventory){
