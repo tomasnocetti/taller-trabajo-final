@@ -85,13 +85,22 @@ void CApp::OnRender() {
   window.clear();
   if (model.isAuthenticated()) {
     globalViewport.paint(globalController.getEntities());
-    mapViewport.paint(
+    /*mapViewport.paint(
       playerController.getCamera(),
       mapController.getEntities(),
       mapController.getDrops(),
       playerController.getEntity(),
       enemyController.getNPCs(),
-      enemyController.getOtherPlayers());
+      enemyController.getOtherPlayers());*/
+    mapViewport.paint(
+      playerController.getCamera(),
+      mapController.getFloor(),
+      mapController.getBackground(),
+      mapController.getDrops(),
+      playerController.getEntity(),
+      enemyController.getNPCs(),
+      enemyController.getOtherPlayers(), 
+      mapController.getForeground());
     lifeViewport.paint(playerController.getBars());
     expViewport.paint(playerController.getExp());
     inventoryViewport.paint(inventoryController.getItems());
