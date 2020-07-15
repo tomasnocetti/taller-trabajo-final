@@ -33,7 +33,6 @@ void ServerProxy::update() {
   
   while (true){
     bool success = responseQ.try_front_pop(r);
-    std::cout << responseQ.size() << std::endl;
     if (!success) return;
     r->run(*this);
   }
