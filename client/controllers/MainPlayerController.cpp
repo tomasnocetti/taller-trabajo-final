@@ -146,8 +146,8 @@ void MainPlayerController::handleEvent(const SDL_Event &e) {
 void MainPlayerController::playSound() {
   const SoundData data = model.getSound();
   model.clearSound();
-  if(!camera.isInCameraRange(data.xPos, data.yPos)) return;
-  if((Mix_Playing(CHANNEL) && data.itemId == lastSound) || data.itemId == 0)
+  if (!camera.isInCameraRange(data.xPos, data.yPos)) return;
+  if ((Mix_Playing(CHANNEL) && data.itemId == lastSound) || data.itemId == 0)
     return;
   
   if (data.itemId == 2 || data.itemId == 15 || data.itemId == 16) {

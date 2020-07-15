@@ -32,7 +32,8 @@ void GameServer::run(){
     std::chrono::system_clock::time_point frameEnd = 
       std::chrono::system_clock::now();
     std::chrono::milliseconds difference = 
-      std::chrono::duration_cast<std::chrono::milliseconds> (frameEnd - frameStart);
+      std::chrono::duration_cast<std::chrono::milliseconds>
+      (frameEnd - frameStart);
 
     game.propagateCronData();
 
