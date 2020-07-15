@@ -81,6 +81,7 @@ class GameModel{
     necesarios para que dicho cliente updatee su modelo. */
     void generatePlayerModel(size_t id, PlayerGameModelData &modelData);
     void propagate();
+    void propagateCronData();
     void generateOtherPlayersGameData();
     void generateNPCVector();
     /* Handle close instruction */
