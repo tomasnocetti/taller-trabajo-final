@@ -725,15 +725,17 @@ void GameModel::eraseClient(size_t playerID){
   clientsBQ.erase(playerID);
 }
 
-void GameModel::propagate() {
+void GameModel::propagateCronData(){
   generateOtherPlayersGameData();
   generateNPCVector();
 
   std::unique_ptr<CronGameModelData> cronGameModelData(new CronGameModelData);
   cronGameModelData->npcs = npcs;
   cronGameModelData->otherPlayers = otherPlayers;
-  cronBQ.push(std::move(cronGameModelData));
+  cronBQ.push(std::move(cronGameModelData));  
+}
 
+void GameModel::propagate() {
   PlayerGameModelData modelData = {};
   for (auto& it : players){
     generatePlayerModel(it.first, modelData);

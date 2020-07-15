@@ -30,10 +30,12 @@ void ServerProxy::update() {
   std::unique_ptr<Response> r;
 
   if (!running) return;
-  bool success = responseQ.try_front_pop(r);
-
-  if (!success) return;
-  r->run(*this);
+  
+  while (true){
+    bool success = responseQ.try_front_pop(r);
+    if (!success) return;
+    r->run(*this);
+  }
 }
 
 void ServerProxy::move(int xDir, int yDir){
