@@ -26,12 +26,13 @@ void CApp::OnExecute() {
   OnInit();
   SDL_Event Event;
 
-	const int FPS = 45;
+	const int FPS = 40;
 	const int frameDelay = 1000 / FPS;
 
 	Uint32 frameStart;
 	int frameTime;
-
+  int loopIt = 0;
+  
   while (Running) {
     frameStart = SDL_GetTicks();
     while (SDL_PollEvent(&Event)){
@@ -39,13 +40,22 @@ void CApp::OnExecute() {
     }
 
     OnLoop();
-    OnRender();
 
-    frameTime = SDL_GetTicks() - frameStart;
+    if (loopIt > 0) {
+      loopIt --;
+    } else {
+      OnRender();
+    }
 
-		if (frameDelay > frameTime){
-			SDL_Delay(frameDelay - frameTime);
+    frameTime = frameDelay - (SDL_GetTicks() - frameStart);
+		if (frameTime < 0){
+      int behind = -frameTime;
+      // Calculamos cuantas iteraciones hicimos de mas.
+      loopIt = behind / frameDelay;
+      // Sincronizamos.
+      frameTime = frameDelay - behind % frameDelay;
 		}
+		SDL_Delay(frameTime);
   }
 
   OnCleanup();
