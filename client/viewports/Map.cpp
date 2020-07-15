@@ -51,17 +51,17 @@ void Map::paint(Camera& camera,
   EntityList& foreground) {
   fit();
 
-  /*for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
+  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
     for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
       floor[(camera.getX() / TILE_SIZE) + j + 
         (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
           camera, getScaleWidthFactor(), 
           getScaleHeightFactor());
     }
-  }*/
+  }
 
-  /*for (auto& e : background) e->paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());*/
+  for (auto& e : background) e->paint(camera, getScaleWidthFactor(),
+    getScaleHeightFactor());
 
   for (auto& e : drops) e->paint(camera, getScaleWidthFactor(), 
     getScaleHeightFactor());
@@ -75,8 +75,8 @@ void Map::paint(Camera& camera,
   player.paint(camera, getScaleWidthFactor(),
     getScaleHeightFactor());
 
-  /*for (auto& e : foreground) e->paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());*/
+  for (auto& e : foreground) e->paint(camera, getScaleWidthFactor(),
+    getScaleHeightFactor());
 }
 
 Map::~Map() {}
