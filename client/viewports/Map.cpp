@@ -55,28 +55,28 @@ void Map::paint(Camera& camera,
     for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
       floor[(camera.getX() / TILE_SIZE) + j + 
         (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
-          camera, getScaleWidthFactor(), 
-          getScaleHeightFactor());
+          camera, wScale, 
+          hScale);
     }
   }
 
-  for (auto& e : background) e->paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());
+  for (auto& e : background) e->paint(camera, wScale,
+    hScale);
 
-  for (auto& e : drops) e->paint(camera, getScaleWidthFactor(), 
-    getScaleHeightFactor());
+  for (auto& e : drops) e->paint(camera, wScale, 
+    hScale);
 
-  for (auto& e : enemies) e->paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());
+  for (auto& e : enemies) e->paint(camera, wScale,
+    hScale);
 
-  for (auto& e : otherPlayers) e->paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());
+  for (auto& e : otherPlayers) e->paint(camera, wScale,
+    hScale);
     
-  player.paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());
+  player.paint(camera, wScale,
+    hScale);
 
-  for (auto& e : foreground) e->paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());
+  for (auto& e : foreground) e->paint(camera, wScale,
+    hScale);
 }
 
 Map::~Map() {}

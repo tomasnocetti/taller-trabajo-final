@@ -26,7 +26,7 @@ void CApp::OnExecute() {
   OnInit();
   SDL_Event Event;
 
-	const int FPS = 50;
+	const int FPS = 45;
 	const int frameDelay = 1000 / FPS;
 
 	Uint32 frameStart;

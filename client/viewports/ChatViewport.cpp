@@ -8,7 +8,7 @@ void ChatViewport::paint(EntityList& values) {
   fit();
 
   for (unsigned int i = 0; i < values.size(); i++)
-    values[i]->paint(getScaleWidthFactor(), getScaleHeightFactor());
+    values[i]->paint(wScale, hScale);
 }
 
 ChatViewport::~ChatViewport() {}

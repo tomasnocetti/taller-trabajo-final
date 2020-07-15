@@ -17,9 +17,9 @@ void GameServer::run(){
   clientAcceptor.start();
   cron.start();
 
-  const int FPS = 55;
+  const int FPS = 40;
   std::chrono::milliseconds frameDelay(1000/FPS);
-  std::chrono::system_clock::time_point frameStart = 
+  std::chrono::system_clock::time_point frameStart =
     std::chrono::system_clock::now();
 
   while (running){
@@ -29,9 +29,9 @@ void GameServer::run(){
 
     instruction->run(game);
 
-    std::chrono::system_clock::time_point frameEnd = 
+    std::chrono::system_clock::time_point frameEnd =
       std::chrono::system_clock::now();
-    std::chrono::milliseconds difference = 
+    std::chrono::milliseconds difference =
       std::chrono::duration_cast<std::chrono::milliseconds>
       (frameEnd - frameStart);
 
