@@ -52,8 +52,8 @@ void Map::paint(Camera& camera,
   EntityList& foreground) {
   fit();
 
-  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
-    for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
+  for (unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
+    for (unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
       floor[(camera.getX() / TILE_SIZE) + j + 
         (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
           camera, wScale, 
@@ -63,8 +63,8 @@ void Map::paint(Camera& camera,
 
   /*for (auto& e : background) e->paint(camera, wScale,
     hScale);*/
-  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
-    for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
+  for (unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
+    for (unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
       background[(camera.getX() / TILE_SIZE) + j + 
         (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
           camera, wScale, 
@@ -86,8 +86,8 @@ void Map::paint(Camera& camera,
 
   /*for (auto& e : foreground) e->paint(camera, wScale,
     hScale);*/
-  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
-    for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
+  for (unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
+    for (unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
       foreground[(camera.getX() / TILE_SIZE) + j + 
         (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
           camera, wScale, 
@@ -95,8 +95,8 @@ void Map::paint(Camera& camera,
     }
   }
 
-  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
-    for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
+  for (unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
+    for (unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
       foreground[TILES_PER_LAYER + (camera.getX() / TILE_SIZE) + j + 
         (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
           camera, wScale, 
