@@ -37,8 +37,8 @@ void Map::paint(Camera& camera,
 
 void Map::paintLayer(EntityList& layer, const Camera& camera){
   std::shared_ptr<Entity> tile;
-  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
-    for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
+  for (unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
+    for (unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
       tile = layer[(camera.getX() / TILE_SIZE) + j + 
         (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)];
       if (tile != nullptr)
