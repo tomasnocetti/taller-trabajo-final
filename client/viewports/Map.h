@@ -28,6 +28,7 @@ class Map : SdlViewport{
       EntityList& foreground);
 		//Deallocates memory
 		~Map();
+    
 	private:
     void paintLayer(EntityList& layer, const Camera& camera);
 };

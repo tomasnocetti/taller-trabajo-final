@@ -101,8 +101,8 @@ struct PlayerGameModelData {
   std::vector<EnemyData> npcs;
   std::vector<OtherPlayersData> otherPlayers;
   std::vector<DropItemData> drops;
-  SoundData gameSound;
-  MSGPACK_DEFINE(playerData, npcs, otherPlayers, drops, gameSound)
+  std::vector<SoundData> gameSounds;
+  MSGPACK_DEFINE(playerData, npcs, otherPlayers, drops, gameSounds)
 };
 
 namespace msgpack {
