@@ -18,16 +18,8 @@ class Map : SdlViewport{
       int h = MAIN_SCREEN_BASE_MAP_H);
     Map(const Map&) = delete;
     Map& operator=(const Map&) = delete;
-    /*void paint(
-      Camera& camera,
-      EntityList& entities,
-      EntityList& drops,
-      Entity &player,
-      EntityList& enemies,
-      EntityList& otherPlayers);*/
     void paint(
       Camera& camera,
-      EntityList& floor,
       EntityList& background,
       EntityList& drops,
       Entity &player,
@@ -38,6 +30,7 @@ class Map : SdlViewport{
 		~Map();
     
 	private:
+    void paintLayer(EntityList& layer, const Camera& camera, int offset);
 };
 
 #endif

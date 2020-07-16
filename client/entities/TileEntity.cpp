@@ -8,10 +8,8 @@ TileEntity::TileEntity(
   int xpos,
   int ypos,
   int tsize,
-  int tscale,
-  bool empty
+  int tscale
 ){
-  this->empty = empty;
   texture = stexture;
 	srcRect.x = srcX;
 	srcRect.y = srcY;
@@ -21,16 +19,7 @@ TileEntity::TileEntity(
   destRect.w = destRect.h = tsize * tscale;
 }
 
-/*void TileEntity::paint(const Camera &camera, double scaleW, double scaleH){
-  if (!camera.isInCameraRange(destRect.x, destRect.y)) return;
-
-  texture->paint(destRect.x - camera.getX(),
-    destRect.y - camera.getY(), scaleW, scaleH, &srcRect, 1);
-}*/
-
 void TileEntity::paint(const Camera &camera, double scaleW, double scaleH){
-  if (empty) return;
-
   texture->paint(destRect.x - camera.getX(),
     destRect.y - camera.getY(), scaleW, scaleH, &srcRect, 1);
 }

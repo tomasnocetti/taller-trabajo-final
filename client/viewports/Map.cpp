@@ -9,41 +9,7 @@
 Map::Map(SdlWindow& window, int x, int y, int w, int h) :
   SdlViewport(window, x, y, w, h) {}
 
-/*void Map::paint(Camera& camera,
-  EntityList& entities,
-  EntityList& drops,
-  Entity &player,
-  EntityList& enemies,
-  EntityList& otherPlayers) {
-  fit();
-
-  for (auto& e : entities) e->paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());  //loopear por rango
-
-  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
-    for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
-      entities[(camera.getX() / TILE_SIZE) + j + 
-        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
-          camera, getScaleWidthFactor(), 
-          getScaleHeightFactor());
-    }
-  }
-
-  for (auto& e : drops) e->paint(camera, getScaleWidthFactor(), 
-    getScaleHeightFactor());
-
-  for (auto& e : enemies) e->paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());
-
-  for (auto& e : otherPlayers) e->paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());
-    
-  player.paint(camera, getScaleWidthFactor(),
-    getScaleHeightFactor());
-}*/
-
 void Map::paint(Camera& camera,
-  EntityList& floor,
   EntityList& background,
   EntityList& drops,
   Entity &player,
@@ -52,25 +18,8 @@ void Map::paint(Camera& camera,
   EntityList& foreground) {
   fit();
 
-  for (unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
-    for (unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
-      floor[(camera.getX() / TILE_SIZE) + j + 
-        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
-          camera, wScale, 
-          hScale);
-    }
-  }
-
-  /*for (auto& e : background) e->paint(camera, wScale,
-    hScale);*/
-  for (unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
-    for (unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
-      background[(camera.getX() / TILE_SIZE) + j + 
-        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
-          camera, wScale, 
-          hScale);
-    }
-  }
+  paintLayer(background, camera, 0);
+  paintLayer(background, camera, TILES_PER_LAYER);
 
   for (auto& e : drops) e->paint(camera, wScale, 
     hScale);
@@ -84,23 +33,18 @@ void Map::paint(Camera& camera,
   player.paint(camera, wScale,
     hScale);
 
-  /*for (auto& e : foreground) e->paint(camera, wScale,
-    hScale);*/
-  for (unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
-    for (unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
-      foreground[(camera.getX() / TILE_SIZE) + j + 
-        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
-          camera, wScale, 
-          hScale);
-    }
-  }
+  paintLayer(foreground, camera, 0);
+  paintLayer(foreground, camera, TILES_PER_LAYER);
+}
 
-  for (unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
-    for (unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
-      foreground[TILES_PER_LAYER + (camera.getX() / TILE_SIZE) + j + 
-        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
-          camera, wScale, 
-          hScale);
+void Map::paintLayer(EntityList& layer, const Camera& camera, int offset){
+  std::shared_ptr<Entity> tile;
+  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
+    for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
+      tile = layer[offset + (camera.getX() / TILE_SIZE) + j + 
+        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)];
+      if (tile != nullptr)
+       tile->paint(camera, wScale, hScale);
     }
   }
 }
