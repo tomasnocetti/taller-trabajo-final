@@ -29,7 +29,7 @@ TileEntity::TileEntity(
 }*/
 
 void TileEntity::paint(const Camera &camera, double scaleW, double scaleH){
-  if(empty) return;
+  if (empty) return;
 
   texture->paint(destRect.x - camera.getX(),
     destRect.y - camera.getY(), scaleW, scaleH, &srcRect, 1);

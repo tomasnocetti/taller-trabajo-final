@@ -36,6 +36,7 @@ class Map : SdlViewport{
       EntityList& foreground);
 		//Deallocates memory
 		~Map();
+    
 	private:
 };
 
