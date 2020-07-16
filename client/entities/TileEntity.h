@@ -6,8 +6,6 @@
 #include "../sdl/LTexture.h"
 
 class TileEntity: public Entity {
-  private:
-    bool empty;
   public:
     LTexture* texture;
     SDL_Rect srcRect, destRect;
@@ -18,8 +16,7 @@ class TileEntity: public Entity {
     int xpos,
     int ypos,
     int tsize,
-    int tscale,
-    bool empty);
+    int tscale);
     void paint(const Camera &camera, double scaleW, double scaleH) override;
     void paint(double scaleW, double scaleH) override {}
 };
