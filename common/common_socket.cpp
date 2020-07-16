@@ -67,7 +67,7 @@ void Socket::bind_and_listen(const char* service) {
 
   int flag = 1;
   if ((setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &flag, sizeof(flag)) == (-1))){
-    throw std::system_error( 
+    throw std::system_error(
       std::error_code(0, std::system_category()), 
       "Socket could not set options."); 
   }
