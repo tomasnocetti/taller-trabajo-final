@@ -102,7 +102,7 @@ class ServerProxy{
     std::vector<EnemyData> npcs;
     std::vector<OtherPlayersData> otherPlayers;
     std::vector<DropItemData> drops;
-    SoundData gameSound;
+    std::vector<SoundData> gameSounds;
     BlockingQueueWrite writeBQ;
     ResponseQ readBQ;
     /** IMPORTANTE **/

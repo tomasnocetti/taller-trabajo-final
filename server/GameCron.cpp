@@ -19,7 +19,10 @@ void GameCron::run() {
       auto frameStart = std::chrono::system_clock::now();
       
       bool success = cronBQ.try_front_pop(d);
-      if (!success && !d) continue;
+      if (!success && !d){
+        std::this_thread::sleep_for(frameDelay);
+        continue;
+      }
 
       runPlayersMovement(d->otherPlayers);
       runNPCLogic(d->npcs, d->otherPlayers);

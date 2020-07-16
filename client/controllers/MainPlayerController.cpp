@@ -76,7 +76,7 @@ void MainPlayerController::update() {
   camera.setX(playerView.x - MAIN_SCREEN_BASE_MAP_W / 2);
   camera.setY(playerView.y - MAIN_SCREEN_BASE_MAP_H / 2);
 
-  playSound();
+  //playSound();
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e) {
@@ -143,6 +143,7 @@ void MainPlayerController::handleEvent(const SDL_Event &e) {
   }
 }
 
+/*
 void MainPlayerController::playSound() {
   const SoundData data = model.getSound();
   model.clearSound();
@@ -162,6 +163,7 @@ void MainPlayerController::playSound() {
   }
   lastSound = data.itemId;
 }
+*/
 
 Entity &MainPlayerController::getEntity(){
 	return playerView;

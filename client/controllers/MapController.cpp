@@ -34,7 +34,7 @@ void MapController::init(){
       unsigned int firstgid = 0, tileSetColumns = 0, j;
       std::string image;
       
-      if(tilegid > 0){
+      if (tilegid > 0){
         for (j = 0; j < map.tileSets.size(); j++){
         if (map.tileSets[j].firstgid > tilegid){
           firstgid = map.tileSets[j - 1].firstgid;
