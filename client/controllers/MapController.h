@@ -28,7 +28,6 @@ class MapController {
     ServerProxy& model;
     SdlAssetsManager& manager;
     EntityList background;
-    //EntityList floor;
     EntityList foreground;
     EntityList drops;
     std::string texID;
