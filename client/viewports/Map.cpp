@@ -4,6 +4,7 @@
 #define TILES_IN_MAP_COL 13
 #define TILE_SIZE 32
 #define MAP_ROW_SIZE 150
+#define TILES_PER_LAYER 22500
 
 Map::Map(SdlWindow& window, int x, int y, int w, int h) :
   SdlViewport(window, x, y, w, h) {}
@@ -60,8 +61,16 @@ void Map::paint(Camera& camera,
     }
   }
 
-  for (auto& e : background) e->paint(camera, wScale,
-    hScale);
+  /*for (auto& e : background) e->paint(camera, wScale,
+    hScale);*/
+  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
+    for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
+      background[(camera.getX() / TILE_SIZE) + j + 
+        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
+          camera, wScale, 
+          hScale);
+    }
+  }
 
   for (auto& e : drops) e->paint(camera, wScale, 
     hScale);
@@ -75,8 +84,25 @@ void Map::paint(Camera& camera,
   player.paint(camera, wScale,
     hScale);
 
-  for (auto& e : foreground) e->paint(camera, wScale,
-    hScale);
+  /*for (auto& e : foreground) e->paint(camera, wScale,
+    hScale);*/
+  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
+    for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
+      foreground[(camera.getX() / TILE_SIZE) + j + 
+        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
+          camera, wScale, 
+          hScale);
+    }
+  }
+
+  for(unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
+    for(unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
+      foreground[TILES_PER_LAYER + (camera.getX() / TILE_SIZE) + j + 
+        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)]->paint(
+          camera, wScale, 
+          hScale);
+    }
+  }
 }
 
 Map::~Map() {}

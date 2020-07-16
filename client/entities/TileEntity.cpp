@@ -9,8 +9,9 @@ TileEntity::TileEntity(
   int ypos,
   int tsize,
   int tscale,
-  std::string id
+  bool empty
 ){
+  this->empty = empty;
   texture = stexture;
 	srcRect.x = srcX;
 	srcRect.y = srcY;
@@ -28,6 +29,8 @@ TileEntity::TileEntity(
 }*/
 
 void TileEntity::paint(const Camera &camera, double scaleW, double scaleH){
+  if(empty) return;
+
   texture->paint(destRect.x - camera.getX(),
     destRect.y - camera.getY(), scaleW, scaleH, &srcRect, 1);
 }
