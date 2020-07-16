@@ -10,7 +10,8 @@ class PlayerAnimation : public Animation {
 		PlayerAnimation(const PlayerAnimation&) = delete;
 	  PlayerAnimation& operator=(const PlayerAnimation&) = delete;
 		void changeTexture(LTexture* texture);
-
+		int getFrameWidth();
+		//int getFrameHeight();
 	private:
 		void cropAnimationFrames();
 };

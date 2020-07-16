@@ -21,9 +21,9 @@ void PlayerAnimation::cropAnimationFrames() {
 		backwardAnim.emplace_back(frame);
 	}
 
-	SDL_Rect frame = {8, 94, 17, 39};
+	SDL_Rect frame = {0, 94, 25, 39};
 	leftAnim.emplace_back(frame);
-	frame = {27, 94, 17, 39};
+	frame = {29, 94, 17, 39};
 	leftAnim.emplace_back(frame);
 	frame = {53, 94, 17, 39};
 	leftAnim.emplace_back(frame);
@@ -32,7 +32,7 @@ void PlayerAnimation::cropAnimationFrames() {
 	frame = {104, 94, 12, 39};
 	leftAnim.emplace_back(frame);
 
-	frame = {0, 139, 15, 39};
+	frame = {0, 139, 25, 39};
 	rightAnim.emplace_back(frame);
 	frame = {27, 139, 20, 39};
 	rightAnim.emplace_back(frame);
@@ -47,3 +47,11 @@ void PlayerAnimation::cropAnimationFrames() {
 void PlayerAnimation::changeTexture(LTexture* texture) {
 	this->texture = texture;
 }
+
+int PlayerAnimation::getFrameWidth() {
+	return lastFrame.w;
+}
+
+/*int PlayerAnimation::getFrameHeight() {
+	return lastFrame.h;
+}*/

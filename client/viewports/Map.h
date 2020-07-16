@@ -29,7 +29,7 @@ class Map : SdlViewport{
 		//Deallocates memory
 		~Map();
 	private:
-    void paintLayer(EntityList& layer, const Camera& camera, int offset);
+    void paintLayer(EntityList& layer, const Camera& camera);
 };
 
 #endif
