@@ -97,7 +97,6 @@ void CApp::OnRender() {
     globalViewport.paint(globalController.getEntities());
     mapViewport.paint(
       playerController.getCamera(),
-      mapController.getFloor(),
       mapController.getBackground(),
       mapController.getDrops(),
       playerController.getEntity(),

@@ -15,7 +15,6 @@ class MapController {
     ~MapController();
     void update();
     void updateDrops();
-    //EntityList& getEntities();
     EntityList& getFloor();
     EntityList& getBackground();
     EntityList& getForeground();
@@ -28,9 +27,7 @@ class MapController {
     bool mapIsSet = false;
     ServerProxy& model;
     SdlAssetsManager& manager;
-    //EntityList tiles;
     EntityList background;
-    EntityList floor;
     EntityList foreground;
     EntityList drops;
     std::string texID;

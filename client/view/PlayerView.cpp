@@ -55,12 +55,12 @@ void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
 		head->paint(x - camera.getX() + 3, y - camera.getY() - 9, 
 			scaleW, scaleH, &headFrame);
 	} else {
-		head->paint(x - camera.getX(), y - camera.getY() - 10, 
-			scaleW, scaleH, &headFrame);
+		head->paint((x + animation->getFrameWidth() / 2) - camera.getX() - 7,
+			y - camera.getY() - 10, scaleW, scaleH, &headFrame);
 	}
 
-	headWear.paint(x - camera.getX(), y - camera.getY(), 
-		scaleW, scaleH, &headFrame);
+	headWear.paint((x + animation->getFrameWidth() / 2) - camera.getX() - 7,
+		y - camera.getY(), scaleW, scaleH, &headFrame);
 
 	shield.paint(x - camera.getX(), y - camera.getY(), 
 		scaleW, scaleH, &headFrame);
@@ -121,13 +121,13 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
 
   switch (equipment.head) {
     case 3:
-			headWear = HeadWear(manager.getTexture("helmet"), 3, -9, 0, -10);
+			headWear = HeadWear(manager.getTexture("helmet"), 0, -9, 0, -10);
     break;
     case 7:
-			headWear = HeadWear(manager.getTexture("hat"), 3, -25, 0, -25);
+			headWear = HeadWear(manager.getTexture("hat"), 0, -26, 0, -26);
     break;
     case 8:
-			headWear = HeadWear(manager.getTexture("hood"), 2, -10, -1, -10);
+			headWear = HeadWear(manager.getTexture("hood"), -1, -10, -1, -10);
     break;
     default:
 			headWear = HeadWear(nullptr, 0, 0, 0, 0);
