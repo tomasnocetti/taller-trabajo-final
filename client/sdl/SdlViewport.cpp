@@ -12,18 +12,10 @@ SdlViewport::SdlViewport(
   srcViewport({x, y, w, h}) {}
 
 void SdlViewport::fit() {
-  double hScale = window.getScaleHeightFactor();
-  double wScale = window.getScaleWidthFactor();
+  hScale = window.getScaleHeightFactor();
+  wScale = window.getScaleWidthFactor();
   destViewport = sdlScaleRect(srcViewport, wScale, hScale);
   SDL_RenderSetViewport(window.getRenderer(), &destViewport);
-}
-
-double SdlViewport::getScaleWidthFactor(){
-  return window.getScaleWidthFactor();
-}
-
-double SdlViewport::getScaleHeightFactor(){
-  return window.getScaleHeightFactor();
 }
 
 SdlViewport::~SdlViewport() {}

@@ -7,7 +7,7 @@
 #include <SDL2/SDL_mixer.h>
 
 #include <string>
-#include <map>
+#include <unordered_map>
 
 class SdlAssetsManager {
 public:
@@ -27,10 +27,10 @@ public:
   Mix_Chunk* getSFX(const std::string& id);
   
 private:
-  std::map<std::string, LTexture*> textures;
-  std::map<std::string, TTF_Font*> fonts;
-  std::map<std::string, Mix_Music*> music;
-  std::map<std::string, Mix_Chunk*> sfx;
+  std::unordered_map<std::string, LTexture*> textures;
+  std::unordered_map<std::string, TTF_Font*> fonts;
+  std::unordered_map<std::string, Mix_Music*> music;
+  std::unordered_map<std::string, Mix_Chunk*> sfx;
   SdlWindow& window;
 };
 

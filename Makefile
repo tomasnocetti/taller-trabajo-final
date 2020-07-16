@@ -29,7 +29,7 @@ jsoncpp = si
 CFLAGS = -Wall -Werror -pedantic -pedantic-errors
 
 # Para optimizar el binario resultante lo mejor posible
-CFLAGS += -O0
+CFLAGS += -O3
 
 # Para valgrind o debug
 CFLAGS += -ggdb -DDEBUG -fno-inline

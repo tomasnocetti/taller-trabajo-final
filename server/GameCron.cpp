@@ -11,7 +11,7 @@ GameCron::GameCron(InstructionBQ& instructionQueue) :
 
 void GameCron::run() {
   try{
-    const int FPS = 20;
+    const int FPS = 25;
     std::chrono::duration<float,std::milli> frameDelay(1000/FPS);
     std::unique_ptr<CronGameModelData> d;
     
