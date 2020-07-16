@@ -66,9 +66,11 @@ void Socket::bind_and_listen(const char* service) {
   check_success(res, 0, 0, gai_strerror(res));
 
   int flag = 1;
-  check_error(
-    setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &flag, sizeof(flag)),
-    -1, 0, "Socket could not set options");
+  if ((setsockopt(fd, SOL_SOCKET, SO_REUSEADDR, &flag, sizeof(flag)) == (-1))){
+    throw std::system_error( 
+      std::error_code(0, std::system_category()), 
+      "Socket could not set options."); 
+  }
 
   for (rp = result; rp != NULL; rp = rp->ai_next) {
     if (::bind(fd, result->ai_addr, result->ai_addrlen) != -1) break;
