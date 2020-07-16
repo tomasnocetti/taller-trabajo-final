@@ -109,8 +109,8 @@ void Socket::connect(const char* host_name, const char* service) {
     if (::connect(fd, rp->ai_addr, rp->ai_addrlen) != -1) break;
   }
 
-  check_error(rp, NULL, 0, "Socket could not connect to host");
   freeaddrinfo(result);
+  check_error(rp, NULL, 0, "Socket could not connect to host");
 }
 
 void Socket::send(const char* buffer, size_t length) {
