@@ -15,8 +15,6 @@
 #define KEYCODE_1 49
 #define KEYCODE_9 57
 
-#define CHANNEL 1
-
 MainPlayerController::MainPlayerController(
   ServerProxy& model,
   SdlAssetsManager& manager) :
@@ -45,8 +43,8 @@ void MainPlayerController::init(){
 void MainPlayerController::update() {
   if (!cameraIsSet && model.isMapSet()) {
     const MapData& data = model.getMapData();
-    camera.setMaxDimensions(data.width * data.tilewidth,
-		data.height * data.tileheight);
+    camera.setMapConstants(data.width, data.tilewidth, 
+      data.height, data.tileheight);
     cameraIsSet = true;
   }
 
@@ -76,7 +74,7 @@ void MainPlayerController::update() {
   camera.setX(playerView.x - MAIN_SCREEN_BASE_MAP_W / 2);
   camera.setY(playerView.y - MAIN_SCREEN_BASE_MAP_H / 2);
 
-  //playSound();
+  playSound();
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e) {
@@ -143,27 +141,32 @@ void MainPlayerController::handleEvent(const SDL_Event &e) {
   }
 }
 
-/*
+
 void MainPlayerController::playSound() {
-  const SoundData data = model.getSound();
-  model.clearSound();
-  if (!camera.isInCameraRange(data.xPos, data.yPos)) return;
-  if ((Mix_Playing(CHANNEL) && data.itemId == lastSound) || data.itemId == 0)
-    return;
+  const std::vector<SoundData> data = model.getSounds();
+  model.clearSounds();
+  int channel;
+  for (unsigned int i = 0; i < data.size(); i++){
+    if (!camera.isInCameraRange(data[i].xPos, data[i].yPos)) continue;
+    for (channel = 1; channel <= 3; channel++){
+      if (Mix_Playing(channel)) continue;
   
-  if (data.itemId == 2 || data.itemId == 15 || data.itemId == 16) {
-    Mix_Chunk* sfx = manager.getSFX("h2h-sound");
-    Mix_PlayChannel(CHANNEL, sfx, 0);
-  } else if (data.itemId == 1 || data.itemId == 17) {
-    Mix_Chunk* sfx = manager.getSFX("bow-sound");
-    Mix_PlayChannel(CHANNEL, sfx, 0);
-  } else if (data.itemId == 6 || data.itemId == 12 || data.itemId == 14) {
-    Mix_Chunk* sfx = manager.getSFX("magic-sound");
-    Mix_PlayChannel(CHANNEL, sfx, 0);
+      if (data[i].itemId == 2 || data[i].itemId == 15 || 
+          data[i].itemId == 16) {
+        Mix_Chunk* sfx = manager.getSFX("h2h-sound");
+        Mix_PlayChannel(channel, sfx, 0);
+      } else if (data[i].itemId == 1 || data[i].itemId == 17) {
+        Mix_Chunk* sfx = manager.getSFX("bow-sound");
+        Mix_PlayChannel(channel, sfx, 0);
+      } else if (data[i].itemId == 6 || data[i].itemId == 12 || 
+          data[i].itemId == 14) {
+        Mix_Chunk* sfx = manager.getSFX("magic-sound");
+        Mix_PlayChannel(channel, sfx, 0);
+      }
+    }
   }
-  lastSound = data.itemId;
 }
-*/
+
 
 Entity &MainPlayerController::getEntity(){
 	return playerView;

@@ -3,8 +3,6 @@
 #define TILES_IN_MAP_ROW 17
 #define TILES_IN_MAP_COL 13
 #define TILE_SIZE 32
-#define MAP_ROW_SIZE 150
-#define TILES_PER_LAYER 22500
 
 Map::Map(SdlWindow& window, int x, int y, int w, int h) :
   SdlViewport(window, x, y, w, h) {}
@@ -40,12 +38,14 @@ void Map::paintLayer(EntityList& layer, const Camera& camera){
   for (unsigned int i = 0; i <= TILES_IN_MAP_COL; i++){
     for (unsigned int j = 0; j <= TILES_IN_MAP_ROW; j++){
       tile = layer[(camera.getX() / TILE_SIZE) + j + 
-        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)];
+        (camera.getY() / TILE_SIZE * camera.getMapWidth() + 
+        i * camera.getMapWidth())];
       if (tile != nullptr)
        tile->paint(camera, wScale, hScale);
 
-      tile = layer[TILES_PER_LAYER + (camera.getX() / TILE_SIZE) + j + 
-        (camera.getY() / TILE_SIZE * MAP_ROW_SIZE + i * MAP_ROW_SIZE)];
+      tile = layer[camera.getLayerTiles() + (camera.getX() / TILE_SIZE) + j + 
+        (camera.getY() / TILE_SIZE * camera.getMapWidth() +
+        i * camera.getMapWidth())];
       if (tile != nullptr)
        tile->paint(camera, wScale, hScale);
     }

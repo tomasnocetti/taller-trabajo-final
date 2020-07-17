@@ -19,11 +19,14 @@ void HeadWear::paint(int x, int y, double scaleW, double scaleH,
 	headFrame.x == 32 -> camino para la izquierda
 	headFrame.x == 48 -> camino para atras
 	*/
-
-	if (headFrame->x == 0 || headFrame->x == 48)
+	if (headFrame->x == 0){
 		texture->paint(x + xOffsetYAxis, y + yOffsetYAxis, 
 		scaleW, scaleH, headFrame);
-	else
+	} else if (headFrame->x == 48){
+		texture->paint(x + xOffsetYAxis - 1, y + yOffsetYAxis, 
+		scaleW, scaleH, headFrame);
+	} else {
 		texture->paint(x + xOffsetXAxis, y + yOffsetXAxis, 
 		scaleW, scaleH, headFrame);
+	}
 }

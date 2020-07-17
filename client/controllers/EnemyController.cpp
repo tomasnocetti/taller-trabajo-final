@@ -18,14 +18,6 @@ void EnemyController::update() {
 }
 
 EntityList& EnemyController::getNPCs(){
-	enemyVector.clear();
-	const std::vector<EnemyData>& npcs = model.getNPCData();
-	for (unsigned int i = 0; i < npcs.size(); i++){
-		if (npcs[i].healthAndManaData.currentHP > 0){
-			enemyVector.emplace_back(enemies.at(npcs[i].id));
-		}
-	}
-
   return enemyVector;
 }
 
@@ -40,6 +32,7 @@ EntityList& EnemyController::getOtherPlayers(){
 }
 
 void EnemyController::updateNPCs(){
+	enemyVector.clear();
 	const std::vector<EnemyData>& npcs = model.getNPCData();
 	for (unsigned int i = 0; i < npcs.size(); i++){
 		if (enemies.count(npcs[i].id) <= 0){
@@ -48,6 +41,9 @@ void EnemyController::updateNPCs(){
 		enemies.emplace(npcs[i].id, enemy);
 		}
 		enemies.at(npcs[i].id)->move(npcs[i].position.x, npcs[i].position.y);
+		if (npcs[i].healthAndManaData.currentHP > 0){
+			enemyVector.emplace_back(enemies.at(npcs[i].id));
+		}
 	}
 }
 
