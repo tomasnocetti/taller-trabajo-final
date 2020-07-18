@@ -65,8 +65,8 @@ void PlayerView::paint(const Camera &camera, double scaleW, double scaleH) {
 	shield.paint(x - camera.getX(), y - camera.getY(), 
 		scaleW, scaleH, &headFrame);
 
-	weapon.paint(x - camera.getX(), y - camera.getY(), 
-		scaleW, scaleH, &headFrame);
+	weapon.paint(x - camera.getX(),
+		y - camera.getY(), scaleW, scaleH, &headFrame);
 }
 
 void PlayerView::checkRace(PlayerRace race) {
@@ -124,7 +124,7 @@ void PlayerView::checkEquipment(EquipmentData equipment) {
 			headWear = HeadWear(manager.getTexture("helmet"), 0, -9, 0, -10);
     break;
     case 7:
-			headWear = HeadWear(manager.getTexture("hat"), 0, -26, 0, -26);
+			headWear = HeadWear(manager.getTexture("hat"), 0, -24, 0, -24);
     break;
     case 8:
 			headWear = HeadWear(manager.getTexture("hood"), -1, -10, -1, -10);

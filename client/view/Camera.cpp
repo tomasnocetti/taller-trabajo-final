@@ -11,9 +11,12 @@ void Camera::init(int x, int y, int w, int h){
 	renderRect.h = h;
 }
 
-void Camera::setMaxDimensions(int width, int height){
-	maxWidth = width;
-	maxHeight = height;
+void Camera::setMapConstants(int width, int tileWidth, 
+	int height, int tileHeight){
+	maxWidth = width * tileWidth;
+	maxHeight = height * tileHeight;
+	mapLayerTiles = width * height;
+	mapWidth = width;
 }
 
 bool Camera::isInCameraRange(int x, int y) const {
@@ -54,4 +57,12 @@ int Camera::getX() const {
 
 int Camera::getY() const {
 	return renderRect.y;
+}
+
+int Camera::getMapWidth() const {
+	return mapWidth;
+}
+
+int Camera::getLayerTiles() const {
+	return mapLayerTiles;
 }
