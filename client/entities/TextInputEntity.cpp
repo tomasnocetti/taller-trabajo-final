@@ -38,8 +38,11 @@ void TextInputEntity::paint(double wScale, double hScale) {
 
   int w, h;
 	texture->queryTexture(w, h);
-	SDL_Rect destRect = {xpos, ypos, w, h};
-
+	SDL_Rect destRect = {
+    xpos, 
+    ypos, 
+    w,
+    h};
   texture->paint(destRect, wScale, hScale);
 }
 
@@ -50,16 +53,25 @@ void TextInputEntity::handleClick(int xCoord, int yCoord) {
 
   if (inside) {
     activateInput("");
-  } else {
-    SDL_StopTextInput();
   }
 }
 
 void TextInputEntity::handleInput(const SDL_Event& e) {
+  std::string temp;
+  SDL_Color textColor;
+  if (!inside) return;
   switch (e.type) {
     case SDL_TEXTINPUT:
-      if (!inside) return;
-      input += e.text.text;
+      temp = input + e.text.text;
+      textColor = { 255, 255, 255, 0xFF };
+      texture->loadFromRenderedText(
+        font,
+        temp,
+        textColor);
+
+      int w, h;
+      texture->queryTexture(w, h);
+      if (w <= maxWidth) input = temp;
 
       break;
     case SDL_KEYDOWN:

@@ -5,18 +5,14 @@
 #include <algorithm>
 #include <string>
 #include <vector>
-
+#include <iostream>
 MapController::MapController(
   ServerProxy& model,
   SdlAssetsManager& manager) :
   model(model),
   manager(manager) {}
 
-MapController::~MapController() {
-  for (auto &i : tiles) {
-    i.reset();
-  }
-}
+MapController::~MapController() {}
 
 void MapController::init(){
   const MapData& map = model.getMapData();
@@ -33,12 +29,13 @@ void MapController::init(){
     int tileSize = map.tilewidth;
     int mapSizeColumns = map.width;
     for (unsigned int y = 0; y < layer.data.size(); y++) {
+      std::shared_ptr<Entity> tile;
       int tilegid = layer.data[y];
       unsigned int firstgid = 0, tileSetColumns = 0, j;
       std::string image;
-      if (tilegid <= 0) continue;
-
-      for (j = 0; j < map.tileSets.size(); j++){
+      
+      if (tilegid > 0){
+        for (j = 0; j < map.tileSets.size(); j++){
         if (map.tileSets[j].firstgid > tilegid){
           firstgid = map.tileSets[j - 1].firstgid;
           tileSetColumns = map.tileSets[j - 1].columns;
@@ -54,16 +51,23 @@ void MapController::init(){
         }
       }
       tilegid -= firstgid;
-      tiles.emplace_back(
-        new TileEntity(
-          manager.getTexture(image),
-          (tilegid % tileSetColumns) * tileSize,
-          (tilegid / tileSetColumns) * tileSize,
-          (y % mapSizeColumns) * tileSize,
-          (y / mapSizeColumns) * tileSize,
-          tileSize,
-          mapScale,
-          texID));
+      tile.reset(new TileEntity(
+        manager.getTexture(image),
+        (tilegid % tileSetColumns) * tileSize,
+        (tilegid / tileSetColumns) * tileSize,
+        (y % mapSizeColumns) * tileSize,
+        (y / mapSizeColumns) * tileSize,
+        tileSize,
+        mapScale));
+    } else {
+      tile = nullptr;
+    }
+      if (layer.name == "Capa de patrones 1" || 
+        layer.name == "Capa de patrones 2") {
+        background.emplace_back(tile);
+      } else {
+        foreground.emplace_back(tile);
+      }
     }
   });
   mapIsSet = true;
@@ -91,8 +95,12 @@ void MapController::generateDrop(DropItemData item) {
   drops.emplace_back(drop);
 }
 
-EntityList& MapController::getEntities() {
-  return tiles;
+EntityList& MapController::getBackground() {
+  return background;
+}
+
+EntityList& MapController::getForeground() {
+  return foreground;
 }
 
 EntityList& MapController::getDrops() {

@@ -4,42 +4,44 @@
 SdlAssetsManager::SdlAssetsManager(SdlWindow& window) :
   window(window) {}
 
-void SdlAssetsManager::addTexture(std::string id, const char* path) {
+void SdlAssetsManager::addTexture(const std::string& id, const char* path) {
 	LTexture* t = window.createTexture();
   t->loadFromFile(path);
   textures.emplace(id, t);
 }
 
-void SdlAssetsManager::addTextTexture(std::string id) {
+void SdlAssetsManager::addTextTexture(const std::string& id) {
   LTexture* t = window.createTexture();
   textures.emplace(id, t);
 }
 
-LTexture* SdlAssetsManager::getTexture(std::string id) {
+LTexture* SdlAssetsManager::getTexture(const std::string& id) {
 	return textures[id];
 }
 
-void SdlAssetsManager::addFont(std::string id, std::string path, int fontSize) {
+void SdlAssetsManager::addFont(
+  const std::string& id, const std::string& path, int fontSize) {
 	fonts.emplace(id, TTF_OpenFont(path.c_str(), fontSize));
 }
 
-TTF_Font* SdlAssetsManager::getFont(std::string id) {
+TTF_Font* SdlAssetsManager::getFont(const std::string& id) {
 	return fonts[id];
 }
 
-void SdlAssetsManager::addMusic(std::string id, std::string path) {
+void SdlAssetsManager::addMusic(
+  const std::string& id, const std::string& path) {
   music.emplace(id, Mix_LoadMUS(path.c_str()));
 }
 
-Mix_Music* SdlAssetsManager::getMusic(std::string id){
+Mix_Music* SdlAssetsManager::getMusic(const std::string& id){
   return music.at(id);
 }
 
-void SdlAssetsManager::addSFX(std::string id, std::string path) {
+void SdlAssetsManager::addSFX(const std::string& id, const std::string& path) {
   sfx.emplace(id, Mix_LoadWAV(path.c_str()));
 }
 
-Mix_Chunk* SdlAssetsManager::getSFX(std::string id){
+Mix_Chunk* SdlAssetsManager::getSFX(const std::string& id){
   return sfx.at(id);
 }
 

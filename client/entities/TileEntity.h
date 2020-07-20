@@ -16,8 +16,7 @@ class TileEntity: public Entity {
     int xpos,
     int ypos,
     int tsize,
-    int tscale,
-    std::string id);
+    int tscale);
     void paint(const Camera &camera, double scaleW, double scaleH) override;
     void paint(double scaleW, double scaleH) override {}
 };

@@ -29,7 +29,7 @@ jsoncpp = si
 CFLAGS = -Wall -Werror -pedantic -pedantic-errors
 
 # Para optimizar el binario resultante lo mejor posible
-CFLAGS += -O0
+CFLAGS += -O3
 
 # Para valgrind o debug
 CFLAGS += -ggdb -DDEBUG -fno-inline
@@ -148,6 +148,8 @@ install:
 	touch argentum-server.log
 	install -m 666 dbfile.bin /var/argentum
 	install -m 666 indexfile.bin /var/argentum
+	install -m 666 argentum-client.log /var/argentum
+	install -m 666 argentum-server.log /var/argentum
 
 uninstall:
 	rm -rf /etc/argentum

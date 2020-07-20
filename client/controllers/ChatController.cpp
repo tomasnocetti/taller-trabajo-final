@@ -92,38 +92,6 @@ void ChatController::handleCommand() {
     model.meditate();
   }
 
-  if (action == "/crear"){
-    std::string aux = command.erase(0, pos + delimiter.length());
-    pos = aux.find(" ");
-    std::string alias = command.substr(0, pos);
-
-    aux = command.erase(0, pos + delimiter.length());
-    pos = aux.find(" ");
-    std::string password = command.substr(0, pos);
-
-    aux = command.erase(0, pos + delimiter.length());
-    pos = aux.find(" ");
-    std::string classType = command.substr(0, pos);
-
-    aux = command.erase(0, pos + delimiter.length());
-    pos = aux.find(" ");
-    std::string race = command.substr(0, pos);
-
-    model.createPlayer(alias, password, race, classType);
-  }
-
-  if (action == "/iniciar"){
-    std::string aux = command.erase(0, pos + delimiter.length());
-    pos = aux.find(" ");
-    std::string alias = command.substr(0, pos);
-
-    aux = command.erase(0, pos + delimiter.length());
-    pos = aux.find(" ");
-    std::string password = command.substr(0, pos);
-
-    model.authentificate(alias, password);
-  }
-
   if (action == "/tirar"){
     std::string inventoryPosition = command.erase(0, pos+delimiter.length());
     model.throwObject(inventoryPosition);

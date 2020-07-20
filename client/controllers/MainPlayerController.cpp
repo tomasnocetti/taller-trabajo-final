@@ -1,6 +1,6 @@
 #include "MainPlayerController.h"
 #include <vector>
-
+#include <iostream>
 #define MANA_BAR_Y 58
 #define HEALTH_BAR_Y 109
 #define EXP_BAR_Y 45
@@ -43,8 +43,8 @@ void MainPlayerController::init(){
 void MainPlayerController::update() {
   if (!cameraIsSet && model.isMapSet()) {
     const MapData& data = model.getMapData();
-    camera.setMaxDimensions(data.width * data.tilewidth,
-		data.height * data.tileheight);
+    camera.setMapConstants(data.width, data.tilewidth, 
+      data.height, data.tileheight);
     cameraIsSet = true;
   }
 
@@ -73,6 +73,8 @@ void MainPlayerController::update() {
 
   camera.setX(playerView.x - MAIN_SCREEN_BASE_MAP_W / 2);
   camera.setY(playerView.y - MAIN_SCREEN_BASE_MAP_H / 2);
+
+  playSound();
 }
 
 void MainPlayerController::handleEvent(const SDL_Event &e) {
@@ -138,6 +140,33 @@ void MainPlayerController::handleEvent(const SDL_Event &e) {
     return;
   }
 }
+
+
+void MainPlayerController::playSound() {
+  const std::vector<SoundData> data = model.getSounds();
+  model.clearSounds();
+  int channel;
+  for (unsigned int i = 0; i < data.size(); i++){
+    if (!camera.isInCameraRange(data[i].xPos, data[i].yPos)) continue;
+    for (channel = 1; channel <= 3; channel++){
+      if (Mix_Playing(channel)) continue;
+  
+      if (data[i].itemId == 2 || data[i].itemId == 15 || 
+          data[i].itemId == 16) {
+        Mix_Chunk* sfx = manager.getSFX("h2h-sound");
+        Mix_PlayChannel(channel, sfx, 0);
+      } else if (data[i].itemId == 1 || data[i].itemId == 17) {
+        Mix_Chunk* sfx = manager.getSFX("bow-sound");
+        Mix_PlayChannel(channel, sfx, 0);
+      } else if (data[i].itemId == 6 || data[i].itemId == 12 || 
+          data[i].itemId == 14) {
+        Mix_Chunk* sfx = manager.getSFX("magic-sound");
+        Mix_PlayChannel(channel, sfx, 0);
+      }
+    }
+  }
+}
+
 
 Entity &MainPlayerController::getEntity(){
 	return playerView;

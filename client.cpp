@@ -9,13 +9,15 @@
 
 int main(int argc, char const *argv[]) {
   try {
-    freopen(LOG_PATH, "w", stderr);
+    FILE* f = freopen(LOG_PATH, "w", stderr);
 
     if (argc != 3) throw std::invalid_argument(ARGUMENTS_ERROR);
     std::string host = argv[1];
     std::string port = argv[2];
     CApp theApp(host, port);
     theApp.OnExecute();
+
+    if (f != NULL) pclose(f);
   } catch(const std::invalid_argument& e) {
     std::cout << e.what() << std::endl;
   } catch(const std::exception& e) {

@@ -24,8 +24,8 @@
     "playerInitialGold": 50,
     "playerInitialLevel": 1,
     "respawnTimeNpc": 10,
-    "speed": 10,
-    "speedNpc": 5,
+    "speed": 7,
+    "speedNpc": 4,
     "traderBankerPriestMinRangeToInteract": 200,
     "traderFactorWhenSelling": 0.8,
     "chatMessages": {

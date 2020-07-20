@@ -48,31 +48,34 @@ class ServerProxy{
     void init();
     void update();
     bool isAuthenticated() const;
+    bool isInCreationMode() const;
     bool isMapSet() const;
 
     /** Client ACTIONS */
     void authentificate(std::string& alias, std::string& password);
+    void setInCreationMode();
     void move(int xDir, int yDir);
     void attack(int xPos, int yPos);
     void equip(int inventoryPosition);
     void resurrect();
     void meditate();
-    void throwObject(std::string inventoryPosition);
+    void throwObject(std::string &inventoryPosition);
     void pickUp();
     void list();
-    void buy(std::string itemNumber);
-    void sell(std::string itemNumber);
+    void buy(std::string &itemNumber);
+    void sell(std::string &itemNumber);
     void heal();
-    void depositGold(std::string amount);
-    void depositItem(std::string inventoryPos);
-    void withDrawGold(std::string amount);
-    void withDrawItem(std::string inventoryPos);
+    void depositGold(std::string &amount);
+    void depositItem(std::string &inventoryPos);
+    void withDrawGold(std::string &amount);
+    void withDrawItem(std::string &inventoryPos);
     void createPlayer(
-      std::string nick, 
-      std::string password, 
-      std::string race,
-      std::string typeClass);
-    void sendMessageToPlayer(std::string nick, std::string message);
+      std::string &nick, 
+      std::string &password, 
+      std::string &race,
+      std::string &typeClass);
+    void sendMessageToPlayer(std::string &nick, std::string &message);
+    void clearSounds();
     
     /** Client GETTERS */
     const MapData& getMapData() const;
@@ -80,6 +83,7 @@ class ServerProxy{
     const std::vector<EnemyData>& getNPCData() const;
     const std::vector<OtherPlayersData>& getOtherPlayersData() const;
     const std::vector<DropItemData>& getDrops() const;
+    const std::vector<SoundData> getSounds() const;
 
     /** Server SETTERS */
     void setGameModelData(PlayerGameModelData &gameModelData);
@@ -89,14 +93,16 @@ class ServerProxy{
   private:
     friend class ServerProxyWrite;
     friend class ServerProxyRead;
-    bool authentificated = false;
-    bool mapSet = false;
     std::atomic<bool> running;
+    std::atomic<bool> authentificated;
+    std::atomic<bool> creationMode;
+    bool mapSet = false;
     MapData map;
     MainPlayerData mainPlayer;
     std::vector<EnemyData> npcs;
     std::vector<OtherPlayersData> otherPlayers;
     std::vector<DropItemData> drops;
+    std::vector<SoundData> gameSounds;
     BlockingQueueWrite writeBQ;
     ResponseQ readBQ;
     /** IMPORTANTE **/

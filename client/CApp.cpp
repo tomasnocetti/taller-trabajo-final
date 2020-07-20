@@ -12,6 +12,7 @@ CApp::CApp(std::string& host, std::string& port) :
   inventoryViewport(window),
   chatViewport(window),
   loginController(model, manager),
+  createController(model, manager),
   chatController(model, manager),
   globalController(model, manager),
   mapController(model, manager),
@@ -25,12 +26,13 @@ void CApp::OnExecute() {
   OnInit();
   SDL_Event Event;
 
-	const int FPS = 60;
+	const int FPS = 40;
 	const int frameDelay = 1000 / FPS;
 
 	Uint32 frameStart;
 	int frameTime;
-
+  int loopIt = 0;
+  
   while (Running) {
     frameStart = SDL_GetTicks();
     while (SDL_PollEvent(&Event)){
@@ -38,13 +40,22 @@ void CApp::OnExecute() {
     }
 
     OnLoop();
-    OnRender();
 
-    frameTime = SDL_GetTicks() - frameStart;
+    if (loopIt > 0) {
+      loopIt --;
+    } else {
+      OnRender();
+    }
 
-		if (frameDelay > frameTime){
-			SDL_Delay(frameDelay - frameTime);
+    frameTime = frameDelay - (SDL_GetTicks() - frameStart);
+		if (frameTime < 0){
+      int behind = -frameTime;
+      // Calculamos cuantas iteraciones hicimos de mas.
+      loopIt = behind / frameDelay;
+      // Sincronizamos.
+      frameTime = frameDelay - behind % frameDelay;
 		}
+		SDL_Delay(frameTime);
   }
 
   OnCleanup();
@@ -57,53 +68,51 @@ void CApp::OnEvent(SDL_Event& e) {
   }
 
   window.handleEvent(e);
-  switch (mode) {
-    case GameMode::LOGIN:
-      loginController.handleEvent(e);
-      break;
-    case GameMode::CREATE:
-      break;
-    case GameMode::RUN:
-      playerController.handleEvent(e);
-      chatController.handleEvent(e);
-      break;
+  if (model.isAuthenticated()) {
+    playerController.handleEvent(e);
+    chatController.handleEvent(e);
+  } else if (model.isInCreationMode()) {
+    createController.handleEvent(e);
+  } else {
+    loginController.handleEvent(e);
   }
 }
 
 void CApp::OnLoop() {
   model.update();
-  mapController.update();
-  mapController.updateDrops();
-  playerController.update();
-  chatController.update();
-  enemyController.update();
-  inventoryController.update();
-  globalController.update();
+   if (model.isAuthenticated()) {
+    mapController.update();
+    mapController.updateDrops();
+    playerController.update();
+    chatController.update();
+    enemyController.update();
+    inventoryController.update();
+    globalController.update();
+  }
 }
 
 void CApp::OnRender() {
   window.clear();
-  switch (mode) {
-    case GameMode::LOGIN:
-      globalViewport.paint(loginController.getEntities());
-    break;
-    case GameMode::CREATE:
-    break;
-    case GameMode::RUN:
-      globalViewport.paint(globalController.getEntities());
-      mapViewport.paint(
-        playerController.getCamera(),
-        mapController.getEntities(),
-        mapController.getDrops(),
-        playerController.getEntity(),
-        enemyController.getNPCs(),
-        enemyController.getOtherPlayers());
-      lifeViewport.paint(playerController.getBars());
-      expViewport.paint(playerController.getExp());
-      inventoryViewport.paint(inventoryController.getItems());
-      chatViewport.paint(chatController.getEntities());
-      break;
+  if (model.isAuthenticated()) {
+    globalViewport.paint(globalController.getEntities());
+    mapViewport.paint(
+      playerController.getCamera(),
+      mapController.getBackground(),
+      mapController.getDrops(),
+      playerController.getEntity(),
+      enemyController.getNPCs(),
+      enemyController.getOtherPlayers(), 
+      mapController.getForeground());
+    lifeViewport.paint(playerController.getBars());
+    expViewport.paint(playerController.getExp());
+    inventoryViewport.paint(inventoryController.getItems());
+    chatViewport.paint(chatController.getEntities());
+  } else if (model.isInCreationMode()) {
+    globalViewport.paint(createController.getEntities());
+  } else {
+    globalViewport.paint(loginController.getEntities());
   }
+
   window.render();
 }
 
@@ -113,6 +122,7 @@ void CApp::OnInit() {
   model.init();
 
   loginController.init();
+  createController.init();
   chatController.init();
   globalController.init();
   playerController.init();
@@ -127,7 +137,20 @@ void CApp::LoadAssets() {
     "/var/argentum/assets/main-screens/game-screen.jpg");
   manager.addTexture("login-screen-path", 
     "/var/argentum/assets/main-screens/login-screen.jpg");
+  manager.addTexture("create-screen-path", 
+    "/var/argentum/assets/main-screens/create-screen.jpg");
   manager.addTextTexture("user-input");
+  manager.addTextTexture("password-input");
+  manager.addTexture("login-button", 
+    "/var/argentum/assets/buttons/button-login-hover.png");
+  manager.addTexture("login-button-active", 
+    "/var/argentum/assets/buttons/button-login-active.png");
+  manager.addTexture("create-button", 
+    "/var/argentum/assets/buttons/button-create-pj-hover.png");
+  manager.addTexture("create-button-active", 
+    "/var/argentum/assets/buttons/button-create-pj-active.png");
+  manager.addTexture("select-create", 
+    "/var/argentum/assets/buttons/select-create.png");
   manager.addTexture("scroll-button",
     "/var/argentum/assets/buttons/scroll-button.png");
   manager.addTexture("scroll-button-active",
@@ -207,6 +230,9 @@ void CApp::LoadAssets() {
   manager.addTexture("item_5000", "/var/argentum/assets/gold.png");
 
   manager.addMusic("main-music", "/var/argentum/assets/music/main_music.mp3");
+  manager.addSFX("h2h-sound", "/var/argentum/assets/sounds/h2h_sound.wav");
+  manager.addSFX("bow-sound", "/var/argentum/assets/sounds/bow_sound.wav");
+  manager.addSFX("magic-sound", "/var/argentum/assets/sounds/magic_sound.wav");
 }
 
 CApp::~CApp() {}

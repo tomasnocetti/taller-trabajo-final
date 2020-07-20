@@ -6,6 +6,8 @@
 
 ServerProxy::ServerProxy(std::string& host, std::string& port) :
   running(true),
+  authentificated(false),
+  creationMode(false),
   serverProxyWrite(*this, writeBQ),
   serverProxyRead(*this){
     socket.connect(host.c_str(), port.c_str());
@@ -28,10 +30,12 @@ void ServerProxy::update() {
   std::unique_ptr<Response> r;
 
   if (!running) return;
-  bool success = responseQ.try_front_pop(r);
-
-  if (!success) return;
-  r->run(*this);
+  
+  while (true){
+    bool success = responseQ.try_front_pop(r);
+    if (!success) return;
+    r->run(*this);
+  }
 }
 
 void ServerProxy::move(int xDir, int yDir){
@@ -70,10 +74,12 @@ const MainPlayerData& ServerProxy::getMainPlayerData() const {
 
 void ServerProxy::setGameModelData(PlayerGameModelData &gameModelData){
   authentificated = true;
+  creationMode = false;
   mainPlayer = gameModelData.playerData;
   npcs = gameModelData.npcs;
   otherPlayers = gameModelData.otherPlayers;
   drops = gameModelData.drops;
+  gameSounds = gameModelData.gameSounds;
 }
 
 void ServerProxy::setMapData(MapData& mapData){
@@ -97,8 +103,24 @@ const std::vector<DropItemData>& ServerProxy::getDrops() const {
   return drops;
 }
 
+const std::vector<SoundData> ServerProxy::getSounds() const {
+  return gameSounds;
+}
+
+void ServerProxy::clearSounds() {
+  gameSounds.clear();
+}
+
 bool ServerProxy::isAuthenticated() const {
   return authentificated;
+}
+
+bool ServerProxy::isInCreationMode() const {
+  return creationMode;
+}
+
+void ServerProxy::setInCreationMode() {
+  creationMode = true;
 }
 
 bool ServerProxy::isMapSet() const {
@@ -122,7 +144,7 @@ void ServerProxy::meditate(){
   writeBQ.push(instruction);
 }
 
-void ServerProxy::throwObject(std::string inventoryPosition){
+void ServerProxy::throwObject(std::string &inventoryPosition){
   ParamData x = {inventoryPosition};
   InstructionData instruction = {THROW_OBJECT, {x}};
   writeBQ.push(instruction);
@@ -138,13 +160,13 @@ void ServerProxy::list(){
   writeBQ.push(instruction);
 }
 
-void ServerProxy::buy(std::string itemNumber){
+void ServerProxy::buy(std::string &itemNumber){
   ParamData x = {itemNumber};
   InstructionData instruction = {BUY, {x}};
   writeBQ.push(instruction);
 }
 
-void ServerProxy::sell(std::string itemNumber){
+void ServerProxy::sell(std::string &itemNumber){
   ParamData x = {itemNumber};
   InstructionData instruction = {SELL, {x}};
   writeBQ.push(instruction);
@@ -155,35 +177,35 @@ void ServerProxy::heal(){
   writeBQ.push(instruction);
 }
 
-void ServerProxy::depositGold(std::string amount){
+void ServerProxy::depositGold(std::string &amount){
   ParamData x = {amount};
   InstructionData instruction = {DEPOSIT_GOLD, {x}};
   writeBQ.push(instruction);
 }
 
-void ServerProxy::depositItem(std::string inventoryPos){
+void ServerProxy::depositItem(std::string &inventoryPos){
   ParamData x = {inventoryPos};
   InstructionData instruction = {DEPOSIT_ITEM, {x}};
   writeBQ.push(instruction);
 }
 
-void ServerProxy::withDrawGold(std::string amount){
+void ServerProxy::withDrawGold(std::string &amount){
   ParamData x = {amount};
   InstructionData instruction = {WITHDRAW_GOLD, {x}};
   writeBQ.push(instruction);
 }
 
-void ServerProxy::withDrawItem(std::string inventoryPos){
+void ServerProxy::withDrawItem(std::string &inventoryPos){
   ParamData x = {inventoryPos};
   InstructionData instruction = {WITHDRAW_ITEM, {x}};
   writeBQ.push(instruction);
 }
 
 void ServerProxy::createPlayer(
-  std::string nick, 
-  std::string password, 
-  std::string race,
-  std::string typeClass){
+  std::string &nick, 
+  std::string &password, 
+  std::string &race,
+  std::string &typeClass){
   ParamData n = {nick};
   ParamData p = {password};
   ParamData r = {race};
@@ -192,7 +214,7 @@ void ServerProxy::createPlayer(
   writeBQ.push(instruction);
 }
 
-void ServerProxy::sendMessageToPlayer(std::string nick, std::string message){
+void ServerProxy::sendMessageToPlayer(std::string &nick, std::string &message){
   ParamData n = {nick};
   ParamData msg = {message};
   InstructionData instruction = {SEND_MESSAGE, {n, msg}};

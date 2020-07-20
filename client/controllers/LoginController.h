@@ -7,6 +7,7 @@
 #include "../../DataDefinitions.h"
 #include "../entities/BackgroundEntity.h"
 #include "../entities/TextInputEntity.h"
+#include "../entities/ButtonEntity.h"
 
 class LoginController {
   public:
@@ -14,13 +15,17 @@ class LoginController {
     LoginController(const LoginController&) = delete;
     LoginController& operator=(const LoginController&) = delete;
     void init();
+    void login();
     void handleEvent(const SDL_Event &e);
     EntityList &getEntities();
 
   private:
     ServerProxy& model;
     SdlAssetsManager& manager;
-    TextInputEntity* userInputField;
+    std::shared_ptr<TextInputEntity> userInputField;
+    std::shared_ptr<TextInputEntity> passwordInputField;
+    std::shared_ptr<ButtonEntity> loginButton;
+    std::shared_ptr<ButtonEntity> createButton;
     EntityList screens;
 };
 

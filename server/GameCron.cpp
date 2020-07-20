@@ -11,16 +11,29 @@ GameCron::GameCron(InstructionBQ& instructionQueue) :
 
 void GameCron::run() {
   try{
+    const int FPS = 25;
+    std::chrono::duration<float,std::milli> frameDelay(1000/FPS);
     std::unique_ptr<CronGameModelData> d;
+    
     while (running){
+      auto frameStart = std::chrono::system_clock::now();
+      
       bool success = cronBQ.try_front_pop(d);
-      if (!success && !d) continue;
+      if (!success && !d){
+        std::this_thread::sleep_for(frameDelay);
+        continue;
+      }
 
       runPlayersMovement(d->otherPlayers);
       runNPCLogic(d->npcs, d->otherPlayers);
       runPlayerHealthAndMana(d->otherPlayers);
 
-      std::this_thread::sleep_for(std::chrono::milliseconds(60));
+      auto frameEnd = std::chrono::system_clock::now();
+      std::chrono::duration<float,std::milli> duration = frameEnd - frameStart;
+
+      if ((duration.count()) < frameDelay.count()){
+        std::this_thread::sleep_for(frameDelay - duration);
+      }
     }
   } catch(const std::exception& e) {
     std::cerr << "Error en GameCron: \n" <<

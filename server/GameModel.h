@@ -36,6 +36,7 @@ class GameModel{
     std::map<size_t, std::unique_ptr<Priest>> priests;
     std::map<size_t, std::unique_ptr<Trader>> traders;
     std::map<size_t, std::unique_ptr<Banker>> bankers;
+    std::vector<SoundData> gameSound;
     MapParser m;
     FileManager f;
     CronBQ& cronBQ;
@@ -80,6 +81,7 @@ class GameModel{
     necesarios para que dicho cliente updatee su modelo. */
     void generatePlayerModel(size_t id, PlayerGameModelData &modelData);
     void propagate();
+    void propagateCronData();
     void generateOtherPlayersGameData();
     void generateNPCVector();
     /* Handle close instruction */
@@ -127,8 +129,8 @@ class GameModel{
     bool createPlayer(
       ResponseBQ& responseBQ,
       size_t& playerId,
-      std::string nick, 
-      std::string password, 
+      std::string &nick, 
+      std::string &password, 
       PlayerClass classType,
       PlayerRace race);
     /* Handle send message instruction */
@@ -136,6 +138,7 @@ class GameModel{
       size_t &id, 
       std::string &nick, 
       std::string &message);
+    void disableSound();
 };
 
 #endif

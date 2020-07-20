@@ -8,12 +8,13 @@
 
 int main(int argc, char* argv[]) {
   try {
-    freopen(LOG_PATH, "w", stderr);
+    FILE* f = freopen(LOG_PATH, "w", stderr);
     if (argc != 3) throw std::invalid_argument(ARGUMENTS_ERROR);
 
     char* mapPath = argv[1];
     char* port = argv[2];
     serverRun(port, mapPath);
+    if (f != NULL) pclose(f);
   } catch(const std::invalid_argument& e) {
     std::cout << e.what() << std::endl;
   } catch(const std::exception& e) {

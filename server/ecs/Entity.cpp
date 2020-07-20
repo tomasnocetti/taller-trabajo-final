@@ -41,7 +41,7 @@ MovementData Entity::getPositionDirection(
   int dirX = to.x - from.x;
   int dirY = to.y - from.y;
 
-  if (abs(dirX) > abs(dirY)) {
+  if (abs(dirX) > (abs(dirY) + MOVEMENT_OFFSET)) {
     a.xDir = dirX >= 0 ? 1 : -1;
   } else {
     a.yDir = dirY >= 0 ? 1 : -1;

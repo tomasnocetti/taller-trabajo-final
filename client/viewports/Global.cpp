@@ -12,8 +12,7 @@ Global::Global(SdlWindow& window) :
 void Global::paint(EntityList& entities) {
   fit();
   for (auto& e : entities) e->paint(
-    getScaleWidthFactor(),
-    getScaleHeightFactor());
+    wScale, hScale);
   // texture.paint(0, 0, &destViewport);
 }
 

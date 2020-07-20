@@ -24,7 +24,7 @@ void InventoryViewport::paint(EntityList& items) {
         INV_SLOT_BASE_Y + INV_SLOT_OFFSET_Y * i);
       
       items[i * INV_ROW_LEN + j]->paint(
-        getScaleWidthFactor(), getScaleHeightFactor());
+        wScale, hScale);
     }
   }
 }

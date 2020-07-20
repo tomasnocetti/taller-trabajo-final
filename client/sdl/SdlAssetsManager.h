@@ -7,7 +7,7 @@
 #include <SDL2/SDL_mixer.h>
 
 #include <string>
-#include <map>
+#include <unordered_map>
 
 class SdlAssetsManager {
 public:
@@ -16,21 +16,21 @@ public:
   SdlAssetsManager& operator=(const SdlAssetsManager&) = delete;
   ~SdlAssetsManager();
 
-  void addTexture(std::string id, const char* path);
-  void addTextTexture(std::string id);
-  void addFont(std::string id, std::string path, int fontSize);
-  void addMusic(std::string id, std::string path);
-  void addSFX(std::string id, std::string path);
-  TTF_Font* getFont(std::string id);
-  LTexture* getTexture(std::string id);
-  Mix_Music* getMusic(std::string id);
-  Mix_Chunk* getSFX(std::string id);
+  void addTexture(const std::string& id, const char* path);
+  void addTextTexture(const std::string& id);
+  void addFont(const std::string& id, const std::string& path, int fontSize);
+  void addMusic(const std::string& id, const std::string& path);
+  void addSFX(const std::string& id, const std::string& path);
+  TTF_Font* getFont(const std::string& id);
+  LTexture* getTexture(const std::string& id);
+  Mix_Music* getMusic(const std::string& id);
+  Mix_Chunk* getSFX(const std::string& id);
   
 private:
-  std::map<std::string, LTexture*> textures;
-  std::map<std::string, TTF_Font*> fonts;
-  std::map<std::string, Mix_Music*> music;
-  std::map<std::string, Mix_Chunk*> sfx;
+  std::unordered_map<std::string, LTexture*> textures;
+  std::unordered_map<std::string, TTF_Font*> fonts;
+  std::unordered_map<std::string, Mix_Music*> music;
+  std::unordered_map<std::string, Mix_Chunk*> sfx;
   SdlWindow& window;
 };
 
